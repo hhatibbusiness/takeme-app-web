@@ -1,0 +1,15 @@
+.Burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  gap: 2px;
+  cursor: pointer;
+
+  div {
+    width: 18px;
+    height: 2px;
+    background: white;
+
+  }
+}
