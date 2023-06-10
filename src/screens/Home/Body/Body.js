@@ -1,6 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {fetchCategories} from "../../../store/actions/categories.action";
+import {connect} from "react-redux";
 
-const Body = () => {
+const Body = ({ fetchCategories}) => {
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
     return (
         <div className={'Body'}>
             
@@ -8,4 +14,4 @@ const Body = () => {
     );
 };
 
-export default Body;
+export default connect(null, {fetchCategories}) (Body);

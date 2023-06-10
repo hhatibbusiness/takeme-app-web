@@ -1,5 +1,6 @@
 import {combineReducers} from "redux";
 import assetsReducer from "./assets.reducer";
+import categoriesReducer from "./categories.reducer";
 
 const initialState = {
     message: 'Hello from the store'
@@ -11,5 +12,6 @@ const messageReducer = (state = initialState) => {
 
 export default combineReducers({
     message: messageReducer,
-    assets: assetsReducer
+    assets: assetsReducer,
+    categories: categoriesReducer
 });

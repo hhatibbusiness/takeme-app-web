@@ -22,7 +22,6 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_TAKE_ME_ASSETS:
             return (() => {
-                console.log(action.assets);
                 return {
                     ...state,
                     copyRightYear: action.assets.copyRightYear,
