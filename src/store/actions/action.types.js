@@ -1,0 +1,1 @@
+export const FETCH_TAKE_ME_ASSETS = "FETCH_TAKE_ME_ASSETS";

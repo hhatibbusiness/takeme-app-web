@@ -5,10 +5,12 @@ import Body from "./Body/Body";
 const Home = () => {
     const [logoStart, setLogoStart] = useState(true);
 
+
+    // set 2s for the intro page to show
     useEffect(() => {
         const timeOut = setTimeout(() => {
             setLogoStart(false);
-        }, 10000);
+        }, 2000);
 
         return () => {
             clearTimeout(timeOut);
