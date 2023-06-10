@@ -1,0 +1,35 @@
+.Spinner {
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  .Spinner__spinner:after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 3px solid #33AB85;
+    border-radius: 50%;
+    border-right-color: transparent;
+    margin: -10px;
+    animation: spin 0.5s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to{
+    transform: rotate(360deg);
+  }
+}
+
+
+
