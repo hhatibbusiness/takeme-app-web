@@ -21,9 +21,9 @@ const Body = ({ fetchCategories, loadingCategories}) => {
                 ): (
                     <>
                         <Navbar setSidebar={setSidebar} />
-                        <BodyContainerComponent />
                         <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
                         <Backdrop sidebar={sidebar} setSidebar={setSidebar} />
+                        <BodyContainerComponent />
                     </>
 
                 )
