@@ -2,7 +2,11 @@ import * as actionTypes from '../actions/action.types';
 
 const initialState = {
     categories: [],
-    loadingCategories: true
+    loadingCategories: true,
+    curId: null,
+    loadingCategoryProducts: true,
+    products: [],
+    value: 50
 };
 
 export default (state = initialState, action) => {
@@ -24,6 +28,31 @@ export default (state = initialState, action) => {
                     categories: action.categories
                 }
             })();
+        case actionTypes.CHANGE_CURRENT_ID:
+            return (() => ({
+                ...state,
+                curId: action.id
+            }))();
+        case actionTypes.START_FETCHING_PRODUCTS:
+            return {
+                ...state,
+                loadingCategoryProducts: true
+            }
+        case actionTypes.END_FETCHING_PRODUCTS:
+            return {
+                ...state,
+                loadingCategoryProducts: false
+            }
+        case actionTypes.FETCH_CATEGORY_PRODUCTS:
+            return (() => ({
+                ...state,
+                products: action.products
+            }))();
+        case actionTypes.CHANGE_SLIDER_VALUE:
+            return {
+                ...state,
+                value: action.value
+            }
         default:
             return state;
     }
