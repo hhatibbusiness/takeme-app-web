@@ -5,7 +5,8 @@ const initialState = {
     loadingCategories: true,
     curId: null,
     loadingCategoryProducts: true,
-    products: []
+    products: [],
+    value: 50
 };
 
 export default (state = initialState, action) => {
@@ -47,6 +48,11 @@ export default (state = initialState, action) => {
                 ...state,
                 products: action.products
             }))();
+        case actionTypes.CHANGE_SLIDER_VALUE:
+            return {
+                ...state,
+                value: action.value
+            }
         default:
             return state;
     }

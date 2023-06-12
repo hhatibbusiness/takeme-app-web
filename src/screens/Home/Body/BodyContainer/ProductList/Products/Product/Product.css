@@ -11,7 +11,29 @@
     cursor: pointer;
 }
 
+.Product__details {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 18px;
+    direction: rtl;
+    padding: 10px;
+}
+
+.Product__price--header {
+    font-size: 16px;
+}
+
+.Product__price {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.Product__details--hide {
+    display: none;
+}
+
 .Product p {
-    text-align: center;
-    margin-top: 10px;
+    /*text-align: center;*/
+    /*margin-top: 10px;*/
 }

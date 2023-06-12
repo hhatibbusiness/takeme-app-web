@@ -8,10 +8,6 @@ import SpinnerComponent from "../../../../components/Spinner/Spinner.Component";
 import {fetchCategoryProducts} from "../../../../store/actions/categories.action";
 
 const BodyContainerComponent = ({loadingCategories, id, fetchCategoryProducts}) => {
-    // useEffect(() => {
-    //     fetchCategoryProducts(id);
-    // }, [id]);
-
     return (
         <div className={'BodyContainer'}>
             <Cover />

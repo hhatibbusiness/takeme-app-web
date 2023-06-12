@@ -1,6 +1,6 @@
 import axios from "axios";
 import {
-    CHANGE_CURRENT_ID,
+    CHANGE_CURRENT_ID, CHANGE_SLIDER_VALUE,
     END_FETCHING_CATEGORIES, END_FETCHING_PRODUCTS,
     FETCH_CATEGORIES_SUCCESS, FETCH_CATEGORY_PRODUCTS,
     START_FETCHING_CATEGORIES,
@@ -68,3 +68,8 @@ export const fetchCategoryProducts = id => async dispatch => {
         dispatch(endFetchingProducts);
     }
 }
+
+export const changeSliderValue = value => ({
+    type: CHANGE_SLIDER_VALUE,
+    value
+});

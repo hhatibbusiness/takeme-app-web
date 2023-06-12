@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
 import {Slider} from "@mui/material";
 import './Slider.css';
+import {connect} from "react-redux";
+import {changeSliderValue} from "../../../../../../store/actions/categories.action";
 
-const SliderComponent = ({value, setValue}) => {
+const SliderComponent = ({value, changeSliderValue}) => {
     const handleSliderChange = (e) => {
-        setValue(e.target.value);
+        console.log(e.target.value);
+        changeSliderValue(e.target.value);
     }
 
     return (
@@ -23,4 +26,8 @@ const SliderComponent = ({value, setValue}) => {
     );
 };
 
-export default SliderComponent;
+const mapStateToProps = state => ({
+    value: state.categories.value
+})
+
+export default connect(mapStateToProps, {changeSliderValue}) (SliderComponent);

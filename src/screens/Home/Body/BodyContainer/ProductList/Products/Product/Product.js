@@ -2,6 +2,9 @@ import React, {useEffect, useRef, useState} from 'react';
 import './Product.css';
 import axios from "axios";
 import RenderImgError from "../../../../../../../components/RenderImgError/RenderImgError";
+import {connect} from "react-redux";
+import {changeSliderValue} from "../../../../../../../store/actions/categories.action";
+import Img from "./Img/Img";
 // import {notFoundImg} from "../../../../assets";
 
 const Product = ({product, value, setIndex, index}) => {
@@ -39,17 +42,14 @@ const Product = ({product, value, setIndex, index}) => {
             console.log(res.status);
             if(res.status === 200) {
                 // return imgRef.current.src = product.imagePath;
-                const img = <img ref={imgRef} onClick={() => {
-                    setIndex(index)
-                    // setGalleryOpen(true);
-                }} src={product.imagePath} alt=""/>;
+                const img = <Img index={index} imgRef={imgRef} product={product} setIndex={setIndex} />;
 
                 setImgUI(img);
             }
         }catch(e) {
             console.error(e);
             const imgUI =  <RenderImgError />;
-            setImgUI(imgUI);
+            setImgUI(prevState => imgUI);
         }
     }
 
@@ -58,9 +58,17 @@ const Product = ({product, value, setIndex, index}) => {
             {
                 imgUI && imgUI
             }
-            <p style={{fontSize: `${value === 0 ? '13px' : value/4}px`}}>{product.title}</p>
+            <div className={`Product__details ${value < 100 && 'Product__details--hide'}`}>
+                <p>{product.title}</p>
+                <p className={'Product__price--header'}>تفاصيل البيع</p>
+                <p className={'Product__price'}>السعر يبدأ من {product.saleDetails.priceStartingFrom}</p>
+            </div>
         </div>
     );
 };
 
-export default Product;
+const mapStateToProps = state => ({
+    value: state.categories.value
+});
+
+export default connect(mapStateToProps, {changeSliderValue}) (Product);

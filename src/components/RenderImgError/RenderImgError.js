@@ -1,13 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './RenderImgError.scss';
+import {connect} from "react-redux";
 
-const RenderImgError = () => {
+const RenderImgError = ({value}) => {
+    useEffect(() => {
+        console.log(value);
+    }, [value])
     return (
-        <div className={'RenderImgError'}>
+        <div style={{height: `${value < 100 ? '100%' : '80%'}`}} className={'RenderImgError'}>
             <i className="fa-solid fa-circle-exclamation"></i>
             <p>فشل تحميل الصورة</p>
         </div>
     );
 };
 
-export default RenderImgError;
+const mapStateToProps = state => ({
+    value: state.categories.value
+})
+
+export default connect(mapStateToProps) (RenderImgError);

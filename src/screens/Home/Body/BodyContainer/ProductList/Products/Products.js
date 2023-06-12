@@ -1,8 +1,9 @@
 import React from 'react';
 import Product from "./Product/Product";
 import './Products.css';
+import {connect} from "react-redux";
 
-const Products = ({products, value, setGalleryOpen, setIndex}) => {
+const Products = ({products, setGalleryOpen, setIndex, value}) => {
     const turnValueIntoCol = value => {
         if(value === 0) {
             return {
@@ -22,7 +23,7 @@ const Products = ({products, value, setGalleryOpen, setIndex}) => {
     }
     return (
         <div className={'Products'}>
-            <div style={{gridTemplateColumns: `${turnValueIntoCol(value).col}`, gap: `${turnValueIntoCol(value).gap}px`}} className="Products__container">
+            <div style={{gridTemplateColumns: `${turnValueIntoCol(value).col}`, gap: `${turnValueIntoCol(value).gap}px`}} className={`Products__container ${value === 100 && 'Products__full'}`}>
                 {
                     products.map((product, i) =>(
                         <Product index={i} setIndex={setIndex} setGalleryOpen={setGalleryOpen} value={value} product={product} key={product.id}/>
@@ -33,4 +34,8 @@ const Products = ({products, value, setGalleryOpen, setIndex}) => {
     );
 };
 
-export default Products;
+const mapStateToProps = state => ({
+    value: state.categories.value
+})
+
+export default connect(mapStateToProps) (Products);

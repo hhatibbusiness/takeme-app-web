@@ -4,9 +4,9 @@
     gap: 5%;
     align-items: center;
     margin: auto;
-    max-width: 500px;
     margin-top: 50px;
     width: 90%;
+    max-width: 350px;
 }
 
 .Slider__icon {

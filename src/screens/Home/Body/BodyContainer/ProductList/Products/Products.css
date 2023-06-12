@@ -9,3 +9,7 @@
     background: #EFF2F5;
     padding-top: 10px;
 }
+
+.Products__full {
+    max-width: 350px;
+}
