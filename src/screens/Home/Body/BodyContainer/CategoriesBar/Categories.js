@@ -2,16 +2,17 @@ import React, {useEffect, useRef, useState} from 'react';
 import './Categories.css';
 import {connect} from "react-redux";
 import CategoryItem from './Category/Category';
+import {changeId} from "../../../../../store/actions/categories.action";
 
 const Categories = ({categories, loadingCategories}) => {
-    const [currId, setCurrId] = useState(null);
+    // const [currId, setCurrId] = useState(null);
     const categoriesRef = useRef();
 
-    useEffect(() => {
-        if(categories.length !== 0) {
-            setCurrId(categories[0].id);
-        }
-    }, [categories.length]);
+    // useEffect(() => {
+    //     if(categories.length !== 0) {
+    //         setCurrId(categories[0].id);
+    //     }
+    // }, [categories.length]);
 
     // useEffect(() => {
     //     if(currId !== null) {
@@ -25,7 +26,7 @@ const Categories = ({categories, loadingCategories}) => {
                 <div ref={categoriesRef} className="Categories__container">
                     {
                         !loadingCategories && categories.map((cat, i) => (
-                            <CategoryItem id={currId} setCurrId={setCurrId} key={cat.id} cat={cat} />
+                            <CategoryItem key={cat.id} cat={cat} />
                         ))
                     }
                 </div>
@@ -37,6 +38,7 @@ const Categories = ({categories, loadingCategories}) => {
 const mapStateToProps = state => ({
     categories: state.categories.categories,
     loadingCategories: state.categories.loadingCategories,
+    id: state.categories.curId
 });
 
-export default connect(mapStateToProps) (Categories);
+export default connect(mapStateToProps, {changeId}) (Categories);

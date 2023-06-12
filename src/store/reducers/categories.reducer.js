@@ -2,7 +2,10 @@ import * as actionTypes from '../actions/action.types';
 
 const initialState = {
     categories: [],
-    loadingCategories: true
+    loadingCategories: true,
+    curId: null,
+    loadingCategoryProducts: true,
+    products: []
 };
 
 export default (state = initialState, action) => {
@@ -24,6 +27,26 @@ export default (state = initialState, action) => {
                     categories: action.categories
                 }
             })();
+        case actionTypes.CHANGE_CURRENT_ID:
+            return (() => ({
+                ...state,
+                curId: action.id
+            }))();
+        case actionTypes.START_FETCHING_PRODUCTS:
+            return {
+                ...state,
+                loadingCategoryProducts: true
+            }
+        case actionTypes.END_FETCHING_PRODUCTS:
+            return {
+                ...state,
+                loadingCategoryProducts: false
+            }
+        case actionTypes.FETCH_CATEGORY_PRODUCTS:
+            return (() => ({
+                ...state,
+                products: action.products
+            }))();
         default:
             return state;
     }

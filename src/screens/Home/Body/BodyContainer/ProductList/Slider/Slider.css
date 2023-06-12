@@ -1,0 +1,21 @@
+.Slider {
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+    align-items: center;
+    margin: auto;
+    max-width: 500px;
+    margin-top: 50px;
+    width: 90%;
+}
+
+.Slider__icon {
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 10px;
+    transition: 0.3s;
+}
+
+.Slider__icon:hover {
+    background: #d4e5ed;
+}

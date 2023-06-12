@@ -1,0 +1,15 @@
+.RenderImgError {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80%;
+
+  i {
+    color: red;
+  }
+
+  p {
+    font-size: 14px;
+  }
+}

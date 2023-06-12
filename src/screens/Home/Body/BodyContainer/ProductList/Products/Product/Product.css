@@ -1,0 +1,17 @@
+.Product {
+    height: 300px;
+    margin-bottom: 30px;
+}
+
+.Product img {
+    height: 90%;
+    width: 90%;
+    margin: auto;
+    display: block;
+    cursor: pointer;
+}
+
+.Product p {
+    text-align: center;
+    margin-top: 10px;
+}
