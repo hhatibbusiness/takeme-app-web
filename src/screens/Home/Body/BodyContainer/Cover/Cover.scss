@@ -8,3 +8,15 @@
     object-fit: fill;
   }
 }
+
+@media (min-width: 500px) {
+  .Cover {
+    height: 300px;
+  }
+}
+
+@media (min-width: 700px) {
+  .Cover {
+    height: 450px;
+  }
+}
