@@ -6,6 +6,7 @@ import reducer from './store/reducers/index.reducer';
 import configureReducer from './store/index.store';
 import {Provider} from "react-redux";
 import {BrowserRouter} from "react-router-dom";
+import './i18n';
 
 const store = configureReducer(reducer);
 

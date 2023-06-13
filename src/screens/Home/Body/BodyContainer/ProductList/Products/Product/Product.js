@@ -20,6 +20,7 @@ const Product = ({product, value, setIndex, index}) => {
 
     useEffect(() => {
         changeHeightToWidth();
+        console.log(product);
     }, [value]);
 
     useEffect(() => {
@@ -58,15 +59,16 @@ const Product = ({product, value, setIndex, index}) => {
             }
             <div className={`Product__details ${value < 100 && 'Product__details--hide'}`}>
                 <p>{product.title}</p>
-                <p className={'Product__price--header'}>تفاصيل البيع</p>
-                <p className={'Product__price'}>السعر يبدأ من {product.saleDetails.priceStartingFrom}</p>
+                <p className={'Product__price--header'}>{product.saleDetails?.title}</p>
+                <p className={'Product__price'}>{product.saleDetails?.priceStartingFromMsg}</p>
             </div>
         </div>
     );
 };
 
 const mapStateToProps = state => ({
-    value: state.categories.value
+    value: state.categories.value,
+    lan: state.categories.lan
 });
 
 export default connect(mapStateToProps, {changeSliderValue}) (Product);

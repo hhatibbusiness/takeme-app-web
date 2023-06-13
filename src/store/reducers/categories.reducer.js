@@ -6,7 +6,9 @@ const initialState = {
     curId: null,
     loadingCategoryProducts: true,
     products: [],
-    value: 100
+    value: 100,
+    lan: 'ar',
+    error: false
 };
 
 export default (state = initialState, action) => {
@@ -52,6 +54,26 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 value: action.value
+            }
+        case actionTypes.CHANGE_LAN_SUCCESS:
+            return {
+                ...state,
+                lan: action.lan
+            }
+        case actionTypes.FETCH_CATEGORIES_FAILURE:
+            return {
+                ...state,
+                categoryError: true
+            }
+        case actionTypes.ERROR_ACTIVE:
+            return {
+                ...state,
+                error: true
+            }
+        case actionTypes.ERROR_INACTIVE:
+            return {
+                ...state,
+                error: false
             }
         default:
             return state;

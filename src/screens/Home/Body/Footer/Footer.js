@@ -6,7 +6,7 @@ const Footer = ({assets}) => {
     return (
         <div className={'Footer'}>
             <div className="Footer__logo">
-                <p>TakeMe</p>
+                <p>{assets.footerText}</p>
             </div>
             <div className="Footer__copy">
                 <p><i className="fa-regular fa-copyright"></i>{assets.copyRightYear}</p>

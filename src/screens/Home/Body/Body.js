@@ -7,35 +7,35 @@ import Navbar from "../../../components/HOC/Navbar/Navbar";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import Backdrop from "../../../components/Backdrop/Backdrop";
 import Footer from "./Footer/Footer";
+import CategoryError from "../../../components/CategoryError/CategoryError";
 
-const Body = ({ fetchCategories, loadingCategories}) => {
+const Body = ({ fetchCategories, loadingCategories, categoryError, lan}) => {
     const [sidebar, setSidebar] = useState(false);
 
     useEffect(() => {
-        fetchCategories();
+        fetchCategories(lan);
     }, []);
     return (
         <div className={'Body'}>
             {
                 loadingCategories ? (
                     <SpinnerComponent />
-                ): (
-                    <>
-                        <Navbar setSidebar={setSidebar} />
-                        <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
-                        <Backdrop sidebar={sidebar} setSidebar={setSidebar} />
-                        <BodyContainerComponent />
-                        <Footer />
-                    </>
-
-                )
+                ) : <CategoryError>
+                    <Navbar setSidebar={setSidebar} />
+                    <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
+                    <Backdrop sidebar={sidebar} setSidebar={setSidebar} />
+                    <BodyContainerComponent />
+                    <Footer />
+                </CategoryError>
             }
         </div>
     );
 };
 
 const mapStateToProps = state => ({
-    loadingCategories: state.categories.loadingCategories
+    loadingCategories: state.categories.loadingCategories,
+    categoryError: state.categories.categoryError,
+    lan: state.categories.lan
 })
 
 export default connect(mapStateToProps, {fetchCategories}) (Body);
