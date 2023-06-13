@@ -7,7 +7,7 @@ const RenderImgError = ({value}) => {
         console.log(value);
     }, [value])
     return (
-        <div style={{height: `${value < 100 ? '100%' : '80%'}`}} className={'RenderImgError'}>
+        <div style={{height: `${value < 100 ? '100%' : '50%'}`}} className={'RenderImgError'}>
             <i className="fa-solid fa-circle-exclamation"></i>
             <p>فشل تحميل الصورة</p>
         </div>

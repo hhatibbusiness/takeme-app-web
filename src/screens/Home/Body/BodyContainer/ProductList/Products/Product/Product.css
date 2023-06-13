@@ -1,11 +1,12 @@
 .Product {
     height: 300px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    background: white;
 }
 
 .Product img {
-    height: 90%;
-    width: 90%;
+    height: 80%;
+    width: 80%;
     margin: auto;
     display: block;
     cursor: pointer;

@@ -6,21 +6,27 @@ import {changeSliderValue} from "../../../../../../store/actions/categories.acti
 
 const SliderComponent = ({value, changeSliderValue}) => {
     const handleSliderChange = (e) => {
-        console.log(e.target.value);
-        changeSliderValue(e.target.value);
+        if(e.target.value === 0) {
+            return changeSliderValue(100);
+        } else if(e.target.value === 100) {
+            return changeSliderValue(0)
+        }
+        return changeSliderValue(e.target.value);
     }
 
     return (
         <div className={'Slider'}>
             <Slider
+                className={'Slider__front'}
                 aria-label="Temperature"
-                valueLabelDisplay="auto"
+                valueLabelDisplay="off"
                 value={value}
                 onChange={handleSliderChange}
                 step={50}
                 min={0}
                 max={100}
                 className={'Slider__bar'}
+                isRtl={true}
             />
         </div>
     );
