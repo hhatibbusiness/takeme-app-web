@@ -13,12 +13,13 @@
 
   .Footer__logo {
     font-weight: 800;
+    font-style: italic;
   }
 
   .Footer__links {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 15px;
     align-items: center;
     height: 100%;
   }
@@ -32,7 +33,7 @@
   }
 
   i {
-    font-size: 12px;
+    font-size: 15px;
   }
 
   * {

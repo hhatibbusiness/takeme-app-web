@@ -14,7 +14,7 @@ const Footer = ({assets}) => {
             <div className="Footer__links">
                 <a href={assets.whatsappLink} target={'_blank'} className="Footer__link"><i className="fa-brands fa-whatsapp"></i></a>
                 <a href={assets.facebookLink} target={'_blank'} className="Footer__link"><i className="fa-brands fa-facebook"></i></a>
-                <a href={assets.whatsappLink} target={'_blank'} className="Footer__link"><i className="fa-brands fa-instagram"></i></a>
+                <a href={assets.instagramLink} target={'_blank'} className="Footer__link"><i className="fa-brands fa-instagram"></i></a>
             </div>
         </div>
     );
