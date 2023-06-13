@@ -6,7 +6,7 @@ const initialState = {
     curId: null,
     loadingCategoryProducts: true,
     products: [],
-    value: 50
+    value: 100
 };
 
 export default (state = initialState, action) => {
