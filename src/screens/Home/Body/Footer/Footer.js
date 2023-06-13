@@ -6,15 +6,15 @@ const Footer = ({assets}) => {
     return (
         <div className={'Footer'}>
             <div className="Footer__logo">
-                <p>{assets.footerText}</p>
+                <p>{assets?.footerText && assets.footerText}</p>
             </div>
             <div className="Footer__copy">
-                <p><i className="fa-regular fa-copyright"></i>{assets.copyRightYear}</p>
+                <p><i className="fa-regular fa-copyright"></i>{assets?.copyRightYear && assets.copyRightYear}</p>
             </div>
             <div className="Footer__links">
-                <a href={assets.whatsappLink} target={'_blank'} className="Footer__link"><i className="fa-brands fa-whatsapp"></i></a>
-                <a href={assets.facebookLink} target={'_blank'} className="Footer__link"><i className="fa-brands fa-facebook"></i></a>
-                <a href={assets.instagramLink} target={'_blank'} className="Footer__link"><i className="fa-brands fa-instagram"></i></a>
+                <a href={assets?.whatsappLink && assets.whatsappLink} target={'_blank'} className="Footer__link"><i className="fa-brands fa-whatsapp"></i></a>
+                <a href={assets?.facebookLink && assets.facebookLink} target={'_blank'} className="Footer__link"><i className="fa-brands fa-facebook"></i></a>
+                <a href={assets?.instagramLink && assets.instagramLink} target={'_blank'} className="Footer__link"><i className="fa-brands fa-instagram"></i></a>
             </div>
         </div>
     );

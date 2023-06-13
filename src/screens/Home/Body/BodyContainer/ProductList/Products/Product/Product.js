@@ -20,7 +20,6 @@ const Product = ({product, value, setIndex, index}) => {
 
     useEffect(() => {
         changeHeightToWidth();
-        console.log(product);
     }, [value]);
 
     useEffect(() => {
@@ -33,7 +32,6 @@ const Product = ({product, value, setIndex, index}) => {
     }, []);
 
     useEffect(() => {
-        console.log(product);
         renderImage()
     }, []);
 
@@ -58,9 +56,9 @@ const Product = ({product, value, setIndex, index}) => {
                 imgUI && imgUI
             }
             <div className={`Product__details ${value < 100 && 'Product__details--hide'}`}>
-                <p>{product.title}</p>
-                <p className={'Product__price--header'}>{product.saleDetails?.title}</p>
-                <p className={'Product__price'}>{product.saleDetails?.priceStartingFromMsg}</p>
+                <p>{product?.title && product.title}</p>
+                <p className={'Product__price--header'}>{product?.saleDetails?.title && product.saleDetails.title}</p>
+                <p className={'Product__price'}>{product.saleDetails?.priceStartingFromMsg && product.saleDetails.priceStartingFromMsg}</p>
             </div>
         </div>
     );

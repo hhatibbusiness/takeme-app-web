@@ -25,8 +25,8 @@ const Products = ({products, setGalleryOpen, setIndex, value}) => {
         <div className={'Products'}>
             <div style={{gridTemplateColumns: `${turnValueIntoCol(value).col}`, gap: `${turnValueIntoCol(value).gap}px`}} className={`Products__container ${value === 100 && 'Products__full'}`}>
                 {
-                    products.map((product, i) =>(
-                        <Product index={i} setIndex={setIndex} setGalleryOpen={setGalleryOpen} value={value} product={product} key={product.id}/>
+                    products?.map((product, i) =>(
+                        <Product index={i} setIndex={setIndex} setGalleryOpen={setGalleryOpen} value={value} product={product} key={product.id && product.id}/>
                     ))
                 }
             </div>

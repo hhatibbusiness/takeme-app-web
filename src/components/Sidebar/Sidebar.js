@@ -24,7 +24,7 @@ const Sidebar = ({assets, sidebar, setSidebar, lan, changeLan, categories}) => {
 
     const lanChangeHandler = e => {
         const languageLabel = e.target.closest('input');
-        const id = categories[0].id;
+        const id = categories[0]?.id;
         if(!languageLabel) return;
         console.log(languageLabel.value);
         if(!id) return;
@@ -32,16 +32,11 @@ const Sidebar = ({assets, sidebar, setSidebar, lan, changeLan, categories}) => {
         i18next.changeLanguage(languageLabel.value);
     }
 
-    useEffect(() => {
-        console.log(t("filter array", {returnObjects: true}))
-    })
-
-
     return (
         <div className={`Sidebar ${sidebar && 'Sidebar__active'}`}>
             <div className="Sidebar__container">
                 <div className="Sidebar__logo">
-                    <img src={assets.logoPath} />
+                    <img src={assets?.logoPath && assets.logoPath} />
                 </div>
                 <div className="Sidebar__links">
                     <Link to={'#'} className="Sidebar__link">

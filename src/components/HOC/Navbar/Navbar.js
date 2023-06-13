@@ -9,7 +9,7 @@ const Navbar = ({assets, setSidebar}) => {
         <div className={'Navbar'}>
             <div className={'Navbar__container'}>
                 <div className="Navbar__logo">
-                    <img src={assets.logoPath} alt="logo"/>
+                    <img src={assets?.logoPath && assets.logoPath} alt="logo"/>
                 </div>
                 <Search />
                 <Burger setSidebar={setSidebar} />

@@ -7,7 +7,7 @@ const Img = ({changeSliderValue, value, imgRef, setIndex, product, index}) => {
         <img style={{height: `${value < 100 ? '100%' : '70%'}`, width: `${value < 100 ? '100%' : '80%'}`}} ref={imgRef} onClick={() => {
             setIndex(index)
             // setGalleryOpen(true);
-        }} src={product.imagePath} alt=""/>
+        }} src={product?.imagePath && product.imagePath} alt=""/>
     );
 };
 

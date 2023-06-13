@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 const Cover = ({assets}) => {
     return (
         <div className={'Cover'}>
-            <img src={assets.coverPath} className={'Cover__img'} />
+            <img src={assets?.coverPath && assets.coverPath} className={'Cover__img'} />
         </div>
     );
 };

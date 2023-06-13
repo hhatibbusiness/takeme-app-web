@@ -27,9 +27,9 @@ const Category = ({cat, id, changeId, fetchCategoryProducts, lan}) => {
 
     return (
         <div onClick={() => {
-            changeId(cat.id);
-            fetchCategoryProducts(cat.id, lan);
-        }}  draggable={false} className={`Category ${id === cat.id && 'Category__active'}`}>
+            changeId(cat?.id && cat.id);
+            fetchCategoryProducts(cat?.id && cat.id, lan);
+        }}  draggable={false} className={`Category ${id === (cat?.id && cat.id) && 'Category__active'}`}>
             <div className="Category__container">
                 <img src={cat?.imagePath && cat.imagePath} draggable={false} />
             </div>

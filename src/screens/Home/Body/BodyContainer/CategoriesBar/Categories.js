@@ -26,7 +26,7 @@ const Categories = ({categories, loadingCategories}) => {
                 <div ref={categoriesRef} className="Categories__container">
                     {
                         !loadingCategories && categories.map((cat, i) => (
-                            <CategoryItem key={cat?.id} cat={cat} />
+                            <CategoryItem key={cat?.id && cat.id} cat={cat} />
                         ))
                     }
                 </div>

@@ -5,7 +5,7 @@ import './Intro.scss';
 const Intro = ({assets}) => {
     return (
         <div className={'Intro'}>
-            <img className={'Intro__logo'} src={assets.logoPath} />
+            <img className={'Intro__logo'} src={assets?.logoPath && assets.logoPath} />
         </div>
     );
 };
