@@ -41,9 +41,7 @@ const Product = ({product, value, setIndex, index}) => {
             const res = await axios.get(product.imagePath);
             console.log(res.status);
             if(res.status === 200) {
-                // return imgRef.current.src = product.imagePath;
                 const img = <Img index={index} imgRef={imgRef} product={product} setIndex={setIndex} />;
-
                 setImgUI(img);
             }
         }catch(e) {

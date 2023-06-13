@@ -1,5 +1,6 @@
 .Products {
     width: 100%;
+    background: #EFF2F5;
 }
 
 .Products__container {
@@ -11,5 +12,5 @@
 }
 
 .Products__full {
-    max-width: 350px;
+    max-width: 500px;
 }
