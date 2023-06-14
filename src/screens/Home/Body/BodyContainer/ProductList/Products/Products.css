@@ -9,6 +9,7 @@
     margin: auto;
     background: #EFF2F5;
     padding-top: 10px;
+    direction: rtl;
 }
 
 .Products__full {

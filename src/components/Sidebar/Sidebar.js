@@ -23,13 +23,22 @@ const Sidebar = ({assets, sidebar, setSidebar, lan, changeLan, categories}) => {
     }
 
     const lanChangeHandler = e => {
-        const languageLabel = e.target.closest('input');
+        // const languageLabel = e.target.closest('input');
+        // const id = categories[0]?.id;
+        // if(!languageLabel) return;
+        // console.log(languageLabel.value);
+        // if(!id) return;
+        // changeLan(languageLabel.value, id);
+        // i18next.changeLanguage(languageLabel.value);
+        const lanFormElement = e.target.closest('.Sidebar__sublinks--element');
+        if(!lanFormElement) return;
+        const input = lanFormElement.querySelector('input');
+        if(!input) return;
         const id = categories[0]?.id;
-        if(!languageLabel) return;
-        console.log(languageLabel.value);
         if(!id) return;
-        changeLan(languageLabel.value, id);
-        i18next.changeLanguage(languageLabel.value);
+        changeLan(input.value, id);
+        i18next.changeLanguage(input.value);
+
     }
 
     return (
@@ -50,7 +59,7 @@ const Sidebar = ({assets, sidebar, setSidebar, lan, changeLan, categories}) => {
                             <i className="fa-solid fa-globe"></i>
                             <p style={{direction: 'rtl'}}>اللغة-השפה</p>
                         </div>
-                        <form onChange={lanChangeHandler} className={`Sidebar__sublinks ${langShow && 'Sidebar__sublinks--active'}`}>
+                        <form onClick={lanChangeHandler} className={`Sidebar__sublinks Sidebar__lan--form ${langShow && 'Sidebar__sublinks--active'}`}>
                             <div className="Sidebar__sublinks--element">
                                 <input checked={lan === 'ar'} value={'ar'} name={'language'} type="radio"/>
                                 <label htmlFor="{'language'}">العربية</label>

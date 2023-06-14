@@ -8,7 +8,7 @@ import Sidebar from "../../../components/Sidebar/Sidebar";
 import Backdrop from "../../../components/Backdrop/Backdrop";
 import Footer from "./Footer/Footer";
 import CategoryError from "../../../components/CategoryError/CategoryError";
-
+import './Body.scss'
 const Body = ({ fetchCategories, loadingCategories, categoryError, lan}) => {
     const [sidebar, setSidebar] = useState(false);
 
