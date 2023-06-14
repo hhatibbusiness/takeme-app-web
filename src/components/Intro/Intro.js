@@ -1,11 +1,12 @@
 import React from 'react';
 import {connect} from "react-redux";
 import './Intro.scss';
+import logoImage from '../../assets/logo.png';
 
 const Intro = ({assets}) => {
     return (
         <div className={'Intro'}>
-            <img className={'Intro__logo'} src={assets?.logoPath && assets.logoPath} />
+            <img className={'Intro__logo'} src={logoImage && logoImage} />
         </div>
     );
 };

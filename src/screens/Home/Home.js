@@ -10,7 +10,7 @@ const Home = () => {
     useEffect(() => {
         const timeOut = setTimeout(() => {
             setLogoStart(false);
-        }, 5000);
+        }, 2000);
 
         return () => {
             clearTimeout(timeOut);

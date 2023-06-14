@@ -2,6 +2,7 @@
     height: 300px;
     margin-bottom: 10px;
     background: white;
+    position: relative;
 }
 
 .Product img {
@@ -10,6 +11,7 @@
     margin: auto;
     display: block;
     cursor: pointer;
+    object-fit: fill;
 }
 
 .Product__details {

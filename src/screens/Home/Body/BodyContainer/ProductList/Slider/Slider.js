@@ -27,6 +27,7 @@ const SliderComponent = ({value, changeSliderValue}) => {
                 max={100}
                 className={'Slider__bar'}
                 isRtl={true}
+                color={'secondary'}
             />
         </div>
     );
