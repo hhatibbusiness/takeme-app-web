@@ -33,7 +33,7 @@ const Category = ({cat, id, changeId, fetchCategoryProducts, lan}) => {
             <div className="Category__container">
                 <img src={cat?.imagePath && cat.imagePath} draggable={false} />
             </div>
-            <p draggable={false}>{cat?.name && (cat.name.length <= 7 ? cat.name : cat.name.substring(0, 7) + '...')}</p>
+            <p draggable={false}>{cat?.name && (cat.name.length <= 7 ? cat.name : cat.name.substring(0, 5) + ' ...')}</p>
         </div>
     );
 };

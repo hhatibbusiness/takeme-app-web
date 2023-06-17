@@ -61,7 +61,10 @@ const Product = ({product, value, setIndex, index}) => {
                 <p className={'Product__price--header'}>{product?.saleDetails?.title && product.saleDetails.title}</p>
                 <p className={'Product__price'}>{product.saleDetails?.priceStartingFromMsg && product.saleDetails.priceStartingFromMsg}</p>
             </div>
-            <Count count={product?.totalNumberOfProducts || 0} />
+            {
+                value === 100 && <Count count={product?.totalNumberOfProducts || 0} />
+            }
+
         </div>
     );
 };
