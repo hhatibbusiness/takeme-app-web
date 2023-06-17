@@ -53,6 +53,9 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
 
     return (
         <div ref={productRef} className={'Product'} onClick={() => {
+            if(value === 100) {
+                return console.log('Hello there!');
+            }
             setCurrentProduct(product);
             setPopup(true);
         }}>
