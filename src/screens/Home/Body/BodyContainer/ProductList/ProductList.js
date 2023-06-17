@@ -9,19 +9,11 @@ import Products from "./Products/Products";
 // import {Swiper} from "swiper";
 
 const Category = ({products}) => {
-    // const [value, setValue] = useState(50);
-    const [index, setIndex] = useState(null);
-    // const [galleryOpen, setGalleryOpen] = useState(false);
 
     return (
         <div className={'CategoryComp'} >
             <SliderComponent />
-            <Products setIndex={setIndex} products={products} />
-            {/*{*/}
-            {/*    products.length > 0 && galleryOpen &&  (*/}
-            {/*        <Gallery index={index} setGalleryOpen={setGalleryOpen} products={products} />*/}
-            {/*    )*/}
-            {/*}*/}
+            <Products products={products} />
         </div>
     );
 };

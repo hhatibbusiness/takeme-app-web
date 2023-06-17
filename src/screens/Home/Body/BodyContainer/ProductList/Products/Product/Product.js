@@ -8,7 +8,7 @@ import Img from "./Img/Img";
 import Count from "./Count/Count";
 // import {notFoundImg} from "../../../../assets";
 
-const Product = ({product, value, setIndex, index}) => {
+const Product = ({product, value, setCurrentProduct, setPopup}) => {
     const [imgUI, setImgUI] = useState(null);
     const productRef = useRef();
     const imgRef = useRef();
@@ -41,7 +41,7 @@ const Product = ({product, value, setIndex, index}) => {
             const res = await axios.get(product.imagePath);
             console.log(res.status);
             if(res.status === 200) {
-                const img = <Img index={index} imgRef={imgRef} product={product} setIndex={setIndex} />;
+                const img = <Img product={product}/>;
                 setImgUI(img);
             }
         }catch(e) {
@@ -52,7 +52,10 @@ const Product = ({product, value, setIndex, index}) => {
     }
 
     return (
-        <div ref={productRef} className={'Product'}>
+        <div ref={productRef} className={'Product'} onClick={() => {
+            setCurrentProduct(product);
+            setPopup(true);
+        }}>
             {
                 imgUI && imgUI
             }
