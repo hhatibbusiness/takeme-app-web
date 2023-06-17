@@ -11,9 +11,17 @@
     display: block;
     cursor: pointer;
     object-fit: fill;
+    max-width: 100%;
 }
 .Product__image--container {
-    min-height: 200px;
+    /*min-height: 200px;*/
+}
+
+.Product__image--container-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .Product__details {

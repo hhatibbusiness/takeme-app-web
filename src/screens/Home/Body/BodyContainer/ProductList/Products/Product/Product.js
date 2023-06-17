@@ -64,7 +64,7 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
             {
                 imgUI ? (
                     <>
-                        <div className="Product__image--container">
+                        <div className={`Product__image--container ${value < 100 && 'Product__image--container-center'}`} style={{height: `${value < 100 && '100%' }`}}>
                             {
                                 imgUI ? imgUI : <SpinnerComponent />
                             }
