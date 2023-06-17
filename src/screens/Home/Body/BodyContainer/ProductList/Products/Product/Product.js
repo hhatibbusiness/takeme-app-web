@@ -6,6 +6,8 @@ import {connect} from "react-redux";
 import {changeSliderValue} from "../../../../../../../store/actions/categories.action";
 import Img from "./Img/Img";
 import Count from "./Count/Count";
+import SpinnerComponent from "../../../../../../../components/Spinner/Spinner.Component";
+import LoadingProduct from "../../../../../../../components/LoadingProduct/LoadingProduct";
 // import {notFoundImg} from "../../../../assets";
 
 const Product = ({product, value, setCurrentProduct, setPopup}) => {
@@ -60,15 +62,25 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
             setPopup(true);
         }}>
             {
-                imgUI && imgUI
-            }
-            <div className={`Product__details ${value < 100 && 'Product__details--hide'}`}>
-                <p className={'Product__details--title'}>{product?.title && product.title}</p>
-                <p className={'Product__price--header'}>{product?.saleDetails?.title && product.saleDetails.title}</p>
-                <p className={'Product__price'}>{product.saleDetails?.priceStartingFromMsg && product.saleDetails.priceStartingFromMsg}</p>
-            </div>
-            {
-                value === 100 && <Count count={product?.totalNumberOfProducts || 0} />
+                imgUI ? (
+                    <>
+                        <div className="Product__image--container">
+                            {
+                                imgUI ? imgUI : <SpinnerComponent />
+                            }
+                        </div>
+                        <div className={`Product__details ${value < 100 && 'Product__details--hide'}`}>
+                            <p className={'Product__details--title'}>{product?.title && product.title}</p>
+                            <p className={'Product__price--header'}>{product?.saleDetails?.title && product.saleDetails.title}</p>
+                            <p className={'Product__price'}>{product.saleDetails?.priceStartingFromMsg && product.saleDetails.priceStartingFromMsg}</p>
+                        </div>
+                        {
+                            value === 100 && <Count count={product?.totalNumberOfProducts || 0} />
+                        }
+                    </>
+                ) : (
+                    <LoadingProduct details={value === 100 } btn={false} />
+                )
             }
 
         </div>

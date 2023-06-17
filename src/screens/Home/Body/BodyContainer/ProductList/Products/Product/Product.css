@@ -4,13 +4,16 @@
     position: relative;
 }
 
-.Product img {
+.Product__image--container img {
     height: 80%;
     width: 80%;
     margin: auto;
     display: block;
     cursor: pointer;
     object-fit: fill;
+}
+.Product__image--container {
+    min-height: 200px;
 }
 
 .Product__details {
