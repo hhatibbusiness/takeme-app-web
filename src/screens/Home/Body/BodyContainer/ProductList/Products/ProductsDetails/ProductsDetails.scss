@@ -17,9 +17,11 @@
     background: white;
     border-radius: 3px;
     z-index: 302;
+    max-width: 300px;
 
     .ProductDetails__body {
       padding: 50px 0 10px 0;
+
       .ProductDetails__img--container {
         max-height: 200px;
         margin-bottom: 30px;
@@ -35,7 +37,7 @@
 
       .ProductDetails__details {
         padding: 20px;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
 
         .ProductDetails__header {
           margin-bottom: 10px;
