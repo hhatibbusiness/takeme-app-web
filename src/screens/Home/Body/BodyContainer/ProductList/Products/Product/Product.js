@@ -63,7 +63,7 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
                 imgUI && imgUI
             }
             <div className={`Product__details ${value < 100 && 'Product__details--hide'}`}>
-                <p>{product?.title && product.title}</p>
+                <p className={'Product__details--title'}>{product?.title && product.title}</p>
                 <p className={'Product__price--header'}>{product?.saleDetails?.title && product.saleDetails.title}</p>
                 <p className={'Product__price'}>{product.saleDetails?.priceStartingFromMsg && product.saleDetails.priceStartingFromMsg}</p>
             </div>
