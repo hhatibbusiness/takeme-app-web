@@ -3,9 +3,9 @@
   height: 100%;
   display: block;
   //min-height: 350px;
-  padding: 10px;
-  padding-top: 50px;
-  border: 1px solid #d1c6c6;
+  //padding: 10px;
+  //padding-top: 50px;
+  //border: 1px solid #d1c6c6;
 
 
   .LoadingProduct__image {
@@ -19,67 +19,72 @@
     animation-timing-function: linear;
     background-color: #f6f7f8;
     background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
-    background-size: 300px 104px;
-    height: 70px;
+    background-size: 200px 104px;
+    height: 200px;
     position: relative;
+    //margin-bottom: 25px;
+  }
+
+  .LoadingProduct__details {
+    padding: 20px;
     margin-bottom: 25px;
-  }
 
-  .LoadingProduct__header {
-    height: 10px;
-    width: 100px;
-    animation-duration: 2s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
-    animation-name: placeHolderShimmerHeader;
-    animation-timing-function: linear;
-    background-color: #f6f7f8;
-    background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
-    background-size: 300px 104px;
-    position: relative;
-    margin-bottom: 20px;
-  }
+    .LoadingProduct__header {
+      height: 26.8px;
+      width: 100px;
+      animation-duration: 2s;
+      animation-fill-mode: forwards;
+      animation-iteration-count: infinite;
+      animation-name: placeHolderShimmerHeader;
+      animation-timing-function: linear;
+      background-color: #f6f7f8;
+      background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
+      background-size: 300px 104px;
+      position: relative;
+      margin-bottom: 20px;
+    }
 
-  .LoadingProduct__msg {
-    height: 10px;
-    width: 120px;
-    animation-duration: 2s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
-    animation-name: placeHolderShimmerHeader;
-    animation-timing-function: linear;
-    background-color: #f6f7f8;
-    background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
-    background-size: 300px 104px;
-    position: relative;
-    margin-bottom: 10px;
-  }
+    .LoadingProduct__msg {
+      height: 24px;
+      width: 120px;
+      animation-duration: 2s;
+      animation-fill-mode: forwards;
+      animation-iteration-count: infinite;
+      animation-name: placeHolderShimmerHeader;
+      animation-timing-function: linear;
+      background-color: #f6f7f8;
+      background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
+      background-size: 300px 104px;
+      position: relative;
+      margin-bottom: 10px;
+    }
 
-  .LoadingProduct__price {
-    height: 10px;
-    width: 150px;
-    animation-duration: 2s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
-    animation-name: placeHolderShimmerHeader;
-    animation-timing-function: linear;
-    background-color: #f6f7f8;
-    background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
-    background-size: 300px 104px;
-    position: relative;
-    margin-bottom: 20px;
+    .LoadingProduct__price {
+      height: 21.6px;
+      width: 150px;
+      animation-duration: 2s;
+      animation-fill-mode: forwards;
+      animation-iteration-count: infinite;
+      animation-name: placeHolderShimmerHeader;
+      animation-timing-function: linear;
+      background-color: #f6f7f8;
+      background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
+      background-size: 200px 50px;
+      position: relative;
+      //margin-bottom: 20px;
+    }
   }
 
   .ProductsDetails__btn {
     display: block;
-    width: 90%;
+    width: 100%;
     margin: auto;
     height: 30px;
     border: none;
     background: #03ac84;
     color: white;
     border-radius: 3px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    //box-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
     cursor: pointer;
   }
 }

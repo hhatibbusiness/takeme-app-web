@@ -11,6 +11,7 @@ import LoadingProduct from "../../../../../../../components/LoadingProduct/Loadi
 // import {notFoundImg} from "../../../../assets";
 
 const Product = ({product, value, setCurrentProduct, setPopup}) => {
+    const [imgLoaded, setImgLoaded] = useState(false);
     const [imgUI, setImgUI] = useState(null);
     const productRef = useRef();
     const imgRef = useRef();
@@ -43,12 +44,13 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
             const res = await axios.get(product.imagePath);
             console.log(res.status);
             if(res.status === 200) {
-                const img = <Img product={product}/>;
+                const img = <Img setImgLoaded={setImgLoaded} product={product}/>;
                 setImgUI(img);
             }
         }catch(e) {
             console.error(e);
             const imgUI =  <RenderImgError />;
+            setImgLoaded(true);
             setImgUI(prevState => imgUI);
         }
     }
@@ -62,11 +64,11 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
             setPopup(true);
         }}>
             {
-                imgUI ? (
-                    <>
-                        <div className={`Product__image--container ${value < 100 && 'Product__image--container-center'}`} style={{height: `${value < 100 && '100%' }`}}>
+                imgUI && (
+                    <div className={`Product__body--container ${imgLoaded ? 'Product__visible' : 'Product__hidden'}`}>
+                        <div className={`Product__image--container ${value < 100 ? 'Product__image--container-center' : 'Product__image--container-min'}`}>
                             {
-                                imgUI ? imgUI : <SpinnerComponent />
+                                imgUI
                             }
                         </div>
                         <div className={`Product__details ${value < 100 && 'Product__details--hide'}`}>
@@ -77,12 +79,10 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
                         {
                             value === 100 && <Count count={product?.totalNumberOfProducts || 0} />
                         }
-                    </>
-                ) : (
-                    <LoadingProduct details={value === 100 } btn={false} />
+                    </div>
                 )
             }
-
+            <LoadingProduct priceStartFrom={product?.saleDetails?.priceStartingFromMsg} priceTitle={product?.saleDetails?.title} imgLoaded={imgLoaded} details={value === 100 } btn={false} />
         </div>
     );
 };

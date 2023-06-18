@@ -11,6 +11,7 @@ import LoadingProduct from "../../../../../../../components/LoadingProduct/Loadi
 
 const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) => {
     const [imgUI, setImgUI] = useState(null);
+    const [imgLoaded, setImgLoaded] = useState(false);
 
     const {t} = useTranslation();
 
@@ -23,12 +24,13 @@ const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) =
             const res = await axios.get(currentProduct?.imagePath);
             console.log(res.status);
             if(res.status === 200) {
-                const img = <Img product={currentProduct && currentProduct}/>;
+                const img = <Img setImgLoaded={setImgLoaded} product={currentProduct && currentProduct}/>;
                 setImgUI(img);
             }
         }catch(e) {
             console.error(e);
             const imgUI =  <RenderImgError />;
+            setImgLoaded(true)
             setImgUI(prevState => imgUI);
         }
     }
@@ -42,11 +44,11 @@ const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) =
                     <i className="fa-solid fa-xmark"></i>
                 </div>
                 {
-                    imgUI ? (
-                        <div className="ProductDetails__body">
+                    imgUI && (
+                        <div className={`ProductDetails__body ${imgLoaded ? 'ProductsDetails__visible' : 'ProductsDetails__hidden'}`}>
                             <div className="ProductDetails__img--container">
                                 {
-                                    imgUI && imgUI
+                                    imgUI
                                 }
                             </div>
                             <div className="ProductDetails__details">
@@ -55,7 +57,7 @@ const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) =
                                     currentProduct?.saleDetails && (
                                         <>
                                             <h5 className={'ProductsDetails__msg'}>{currentProduct?.saleDetails.title && currentProduct?.saleDetails.title}</h5>
-                                            <p>{currentProduct?.saleDetails.priceStartingFromMsg && currentProduct?.saleDetails.priceStartingFromMsg}</p>
+                                            <p className={'ProductsDetails__price'}>{currentProduct?.saleDetails.priceStartingFromMsg && currentProduct?.saleDetails.priceStartingFromMsg}</p>
                                         </>
 
                                     )
@@ -63,10 +65,10 @@ const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) =
                             </div>
                             <button className="ProductsDetails__btn">{t('show products')}</button>
                         </div>
-                    ) : (
-                        <LoadingProduct details={true} btn={true} />
                     )
                 }
+
+                <LoadingProduct priceStartFrom={currentProduct?.saleDetails?.priceStartingFromMsg} priceTitle={currentProduct?.saleDetails?.title} imgLoaded={imgLoaded} details={true} btn={true} />
 
                 {
                     currentProduct && <Count count={currentProduct?.totalNumberOfProducts || 0} />
