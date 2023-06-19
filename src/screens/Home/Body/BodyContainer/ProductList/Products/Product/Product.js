@@ -8,6 +8,7 @@ import Img from "./Img/Img";
 import Count from "./Count/Count";
 import SpinnerComponent from "../../../../../../../components/Spinner/Spinner.Component";
 import LoadingProduct from "../../../../../../../components/LoadingProduct/LoadingProduct";
+import {useNavigate} from "react-router-dom";
 // import {notFoundImg} from "../../../../assets";
 
 const Product = ({product, value, setCurrentProduct, setPopup}) => {
@@ -15,6 +16,7 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
     const [imgUI, setImgUI] = useState(null);
     const productRef = useRef();
     const imgRef = useRef();
+    const navigate = useNavigate();
 
     const changeHeightToWidth = () => {
         const productEle = productRef.current;
@@ -58,7 +60,7 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
     return (
         <div ref={productRef} className={'Product'} onClick={() => {
             if(value === 100) {
-                return console.log('Hello there!');
+                navigate(`/product/${product.id}`);
             }
             setCurrentProduct(product);
             setPopup(true);

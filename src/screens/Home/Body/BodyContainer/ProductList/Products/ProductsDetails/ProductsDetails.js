@@ -8,11 +8,13 @@ import axios from "axios";
 import RenderImgError from "../../../../../../../components/RenderImgError/RenderImgError";
 import SpinnerComponent from "../../../../../../../components/Spinner/Spinner.Component";
 import LoadingProduct from "../../../../../../../components/LoadingProduct/LoadingProduct";
+import {useNavigate} from "react-router-dom";
 
 const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) => {
     const [imgUI, setImgUI] = useState(null);
     const [imgLoaded, setImgLoaded] = useState(false);
 
+    const navigate = useNavigate();
     const {t} = useTranslation();
 
     useEffect(() => {
@@ -63,7 +65,10 @@ const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) =
                                     )
                                 }
                             </div>
-                            <button className="ProductsDetails__btn">{t('show products')}</button>
+                            <button onClick={e => {
+                                e.preventDefault();
+                                navigate(`/product/${currentProduct.id}`)
+                            }} className="ProductsDetails__btn">{t('show products')}</button>
                         </div>
                     )
                 }

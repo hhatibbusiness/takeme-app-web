@@ -5,15 +5,17 @@ import Home from "./screens/Home/Home";
 import {useEffect} from "react";
 import {connect} from "react-redux";
 import {fetchAssets} from "./store/actions/assets.actions";
-
+import Product from "./screens/Product/Product";
+import history from "./history/history"
 const App = (props) => {
     useEffect(() => {
         props.fetchAssets();
     }, []);
     return (
         <div className={'App'}>
-            <Routes>
+            <Routes history={history}>
                 <Route path={'/'} exact element={<Home />} />
+                <Route path={'/product/:id'} exact element={<Product />} />
             </Routes>
         </div>
     )
