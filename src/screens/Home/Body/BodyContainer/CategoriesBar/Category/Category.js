@@ -2,9 +2,9 @@ import React, {useEffect, useRef} from 'react';
 import './Category.css';
 import axios from "axios";
 import {connect} from "react-redux";
-import {changeId, fetchCategoryProducts} from "../../../../../../store/actions/categories.action";
+import {changeId, fetchCategoryProducts, resetPageNumber} from "../../../../../../store/actions/categories.action";
 
-const Category = ({cat, id, changeId, fetchCategoryProducts, lan}) => {
+const Category = ({cat, id, changeId, fetchCategoryProducts, lan, resetPageNumber, page}) => {
     // const imgRef = useRef();
     // useEffect(() => {
     //     console.log(cat);
@@ -28,7 +28,8 @@ const Category = ({cat, id, changeId, fetchCategoryProducts, lan}) => {
     return (
         <div onClick={() => {
             changeId(cat?.id && cat.id);
-            fetchCategoryProducts(cat?.id && cat.id, lan);
+            fetchCategoryProducts(cat?.id && cat.id, lan, 0);
+            resetPageNumber();
         }}  draggable={false} className={`Category ${id === (cat?.id && cat.id) && 'Category__active'}`}>
             <div className="Category__container">
                 <img src={cat?.imagePath && cat.imagePath} draggable={false} />
@@ -40,7 +41,8 @@ const Category = ({cat, id, changeId, fetchCategoryProducts, lan}) => {
 
 const mapStateToProps = state => ({
     id: state.categories.curId,
-    lan: state.categories.lan
+    lan: state.categories.lan,
+    page: state.categories.page
 });
 
-export default connect(mapStateToProps, {changeId, fetchCategoryProducts}) (Category);
+export default connect(mapStateToProps, {changeId, fetchCategoryProducts, resetPageNumber}) (Category);

@@ -7,7 +7,8 @@ import ProductList from "./ProductList/ProductList";
 import SpinnerComponent from "../../../../components/Spinner/Spinner.Component";
 import {fetchCategoryProducts} from "../../../../store/actions/categories.action";
 
-const BodyContainerComponent = ({loadingCategories, id, fetchCategoryProducts, value}) => {
+const BodyContainerComponent = ({loadingCategories, page, lan, categories, id, fetchCategoryProducts, value}) => {
+
     return (
         <div className={'BodyContainer'}>
             <Cover />
@@ -25,7 +26,10 @@ const mapStateToProps = state => ({
     loadingCategories: state.categories.loadingCategories,
     loadingCategoryProducts: state.categories.loadingCategoryProducts,
     id: state.categories.curId,
-    value: state.categories.value
+    value: state.categories.value,
+    page: state.categories.page,
+    categories: state.categories.categories,
+    lan: state.categories.lan
 });
 
 export default connect(mapStateToProps, {fetchCategoryProducts}) (BodyContainerComponent);

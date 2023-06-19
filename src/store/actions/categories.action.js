@@ -2,7 +2,7 @@ import axios from "axios";
 import {
     CHANGE_CURRENT_ID, CHANGE_LAN_SUCCESS, CHANGE_SLIDER_VALUE,
     END_FETCHING_CATEGORIES, END_FETCHING_PRODUCTS, ERROR_ACTIVE, ERROR_INACTIVE, FETCH_CATEGORIES_FAILURE,
-    FETCH_CATEGORIES_SUCCESS, FETCH_CATEGORY_PRODUCTS,
+    FETCH_CATEGORIES_SUCCESS, FETCH_CATEGORY_PRODUCTS, INCREASE_PAGE_NUMBER, RESET_PAGE_NUMBER,
     START_FETCHING_CATEGORIES,
     START_FETCHING_PRODUCTS
 } from "./action.types";
@@ -44,7 +44,7 @@ export const fetchCategories = lan => async dispatch => {
         await dispatch(endFetchingCategories);
         const firstId = res.data.output[0].id;
         await dispatch(changeId(firstId));
-        await dispatch(fetchCategoryProducts(firstId, lan));
+        await dispatch(fetchCategoryProducts(firstId, lan, 0));
         dispatch(errorInactive);
     }catch (err) {
         console.error(err.message);
@@ -63,15 +63,16 @@ const endFetchingProducts = {
 }
 
 //fetch the category products list
-export const fetchCategoryProducts = (id, lan) => async dispatch => {
+export const fetchCategoryProducts = (id, lan, page) => async dispatch => {
     try {
         dispatch(startFetchingProducts);
-        const res = await axios.get(`https://takeme-all.com/app/endpoints/products-types?locale=${lan}&categoryId=${id}&page=0`)
+        const res = await axios.get(`https://takeme-all.com/app/endpoints/products-types?locale=${lan}&categoryId=${id}&page=${page}`)
         dispatch({
             type: FETCH_CATEGORY_PRODUCTS,
             products: res.data
         });
         dispatch(endFetchingProducts);
+        dispatch(increasePageNumber());
         dispatch(errorInactive)
     } catch (e) {
         console.error(e.message);
@@ -99,3 +100,13 @@ export const changeLan = (lan, id) => async dispatch => {
         dispatch(errorActive);
     }
 };
+
+//increase the page number action
+export const increasePageNumber = () => ({
+    type: INCREASE_PAGE_NUMBER
+});
+
+//reset the page number action
+export const resetPageNumber = () => ({
+    type: RESET_PAGE_NUMBER
+})

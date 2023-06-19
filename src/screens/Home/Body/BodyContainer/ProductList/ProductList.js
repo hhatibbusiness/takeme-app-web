@@ -1,25 +1,53 @@
-import React, {useEffect, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 // import {useParams} from "react-router-dom";
 import {connect} from "react-redux";
 // import {getCategory} from "../../store/actions/categories.action";
 // import {Slider} from "@mui/material";
 import SliderComponent from "./Slider/Slider";
 import Products from "./Products/Products";
+import {fetchCategoryProducts, increasePageNumber} from "../../../../../store/actions/categories.action";
+import InfiniteScroll from "react-infinite-scroller";
+import SpinnerComponent from "../../../../../components/Spinner/Spinner.Component";
+import Loader from "../../../../../components/Loader/Loader";
 // import Gallery from "./Gallery/Gallery";
 // import {Swiper} from "swiper";
 
-const Category = ({products}) => {
+const Category = ({products, id, lan, page, fetchCategoryProducts, increasePageNumber, more}) => {
+    const [moreLoading, setMoreLoading] = useState(true);
+    const containerRef = useRef();
+
+    useEffect(() => {
+        setMoreLoading(more);
+    }, [more]);
 
     return (
-        <div className={'CategoryComp'} >
+        <div ref={containerRef} className={'CategoryComp'} >
             <SliderComponent />
-            <Products products={products} />
+            <InfiniteScroll
+                style={{position: 'relative', paddingBottom: '100px;'}}
+                dataLength={products.length}
+                pageStart={page}
+                loadMore={() => {
+                    if(products.length === 0 && page === 0) return;
+                    if(!moreLoading) return;
+                    fetchCategoryProducts(id, lan, page);
+                    if(!more) setMoreLoading(false);
+                }}
+                hasMore={moreLoading}
+                loader={<Loader />}
+            >
+                <Products products={products} />
+            </InfiniteScroll>
         </div>
     );
 };
 
 const mapStateToProps = state => ({
-    products: state.categories.products
-})
+    products: state.categories.products,
+    lan: state.categories.lan,
+    page: state.categories.page,
+    id: state.categories.curId,
+    more: state.categories.more
+});
 
-export default connect(mapStateToProps) (Category);
+export default connect(mapStateToProps, {fetchCategoryProducts, increasePageNumber}) (memo(Category));

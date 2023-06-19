@@ -9,12 +9,13 @@ import Backdrop from "../../../components/Backdrop/Backdrop";
 import Footer from "./Footer/Footer";
 import CategoryError from "../../../components/CategoryError/CategoryError";
 import './Body.scss'
-const Body = ({ fetchCategories, loadingCategories, categoryError, lan}) => {
+const Body = ({ fetchCategories, loadingCategories, lan, page}) => {
     const [sidebar, setSidebar] = useState(false);
 
     useEffect(() => {
         fetchCategories(lan);
     }, []);
+
     return (
         <div className={'Body'}>
             {
@@ -35,7 +36,8 @@ const Body = ({ fetchCategories, loadingCategories, categoryError, lan}) => {
 const mapStateToProps = state => ({
     loadingCategories: state.categories.loadingCategories,
     categoryError: state.categories.categoryError,
-    lan: state.categories.lan
+    lan: state.categories.lan,
+    page: state.categories.page
 })
 
 export default connect(mapStateToProps, {fetchCategories}) (Body);
