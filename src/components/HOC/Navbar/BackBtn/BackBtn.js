@@ -1,16 +1,14 @@
 import React, {useEffect} from 'react';
 import './BackBtn.scss';
-import {useLocation, useNavigate} from "react-router-dom";
-import history from '../../../../history/history'
-
+// import {useHistory} from 'react-router-dom';
+import {useNavigate} from "react-router-dom";
+import history from '../../../../history/history';
 
 const BackBtn = () => {
-    const navigate = useNavigate();
-    useEffect(() => {
-        // navigate('/')
-    });
     return (
-        <div className={'BackBtn'}>
+        <div onClick={() => {
+            history.back()
+        }} className={'BackBtn'}>
             <i className="fa-solid fa-arrow-left"></i>
         </div>
     );

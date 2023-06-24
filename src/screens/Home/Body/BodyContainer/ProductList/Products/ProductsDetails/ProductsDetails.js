@@ -6,7 +6,6 @@ import {connect} from "react-redux";
 import {useTranslation} from "react-i18next";
 import axios from "axios";
 import RenderImgError from "../../../../../../../components/RenderImgError/RenderImgError";
-import SpinnerComponent from "../../../../../../../components/Spinner/Spinner.Component";
 import LoadingProduct from "../../../../../../../components/LoadingProduct/LoadingProduct";
 import {useNavigate} from "react-router-dom";
 
@@ -24,9 +23,8 @@ const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) =
     const renderImage = async () => {
         try{
             const res = await axios.get(currentProduct?.imagePath);
-            console.log(res.status);
             if(res.status === 200) {
-                const img = <Img setImgLoaded={setImgLoaded} product={currentProduct && currentProduct}/>;
+                const img = <Img setImgLoaded={setImgLoaded} imgUrl={currentProduct?.imagePath && currentProduct.imagePath}/>;
                 setImgUI(img);
             }
         }catch(e) {
@@ -36,6 +34,7 @@ const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) =
             setImgUI(prevState => imgUI);
         }
     }
+
     return (
         <div className={'ProductsDetails'}>
             <div className="ProductsDetails__container">

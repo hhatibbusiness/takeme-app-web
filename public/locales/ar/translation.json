@@ -11,5 +11,6 @@
     "عرض منتجات البيع"
   ],
   "search": "بحث",
-  "show products": "اعرض المنتجات"
+  "show products": "اعرض المنتجات",
+  "fail to load providers": "فشل تحميل أصحاب منتجات او خدمات"
 }

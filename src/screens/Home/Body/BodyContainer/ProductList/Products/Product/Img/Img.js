@@ -3,7 +3,7 @@ import './Img.scss';
 import {connect} from "react-redux";
 import {changeSliderValue} from "../../../../../../../../store/actions/categories.action";
 
-const Img = ({value, product, setImgLoaded}) => {
+const Img = ({value, imgUrl, setImgLoaded}) => {
     const imgRef = useRef();
     useEffect(() => {
         const image = imgRef.current;
@@ -13,9 +13,9 @@ const Img = ({value, product, setImgLoaded}) => {
 
     }, []);
     return (
-        <img ref={imgRef} className={'Img'} style={{width: `${value < 100 ? '100%' : '80%'}`}} onClick={() => {
+        <img ref={imgRef} className={'Img'} style={{width: `${value < 100 ? '100%' : '80%'}`, height: `${value < 100 && '100%'}`}} onClick={() => {
             // setGalleryOpen(true);
-        }} src={product?.imagePath && product.imagePath} alt=""/>
+        }} src={imgUrl} alt=""/>
     );
 };
 

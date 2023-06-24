@@ -15,9 +15,7 @@ const Sidebar = ({assets, sidebar, setSidebar, lan, changeLan, categories}) => {
 
     const filterChangeHandler = e => {
         const filter = e.target.closest('input');
-        console.log(filter);
         if (!filter) return;
-        console.log(filter.checked);
         filter.checked = true;
         i18next.changeLanguage(lan);
     }

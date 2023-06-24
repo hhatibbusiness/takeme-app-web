@@ -9,12 +9,10 @@ import Backdrop from "../../../components/Backdrop/Backdrop";
 import Footer from "./Footer/Footer";
 import CategoryError from "../../../components/CategoryError/CategoryError";
 import './Body.scss'
+import {Outlet} from "react-router-dom";
+import BodySub from "./BodyContainer/BodySub/BodySub";
 const Body = ({ fetchCategories, loadingCategories, lan, page}) => {
     const [sidebar, setSidebar] = useState(false);
-
-    useEffect(() => {
-        fetchCategories(lan);
-    }, []);
 
     return (
         <div className={'Body'}>
@@ -27,6 +25,7 @@ const Body = ({ fetchCategories, loadingCategories, lan, page}) => {
                     <Backdrop sidebar={sidebar} setSidebar={setSidebar} />
                     <BodyContainerComponent />
                     <Footer />
+                    <Outlet />
                 </CategoryError>
             }
         </div>

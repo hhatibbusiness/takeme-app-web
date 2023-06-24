@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import Intro from "../../components/Intro/Intro";
 import Body from "./Body/Body";
+import {connect} from "react-redux";
+import {fetchCategories} from '../../store/actions/categories.action';
 
-const Home = () => {
+const Home = ({lan, fetchCategories}) => {
     const [logoStart, setLogoStart] = useState(true);
 
 
@@ -16,6 +18,11 @@ const Home = () => {
             clearTimeout(timeOut);
         }
     }, []);
+
+    useEffect(() => {
+        fetchCategories(lan);
+    }, []);
+
     return (
         <div className={'Home'}>
             {
@@ -29,4 +36,8 @@ const Home = () => {
     );
 };
 
-export default Home;
+const mapStateToProps = state => ({
+    lan: state.categories.lan
+})
+
+export default connect(mapStateToProps, {fetchCategories}) (Home);

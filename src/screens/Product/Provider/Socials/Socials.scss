@@ -1,0 +1,20 @@
+.Socials {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  direction: rtl;
+
+  .Socials__link {
+    background: #33AB85;
+    padding: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    i {
+      font-size: 20px;
+      color: white;
+    }
+  }
+}

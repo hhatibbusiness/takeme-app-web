@@ -15,8 +15,8 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
     const [imgLoaded, setImgLoaded] = useState(false);
     const [imgUI, setImgUI] = useState(null);
     const productRef = useRef();
-    const imgRef = useRef();
     const navigate = useNavigate();
+    const imgRef = useRef();
 
     const changeHeightToWidth = () => {
         const productEle = productRef.current;
@@ -43,10 +43,9 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
 
     const renderImage = async () => {
         try{
-            const res = await axios.get(product.imagePath);
-            console.log(res.status);
+            const res = await axios.get(product?.imagePath && product.imagePath);
             if(res.status === 200) {
-                const img = <Img setImgLoaded={setImgLoaded} product={product}/>;
+                const img = <Img setImgLoaded={setImgLoaded} imgUrl={product?.imagePath && product.imagePath}/>;
                 setImgUI(img);
             }
         }catch(e) {
@@ -59,8 +58,8 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
 
     return (
         <div ref={productRef} className={'Product'} onClick={() => {
-            if(value === 100) {
-                navigate(`/product/${product.id}`);
+            if(value == 100) {
+                return navigate(`/product/${product.id}`);
             }
             setCurrentProduct(product);
             setPopup(true);

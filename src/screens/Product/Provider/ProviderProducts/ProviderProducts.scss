@@ -1,0 +1,22 @@
+.ProviderProducts__carousel {
+  //width: 90%;
+  //font-size: 0;
+  //cursor: pointer;
+  //overflow: hidden;
+  //white-space: nowrap;
+  //scroll-behavior: smooth;
+  //display: flex;
+  //flex-direction: row;
+  //gap: 14px;
+  //width: 100%;
+
+}
+
+.ProviderProduct__dragging {
+  cursor: grab;
+  scroll-behavior: auto;
+
+  .ProviderProduct {
+    pointer-events: none;
+  }
+}

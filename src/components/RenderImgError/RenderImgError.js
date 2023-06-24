@@ -3,9 +3,6 @@ import './RenderImgError.scss';
 import {connect} from "react-redux";
 
 const RenderImgError = ({value}) => {
-    useEffect(() => {
-        console.log(value);
-    }, [value])
     return (
         <div style={{height: `${value < 100 ? '100%' : '50%'}`}} className={'RenderImgError'}>
             <i className="fa-solid fa-circle-exclamation"></i>
