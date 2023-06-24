@@ -1,0 +1,18 @@
+.Loader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  .Loader__spinner:before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 30px;
+    border: 3px solid #03ac84;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.5s infinite linear;
+  }
+}

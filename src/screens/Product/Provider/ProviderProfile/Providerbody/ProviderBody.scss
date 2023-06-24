@@ -1,0 +1,30 @@
+.ProviderBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  .ProviderBody__details {
+    .ProviderBody__city {
+      color: #00003e;
+    }
+  }
+
+  .ProviderBody__msg {
+    font-size: 13px;
+  }
+
+  .ProviderBody__rating {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    i {
+      color: #33AB85;
+      font-size: 13px;
+    }
+
+    span {
+      color: #33AB85;
+      font-size: 15px;
+    }
+  }
+}

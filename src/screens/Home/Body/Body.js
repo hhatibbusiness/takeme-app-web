@@ -6,34 +6,37 @@ import BodyContainerComponent from "./BodyContainer/Body.Container.Component";
 import Navbar from "../../../components/HOC/Navbar/Navbar";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import Backdrop from "../../../components/Backdrop/Backdrop";
-
-const Body = ({ fetchCategories, loadingCategories}) => {
+import Footer from "./Footer/Footer";
+import CategoryError from "../../../components/CategoryError/CategoryError";
+import './Body.scss'
+import {Outlet} from "react-router-dom";
+import BodySub from "./BodyContainer/BodySub/BodySub";
+const Body = ({ fetchCategories, loadingCategories, lan, page}) => {
     const [sidebar, setSidebar] = useState(false);
 
-    useEffect(() => {
-        fetchCategories();
-    }, []);
     return (
         <div className={'Body'}>
             {
                 loadingCategories ? (
                     <SpinnerComponent />
-                ): (
-                    <>
-                        <Navbar setSidebar={setSidebar} />
-                        <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
-                        <Backdrop sidebar={sidebar} setSidebar={setSidebar} />
-                        <BodyContainerComponent />
-                    </>
-
-                )
+                ) : <CategoryError>
+                    <Navbar setSidebar={setSidebar} />
+                    <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
+                    <Backdrop sidebar={sidebar} setSidebar={setSidebar} />
+                    <BodyContainerComponent />
+                    <Footer />
+                    <Outlet />
+                </CategoryError>
             }
         </div>
     );
 };
 
 const mapStateToProps = state => ({
-    loadingCategories: state.categories.loadingCategories
+    loadingCategories: state.categories.loadingCategories,
+    categoryError: state.categories.categoryError,
+    lan: state.categories.lan,
+    page: state.categories.page
 })
 
 export default connect(mapStateToProps, {fetchCategories}) (Body);

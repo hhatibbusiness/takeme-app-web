@@ -7,6 +7,8 @@
     /*margin-top: 50px;*/
     width: 90%;
     max-width: 350px;
+    transform: rotateY(180deg);
+
 }
 
 .Slider__icon {
@@ -18,4 +20,8 @@
 
 .Slider__icon:hover {
     background: #d4e5ed;
+}
+
+.Slider__bar {
+    color: #03AC84 !important;
 }

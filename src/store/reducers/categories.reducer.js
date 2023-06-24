@@ -6,7 +6,12 @@ const initialState = {
     curId: null,
     loadingCategoryProducts: true,
     products: [],
-    value: 50
+    value: 100,
+    lan: 'ar',
+    error: false,
+    page: 0,
+    loadingMore: false,
+    more: false
 };
 
 export default (state = initialState, action) => {
@@ -25,7 +30,8 @@ export default (state = initialState, action) => {
             return (() => {
                 return {
                     ...state,
-                    categories: action.categories
+                    categories: action.categories,
+                    products: []
                 }
             })();
         case actionTypes.CHANGE_CURRENT_ID:
@@ -46,12 +52,44 @@ export default (state = initialState, action) => {
         case actionTypes.FETCH_CATEGORY_PRODUCTS:
             return (() => ({
                 ...state,
-                products: action.products
+                products: [...state.products, ...action.products],
+                more: action.products.length >= 10
             }))();
         case actionTypes.CHANGE_SLIDER_VALUE:
             return {
                 ...state,
                 value: action.value
+            }
+        case actionTypes.CHANGE_LAN_SUCCESS:
+            return {
+                ...state,
+                lan: action.lan
+            }
+        case actionTypes.FETCH_CATEGORIES_FAILURE:
+            return {
+                ...state,
+                categoryError: true
+            }
+        case actionTypes.ERROR_ACTIVE:
+            return {
+                ...state,
+                error: true
+            }
+        case actionTypes.ERROR_INACTIVE:
+            return {
+                ...state,
+                error: false
+            }
+        case actionTypes.INCREASE_PAGE_NUMBER:
+            return {
+                ...state,
+                page: state.page + 1
+            }
+        case actionTypes.RESET_PAGE_NUMBER:
+            return {
+                ...state,
+                page: 0,
+                products: []
             }
         default:
             return state;

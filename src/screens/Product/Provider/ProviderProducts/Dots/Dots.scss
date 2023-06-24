@@ -1,0 +1,11 @@
+.Dots {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+
+  i {
+    font-size: 7px;
+  }
+}
