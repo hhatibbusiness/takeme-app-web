@@ -11,6 +11,7 @@ import CategoryError from "../../../components/CategoryError/CategoryError";
 import './Body.scss'
 import {Outlet} from "react-router-dom";
 import BodySub from "./BodyContainer/BodySub/BodySub";
+import SearchScreen from "../../SearchScreen/SearchScreen";
 const Body = ({ fetchCategories, loadingCategories, lan, page}) => {
     const [sidebar, setSidebar] = useState(false);
 
@@ -20,7 +21,7 @@ const Body = ({ fetchCategories, loadingCategories, lan, page}) => {
                 loadingCategories ? (
                     <SpinnerComponent />
                 ) : <CategoryError>
-                    <Navbar setSidebar={setSidebar} />
+                    <Navbar search setSidebar={setSidebar} />
                     <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
                     <Backdrop sidebar={sidebar} setSidebar={setSidebar} />
                     <BodyContainerComponent />

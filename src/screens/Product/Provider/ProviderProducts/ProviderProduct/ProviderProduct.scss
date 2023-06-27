@@ -41,6 +41,10 @@
       gap: 20px;
       position: relative;
 
+      .highlight {
+        color: #03ac84;
+      }
+
       .ProviderProduct__details-dropdown {
         display: flex;
         flex-direction: column;

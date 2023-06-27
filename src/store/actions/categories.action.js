@@ -6,6 +6,7 @@ import {
     START_FETCHING_CATEGORIES,
     START_FETCHING_PRODUCTS
 } from "./action.types";
+import {changeSearchCategoryId} from "./search.actions";
 
 // 'https://takeme-all.com/app/endpoints/categories/list?locale=ar';
 // https://takeme-all.com/app/endpoints/products-types?locale=ar&categoryId=${id}&page=0
@@ -93,7 +94,7 @@ export const changeLan = (lan, id) => async dispatch => {
             lan
         });
         await dispatch(fetchCategories(lan));
-        await dispatch(fetchCategoryProducts(id, lan));
+        await dispatch(fetchCategoryProducts(id, lan, 0));
         dispatch(errorInactive)
     } catch (e) {
         console.error(e.message);

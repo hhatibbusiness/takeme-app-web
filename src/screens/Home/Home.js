@@ -3,7 +3,7 @@ import Intro from "../../components/Intro/Intro";
 import Body from "./Body/Body";
 import {connect} from "react-redux";
 import {fetchCategories} from '../../store/actions/categories.action';
-
+import './Home.scss';
 const Home = ({lan, fetchCategories}) => {
     const [logoStart, setLogoStart] = useState(true);
 

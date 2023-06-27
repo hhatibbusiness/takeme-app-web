@@ -28,10 +28,12 @@ const Category = ({products, id, lan, page, fetchCategoryProducts, increasePageN
                 dataLength={products.length}
                 pageStart={page}
                 loadMore={() => {
+                    console.log('Hello infinite!')
+                    console.log(products.length, page);
                     if(products.length === 0 && page === 0) return;
                     if(!moreLoading) return;
+                    if(!more) return setMoreLoading(false);
                     fetchCategoryProducts(id, lan, page);
-                    if(!more) setMoreLoading(false);
                 }}
                 hasMore={moreLoading}
                 loader={<Loader />}

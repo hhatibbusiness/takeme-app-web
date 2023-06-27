@@ -5,11 +5,9 @@ import axios from "axios";
 import Img from "../../../../Home/Body/BodyContainer/ProductList/Products/Product/Img/Img";
 import RenderImgError from "../../../../../components/RenderImgError/RenderImgError";
 import LoadingProduct from "../../../../../components/LoadingProduct/LoadingProduct";
-import Gallery from "./Gallery/Gallery";
-import {openGallery} from "../../../../../store/actions/product.actions";
 import {connect} from "react-redux";
 
-const ProviderProduct = ({imgRef, product, sliding, openGallery}) => {
+const ProviderProduct = ({imgRef, product, sliding, openGallery, term}) => {
     const [imgLoaded, setImgLoaded] = useState(false);
     const [imgUI, setImgUI] = useState(null);
     const [detailed, setDetailed] = useState(false);
@@ -98,6 +96,15 @@ const ProviderProduct = ({imgRef, product, sliding, openGallery}) => {
         </div>;
     }
 
+    const renderName = () => {
+        var innerHTML = product.name;
+        var index = innerHTML.indexOf(term);
+        if (index >= 0) {
+            innerHTML = <p className={'ProviderProduct__title'}>{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
+            return innerHTML;
+        }
+    }
+
     return (
         <div ref={imgRef} className={'ProviderProduct'}>
                 {
@@ -111,7 +118,9 @@ const ProviderProduct = ({imgRef, product, sliding, openGallery}) => {
                                 </div>
                             </div>
                             <div className={'ProviderProduct__details'}>
-                                <p className={'ProviderProduct__title'}>{product?.name && product.name}</p>
+                                {
+                                    renderName()
+                                }
                                 {
                                     convertMarkup()
                                 }
@@ -152,4 +161,8 @@ const ProviderProduct = ({imgRef, product, sliding, openGallery}) => {
     );
 };
 
-export default connect(null, {openGallery}) (ProviderProduct);
+const mapStateToProps = state => ({
+    term: state.search.term
+})
+
+export default connect(mapStateToProps) (ProviderProduct);

@@ -1,0 +1,27 @@
+.ProviderScreen {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 900;
+  background: #eaeaea;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: scroll;
+  backface-visibility: hidden;
+  backdrop-filter: none;
+  width: 100vw;
+  height: 100vh;
+
+  .Navbar {
+    position: sticky;
+    top: 0;
+    direction: ltr;
+
+    .Navbar__container {
+      height: 50px !important;
+    }
+  }
+}

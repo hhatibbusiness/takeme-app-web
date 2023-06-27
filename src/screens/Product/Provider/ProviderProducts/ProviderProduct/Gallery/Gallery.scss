@@ -8,15 +8,16 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 2000;
   direction: rtl;
 
   .Gallery__close {
     position: absolute;
     top: 20px;
     right: 20px;
-    cursor: pointer;
     z-index: 1001;
+    padding: 10px;
+    cursor: pointer;
 
     i {
       color: white;

@@ -1,3 +1,5 @@
+@import "../../../styles/index.scss";
+
 .Navbar {
   width: 100%;
   position: fixed;
@@ -10,16 +12,11 @@
     width: 100%;
     height: 100%;
     background: #33AB85;
-    display: flex;
     flex-direction: row-reverse;
-    align-items: center;
+    @include center-h();
     justify-content: space-between;
-    //max-width: 1000px;
     margin: auto;
     padding: 0 10px;
-    //position: fixed;
-    //top: 0;
-    //z-index: 100;
 
     .Navbar__logo {
       width: 80px;

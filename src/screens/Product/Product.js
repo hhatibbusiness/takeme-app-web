@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './Product.scss';
 import Navbar from "../../components/HOC/Navbar/Navbar";
-import {fetchProductDetails, fetchProductTypeDetails, resetProductData} from "../../store/actions/product.actions";
+import {fetchProductDetails, fetchProductTypeDetails, resetProductData, closeGallery, openGallery} from "../../store/actions/product.actions";
 import {connect} from "react-redux";
 import {Outlet, useParams} from "react-router-dom";
 import Provider from "./Provider/Provider";
@@ -11,8 +11,9 @@ import Gallery from "./Provider/ProviderProducts/ProviderProduct/Gallery/Gallery
 import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../components/Loader/Loader";
 
-const Product = ({fetchProductDetails, more, page, lan, providers, resetProductData, fetchProductTypeDetails, productType, loadingProductsProviders, gallery}) => {
+const Product = ({galleryProduct, closeGallery, fetchProductDetails, more, page, lan, providers, resetProductData, fetchProductTypeDetails, productType, loadingProductsProviders, gallery, openGallery}) => {
     const [moreLoading, setMoreLoading] = useState(true);
+    const productRef = useRef();
     const params = useParams();
 
     useEffect(() => {
@@ -22,7 +23,6 @@ const Product = ({fetchProductDetails, more, page, lan, providers, resetProductD
     useEffect (() => {
         fetchProductTypeDetails(params.id, lan);
         fetchProductDetails(params.id, page, lan);
-
         return () => {
             resetProductData();
         }
@@ -31,14 +31,14 @@ const Product = ({fetchProductDetails, more, page, lan, providers, resetProductD
 
 
     useEffect(() => {
-        const home = document.querySelector('.Home');
+        const home = document.querySelector('body');
+
         const freezeStyles = () => {
-            home.style.height = '100vh';
-            home.style.overflowY = 'hidden';
+            // home && (home.style.height = '100vh')
+            home.classList.add('Home__hide')
         }
         const releaseStyles = () => {
-            home.style.height = 'auto';
-            home.overflowY = 'scroll';
+            home.classList.remove('Home__hide')
         }
 
         freezeStyles();
@@ -49,8 +49,8 @@ const Product = ({fetchProductDetails, more, page, lan, providers, resetProductD
 
     }, []);
     return (
-        <div className={'ProductScreen'}>
-            <Navbar backBtn={true} midText={productType?.title && productType.title}/>
+        <div ref={productRef} className={'ProductScreen'}>
+            <Navbar backBtn={true} midText={productType?.title && productType.title} logoLink={'/'}/>
             {
                 !loadingProductsProviders ? (
                     providers?.length > 0 ? (
@@ -65,13 +65,14 @@ const Product = ({fetchProductDetails, more, page, lan, providers, resetProductD
                             }}
                             hasMore={moreLoading}
                             loader={<Loader />}
+                            className={'ProductScreen__container'}
                         >
                             {
                                 providers.map((p, i) => (
                                     <>
-                                        <Provider provider={p} key={p.id} />
+                                        <Provider link provider={p} key={p.id} openGallery={openGallery} />
                                         {
-                                            gallery && <Gallery />
+                                            gallery && <Gallery product={galleryProduct} closeGallery={closeGallery} />
                                         }
                                     </>
                                 ))
@@ -99,7 +100,8 @@ const mapStateToProps = state => ({
     productType: state.product.product,
     loadingProductsProviders: state.product.loadingProducts,
     gallery: state.product.openGallery,
-    more: state.product.more
+    more: state.product.more,
+    galleryProduct: state.product.galleryProduct,
 });
 
-export default connect(mapStateToProps, {resetProductData, fetchProductDetails, fetchProductTypeDetails}) (Product);
+export default connect(mapStateToProps, {resetProductData, fetchProductDetails, fetchProductTypeDetails, closeGallery, openGallery}) (Product);

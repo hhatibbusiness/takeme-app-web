@@ -6,12 +6,12 @@ import ProviderProfile from "./ProviderProfile/ProviderProfile";
 import ProviderProducts from "./ProviderProducts/ProviderProducts";
 import Socials from "./Socials/Socials";
 
-const Provider = ({provider: p}) => {
+const Provider = ({provider: p, socials, link, openGallery}) => {
     const navigator = useNavigate();
     return (
         <div className={'Provider'}>
-            <ProviderProfile provider={p} />
-            <ProviderProducts products={p?.products && p.products} />
+            <ProviderProfile socials={socials} link={link} provider={p} />
+            <ProviderProducts products={p?.products && p.products} openGallery={openGallery}/>
             {
                 p?.products && (
                     <Socials />

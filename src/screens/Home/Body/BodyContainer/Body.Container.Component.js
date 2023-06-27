@@ -5,14 +5,14 @@ import {connect} from "react-redux";
 import Categories from "./CategoriesBar/Categories";
 import ProductList from "./ProductList/ProductList";
 import SpinnerComponent from "../../../../components/Spinner/Spinner.Component";
-import {fetchCategoryProducts} from "../../../../store/actions/categories.action";
+import {fetchCategoryProducts, fetchCategories} from "../../../../store/actions/categories.action";
 
-const BodyContainerComponent = ({loadingCategories, page, lan, categories, id, fetchCategoryProducts, value}) => {
+const BodyContainerComponent = ({loadingCategories, page, lan, categories, id, fetchCategoryProducts, value, fetchCategories}) => {
 
     return (
         <div className={'BodyContainer'}>
             <Cover />
-            <Categories />
+            <Categories home />
             {!loadingCategories ? (
                 <ProductList />
             ) : (
@@ -32,4 +32,4 @@ const mapStateToProps = state => ({
     lan: state.categories.lan
 });
 
-export default connect(mapStateToProps, {fetchCategoryProducts}) (BodyContainerComponent);
+export default connect(mapStateToProps, {fetchCategoryProducts, fetchCategories}) (BodyContainerComponent);

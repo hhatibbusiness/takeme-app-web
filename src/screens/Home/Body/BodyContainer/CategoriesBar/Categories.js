@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import CategoryItem from './Category/Category';
 import {changeId} from "../../../../../store/actions/categories.action";
 
-const Categories = ({categories, loadingCategories}) => {
+const Categories = ({categories, loadingCategories, search, home}) => {
     // const [currId, setCurrId] = useState(null);
     const categoriesRef = useRef();
 
@@ -26,7 +26,7 @@ const Categories = ({categories, loadingCategories}) => {
                 <div ref={categoriesRef} className="Categories__container">
                     {
                         !loadingCategories && categories.map((cat, i) => (
-                            <CategoryItem key={cat?.id && cat.id} cat={cat} />
+                            <CategoryItem search={search} home={home} key={cat?.id && cat.id} cat={cat} />
                         ))
                     }
                 </div>

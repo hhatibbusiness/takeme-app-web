@@ -5,18 +5,17 @@ import {connect} from "react-redux";
 import ProviderProduct from "../ProviderProduct";
 import GalleryItem from "./GalleryItem/GalleryItem";
 import Dots from "../../Dots/Dots";
-import {closeGallery} from "../../../../../../store/actions/product.actions";
 
 const Gallery = ({product, closeGallery}) => {
     const [active, setActive] = useState(0);
 
     useEffect(() => {
-        const product = document.querySelector('.ProductScreen');
+        const provider = document.querySelector('.ProviderScreen');
         const freezeStyles = () => {
-            product.classList.add('scrollable')
+            provider && provider.classList.add('scrollable')
         }
         const releaseStyles = () => {
-            product.classList.remove('scrollable')
+            provider && provider.classList.remove('scrollable')
         }
 
         freezeStyles();
@@ -64,8 +63,4 @@ const Gallery = ({product, closeGallery}) => {
     );
 };
 
-const mapStateToProps = state => ({
-    product: state.product.galleryProduct
-})
-
-export default connect(mapStateToProps, {closeGallery}) (Gallery);
+export default Gallery;

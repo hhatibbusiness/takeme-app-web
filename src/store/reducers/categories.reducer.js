@@ -89,7 +89,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 page: 0,
-                products: []
+                products: [],
             }
         default:
             return state;
