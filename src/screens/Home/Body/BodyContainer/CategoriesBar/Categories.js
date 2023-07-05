@@ -5,25 +5,42 @@ import CategoryItem from './Category/Category';
 import {changeId} from "../../../../../store/actions/categories.action";
 
 const Categories = ({categories, loadingCategories, search, home}) => {
-    // const [currId, setCurrId] = useState(null);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+    const [down, setDown] = useState(false);
+
+    //
     const categoriesRef = useRef();
+    const containerRef = useRef();
 
-    // useEffect(() => {
-    //     if(categories.length !== 0) {
-    //         setCurrId(categories[0].id);
-    //     }
-    // }, [categories.length]);
+    const mouseDownHandler = e => {
+        const ele = categoriesRef.current;
+        if(!ele) return;
+        setDown(true);
+        setStartX(prevState => e.pageX - ele.offsetLeft);
+        setScrollLeft(prevState => ele.scrollLeft);
+    }
+    //
+    const mouseMoveHandler = e => {
+        if(!down) return;
+        const ele = categoriesRef.current;
+        if(!ele) return;
+        e.preventDefault();
+        const x = e.pageX - ele.offsetLeft;
+        const walk = (x - startX)/50;
 
-    // useEffect(() => {
-    //     if(currId !== null) {
-    //         getCategory(currId)
-    //     }
-    // }, [currId]);
+        ele.scrollLeft = (ele.scrollLeft - walk)
+    }
+
+    const mouseUpHandler = e => {
+        const ele = categoriesRef.current;
+        setDown(false);
+    }
 
     return (
         <div className={'Categories'}>
-            <div ref={categoriesRef} className="Categories__parent">
-                <div ref={categoriesRef} className="Categories__container">
+            <div ref={categoriesRef} className="Categories__parent" onMouseDown={mouseDownHandler} onMouseLeave={mouseUpHandler} onMouseUp={mouseUpHandler} onMouseMove={mouseMoveHandler}>
+                <div ref={containerRef} className="Categories__container">
                     {
                         !loadingCategories && categories.map((cat, i) => (
                             <CategoryItem search={search} home={home} key={cat?.id && cat.id} cat={cat} />

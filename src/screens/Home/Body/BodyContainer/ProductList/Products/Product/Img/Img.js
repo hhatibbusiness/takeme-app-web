@@ -10,10 +10,9 @@ const Img = ({value, imgUrl, setImgLoaded}) => {
         image.addEventListener('load', () => {
             setImgLoaded(true);
         })
-
     }, []);
     return (
-        <img ref={imgRef} className={'Img'} style={{width: `${value < 100 ? '100%' : '80%'}`, height: `${value < 100 && '100%'}`}} onClick={() => {
+        <img ref={imgRef} className={'Img'} style={{width: `${value < 100 ? '100%' : 'unset'}`, height: `${value < 100 && '100%'}`}} onClick={() => {
             // setGalleryOpen(true);
         }} src={imgUrl} alt=""/>
     );

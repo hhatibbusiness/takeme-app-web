@@ -1,7 +1,7 @@
 import axios from "axios";
 import {
     CHANGE_SEARCH_CURRENT_CATEGORY_ID, CHANGE_SEARCH_TERM, CLOSE_SCREEN_GALLERY, END_FETCHING_SEARCH_RESULTS,
-    FETCH_SEARCH_RESULTS, OPEN_SCREEN_GALLERY, RESET_ALL_SEARCH_DATA,
+    FETCH_SEARCH_RESULTS, INCREASE_SEARCH_PAGE, OPEN_SCREEN_GALLERY, RESET_ALL_SEARCH_DATA,
     RESET_SEARCH_DATA,
     START_FETCHING_SEARCH_RESULTS
 } from "./action.types";
@@ -25,6 +25,7 @@ export const fetchSearchResults = (lan, categoryId, filter, term, page) => async
             results: res.data
         });
         dispatch(endFetchingSearchResults);
+        dispatch(increaseSearchPage());
     } catch (e) {
         console.error(e.message);
         dispatch(endFetchingSearchResults);
@@ -63,4 +64,8 @@ export const changeSearchTerm = term => async dispatch => {
 
 export const resetAllSearchData = () => ({
     type: RESET_ALL_SEARCH_DATA
+})
+
+export const increaseSearchPage = () => ({
+    type: INCREASE_SEARCH_PAGE
 })

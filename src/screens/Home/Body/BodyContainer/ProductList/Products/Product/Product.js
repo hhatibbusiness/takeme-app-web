@@ -20,6 +20,7 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
 
     const changeHeightToWidth = () => {
         const productEle = productRef.current;
+        if(value === 100) return productEle.style.height = '300px';
         const productWidth = productEle.getBoundingClientRect().width;
         productEle.style.height = `${productWidth}px`;
     }
@@ -31,9 +32,7 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
     useEffect(() => {
         window.addEventListener('resize', () => {
             const currEle = productRef.current;
-            if(currEle) {
-                changeHeightToWidth()
-            }
+            changeHeightToWidth();
         });
     }, []);
 

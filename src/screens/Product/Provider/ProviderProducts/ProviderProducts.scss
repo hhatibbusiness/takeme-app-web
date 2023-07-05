@@ -1,4 +1,20 @@
+  .swiper-button-disabled {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    z-index: 700;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: lightgray;
+    opacity: 0.2;
+  }
+
 .ProviderProducts__carousel {
+  position: relative;
   //width: 90%;
   //font-size: 0;
   //cursor: pointer;
@@ -10,6 +26,52 @@
   //gap: 14px;
   //width: 100%;
 
+
+  .image-swiper-button-next {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    z-index: 700;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    background: lightgray;
+    transition: 0.3s;
+
+    &:hover {
+      background: gray;
+      color: white;
+    }
+  }
+
+  .image-swiper-button-prev {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 700;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    background: lightgray;
+    transition: 0.3s;
+
+    &:hover {
+      background: gray;
+      color: white;
+    }
+  }
 }
 
 .ProviderProduct__dragging {

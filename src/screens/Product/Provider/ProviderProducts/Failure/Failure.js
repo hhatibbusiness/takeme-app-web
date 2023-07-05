@@ -1,13 +1,11 @@
 import React from 'react';
-import {useTranslation} from "react-i18next";
 import './Failure.scss';
 
-const Failure = () => {
-    const {t} = useTranslation();
+const Failure = ({text}) => {
     return (
         <div className={'Failure'}>
             <p><i className="fa-solid fa-circle-exclamation"></i></p>
-            <p>{t('fail to load providers')}</p>
+            <p>{text}</p>
         </div>
     );
 };

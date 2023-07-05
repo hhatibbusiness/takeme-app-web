@@ -8,7 +8,8 @@ const initialState = {
     searchPage: 0,
     loadingSearchResults: true,
     searchGalleryOpen: false,
-    searchGalleryProduct: {}
+    searchGalleryProduct: {},
+    more: false
 }
 
 export default (state = initialState, action) => {
@@ -22,7 +23,8 @@ export default (state = initialState, action) => {
                 searchPage: 0,
                 loadingSearchResults: true,
                 searchGalleryOpen: false,
-                searchGalleryProduct: {}
+                searchGalleryProduct: {},
+                more: false
             }
         case actionTypes.OPEN_SCREEN_GALLERY:
             return {
@@ -44,13 +46,15 @@ export default (state = initialState, action) => {
         case actionTypes.FETCH_SEARCH_RESULTS:
             return {
                 ...state,
-                results: [...action.results]
+                results: [...state.results, ...action.results],
+                more: action.results.length >= 10
             }
         case actionTypes.RESET_SEARCH_DATA:
             return {
                 ...state,
                 results: [],
-                searchPage: 0
+                searchPage: 0,
+                more: false
             }
         case actionTypes.START_FETCHING_SEARCH_RESULTS:
             return {
@@ -66,6 +70,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 term: action.term
+            }
+        case actionTypes.INCREASE_SEARCH_PAGE:
+            return {
+                ...state,
+                searchPage: state.searchPage + 1
             }
         default:
             return state;

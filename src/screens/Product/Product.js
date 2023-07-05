@@ -10,11 +10,14 @@ import SpinnerComponent from "../../components/Spinner/Spinner.Component";
 import Gallery from "./Provider/ProviderProducts/ProviderProduct/Gallery/Gallery";
 import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../components/Loader/Loader";
+import {useTranslation} from "react-i18next";
 
 const Product = ({galleryProduct, closeGallery, fetchProductDetails, more, page, lan, providers, resetProductData, fetchProductTypeDetails, productType, loadingProductsProviders, gallery, openGallery}) => {
     const [moreLoading, setMoreLoading] = useState(true);
     const productRef = useRef();
     const params = useParams();
+
+    const {t} = useTranslation()
 
     useEffect(() => {
         setMoreLoading(more);
@@ -48,6 +51,7 @@ const Product = ({galleryProduct, closeGallery, fetchProductDetails, more, page,
         }
 
     }, []);
+
     return (
         <div ref={productRef} className={'ProductScreen'}>
             <Navbar backBtn={true} midText={productType?.title && productType.title} logoLink={'/'}/>
@@ -80,7 +84,7 @@ const Product = ({galleryProduct, closeGallery, fetchProductDetails, more, page,
                         </InfiniteScroll>
 
                     ): (
-                        <Failure />
+                        <Failure text={t('fail to load providers')} />
                     )
 
                 ) : (

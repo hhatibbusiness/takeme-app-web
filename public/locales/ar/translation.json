@@ -12,5 +12,7 @@
   ],
   "search": "بحث",
   "show products": "اعرض المنتجات",
-  "fail to load providers": "فشل تحميل أصحاب منتجات او خدمات"
+  "fail to load providers": "فشل تحميل أصحاب منتجات او خدمات",
+  "there's no search results": "لا يوجد نتائج للبحث",
+  "there's not products": "لا يوجد منتجات"
 }

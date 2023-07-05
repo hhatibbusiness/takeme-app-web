@@ -3,9 +3,13 @@ import ProviderProduct from "./ProviderProduct/ProviderProduct";
 import Failure from "./Failure/Failure";
 import './ProviderProducts.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from "swiper";
+
+import {useTranslation} from "react-i18next";
 
 // Import Swiper styles
 import 'swiper/css';
+import "swiper/css/navigation";
 import Dots from "./Dots/Dots";
 
 
@@ -15,6 +19,8 @@ const ProviderProducts = ({products, openGallery}) => {
     const [productsArray, setProductsArray] = useState([]);
     const [sliding, setSliding] = useState(false);
     const [active, setActive] = useState(0);
+    const nextRef = useRef();
+    const prevRef = useRef();
 
     const groupProducts = products => {
         const productsArray = [];
@@ -30,13 +36,14 @@ const ProviderProducts = ({products, openGallery}) => {
         groupProducts(products);
     }, [products]);
 
+    const {t} = useTranslation();
+
     return (
         <div ref={carouselRef} className={'ProviderProducts ProviderProducts__carousel'}>
             {
                 Object.keys(products).length > 0 ? (
                     <>
                         <Swiper
-                            // effect={"coverflow"}
                             grabCursor={true}
                             centeredSlides={true}
                             slidesPerView={'auto'}
@@ -47,6 +54,12 @@ const ProviderProducts = ({products, openGallery}) => {
                                 modifier: 3,
                                 slideShadows: false,
                             }}
+                            navigation={{
+                                nextEl: nextRef.current,
+                                prevEl: prevRef.current,
+                                disabledClass: "swiper-button-disabled"
+                            }}
+                            modules={[Navigation]}
                             pagination={true}
                             className="mySwiper"
                             onSlideChange={swiper => {
@@ -71,7 +84,7 @@ const ProviderProducts = ({products, openGallery}) => {
 
                     </>
                 ) : (
-                    <Failure />
+                    <Failure text={t('fail to load providers')} />
                 )
             }
         </div>
