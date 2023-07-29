@@ -4,9 +4,8 @@ import Body from "./Body/Body";
 import {connect} from "react-redux";
 import {fetchCategories} from '../../store/actions/categories.action';
 import './Home.scss';
-const Home = ({lan, fetchCategories}) => {
+const Home = ({lan, fetchCategories, filter}) => {
     const [logoStart, setLogoStart] = useState(true);
-
 
     // set 2s for the intro page to show
     useEffect(() => {
@@ -20,8 +19,8 @@ const Home = ({lan, fetchCategories}) => {
     }, []);
 
     useEffect(() => {
-        fetchCategories(lan);
-    }, []);
+        fetchCategories(lan, filter);
+    }, [filter]);
 
     return (
         <div className={'Home'}>
@@ -37,7 +36,8 @@ const Home = ({lan, fetchCategories}) => {
 };
 
 const mapStateToProps = state => ({
-    lan: state.categories.lan
+    lan: state.categories.lan,
+    filter: state.categories.filter
 })
 
 export default connect(mapStateToProps, {fetchCategories}) (Home);

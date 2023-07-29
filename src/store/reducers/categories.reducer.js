@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/action.types';
+import {CHANGE_FILTER} from "../actions/action.types";
 
 const initialState = {
     categories: [],
@@ -11,11 +12,17 @@ const initialState = {
     error: false,
     page: 0,
     loadingMore: false,
-    more: false
+    more: false,
+    filter: 'NONE'
 };
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.CHANGE_FILTER:
+            return {
+                ...state,
+                filter: action.filter
+            }
         case actionTypes.START_FETCHING_CATEGORIES:
             return {
                 ...state,

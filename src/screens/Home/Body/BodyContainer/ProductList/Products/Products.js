@@ -7,8 +7,9 @@ import CategoryError from "../../../../../../components/CategoryError/CategoryEr
 import Failure from "../../../../../Product/Provider/ProviderProducts/Failure/Failure";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../../../../components/Loader/Loader";
+import SpinnerComponent from '../../../../../../components/Spinner/Spinner.Component';
 
-const Products = ({products, setGalleryOpen, setIndex, value, loadingProducts}) => {
+const Products = ({products, setGalleryOpen, setIndex, value, loadingProducts, page}) => {
     const [popup, setPopoup] = useState(false);
     const [currentProduct, setCurrentProduct] = useState(null);
     const {t } = useTranslation();
@@ -35,18 +36,25 @@ const Products = ({products, setGalleryOpen, setIndex, value, loadingProducts}) 
             <div style={{gridTemplateColumns: `${turnValueIntoCol(value).col}`, gap: `${turnValueIntoCol(value).gap}px`}} className={`Products__container ${value === 100 && 'Products__full'}`}>
                 {
                     !loadingProducts ? (
-                        products.length > 0 ? (
+                        products.length > 0 && !loadingProducts ? (
                             products?.map((product, i) =>(
                                 <Product setPopup={setPopoup} setCurrentProduct={setCurrentProduct} index={i} setIndex={setIndex} setGalleryOpen={setGalleryOpen} value={value} product={product} key={product.id && product.id}/>
                             ))
-
                         ) : (
                             <Failure text={t('there\'s not products')} />
                         )
+    
                     ) : (
-                        <Loader />
+                        <SpinnerComponent />
                     )
                 }
+                {/* {
+                    products?.map((product, i) =>(
+                        <Product setPopup={setPopoup} setCurrentProduct={setCurrentProduct} index={i} setIndex={setIndex} setGalleryOpen={setGalleryOpen} value={value} product={product} key={product.id && product.id}/>
+                    ))
+
+                } */}
+
                 {
                     popup && currentProduct && <ProductsDetails setCurrentProduct={setCurrentProduct} setPopup={setPopoup} currentProduct={currentProduct} />
                 }
@@ -57,7 +65,8 @@ const Products = ({products, setGalleryOpen, setIndex, value, loadingProducts}) 
 
 const mapStateToProps = state => ({
     value: state.categories.value,
-    loadingProducts: state.categories.loadingCategoryProducts
+    loadingProducts: state.categories.loadingCategoryProducts,
+    page: state.categories.page,
 })
 
 export default connect(mapStateToProps) (Products);

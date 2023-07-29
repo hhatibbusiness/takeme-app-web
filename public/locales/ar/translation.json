@@ -1,5 +1,5 @@
 {
-  "who we are": "من نحن",
+  "who we are": "من نحن؟",
   "filter": "فلتر",
   "join": "انضم كصاحب عمل أو خدمة",
   "condition": "العقد و شروط الاستخدام",
@@ -14,5 +14,20 @@
   "show products": "اعرض المنتجات",
   "fail to load providers": "فشل تحميل أصحاب منتجات او خدمات",
   "there's no search results": "لا يوجد نتائج للبحث",
-  "there's not products": "لا يوجد منتجات"
+  "there's not products": "لا يوجد منتجات",
+  "no reviews": "لا يوجد تقييمات",
+  "font": "wotfard bold italic",
+  "login": "تسجيل الدخول",
+  "phone": "رقم الهاتف",
+  "password": "كلمة المرور",
+  "loginbtn": "دخول",
+  "create": "لا تملك حسابا",
+  "loginregister": "اشترك",
+  "registerlogin": "سجل دخول",
+  "forget": "هل نسيت كلمة السر",
+  "register": "اشتراك",
+  "next": "التالي",
+  "verify phone": "تم ارسال كود التفعيل في رسالة نسية الي",
+  "verify": "تفعيل",
+  "logout": "تسجيل خروج"
 }

@@ -7,13 +7,14 @@ import {
     END_FETCHING_PROVIDERS_PRODUCTS,
     SET_GALLERY_OPEN,
     SET_GALLERY_CLOSE,
-    INCREASE_FETCHING_PROVIDERS_PRODUCTS_PAGE, RESET_PROVIDERS_FETCHING_PAGE
+    INCREASE_FETCHING_PROVIDERS_PRODUCTS_PAGE, RESET_PROVIDERS_FETCHING_PAGE, CHANGE_ACTIVE_PRODUCT
 } from "./action.types";
+import { BASE_URL } from '../../utls/assets';
 
-export const fetchProductDetails = (id, page, lan) => async dispatch => {
+export const fetchProductDetails = (id, page, lan, filter) => async dispatch => {
     try {
         dispatch(startFetchingProvidersProducts);
-        const res = await axios.get(`https://takeme-all.com/endpoints/providers-details?locale=${lan}&productTypeId=${id}&page=${page}`);
+        const res = await axios.get(`${BASE_URL}endpoints/providers-details?locale=${lan}&productTypeId=${id}&page=${page}&filterByAction=${filter}`);
         dispatch({
             type: FETCH_PRODUCT_TYPE_PROVIDERS,
             providers: res.data
@@ -28,7 +29,7 @@ export const fetchProductDetails = (id, page, lan) => async dispatch => {
 
 export const fetchProductTypeDetails = (id, lan) => async dispatch => {
     try {
-        const res = await axios.get(`https://takeme-all.com/endpoints/product-type-details?locale=${lan}&productTypeId=${id}`);
+        const res = await axios.get(`${BASE_URL}endpoints/product-type-details?locale=${lan}&productTypeId=${id}`);
         dispatch({
             type: FETCH_PRODUCT_TYPE_DETAILS,
             product: res.data
@@ -65,4 +66,4 @@ export const increaseProvidersFetchingPage = () => ({
 
 export const resetProvidersFetchingPage = () => ({
     type: RESET_PROVIDERS_FETCHING_PAGE
-})
+});

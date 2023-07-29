@@ -100,7 +100,7 @@ const ProviderProduct = ({imgRef, product, sliding, openGallery, term}) => {
         var innerHTML = product.name;
         var index = innerHTML.indexOf(term);
         if (index >= 0) {
-            innerHTML = <p className={'ProviderProduct__title'}>{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
+            innerHTML = <p onClick={() => setDetailed(!detailed)} className={'ProviderProduct__title'}>{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
             return innerHTML;
         }
     }
@@ -124,31 +124,48 @@ const ProviderProduct = ({imgRef, product, sliding, openGallery, term}) => {
                                 {
                                     convertMarkup()
                                 }
-                                <div className="ProviderProduct__details--rent">
-                                    <p className="ProviderProduct__details--rent-msg">
-                                        {product?.rentDetails?.title && product.rentDetails.title}
-                                    </p>
-                                    <p className="ProviderProduct__details--rent-priceMsg">
-                                        {product?.rentDetails?.priceMsg && product.rentDetails.priceMsg}
-                                    </p>
-                                    <p className="ProviderProduct__details--rent-min">
-                                        {product?.rentDetails?.minimumforRentMsg && product.rentDetails.minimumforRentMsg}
-                                    </p>
-                                    <p className="ProviderProduct__details--rent-comments">
-                                        <sup>**</sup>{product?.comments && product.comments}
-                                    </p>
-                                </div>
-                                <div className="ProviderProduct__details--sale">
-                                    <p className="ProviderProduct__details--sale-msg">
-                                        {product?.saleDetails?.title && product.saleDetails.title}
-                                    </p>
-                                    <p className="ProviderProduct__details--sale-priceMsg">
-                                        {product?.saleDetails?.priceMsg && product.saleDetails.priceMsg}
-                                    </p>
-                                    <p className="ProviderProduct__details--sale-comments">
-                                        <sup>**</sup>{product?.comments && product.comments}
-                                    </p>
-                                </div>
+                                {
+                                    product?.rentDetails && (
+                                        <div className="ProviderProduct__details--rent">
+                                            <p className="ProviderProduct__details--rent-msg">
+                                                <i className="fa-solid fa-handshake"></i>
+                                                {product?.rentDetails?.priceMsg && product.rentDetails.priceMsg}({product?.rentDetails?.minimumforRentMsg && product?.rentDetails?.minimumforRentMsg})
+                                            </p>
+                                            {
+                                                product?.comments && <p className="ProviderProduct__details--rent-comments">
+                                                                        <sup><i className="fa-solid fa-comments"></i></sup>{product?.comments && product.comments}
+                                                                    </p>
+                                            }
+
+                                        </div>
+
+                                    )
+                                }
+                                {
+                                    product?.saleDetails && (
+                                        <div className="ProviderProduct__details--sale">
+                                            <p className="ProviderProduct__details--sale-msg">
+                                                <i className="fa-solid fa-sack-dollar"></i>{product?.saleDetails?.priceMsg && product.saleDetails.priceMsg}
+                                                {/*<div className="ProviderProduct__details--rent-price">*/}
+                                                {/*    <p>*/}
+                                                {/*        {product?.saleDetails?.price && product?.saleDetails?.price}*/}
+                                                {/*        <i className="fa-solid fa-shekel-sign"></i>*/}
+                                                {/*        <sub>/Unit</sub>*/}
+                                                {/*    </p>*/}
+                                                {/*</div>*/}
+                                            </p>
+                                            {/*<p className="ProviderProduct__details--sale-priceMsg">*/}
+                                            {/*    {product?.saleDetails?.priceMsg && product.saleDetails.priceMsg}*/}
+                                            {/*</p>*/}
+                                            {
+                                                product?.comments && <p className="ProviderProduct__details--sale-comments">
+                                                    <sup><i className="fa-solid fa-comments"></i></sup>{product?.comments && product.comments}
+                                                </p>
+                                            }
+
+                                        </div>
+                                    )
+                                }
                                 <div onClick={() => setDetailed(!detailed)} className="ProviderProduct__dropdown--btn">
                                     <i className={`fa-solid fa-caret-down ${detailed && 'rotate'}`}></i>
                                 </div>

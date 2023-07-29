@@ -4,6 +4,9 @@ import categoriesReducer from "./categories.reducer";
 import productReducer from "./product.reducer";
 import providerReducer from "./Provider.reducer";
 import searchReducer from "./search.reducer";
+import aboutReducer from "./about.reducer";
+import contractReducer from "./contract.reducer";
+import loginReducer from "./login.reducer";
 
 const initialState = {
     message: 'Hello from the store'
@@ -19,5 +22,8 @@ export default combineReducers({
     categories: categoriesReducer,
     product: productReducer,
     provider: providerReducer,
-    search: searchReducer
+    search: searchReducer,
+    about: aboutReducer,
+    contract: contractReducer,
+    login: loginReducer
 });

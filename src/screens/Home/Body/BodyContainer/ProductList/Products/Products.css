@@ -1,6 +1,7 @@
 .Products {
     width: 100%;
     background: #EFF2F5;
+    padding-bottom: 50px;
 }
 
 .Products__container {
@@ -10,6 +11,7 @@
     background: #EFF2F5;
     padding-top: 10px;
     direction: rtl;
+    scroll-behavior: smooth;
 }
 
 .Products__full {

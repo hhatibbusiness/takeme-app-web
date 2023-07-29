@@ -1,12 +1,14 @@
 import axios from "axios";
 import {
-    CHANGE_CURRENT_ID, CHANGE_LAN_SUCCESS, CHANGE_SLIDER_VALUE,
-    END_FETCHING_CATEGORIES, END_FETCHING_PRODUCTS, ERROR_ACTIVE, ERROR_INACTIVE, FETCH_CATEGORIES_FAILURE,
+    CHANGE_CURRENT_ID, CHANGE_FILTER, CHANGE_LAN_SUCCESS, CHANGE_SLIDER_VALUE,
+    END_FETCHING_CATEGORIES, END_FETCHING_PRODUCTS, END_LOADING_MORE_PRODUCT_TYPES, ERROR_ACTIVE, ERROR_INACTIVE, FETCH_CATEGORIES_FAILURE,
     FETCH_CATEGORIES_SUCCESS, FETCH_CATEGORY_PRODUCTS, INCREASE_PAGE_NUMBER, RESET_PAGE_NUMBER,
     START_FETCHING_CATEGORIES,
-    START_FETCHING_PRODUCTS
+    START_FETCHING_PRODUCTS,
+    START_LOADING_MORE_PRODUCT_TYPES
 } from "./action.types";
 import {changeSearchCategoryId} from "./search.actions";
+import {BASE_URL} from "../../utls/assets";
 
 // 'https://takeme-all.com/app/endpoints/categories/list?locale=ar';
 // https://takeme-all.com/app/endpoints/products-types?locale=ar&categoryId=${id}&page=0
@@ -34,10 +36,10 @@ export const changeId = id => ({
 })
 
 // fetch the categories list
-export const fetchCategories = lan => async dispatch => {
+export const fetchCategories = (lan, filter) => async dispatch => {
     try {
         dispatch(startFetchingCategories);
-        const res = await axios.get(`https://takeme-all.com/app/endpoints/categories/list?locale=${lan}`);
+        const res = await axios.get(`${BASE_URL}endpoints/categories/list?locale=${lan}`);
         dispatch({
             type: FETCH_CATEGORIES_SUCCESS,
             categories: res.data.output
@@ -45,7 +47,7 @@ export const fetchCategories = lan => async dispatch => {
         await dispatch(endFetchingCategories);
         const firstId = res.data.output[0].id;
         await dispatch(changeId(firstId));
-        await dispatch(fetchCategoryProducts(firstId, lan, 0));
+        await dispatch(fetchCategoryProducts(firstId, lan, 0, filter));
         dispatch(errorInactive);
     }catch (err) {
         console.error(err.message);
@@ -64,17 +66,17 @@ const endFetchingProducts = {
 }
 
 //fetch the category products list
-export const fetchCategoryProducts = (id, lan, page) => async dispatch => {
+export const fetchCategoryProducts = (id, lan, page, filter) => async dispatch => {
     try {
-        dispatch(startFetchingProducts);
-        const res = await axios.get(`https://takeme-all.com/app/endpoints/products-types?locale=${lan}&categoryId=${id}&page=${page}`)
+        if(page == 0) dispatch(startFetchingProducts);
+        const res = await axios.get(`${BASE_URL}endpoints/products-types?locale=${lan}&categoryId=${id}&page=${page}&filterByAction=${filter}`)
         dispatch({
             type: FETCH_CATEGORY_PRODUCTS,
             products: res.data
         });
-        dispatch(endFetchingProducts);
         dispatch(increasePageNumber());
         dispatch(errorInactive)
+        if(page == 0) dispatch(endFetchingProducts);
     } catch (e) {
         console.error(e.message);
         dispatch(endFetchingProducts);
@@ -110,4 +112,17 @@ export const increasePageNumber = () => ({
 //reset the page number action
 export const resetPageNumber = () => ({
     type: RESET_PAGE_NUMBER
-})
+});
+
+export const changeFilter = filter => ({
+    type: CHANGE_FILTER,
+    filter: filter
+});
+
+export const startLoadingMoreProductTypes = {
+    type: START_LOADING_MORE_PRODUCT_TYPES
+}
+
+export const endLoadingProductTypes = {
+    type: END_LOADING_MORE_PRODUCT_TYPES
+}

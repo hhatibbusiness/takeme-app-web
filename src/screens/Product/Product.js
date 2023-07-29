@@ -12,7 +12,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../components/Loader/Loader";
 import {useTranslation} from "react-i18next";
 
-const Product = ({galleryProduct, closeGallery, fetchProductDetails, more, page, lan, providers, resetProductData, fetchProductTypeDetails, productType, loadingProductsProviders, gallery, openGallery}) => {
+const Product = ({galleryProduct, filter, closeGallery, fetchProductDetails, more, page, lan, providers, resetProductData, fetchProductTypeDetails, productType, loadingProductsProviders, gallery, openGallery}) => {
     const [moreLoading, setMoreLoading] = useState(true);
     const productRef = useRef();
     const params = useParams();
@@ -25,7 +25,7 @@ const Product = ({galleryProduct, closeGallery, fetchProductDetails, more, page,
 
     useEffect (() => {
         fetchProductTypeDetails(params.id, lan);
-        fetchProductDetails(params.id, page, lan);
+        fetchProductDetails(params.id, page, lan, filter);
         return () => {
             resetProductData();
         }
@@ -106,6 +106,7 @@ const mapStateToProps = state => ({
     gallery: state.product.openGallery,
     more: state.product.more,
     galleryProduct: state.product.galleryProduct,
+    filter: state.categories.filter
 });
 
 export default connect(mapStateToProps, {resetProductData, fetchProductDetails, fetchProductTypeDetails, closeGallery, openGallery}) (Product);

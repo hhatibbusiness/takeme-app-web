@@ -28,7 +28,8 @@ const SearchScreen = ({
     changeSearchCategoryId,
     resetAllSearchData,
     searchPage,
-    more
+    more,
+    filter
 }) => {
     const [moreLoading, setMoreLoading] = useState(true);
 
@@ -59,7 +60,7 @@ const SearchScreen = ({
 
     useEffect(() => {
         if(!loadingCategories && categoryId) {
-            fetchSearchResults(lan, categoryId, 'All', term, 0);
+            fetchSearchResults(lan, categoryId, filter, term, 0);
         }
 
     }, [term, categoryId]);
@@ -135,7 +136,8 @@ const mapStateToProps = state => ({
     gallery: state.search.searchGalleryOpen,
     galleryProduct: state.search.searchGalleryProduct,
     searchPage: state.search.searchPage,
-    more: state.search.more
+    more: state.search.more,
+    filter: state.categories.filter
 });
 
 export default connect(mapStateToProps, {fetchSearchResults, closeSearchGallery, openSearchGallery, changeSearchCategoryId, resetAllSearchData}) (SearchScreen);

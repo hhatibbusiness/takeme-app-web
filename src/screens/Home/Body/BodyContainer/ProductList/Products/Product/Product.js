@@ -20,6 +20,7 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
 
     const changeHeightToWidth = () => {
         const productEle = productRef.current;
+        if(!productEle) return;
         if(value === 100) return productEle.style.height = '300px';
         const productWidth = productEle.getBoundingClientRect().width;
         productEle.style.height = `${productWidth}px`;

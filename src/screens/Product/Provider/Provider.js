@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Provider.scss';
 import history from '../../../history/history';
 import {useNavigate} from "react-router-dom";
@@ -6,15 +6,21 @@ import ProviderProfile from "./ProviderProfile/ProviderProfile";
 import ProviderProducts from "./ProviderProducts/ProviderProducts";
 import Socials from "./Socials/Socials";
 
-const Provider = ({provider: p, socials, link, openGallery}) => {
+const Provider = ({provider: p, prov, socials, link, openGallery}) => {
+    const [activeProduct, setActiveProduct] = useState(null);
     const navigator = useNavigate();
     return (
         <div className={'Provider'}>
-            <ProviderProfile socials={socials} link={link} provider={p} />
-            <ProviderProducts products={p?.products && p.products} openGallery={openGallery}/>
+            <div style={{background: `${prov && '#EEF2F5'}`, marginLeft: 'auto', width: '100%'}}>
+                <ProviderProfile prov={prov} socials={socials} link={link} provider={p} />
+                {
+                    socials && <Socials activeProduct={activeProduct} provider={p} right />
+                }
+            </div>
+            <ProviderProducts setActiveProduct={setActiveProduct} products={p?.products && p.products} openGallery={openGallery}/>
             {
                 p?.products && (
-                    <Socials />
+                    <Socials activeProduct={activeProduct} provider={p} />
                 )
             }
 

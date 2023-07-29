@@ -38,7 +38,7 @@ const Categories = ({categories, loadingCategories, search, home}) => {
     }
 
     return (
-        <div className={'Categories'}>
+        <div id={'categories'} className={'Categories'}>
             <div ref={categoriesRef} className="Categories__parent" onMouseDown={mouseDownHandler} onMouseLeave={mouseUpHandler} onMouseUp={mouseUpHandler} onMouseMove={mouseMoveHandler}>
                 <div ref={containerRef} className="Categories__container">
                     {

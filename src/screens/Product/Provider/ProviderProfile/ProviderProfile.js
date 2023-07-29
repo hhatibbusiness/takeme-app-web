@@ -4,7 +4,7 @@ import ProviderBody from "./Providerbody/ProviderBody";
 import './ProviderProfile.scss';
 import {useNavigate} from "react-router-dom";
 
-const ProviderProfile = ({provider: p, link, socials}) => {
+const ProviderProfile = ({provider: p, prov, link, socials}) => {
     const navigate = useNavigate();
     return (
         <div onClick={() => link && navigate(`/provider/${p.id}`)} style={{cursor: `${link && 'pointer'}`}} className={'ProviderProfile'}>

@@ -41,7 +41,7 @@ const Category = ({
     // }
 
     return (
-        <div onClick={() => {
+        <a href={'#categories'} onClick={() => {
             if(home) {
                 changeId(cat?.id && cat.id);
                 resetPageNumber();
@@ -56,7 +56,7 @@ const Category = ({
                 <img src={cat?.imagePath && cat.imagePath} draggable={false} />
             </div>
             <p draggable={false}>{cat?.name && (cat.name.length <= 7 ? cat.name : cat.name.substring(0, 5) + ' ...')}</p>
-        </div>
+        </a>
     );
 };
 

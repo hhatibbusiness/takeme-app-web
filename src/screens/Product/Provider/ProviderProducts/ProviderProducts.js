@@ -13,7 +13,7 @@ import "swiper/css/navigation";
 import Dots from "./Dots/Dots";
 
 
-const ProviderProducts = ({products, openGallery}) => {
+const ProviderProducts = ({products, openGallery, setActiveProduct, prov}) => {
     const carouselRef = useRef();
     const imgRef = useRef();
     const [productsArray, setProductsArray] = useState([]);
@@ -30,6 +30,7 @@ const ProviderProducts = ({products, openGallery}) => {
             })
         });
         setProductsArray(productsArray);
+        productsArray.length > 0 && setActiveProduct(productsArray[0]);
     }
 
     useEffect(() => {
@@ -54,12 +55,12 @@ const ProviderProducts = ({products, openGallery}) => {
                                 modifier: 3,
                                 slideShadows: false,
                             }}
-                            navigation={{
-                                nextEl: nextRef.current,
-                                prevEl: prevRef.current,
-                                disabledClass: "swiper-button-disabled"
-                            }}
-                            modules={[Navigation]}
+                            // navigation={{
+                            //     nextEl: nextRef.current,
+                            //     prevEl: prevRef.current,
+                            //     disabledClass: "swiper-button-disabled"
+                            // }}
+                            // modules={[Navigation]}
                             pagination={true}
                             className="mySwiper"
                             onSlideChange={swiper => {
@@ -68,11 +69,12 @@ const ProviderProducts = ({products, openGallery}) => {
                                 setTimeout(() => {
                                     setSliding(false);
                                 });
+                                setActiveProduct(productsArray.length > 0 && productsArray[swiper.activeIndex])
                             }}
                         >
                             {
                                 productsArray.map((p, i) => (
-                                    <SwiperSlide key={i}>
+                                    <SwiperSlide className={'ProviderProducts__swiper'} key={i}>
                                         <ProviderProduct sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} />
                                     </SwiperSlide>
                                 ))

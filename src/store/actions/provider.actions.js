@@ -5,11 +5,12 @@ import {
     OPEN_PROVIDER_GALLERY,
     START_FETCHING_PROVIDER
 } from "./action.types";
+import { BASE_URL } from "../../utls/assets";
 
-export const fetchProviderData = (lan, id) => async dispatch => {
+export const fetchProviderData = (lan, id, filter) => async dispatch => {
     try {
         dispatch(startFetchingProvider);
-        const res = await axios.get(`https://takeme-all.com/endpoints/provider-details?locale=${lan}&providerId=${id}`);
+        const res = await axios.get(`${BASE_URL}endpoints/provider-details?locale=${lan}&providerId=${id}&filterByAction=${filter}`);
         dispatch({
             type: FETCH_PROVIDER_DATA,
             provider: res.data

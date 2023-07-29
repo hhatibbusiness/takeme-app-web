@@ -5,6 +5,7 @@ import {
     RESET_SEARCH_DATA,
     START_FETCHING_SEARCH_RESULTS
 } from "./action.types";
+import { BASE_URL } from "../../utls/assets";
 
 export const startFetchingSearchResults = {
     type: START_FETCHING_SEARCH_RESULTS
@@ -18,7 +19,7 @@ export const fetchSearchResults = (lan, categoryId, filter, term, page) => async
     try {
         dispatch(startFetchingSearchResults)
         dispatch(resetSearchData());
-        const res = await axios.get(`https://takeme-all.com/endpoints/search-products?locale=${lan}&categoryId=${categoryId}&filterByAction=${filter}&searchText=${term}&page=${page}`)
+        const res = await axios.get(`${BASE_URL}endpoints/search-products?locale=${lan}&categoryId=${categoryId}&filterByAction=${filter}&searchText=${term}&page=${page}`)
         console.log(res);
         dispatch({
             type: FETCH_SEARCH_RESULTS,

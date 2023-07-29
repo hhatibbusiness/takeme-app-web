@@ -9,10 +9,10 @@ import Provider from "../Product/Provider/Provider";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
 import ProviderLinkCopy from "./ProviderLinkCopy/ProviderLinkCopy";
 
-const ProviderScreen = ({fetchProviderData, loadingProvider, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery}) => {
+const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery}) => {
     const params = useParams();
     useEffect(() => {
-        fetchProviderData(lan, params.providerId);
+        fetchProviderData(lan, params.providerId, filter);
     }, [params.providerId]);
 
 
@@ -38,7 +38,7 @@ const ProviderScreen = ({fetchProviderData, loadingProvider, lan, provider, gall
             {
                 !loadingProvider ? (
                     <>
-                        <Provider socials={true} provider={provider} link={false} openGallery={openProviderGallery}/>
+                        <Provider prov={true} socials={true} provider={provider} link={false} openGallery={openProviderGallery}/>
                         {
                             gallery && <Gallery product={galleryProduct} closeGallery={closeProviderGallery}/>
                         }
@@ -55,7 +55,8 @@ const mapStateToProps = state => ({
     provider: state.provider.provider,
     gallery: state.provider.galleryOpen,
     galleryProduct: state.provider.galleryProduct,
-    loadingProvider: state.provider.loadingProvider
-})
+    loadingProvider: state.provider.loadingProvider,
+    filter: state.categories.filter
+});
 
 export default connect(mapStateToProps, {fetchProviderData, closeProviderGallery, openProviderGallery}) (ProviderScreen);

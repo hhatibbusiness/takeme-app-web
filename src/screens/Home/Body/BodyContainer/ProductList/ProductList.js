@@ -12,7 +12,7 @@ import Loader from "../../../../../components/Loader/Loader";
 // import Gallery from "./Gallery/Gallery";
 // import {Swiper} from "swiper";
 
-const Category = ({products, id, lan, page, fetchCategoryProducts, increasePageNumber, more}) => {
+const Category = ({products, id, lan, page, fetchCategoryProducts, increasePageNumber, more, filter}) => {
     const [moreLoading, setMoreLoading] = useState(true);
     const containerRef = useRef();
 
@@ -33,7 +33,7 @@ const Category = ({products, id, lan, page, fetchCategoryProducts, increasePageN
                     if(products.length === 0 && page === 0) return;
                     if(!moreLoading) return;
                     if(!more) return setMoreLoading(false);
-                    fetchCategoryProducts(id, lan, page);
+                    fetchCategoryProducts(id, lan, page, filter);
                 }}
                 hasMore={moreLoading}
                 loader={<Loader />}
@@ -49,7 +49,8 @@ const mapStateToProps = state => ({
     lan: state.categories.lan,
     page: state.categories.page,
     id: state.categories.curId,
-    more: state.categories.more
+    more: state.categories.more,
+    filter: state.categories.filter
 });
 
 export default connect(mapStateToProps, {fetchCategoryProducts, increasePageNumber}) (memo(Category));

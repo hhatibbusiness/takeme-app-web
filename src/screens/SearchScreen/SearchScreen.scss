@@ -7,4 +7,8 @@
   height: 100%;
   z-index: 600;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+
 }

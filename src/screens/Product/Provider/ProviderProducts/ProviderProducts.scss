@@ -13,18 +13,9 @@
     opacity: 0.2;
   }
 
-.ProviderProducts__carousel {
+.ProviderProducts {
   position: relative;
-  //width: 90%;
-  //font-size: 0;
-  //cursor: pointer;
-  //overflow: hidden;
-  //white-space: nowrap;
-  //scroll-behavior: smooth;
-  //display: flex;
-  //flex-direction: row;
-  //gap: 14px;
-  //width: 100%;
+  height: 100%;
 
 
   .image-swiper-button-next {
@@ -81,4 +72,12 @@
   .ProviderProduct {
     pointer-events: none;
   }
+}
+
+.ProviderProducts__swiper {
+  height: 100%;
+}
+
+.mySwiper {
+  height: 100%;
 }

@@ -1,17 +1,23 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './Sidebar.scss';
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {changeLan} from "../../store/actions/categories.action";
+import {changeLan, changeFilter} from "../../store/actions/categories.action";
 import i18next from "i18next";
 import {useTranslation} from 'react-i18next';
+import {logout} from "../../store/actions/login.action";
 
-const Sidebar = ({assets, sidebar, setSidebar, lan, changeLan, categories}) => {
+const Sidebar = ({assets, sidebar, isAuthenticated, logout, setSidebar, changeFilter, filter, lan, changeLan, categories, phoneCode, phoneNum}) => {
     const [langShow, setLanShow] = useState(false);
     const [filterShow, setFilterShow] = useState(false);
-    const [filter, setFilter] = useState('all');
+    const [currFilter, setCurrFilter] = useState(filter && filter);
+    const whatsappRef = useRef();
 
     const {t} = useTranslation();
+
+    useEffect(() => {
+        setCurrFilter(filter);
+    }, [filter]);
 
     const filterChangeHandler = e => {
         const filter = e.target.closest('input');
@@ -19,6 +25,15 @@ const Sidebar = ({assets, sidebar, setSidebar, lan, changeLan, categories}) => {
         filter.checked = true;
         i18next.changeLanguage(lan);
     }
+
+    const detectWhatsapp = (phone, text) => {
+        var f = Date.now(),
+        j = setTimeout(function() {
+        if (Date.now() - f > 1250)
+            return;
+        alert('WA not installed')
+        }, 1e3);
+      };
 
     const lanChangeHandler = e => {
         // const languageLabel = e.target.closest('input');
@@ -39,6 +54,26 @@ const Sidebar = ({assets, sidebar, setSidebar, lan, changeLan, categories}) => {
 
     }
 
+    const filterHandleChange = e => {
+        const filterElement = e.target.closest('.Sidebar__sublinks--element');
+        if(!filterElement) return;
+        const input = filterElement.querySelector('input');
+        if(!input) return;
+        console.log(input);
+        changeFilter(input.value);
+    }
+
+    useEffect(() => {
+        whatsappRef.current && whatsappRef.current.addEventListener('click', function() {
+            var f = Date.now(),
+              j = setTimeout(function() {
+                if (Date.now() - f > 1250)
+                  return;
+                alert('WA not installed')
+              }, 1e3);
+          })
+    }, []);
+
     return (
         <div className={`Sidebar ${sidebar && 'Sidebar__active'}`}>
             <div className="Sidebar__container">
@@ -46,7 +81,7 @@ const Sidebar = ({assets, sidebar, setSidebar, lan, changeLan, categories}) => {
                     <img src={assets?.logoPath && assets.logoPath} />
                 </div>
                 <div className="Sidebar__links">
-                    <Link to={'#'} className="Sidebar__link">
+                    <Link to={'/about'} className="Sidebar__link">
                         <div className="Sidebar__link--main">
                             <i className="fa-solid fa-circle-exclamation"></i>
                             <p>{t('who we are')}</p>
@@ -73,43 +108,63 @@ const Sidebar = ({assets, sidebar, setSidebar, lan, changeLan, categories}) => {
                             <i className="fa-regular fa-images"></i>
                             <p>{t('filter')}</p>
                         </div>
-                        <form className={`Sidebar__sublinks ${filterShow && 'Sidebar__sublinks--active'}`}>
-                            {
-                                t("filter array", {returnObjects: true}).map(f => (
-                                    <div className="Sidebar__sublinks--element">
-                                        <input name={'filter'} type="radio"/>
-                                        <label htmlFor="{'filter'}">{f}</label>
-                                    </div>
+                        <form onClick={filterHandleChange} className={`Sidebar__sublinks ${filterShow && 'Sidebar__sublinks--active'}`}>
+                            {/*{*/}
+                            {/*    t("filter array", {returnObjects: true}).map(f => (*/}
+                            {/*        <div className="Sidebar__sublinks--element">*/}
+                            {/*            <input name={'filter'} type="radio"/>*/}
+                            {/*            <label htmlFor="{'filter'}">{f}</label>*/}
+                            {/*        </div>*/}
+                            {/*    ))*/}
+                            {/*}*/}
+                            <div className="Sidebar__sublinks--element">
+                                <input checked={currFilter === 'NONE'} value={'NONE'} type="radio" name={'filter'}/>
+                                <label htmlFor="{'filter'}">{t('filter array', {returnObjects: true})[0]}</label>
+                            </div>
+                            <div className="Sidebar__sublinks--element">
+                                <input checked={currFilter === 'SERVICE'} value={'SERVICE'} type="radio" name={'filter'}/>
+                                <label htmlFor="{'filter'}">{t('filter array', {returnObjects: true})[1]}</label>
+                            </div>
+                            <div className="Sidebar__sublinks--element">
+                                <input checked={currFilter === 'RENT'} value={'RENT'} type="radio" name={'filter'}/>
+                                <label htmlFor="{'filter'}">{t('filter array', {returnObjects: true})[2]}</label>
+                            </div>
+                            <div className="Sidebar__sublinks--element">
+                                <input checked={currFilter === 'SALE'} value={'SALE'} type="radio" name={'filter'}/>
+                                <label htmlFor="{'filter'}">{t('filter array', {returnObjects: true})[3]}</label>
+                            </div>
 
-                                ))
-                            }
-                            {/*<div className="Sidebar__sublinks--element">*/}
-                            {/*    <input type="radio" name={'filter'}/>*/}
-                            {/*    <label htmlFor="{'filter'}">عرض الخدمات</label>*/}
-                            {/*</div>*/}
-                            {/*<div className="Sidebar__sublinks--element">*/}
-                            {/*    <input type="radio" name={'filter'}/>*/}
-                            {/*    <label htmlFor="{'filter'}">عرض منتجات الاستئجار</label>*/}
-                            {/*</div>*/}
-                            {/*<div className="Sidebar__sublinks--element">*/}
-                            {/*    <input type="radio" name={'filter'}/>*/}
-                            {/*    <label htmlFor="{'filter'}">عرض منتجات البيع</label>*/}
-                            {/*</div>*/}
                         </form>
                     </Link>
-                    <Link to={'#'} className="Sidebar__link">
+                    {/* <a onClick={async e => {
+                        detectWhatsapp('201008549612', 'test').then(has => {
+                            alert('You ' + (has? 'have whatsapp' : "don't have whatsapp"));
+                        })
+                    }} className="Sidebar__link">
                         <div className="Sidebar__link--main">
                             <i className="fa-solid fa-handshake"></i>
                             <p>{t('join')}</p>
                         </div>
-                    </Link>
-                    <Link to={'#'} className="Sidebar__link">
+                    </a> */}
+                    <a href={`http://web.whatsapp.com/send?phone=${phoneCode}${phoneNum}`} target='_blank' className="Sidebar__link">
+                        <div className="Sidebar__link--main">
+                            <i className="fa-solid fa-handshake"></i>
+                            <p>{t('join')}</p>
+                        </div>
+                    </a>
+                    <Link to={'/contract'} className="Sidebar__link">
                         <div className="Sidebar__link--main">
                             <i className="fa-regular fa-copyright"></i>
                             <p>{t('condition')}</p>
                         </div>
                     </Link>
-                    <Link className={'Sidebar__link Sidebar__register'} to={'#'}>{t("login")}</Link>
+                    {
+                        isAuthenticated ? (
+                            <p onClick={e => logout()} className="Sidebar__link Sidebar__register Sidebar__logout">{t('logout')}</p>
+                        ) : (
+                            <Link className={'Sidebar__link Sidebar__register'} to={'/login'}>{t("login")}</Link>
+                        )
+                    }
                 </div>
             </div>
         </div>
@@ -120,6 +175,10 @@ const mapStateToProps = state => ({
     assets: state.assets,
     lan: state.categories.lan,
     categories: state.categories.categories,
+    phoneCode: state.assets.phoneCountryCode,
+    phoneNum: state.assets.phone,
+    filter: state.categories.filter,
+    isAuthenticated: state.login.isAuthenticated
 });
 
-export default connect(mapStateToProps, {changeLan}) (Sidebar);
+export default connect(mapStateToProps, {changeLan, changeFilter, logout}) (Sidebar);
