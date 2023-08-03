@@ -1,17 +1,17 @@
 import React from 'react';
 import {useTranslation} from "react-i18next";
 import {NavLink} from "react-router-dom";
-import './PhoneVerify.scss';
+import './EmailVerify.scss';
 
-const PhoneVerify = ({phone, step, setStep}) => {
+const PhoneVerify = ({phone, step, setStep, email, form}) => {
     const {t} = useTranslation();
     return (
         <div className={'PhoneVerify'}>
             <div className="PhoneVerify__icon">
-                <i className="fa-solid fa-mobile-screen-button"></i>
+            <i class="fa-solid fa-envelope"></i>
                 <p className="PhoneVerify__text">
                     <span className="PhoneVerify__text--text">{t('verify phone')}</span>
-                    <span className="PhoneVerify__text--num">{phone}</span>
+                    <span className="PhoneVerify__text--num">{form.email.value}</span>
                 </p>
             </div>
             <div className="PhoneVerify__inputs">

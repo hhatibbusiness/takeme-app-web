@@ -5,6 +5,7 @@ import {useTranslation} from "react-i18next";
 import {NavLink, useNavigate} from "react-router-dom";
 import {login} from "../../store/actions/login.action";
 import {connect} from "react-redux";
+import AuthenticationError from '../../components/AuthenticationError/AuthenticationError';
 
 const Login = ({lan, login, logging, data, error, errorMessage}) => {
     const [phone, setPhone] = useState('');
@@ -78,9 +79,7 @@ const Login = ({lan, login, logging, data, error, errorMessage}) => {
             </form>
             {
                 error && (
-                    <div className='Login__error'>
-                        {errorMessage}
-                    </div>
+                    <AuthenticationError errorMessage={errorMessage} />
                 )
             }
         </div>

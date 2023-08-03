@@ -24,12 +24,22 @@
   "create": "אין לך חשבון",
   "loginregister": "הירשם",
   "forget": "שכחתי סיסמה",
-  "register": "اشتراك",
+  "register": "השתתפות",
   "registerlogin": "התחברות",
   "next": "הבא",
-  "verify phone": "קוד ההפעלה נשלח אלי בהודעה שנשכחה",
+  "verify phone": "קוד ההפעלה נשלח למייל שלך",
   "verify": "הפעלה",
-  "logout": "להתנתק"
+  "logout": "להתנתק",
+  "email": "אימייל",
+  "city": "עִיר",
+  "aggree": "אני מסכים",
+  "username": "שם המשתמש",
+  "confirmPassword": "אשר סיסמה"
+
+
+
+
+
 
 
 

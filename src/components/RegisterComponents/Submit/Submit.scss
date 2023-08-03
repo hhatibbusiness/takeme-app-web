@@ -1,0 +1,43 @@
+.Submit {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    min-width: 300px;
+    direction: rtl;
+
+    .Register__form--element {
+        .Register__form--button-submit:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+        .Register__form--element-wrapper {
+            .Register__form--element-input--wrapper {
+                .Register__form--element-input[type="checkbox"] {
+                    border: red;
+                    width: 20px;
+                    height: 20px;
+                    // accent-color: #03ac84;
+                    color: white;
+                    cursor: pointer;
+                    
+                    &:checked {
+                        background-color: #03ac84;
+                    }
+                }
+                
+            }
+        }
+        .Register__form--element-conditions {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            align-items: center;
+
+            label {
+                a {
+                    color: blue;
+                }
+            }
+        }
+    }
+}

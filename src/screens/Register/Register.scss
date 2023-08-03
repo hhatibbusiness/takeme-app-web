@@ -13,6 +13,12 @@
   align-items: center;
   gap: 40px;
 
+  .Login__error {
+    color: red;
+    text-transform: capitalize; 
+  }
+
+
   .Register__form {
     display: flex;
     flex-direction: column;
@@ -47,10 +53,15 @@
         color: #A7A7A7;
         margin-right: 3px;
         transition: 0.3s;
+
+        .Register__reguired {
+          color: red;
+        }
       }
 
       .Register__form--element-label-active {
         bottom: 30px;
+        color: #02AC84;
       }
 
       .Register__form--button {
@@ -84,6 +95,10 @@
             text-decoration: underline;
           }
         }
+      }
+
+      .Register__element--input-notvalid {
+        border-bottom: 1px solid red !important;
       }
 
       .Register__form--element-input {

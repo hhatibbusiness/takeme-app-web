@@ -14,9 +14,13 @@
       width: 50px;
       border: none;
       outline: none;
-      border-bottom: 1px solid #03ac84;
+      border-bottom: 2px solid gray;
       text-align: center;
       caret-color: #03ac84;
+
+      &:focus {
+        border-color: #03ac84;
+      }
     }
   }
 

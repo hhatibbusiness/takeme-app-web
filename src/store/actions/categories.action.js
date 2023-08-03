@@ -52,7 +52,7 @@ export const fetchCategories = (lan, filter) => async dispatch => {
     }catch (err) {
         console.error(err.message);
         dispatch(endFetchingCategories);
-        dispatch(errorActive);
+        // dispatch(errorActive);
     }
 }
 
@@ -80,7 +80,7 @@ export const fetchCategoryProducts = (id, lan, page, filter) => async dispatch =
     } catch (e) {
         console.error(e.message);
         dispatch(endFetchingProducts);
-        dispatch(errorActive)
+        // dispatch(errorActive)
     }
 }
 
@@ -100,7 +100,7 @@ export const changeLan = (lan, id) => async dispatch => {
         dispatch(errorInactive)
     } catch (e) {
         console.error(e.message);
-        dispatch(errorActive);
+        // dispatch(errorActive);
     }
 };
 

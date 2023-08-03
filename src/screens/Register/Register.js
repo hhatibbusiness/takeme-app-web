@@ -2,25 +2,89 @@ import React, {useEffect, useState} from 'react';
 import './Register.scss';
 import Navbar from "../../components/HOC/Navbar/Navbar";
 import {useTranslation} from "react-i18next";
-import {NavLink} from "react-router-dom";
 import UserDetails from "../../components/RegisterComponents/UserDetails/UserDetails";
 import Step from "../../components/RegisterComponents/Step/Step";
-import PhoneVerify from "../../components/RegisterComponents/PhoneVerify/PhoneVerify";
+import EmailVerify from "../../components/RegisterComponents/EmailVerify/EmailVerify";
+import Submit from '../../components/RegisterComponents/Submit/Submit';
+import AuthenticationError from '../../components/AuthenticationError/AuthenticationError';
 
 const Register = () => {
-    const [userName, setUserName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [form, setForm] = useState({
+        username: {
+            value: '',
+            type: 'text',
+            rules: {
+                required: true
+            },
+            valid: false,
+            touched: false,
+            name: 'username'
+        },
+        phone: {
+            value: '',
+            type: 'tel',
+            rules: {
+                required: true
+            },
+            valid: false,
+            touched: false,
+            name: 'phone'
+        },
+        email: {
+            value: '',
+            type: 'email',
+            rules: {
+                required: true,
+                isEmail: true
+            },
+            valid: false,
+            touched: false,
+            name: 'email'
+        },
+        password: {
+            value: '',
+            type: 'password',
+            rules: {
+                required: true,
+                passwordMatch: true
+            },
+            valid: false,
+            touched: false,
+            name: 'password'
+        },
+        confirmPassword: {
+            value: '',
+            type: 'password',
+            rules: {
+                required: true,
+                match: true
+            },
+            valid: false,
+            touched: false,
+            name: 'confirmPassword'
+        }
+    });
+    const [city, setCity] = useState({
+        type: 'text',
+        value: '',
+        valid: false,
+        rules: {
+            required: true
+        },
+        name: 'city',
+        touched: false
+
+    })
+    const [isValid, setIsValid] = useState(false);
+    const [formIsValid, setFormIsValid] = useState(false);
+    const [agree, setAgree] = useState(false);
     const [step, setStep] = useState(1);
-    const [code, setCode] = useState('');
-    const [email, setEmail] = useState('');
-    const [city, setCity] = useState('');
-    const [agree, setAgree] = useState('');
     const [phoneActive, setPhoneActive] = useState(false);
     const [passwordActive, setPasswordActive] = useState(false);
     const [usernameActive, setUsernameActive] = useState(false);
     const [confirmPasswordActive, setConfirmPasswordActive] = useState(false);
+    const [emailActive, setEmailActive] = useState(false);
+    const [cityActive, setCityActive] = useState(false);
 
     const {t} = useTranslation();
 
@@ -28,7 +92,6 @@ const Register = () => {
         const home = document.querySelector('body');
 
         const freezeStyles = () => {
-            // home && (home.style.height = '100vh')
             home.classList.add('Home__hide')
         }
         const releaseStyles = () => {
@@ -52,32 +115,48 @@ const Register = () => {
             case 1:
                 return (
                     <UserDetails
-                        phone={phone}
-                        setPhone={setPhone}
                         step={step}
                         setStep={setStep}
-                        username={userName}
-                        setUserName={setUserName}
-                        password={password}
-                        setPassword={setPassword}
                         passwordActive={passwordActive}
                         setPasswordActive={setPasswordActive}
-                        confirmPassword={confirmPassword}
-                        setConfirmPassword={setConfirmPassword}
                         phoneActive={phoneActive}
                         setPhoneActive={setPhoneActive}
                         usernameActive={usernameActive}
                         setUsernameActive={setUsernameActive}
                         confirmPasswordActive={confirmPasswordActive}
                         setConfirmPasswordActive={setConfirmPasswordActive}
+                        emailActive={emailActive}
+                        setEmailActive={setEmailActive}
+                        form={form}
+                        setForm={setForm}
+                        isValid={isValid}
+                        setIsValid={setIsValid}
                     />
                 );
             case 2:
                 return (
-                    <PhoneVerify
-                        phone={phone}
+                    <EmailVerify
+                        form={form}
                         setStep={setStep}
                         step={step}
+                    />
+                )
+            case 3:
+                return (
+                    <Submit
+                        form={form}
+                        setForm={setForm}
+                        agree={agree}
+                        setAgree={setAgree}
+                        emailActive={emailActive}
+                        setEmailActive={setEmailActive}
+                        cityActive={cityActive}
+                        setCityActive={setCityActive}
+                        city={city}
+                        setCity={setCity}
+                        isValid={isValid}
+                        formIsValid={formIsValid}
+                        setFormIsValid={setFormIsValid}
                     />
                 )
         }
@@ -86,16 +165,18 @@ const Register = () => {
     return (
         <div className={'Register'}>
             <Navbar backBtn={true} midText={t('Register')} />
-            <Step step={step} setStep={setStep} />
+            <Step 
+                step={step} 
+                setStep={setStep}
+                form={form}
+                isValid={isValid}
+            />
             <form onSubmit={formSbumitHandler} autoCorrect={'off'} autoComplete={'off'} className="Register__form">
                 {
                     stepRenderer()
                 }
-                {/*<div className="Register__form--element">*/}
-                {/*    <button className="Register__form--button">{true ? <i className="fa-solid fa-circle-notch"></i> : t('Registerbtn')}</button>*/}
-                {/*    <p className="Register__form--register">{t('create')}?<NavLink className={'Register__form--register-link'} to={'/register'}>{t('Registerregister')}</NavLink></p>*/}
-                {/*</div>*/}
             </form>
+            <AuthenticationError errorMessage={'بيانات خاطئة'} />
 
         </div>
     );
