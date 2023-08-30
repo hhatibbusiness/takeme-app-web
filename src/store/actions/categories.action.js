@@ -78,7 +78,10 @@ export const fetchCategoryProducts = (id, lan, page, filter) => async dispatch =
         dispatch(errorInactive)
         if(page == 0) dispatch(endFetchingProducts);
     } catch (e) {
-        console.error(e.message);
+        console.error(e.response.status);
+        if(e.response.status == 401) {
+            console.log('Error!')
+        }
         dispatch(endFetchingProducts);
         // dispatch(errorActive)
     }
@@ -99,7 +102,7 @@ export const changeLan = (lan, id) => async dispatch => {
         await dispatch(fetchCategoryProducts(id, lan, 0));
         dispatch(errorInactive)
     } catch (e) {
-        console.error(e.message);
+        console.error(e);
         // dispatch(errorActive);
     }
 };

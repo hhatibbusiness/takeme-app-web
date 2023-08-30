@@ -6,6 +6,56 @@
   justify-content: center;
   direction: rtl;
 
+  .Socials__link--location {
+    position: relative;
+    z-index: 700;
+
+    &:hover {
+      .Socials__location {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+
+    .Socials__location {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: -75px;
+      color: black;
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.3s;
+      background: white;
+      padding: 10px 15px;
+      border-radius: 3px;
+      border: 1px solid lightgrey;
+
+      .Socials__location--link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: #03ac84;
+        gap: 3px;
+      }
+
+      i {
+        color: #03ac84;
+        cursor: pointer;
+        font-size: 25px;
+        transition: 0.1s;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
   .Socials__link {
     background: #33AB85;
     padding: 12px;

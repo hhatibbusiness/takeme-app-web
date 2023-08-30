@@ -38,7 +38,7 @@ const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provid
             {
                 !loadingProvider ? (
                     <>
-                        <Provider prov={true} socials={true} provider={provider} link={false} openGallery={openProviderGallery}/>
+                        <Provider providerOrNot={true} prov={true} socials={true} provider={provider} link={false} openGallery={openProviderGallery}/>
                         {
                             gallery && <Gallery product={galleryProduct} closeGallery={closeProviderGallery}/>
                         }

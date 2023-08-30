@@ -6,7 +6,7 @@ import ProviderProfile from "./ProviderProfile/ProviderProfile";
 import ProviderProducts from "./ProviderProducts/ProviderProducts";
 import Socials from "./Socials/Socials";
 
-const Provider = ({provider: p, prov, socials, link, openGallery}) => {
+const Provider = ({provider: p, prov, socials, link, openGallery, providerOrNot}) => {
     const [activeProduct, setActiveProduct] = useState(null);
     const navigator = useNavigate();
     return (
@@ -17,7 +17,7 @@ const Provider = ({provider: p, prov, socials, link, openGallery}) => {
                     socials && <Socials activeProduct={activeProduct} provider={p} right />
                 }
             </div>
-            <ProviderProducts setActiveProduct={setActiveProduct} products={p?.products && p.products} openGallery={openGallery}/>
+            <ProviderProducts providerOrNot={providerOrNot} setActiveProduct={setActiveProduct} products={p?.products && p.products} openGallery={openGallery}/>
             {
                 p?.products && (
                     <Socials activeProduct={activeProduct} provider={p} />

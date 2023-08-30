@@ -6,13 +6,20 @@ import Img from "../../../../Home/Body/BodyContainer/ProductList/Products/Produc
 import RenderImgError from "../../../../../components/RenderImgError/RenderImgError";
 import LoadingProduct from "../../../../../components/LoadingProduct/LoadingProduct";
 import {connect} from "react-redux";
+import {useTranslation} from "react-i18next";
+import ProviderProductListItem from "./ProviderProductListItem/ProviderProductListItem";
+import ProviderProductTags from "./ProviderProductTags/ProviderProductTags";
+import ProviderProductComments from "./ProviderProductComments/ProviderProductComments";
+import ProviderProductVariables from "./ProviderProductVariables/ProviderProductVariables";
 
 const ProviderProduct = ({imgRef, product, sliding, openGallery, term}) => {
     const [imgLoaded, setImgLoaded] = useState(false);
     const [imgUI, setImgUI] = useState(null);
     const [detailed, setDetailed] = useState(false);
+    const [short, setShort] = useState(true);
     const navigate = useNavigate();
     const descRef = useRef();
+    const {t} = useTranslation();
 
     const renderImage = async () => {
         try{
@@ -30,7 +37,7 @@ const ProviderProduct = ({imgRef, product, sliding, openGallery, term}) => {
     }
 
     useEffect(() => {
-        convertMarkup();
+        // convertMarkup();
         renderImage()
     }, []);
 
@@ -41,60 +48,60 @@ const ProviderProduct = ({imgRef, product, sliding, openGallery, term}) => {
     function createMarkup() {
         return {__html: product?.description && product.description};
     }
-
-    const convertMarkup = () => {
-        const parser = new DOMParser();
-        const html = parser.parseFromString(product?.description && product.description, 'text/html');
-        const imgs = [];
-        const keys = [];
-        const values = [];
-        const ul = [];
-        html.querySelectorAll('li')?.forEach(li => ul.push(li.innerHTML));
-        html.querySelectorAll('span-key')?.forEach(span => keys.push(span.innerHTML));
-        html.querySelectorAll('img-key')?.forEach(img => imgs.push(img.innerText));
-        html.querySelectorAll('span')?.forEach(span => values.push(span.innerHTML));
-        const markupObject = {
-            msg: html.querySelector('p')?.innerHTML,
-            ul: ul,
-            details: {
-                imgs: imgs,
-                key: keys,
-                values: values,
-            },
-            comment: html.querySelector('p-comment')?.innerHTML
-        };
-        return <div className={`ProviderProduct__details-dropdown ${!detailed && 'ProviderProduct__details--dropdown-hidden'}`} >
-            {
-                markupObject.msg ? (
-                    <>
-                        <p className={'ProviderProduct__details--title'}>{markupObject?.msg && markupObject.msg}</p>
-                        <ul className="ProviderProduct__details--dropdown-props">
-                            {
-                                markupObject?.ul?.map(li => (
-                                    <li className={'ProviderProduct__details--dropdown-item'}>
-                                        <i className="fa-solid fa-check"></i>
-                                        <p>{li && li}</p>
-                                    </li>
-                                ))
-                            }
-                        </ul>
-                        <div>
-                            {
-                                markupObject?.details['imgs']?.map((img, i) => (
-                                    <div className={'ProviderProduct__details--dropdown-list'}>
-                                        <img src={img} alt=""/>
-                                        <p className={'ProviderProduct__details--dropdown-key'}>{markupObject?.details['key'][i]}</p>
-                                        <p>{markupObject?.details['values'][i]}</p>
-                                    </div>
-                                ))
-                            }
-                        </div>
-                        <p className={'ProviderProduct__details--dropdown-comment'}><span>**</span>{markupObject?.comment && markupObject?.comment}</p>
-                    </>
-                ) : (product?.description && product.description)
-            }
-        </div>;
-    }
+    //
+    // const convertMarkup = () => {
+    //     const parser = new DOMParser();
+    //     const html = parser.parseFromString(product?.description && product.description, 'text/html');
+    //     const imgs = [];
+    //     const keys = [];
+    //     const values = [];
+    //     const ul = [];
+    //     html.querySelectorAll('li')?.forEach(li => ul.push(li.innerHTML));
+    //     html.querySelectorAll('span-key')?.forEach(span => keys.push(span.innerHTML));
+    //     html.querySelectorAll('img-key')?.forEach(img => imgs.push(img.innerText));
+    //     html.querySelectorAll('span')?.forEach(span => values.push(span.innerHTML));
+    //     const markupObject = {
+    //         msg: html.querySelector('p')?.innerHTML,
+    //         ul: ul,
+    //         details: {
+    //             imgs: imgs,
+    //             key: keys,
+    //             values: values,
+    //         },
+    //         comment: html.querySelector('p-comment')?.innerHTML
+    //     };
+    //     return <div className={`ProviderProduct__details-dropdown ${!detailed && 'ProviderProduct__details--dropdown-hidden'}`} >
+    //         {
+    //             markupObject.msg ? (
+    //                 <>
+    //                     <p className={'ProviderProduct__details--title'}>{markupObject?.msg && markupObject.msg}</p>
+    //                     <ul className="ProviderProduct__details--dropdown-props">
+    //                         {
+    //                             markupObject?.ul?.map(li => (
+    //                                 <li className={'ProviderProduct__details--dropdown-item'}>
+    //                                     <i className="fa-solid fa-check"></i>
+    //                                     <p>{li && li}</p>
+    //                                 </li>
+    //                             ))
+    //                         }
+    //                     </ul>
+    //                     <div>
+    //                         {
+    //                             markupObject?.details['imgs']?.map((img, i) => (
+    //                                 <div className={'ProviderProduct__details--dropdown-list'}>
+    //                                     <img src={img} alt=""/>
+    //                                     <p className={'ProviderProduct__details--dropdown-key'}>{markupObject?.details['key'][i]}</p>
+    //                                     <p>{markupObject?.details['values'][i]}</p>
+    //                                 </div>
+    //                             ))
+    //                         }
+    //                     </div>
+    //                     <p className={'ProviderProduct__details--dropdown-comment'}><span>**</span>{markupObject?.comment && markupObject?.comment}</p>
+    //                 </>
+    //             ) : (product?.description && product.description)
+    //         }
+    //     </div>;
+    // }
 
     const renderName = () => {
         var innerHTML = product.name;
@@ -121,9 +128,19 @@ const ProviderProduct = ({imgRef, product, sliding, openGallery, term}) => {
                                 {
                                     renderName()
                                 }
-                                {
-                                    convertMarkup()
-                                }
+                                <div className={`ProviderProduct__details-dropdown ${!detailed && 'ProviderProduct__details--dropdown-hidden'}`} >
+                                    {product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{product?.description?.text && product?.description?.text.length > 50 && (short ? `...${t('more')}` : t('less'))}</span></p>}
+                                    <div className="ProviderProduct__details--list">
+                                        {
+                                            product?.description?.list && product?.description?.list.map((item, i) => (
+                                                <ProviderProductListItem item={item} />
+                                            ))
+                                        }
+                                    </div>
+                                    <ProviderProductVariables variables={product?.description?.variables && product?.description?.variables} />
+                                    <ProviderProductTags tags={product?.description?.tags}  />
+                                    <ProviderProductComments comments={product?.description?.comments && product?.description?.comments} />
+                                </div>
                                 {
                                     product?.rentDetails && (
                                         <div className="ProviderProduct__details--rent">

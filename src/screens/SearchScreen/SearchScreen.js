@@ -90,13 +90,15 @@ const SearchScreen = ({
                                         dataLength={searchResults.length}
                                         pageStart={searchPage}
                                         loadMore={() => {
+                                            console.log('hhhhhh')
                                             if(searchResults.length === 0 && searchPage === 0) return;
                                             if(!moreLoading) return;
                                             if(!more) return setMoreLoading(false);
-                                            fetchSearchResults(lan, categoryId, 'All', searchPage)
+                                            fetchSearchResults(lan, categoryId, filter, term, searchPage)
                                         }}
                                         hasMore={moreLoading}
                                         loader={<Loader />}
+                                        useWindow={false}
                                     >
                                         {
                                             searchResults.map((p, i) => (

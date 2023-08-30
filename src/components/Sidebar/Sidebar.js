@@ -146,7 +146,7 @@ const Sidebar = ({assets, sidebar, isAuthenticated, logout, setSidebar, changeFi
                             <p>{t('join')}</p>
                         </div>
                     </a> */}
-                    <a href={`http://web.whatsapp.com/send?phone=${phoneCode}${phoneNum}`} target='_blank' className="Sidebar__link">
+                    <a href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=` : `http://web.whatsapp.com/send?phone=${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=`)} target='_blank' className="Sidebar__link">
                         <div className="Sidebar__link--main">
                             <i className="fa-solid fa-handshake"></i>
                             <p>{t('join')}</p>

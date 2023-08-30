@@ -16,6 +16,7 @@ const Product = ({galleryProduct, filter, closeGallery, fetchProductDetails, mor
     const [moreLoading, setMoreLoading] = useState(true);
     const productRef = useRef();
     const params = useParams();
+    const scrollableParent = useRef();
 
     const {t} = useTranslation()
 
@@ -62,19 +63,22 @@ const Product = ({galleryProduct, filter, closeGallery, fetchProductDetails, mor
                             dataLength={providers.length}
                             pageStart={page}
                             loadMore={() => {
+                                console.log('Hello There!')
                                 if(providers.length === 0 && page === 0) return;
                                 if(!moreLoading) return;
-                                fetchProductDetails(params.id, page, lan);
                                 if(!more) setMoreLoading(false);
+                                fetchProductDetails(params.id, page, lan, filter);
                             }}
                             hasMore={moreLoading}
                             loader={<Loader />}
                             className={'ProductScreen__container'}
+                            useWindow={false}
+                            // getScrollParent={() => productRef}
                         >
                             {
                                 providers.map((p, i) => (
                                     <>
-                                        <Provider link provider={p} key={p.id} openGallery={openGallery} />
+                                        <Provider providerOrNot={false} link provider={p} key={p.id} openGallery={openGallery} />
                                         {
                                             gallery && <Gallery product={galleryProduct} closeGallery={closeGallery} />
                                         }
@@ -90,7 +94,6 @@ const Product = ({galleryProduct, filter, closeGallery, fetchProductDetails, mor
                 ) : (
                     <SpinnerComponent />
                 )
-
             }
             <Outlet />
         </div>

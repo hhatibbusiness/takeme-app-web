@@ -7,6 +7,8 @@ import searchReducer from "./search.reducer";
 import aboutReducer from "./about.reducer";
 import contractReducer from "./contract.reducer";
 import loginReducer from "./login.reducer";
+import forgetPasswordReducer from "./forget.password.reducer";
+import registerReducer from "./register.reducer";
 
 const initialState = {
     message: 'Hello from the store'
@@ -25,5 +27,7 @@ export default combineReducers({
     search: searchReducer,
     about: aboutReducer,
     contract: contractReducer,
-    login: loginReducer
+    login: loginReducer,
+    forget: forgetPasswordReducer,
+    register: registerReducer
 });

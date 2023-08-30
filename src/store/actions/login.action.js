@@ -10,12 +10,15 @@ import { BASE_URL } from "../../utls/assets";
 export const login = (data, navigate, lan) => async dispatch => {
     try {
         dispatch(startLogin);
+        dispatch({
+            type: LOGIN_ERROR,
+            message: ''
+        })
         const res = await axios.post(`${BASE_URL}endpoints/signin/customer?locale=${lan}`, data);
-        if(res.data.status === true) {
+        if(res.status == 200 &&res.data.status === true) {
             dispatch({
                 type: LOGIN_USER_IN,
                 data: res.data,
-
             });
             navigate('/');
         } else {
@@ -26,8 +29,12 @@ export const login = (data, navigate, lan) => async dispatch => {
         }
         dispatch(endLogin);
     } catch (err) {
-        console.error(err.message);
-
+        console.error(err.response.data.message);
+        dispatch({
+            type: LOGIN_ERROR,
+            message: err.message
+        });
+        dispatch(endLogin);
     }
 }
 

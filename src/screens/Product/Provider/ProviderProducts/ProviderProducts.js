@@ -13,7 +13,7 @@ import "swiper/css/navigation";
 import Dots from "./Dots/Dots";
 
 
-const ProviderProducts = ({products, openGallery, setActiveProduct, prov}) => {
+const ProviderProducts = ({products, openGallery, setActiveProduct, prov, providerOrNot}) => {
     const carouselRef = useRef();
     const imgRef = useRef();
     const [productsArray, setProductsArray] = useState([]);
@@ -23,14 +23,18 @@ const ProviderProducts = ({products, openGallery, setActiveProduct, prov}) => {
     const prevRef = useRef();
 
     const groupProducts = products => {
-        const productsArray = [];
-        Object.keys(products).map((p, i) => {
-            return products[p].map((product, j) => {
-                return productsArray.push(product);
-            })
-        });
-        setProductsArray(productsArray);
-        productsArray.length > 0 && setActiveProduct(productsArray[0]);
+        if(providerOrNot) {
+            setProductsArray(products);
+        } else {
+            const productsArray = [];
+            Object.keys(products).map((p, i) => {
+                return products[p].map((product, j) => {
+                    return productsArray.push(product);
+                })
+            });
+            setProductsArray(productsArray);
+            productsArray.length > 0 && setActiveProduct(productsArray[0]);
+        }
     }
 
     useEffect(() => {
@@ -42,8 +46,53 @@ const ProviderProducts = ({products, openGallery, setActiveProduct, prov}) => {
     return (
         <div ref={carouselRef} className={'ProviderProducts ProviderProducts__carousel'}>
             {
-                Object.keys(products).length > 0 ? (
-                    <>
+                providerOrNot ? Object.keys(productsArray).map((key, i) => Object.keys(productsArray).length > 0 ? (
+                        <div className={'ProviderProducts__array'}>
+                            <Swiper
+                                grabCursor={true}
+                                centeredSlides={true}
+                                slidesPerView={'auto'}
+                                coverflowEffect={{
+                                    rotate: 50,
+                                    stretch: 0,
+                                    depth: 100,
+                                    modifier: 3,
+                                    slideShadows: false,
+                                }}
+                                // navigation={{
+                                //     nextEl: nextRef.current,
+                                //     prevEl: prevRef.current,
+                                //     disabledClass: "swiper-button-disabled"
+                                // }}
+                                // modules={[Navigation]}
+                                pagination={true}
+                                className="mySwiper"
+                                onSlideChange={swiper => {
+                                    setSliding(true);
+                                    setActive(swiper.activeIndex);
+                                    setTimeout(() => {
+                                        setSliding(false);
+                                    });
+                                    setActiveProduct(productsArray.length > 0 && productsArray[swiper.activeIndex])
+                                }}
+                            >
+                                {
+                                    productsArray[key].map((p, i) => (
+                                        <SwiperSlide className={'ProviderProducts__swiper'} key={i}>
+                                            <ProviderProduct sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} />
+                                        </SwiperSlide>
+                                    ))
+                                }
+                            </Swiper>
+                            {
+                                productsArray[key].length > 1 && <Dots color={'black'} products={productsArray[key]} activeIndex={active}  />
+                            }
+                        </div>
+                    ) : (
+                        <Failure text={t('fail to load providers')} />
+                    )
+                ) : Object.keys(products).length > 0 ? (
+                    <div className={'ProviderProducts__array'}>
                         <Swiper
                             grabCursor={true}
                             centeredSlides={true}
@@ -83,8 +132,7 @@ const ProviderProducts = ({products, openGallery, setActiveProduct, prov}) => {
                         {
                             productsArray.length > 1 && <Dots color={'black'} products={productsArray} activeIndex={active}  />
                         }
-
-                    </>
+                    </div>
                 ) : (
                     <Failure text={t('fail to load providers')} />
                 )

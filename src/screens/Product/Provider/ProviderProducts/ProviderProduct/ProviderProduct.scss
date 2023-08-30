@@ -4,7 +4,7 @@
   width: 100%;
   //flex-shrink: 0;
   height: 100%;
-
+  position: relative;
 
   .ProviderProduct__visible {
     //height: 100%;
@@ -54,6 +54,13 @@
         flex-direction: column;
         gap: 20px;
         transition: 0.2s;
+
+        .ProviderProduct__details--text {
+          .ProviderProduct__details--text-short {
+            color: blue;
+            cursor: pointer;
+          }
+        }
 
 
         .ProviderProduct__details--title {

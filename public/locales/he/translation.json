@@ -18,7 +18,7 @@
   "no reviews": "אין דירוגים",
   "font": "guttman",
   "login": "התחבר",
-  "phone": "מספר פלפון ",
+  "phoneoremail": "מספר פלפון ",
   "password": "סיסמה",
   "loginbtn": "התחבר",
   "create": "אין לך חשבון",
@@ -34,15 +34,21 @@
   "city": "עִיר",
   "aggree": "אני מסכים",
   "username": "שם המשתמש",
-  "confirmPassword": "אשר סיסמה"
-
-
-
-
-
-
-
-
-
+  "confirmPassword": "אשר סיסמה",
+  "forget Header": "שכחתי סיסמה",
+  "new password": "ססמה הדשה *",
+  "rewrite new password": "אימות סיסמה חדשה *",
+  "change": "שינוי",
+  "phoneoremailerror": "נא להזין את מספר הטלפון או הדוא ל שלך",
+  "passworderror": "נא להזין את הסיסמה",
+  "phoneandpassworderror": "נא להזין את מספר הטלפון הנייד או הדוא\"ל והסיסמה שלך",
+  "אנא הזן שם משתמש": "אנא הזן שם משתמש",
+  "phoneerror": "אנא הזן את מספר הטלפון שלך",
+  "emailerror": "נא להזין את האימייל שלך",
+  "phone": "מספר הטלפון",
+  "confirmpassworderror": "נא להזין סיסמה לאשר",
+  "passwordmatcherror": "הסיסמה וסיסמת האישור חייבים להתאים",
+  "more": "יותר",
+  "less": "קטן"
 
 }

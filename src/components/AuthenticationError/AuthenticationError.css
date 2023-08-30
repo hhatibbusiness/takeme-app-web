@@ -1,0 +1,11 @@
+.AuthenticationError {
+    max-width: 400px;
+    color: red;
+    text-align: center;
+}
+
+@media(max-width: 400px) {
+    .AuthenticationError {
+        width: 100%;
+    }
+}

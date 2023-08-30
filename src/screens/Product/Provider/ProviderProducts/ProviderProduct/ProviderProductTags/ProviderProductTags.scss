@@ -1,0 +1,16 @@
+.ProviderProductTags {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  span {
+    font-size: 13px;
+    background-color: #03ac84;
+    border-radius: 3px;
+    padding: 3px 10px;
+    color: white;
+  }
+}

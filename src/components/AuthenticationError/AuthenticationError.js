@@ -1,8 +1,9 @@
-import React from 'react'
+import React from 'react';
+import './AuthenticationError.css';
 
 function AuthenticationError({errorMessage}) {
   return (
-    <div className='Login__error'>
+    <div className='AuthenticationError'>
         {errorMessage}
     </div>
   )

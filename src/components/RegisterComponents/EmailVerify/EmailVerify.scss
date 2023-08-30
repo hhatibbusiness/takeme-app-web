@@ -9,9 +9,10 @@
     gap: 20px;
     align-items: center;
     justify-content: center;
+    direction: ltr;
 
     input {
-      width: 50px;
+      width: 35px;
       border: none;
       outline: none;
       border-bottom: 2px solid gray;

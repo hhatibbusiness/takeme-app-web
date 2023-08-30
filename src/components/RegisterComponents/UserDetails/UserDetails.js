@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import './UserDetails.scss';
 import {useTranslation} from "react-i18next";
 import {NavLink} from "react-router-dom";
-import Spinner from '../../../components/Spinner/Spinner.Component'
+import Spinner from '../../../components/Spinner/Spinner.Component';
+import {registerError} from "../../../store/actions/register.actions";
+import {connect} from "react-redux";
 
-const UserDetails = ({setStep, step, phoneActive, setPhoneActive, confirmPasswordActive, setConfirmPasswordActive, setUsernameActive, usernameActive, passwordActive, setPasswordActive, email, setEmail, emailActive, setEmailActive, form, setForm, setIsValid, isValid}) => {
+const UserDetails = ({setStep, step, phoneActive,registerError, setPhoneActive, confirmPasswordActive, setConfirmPasswordActive, setUsernameActive, usernameActive, passwordActive, setPasswordActive, email, setEmail, emailActive, setEmailActive, form, setForm, setIsValid, isValid}) => {
     const [sending, setSending] = useState(false);
     const [sent, setSent] = useState(false);
     const [formIsValid, setFormIsValid] = useState(false);
@@ -132,6 +134,12 @@ const UserDetails = ({setStep, step, phoneActive, setPhoneActive, confirmPasswor
             <div className="Register__form--element">
                 <button className="Register__form--button" onClick={async e => {
                     e.preventDefault();
+                    if(form.username.value.length == 0) return registerError(t('usernameerror'));
+                    if(form.phone.value.length == 0) return registerError(t('phoneerror'));
+                    if(form.email.value.length == 0) return registerError(t('emailerror'));
+                    if(form.password.value.length == 0) return registerError(t('passworderror'));
+                    if(form.confirmPassword.value.length == 0) return registerError(t('confirmpassworderror'));
+                    if(form.confirmPassword.value !== form.password.value) return registerError(t('passwordmatcherror'))
                     if(step + 1 == 2 && !isValid) return;
                     setStep(step + 1);
                 }}>
@@ -149,4 +157,4 @@ const UserDetails = ({setStep, step, phoneActive, setPhoneActive, confirmPasswor
     );
 };
 
-export default UserDetails;
+export default connect(null, {registerError}) (UserDetails);

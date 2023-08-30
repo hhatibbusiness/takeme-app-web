@@ -7,8 +7,12 @@ import Step from "../../components/RegisterComponents/Step/Step";
 import EmailVerify from "../../components/RegisterComponents/EmailVerify/EmailVerify";
 import Submit from '../../components/RegisterComponents/Submit/Submit';
 import AuthenticationError from '../../components/AuthenticationError/AuthenticationError';
+import {connect} from "react-redux";
+import {sendEmailVerifyCodeToCustomer} from "../../store/actions/register.actions";
+import {sendCodeToServer} from "../../store/actions/register.actions";
+import {registerError} from "../../store/actions/register.actions";
 
-const Register = () => {
+const Register = ({errorMessage, validation, registerError, sendingCodeToServer, sendCodeToServer, sendingCodeToCustomer, sendEmailVerifyCodeToCustomer, lan}) => {
     const [form, setForm] = useState({
         username: {
             value: '',
@@ -110,6 +114,10 @@ const Register = () => {
 
     }
 
+    useEffect(() => {
+        registerError('');
+    }, []);
+
     const stepRenderer = () => {
         switch (step) {
             case 1:
@@ -139,6 +147,13 @@ const Register = () => {
                         form={form}
                         setStep={setStep}
                         step={step}
+                        sendCodeFun={sendEmailVerifyCodeToCustomer}
+                        sendingCode={sendingCodeToCustomer}
+                        lan={lan}
+                        sendingCodeToServer={sendingCodeToServer}
+                        sendCodeToServerFun={sendCodeToServer}
+                        buttonLink={'/login'}
+                        buttonText={'registerlogin'}
                     />
                 )
             case 3:
@@ -170,16 +185,27 @@ const Register = () => {
                 setStep={setStep}
                 form={form}
                 isValid={isValid}
+                num={3}
+                validation={validation}
+                type={0}
             />
             <form onSubmit={formSbumitHandler} autoCorrect={'off'} autoComplete={'off'} className="Register__form">
                 {
                     stepRenderer()
                 }
             </form>
-            <AuthenticationError errorMessage={'بيانات خاطئة'} />
+            <AuthenticationError errorMessage={errorMessage} />
 
         </div>
     );
 };
 
-export default Register;
+const mapStateToProps = state => ({
+    sendingCodeToCustomer: state.register.sendingCodeToCustomer,
+    lan: state.categories.lan,
+    errorMessage: state.login.errorMessage,
+    sendingCodeToServer: state.register.sendingCodeToServer,
+    validation: state.register.validation
+})
+
+export default connect(mapStateToProps, {sendEmailVerifyCodeToCustomer, registerError, sendCodeToServer}) (Register);

@@ -16,6 +16,28 @@
 .ProviderProducts {
   position: relative;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  .ProviderProducts__array {
+    position: relative;
+    &::after {
+      content: '';
+      width: 100%;
+      height: 1px;
+      background-color: lightgrey;
+      position: absolute;
+      bottom: -20px;
+      z-index: 100000;
+    }
+
+    &:last-of-type {
+      &::after {
+        height: 0;
+      }
+    }
+  }
 
 
   .image-swiper-button-next {

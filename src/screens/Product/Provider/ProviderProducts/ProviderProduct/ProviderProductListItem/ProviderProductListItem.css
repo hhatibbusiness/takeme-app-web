@@ -1,0 +1,22 @@
+.ProviderProductListItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.ProviderProductListItem__img {
+    width: 20px;
+    height: 20px;
+    color: #33AB85;
+}
+
+.ProviderProductListItem__img .Img {
+    width: 100%;
+    height: 100%;
+}
+
+.ProviderProductListItem__icon {
+    color: #33AB85;
+    font-size: 20px;
+}

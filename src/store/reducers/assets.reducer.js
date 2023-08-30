@@ -15,7 +15,10 @@ const initialState = {
     phone: null,
     sortIndex: null,
     tiktokLink: null,
-    whatsappLink: null
+    whatsappLink: null,
+    waze_template: 'https://www.waze.com/ul?ll=%2C',
+    maps_template: 'https://maps.google.com/?q=',
+    platform: null
 };
 
 export default (state = initialState, action) => {
@@ -38,9 +41,16 @@ export default (state = initialState, action) => {
                     phone: action.assets.phone,
                     sortIndex: action.assets.sortIndex,
                     tiktokLink: action.assets.tiktokLink,
-                    whatsappLink: action.assets.whatsappLink
+                    whatsappLink: action.assets.whatsappLink,
+                    waze_template: action.assets.waze_template ? action.assets.waze_template : state.waze_template,
+                    maps_template: action.assets.maps_template ? action.assets.maps_template : state.maps_template
                 }
             })();
+        case actionTypes.CHANGE_PLATFORM:
+            return {
+                ...state,
+                platform: action.platform
+            }
         default:
             return state;
     }
