@@ -4,6 +4,8 @@ import axios from "axios";
 import {connect} from "react-redux";
 import {changeId, fetchCategoryProducts, resetPageNumber} from "../../../../../../store/actions/categories.action";
 import {changeSearchCategoryId, fetchSearchResults} from "../../../../../../store/actions/search.actions";
+import {logEvent} from "firebase/analytics";
+import {analytics} from "../../../../../../utls/firebase.auth";
 
 const Category = ({
     cat,
@@ -41,7 +43,7 @@ const Category = ({
     // }
 
     return (
-        <a href={'#categories'} onClick={() => {
+        <a onClick={() => {
             if(home) {
                 changeId(cat?.id && cat.id);
                 resetPageNumber();
@@ -51,6 +53,7 @@ const Category = ({
                 changeSearchCategoryId(cat?.id && cat.id);
                 // fetchSearchResults(lan, cat?.id && cat.id, 'All', term, 0)
             }
+            logEvent(analytics, 'category_clicked', {CategoryId: cat?.id, CategoryName: cat?.name})
         }}  draggable={false} className={`Category ${home && id === (cat?.id && cat.id) && 'Category__active'} ${search && searchId == (cat?.id && cat.id) && 'Category__active'}`}>
             <div className="Category__container">
                 <img src={cat?.imagePath && cat.imagePath} draggable={false} />

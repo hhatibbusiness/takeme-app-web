@@ -5,14 +5,16 @@ import {connect} from "react-redux";
 import Navbar from "../../components/HOC/Navbar/Navbar";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
 import {useTranslation} from "react-i18next";
+import {useNavigate} from "react-router-dom";
 
 
 const Contract = ({fetchContractPage, lan, fetchingContractPage, contractData}) => {
     const {t} = useTranslation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log(fetchingContractPage, contractData)
-        fetchContractPage(lan);
+        fetchContractPage(lan, navigate);
     }, [lan]);
 
     useEffect(() => {

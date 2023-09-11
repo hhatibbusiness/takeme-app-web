@@ -9,6 +9,7 @@ import {
 } from "./action.types";
 import {changeSearchCategoryId} from "./search.actions";
 import {BASE_URL} from "../../utls/assets";
+import tokenUnautharizedMiddleware from "../../utls/middlewares/token.unautharized.middleware";
 
 // 'https://takeme-all.com/app/endpoints/categories/list?locale=ar';
 // https://takeme-all.com/app/endpoints/products-types?locale=ar&categoryId=${id}&page=0
@@ -36,7 +37,7 @@ export const changeId = id => ({
 })
 
 // fetch the categories list
-export const fetchCategories = (lan, filter) => async dispatch => {
+export const fetchCategories = (lan, filter, navigate) => async dispatch => {
     try {
         dispatch(startFetchingCategories);
         const res = await axios.get(`${BASE_URL}endpoints/categories/list?locale=${lan}`);
@@ -44,14 +45,18 @@ export const fetchCategories = (lan, filter) => async dispatch => {
             type: FETCH_CATEGORIES_SUCCESS,
             categories: res.data.output
         });
-        await dispatch(endFetchingCategories);
+        dispatch(endFetchingCategories);
+        if(res?.data?.output?.length === 0) return;
         const firstId = res.data.output[0].id;
         await dispatch(changeId(firstId));
-        await dispatch(fetchCategoryProducts(firstId, lan, 0, filter));
+        await dispatch(fetchCategoryProducts(firstId, lan, 0, filter, navigate));
         dispatch(errorInactive);
     }catch (err) {
         console.error(err.message);
         dispatch(endFetchingCategories);
+        if(err?.response?.status == 401) {
+            tokenUnautharizedMiddleware(navigate, '/login');
+        }
         // dispatch(errorActive);
     }
 }
@@ -66,7 +71,7 @@ const endFetchingProducts = {
 }
 
 //fetch the category products list
-export const fetchCategoryProducts = (id, lan, page, filter) => async dispatch => {
+export const fetchCategoryProducts = (id, lan, page, filter, navigate) => async dispatch => {
     try {
         if(page == 0) dispatch(startFetchingProducts);
         const res = await axios.get(`${BASE_URL}endpoints/products-types?locale=${lan}&categoryId=${id}&page=${page}&filterByAction=${filter}`)
@@ -78,11 +83,13 @@ export const fetchCategoryProducts = (id, lan, page, filter) => async dispatch =
         dispatch(errorInactive)
         if(page == 0) dispatch(endFetchingProducts);
     } catch (e) {
-        console.error(e.response.status);
-        if(e.response.status == 401) {
+        console.error(e?.response?.status);
+        if(e?.response?.status == 401) {
             console.log('Error!')
+            tokenUnautharizedMiddleware(navigate, '/login');
         }
         dispatch(endFetchingProducts);
+
         // dispatch(errorActive)
     }
 }

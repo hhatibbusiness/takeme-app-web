@@ -107,7 +107,8 @@ const ProviderProduct = ({imgRef, product, sliding, openGallery, term}) => {
         var innerHTML = product.name;
         var index = innerHTML.indexOf(term);
         if (index >= 0) {
-            innerHTML = <p onClick={() => setDetailed(!detailed)} className={'ProviderProduct__title'}>{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
+            // innerHTML = <p onClick={() => setDetailed(!detailed)} className={'ProviderProduct__title'}>{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
+            innerHTML = <p className={'ProviderProduct__title'}>{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
             return innerHTML;
         }
     }
@@ -128,64 +129,118 @@ const ProviderProduct = ({imgRef, product, sliding, openGallery, term}) => {
                                 {
                                     renderName()
                                 }
-                                <div className={`ProviderProduct__details-dropdown ${!detailed && 'ProviderProduct__details--dropdown-hidden'}`} >
-                                    {product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{product?.description?.text && product?.description?.text.length > 50 && (short ? `...${t('more')}` : t('less'))}</span></p>}
-                                    <div className="ProviderProduct__details--list">
-                                        {
-                                            product?.description?.list && product?.description?.list.map((item, i) => (
-                                                <ProviderProductListItem item={item} />
-                                            ))
-                                        }
-                                    </div>
-                                    <ProviderProductVariables variables={product?.description?.variables && product?.description?.variables} />
-                                    <ProviderProductTags tags={product?.description?.tags}  />
-                                    <ProviderProductComments comments={product?.description?.comments && product?.description?.comments} />
+                                <div className="ProviderProduct__details--prices">
+                                    {
+
+                                    }
+                                </div>
+                                {/*<div className={`ProviderProduct__details-dropdown ${!detailed && 'ProviderProduct__details--dropdown-hidden'}`} >*/}
+                                {/*    {product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{product?.description?.text && product?.description?.text.length > 50 && (short ? `...${t('more')}` : t('less'))}</span></p>}*/}
+                                {/*    <div className="ProviderProduct__details--list">*/}
+                                {/*        {*/}
+                                {/*            product?.description?.list && product?.description?.list.map((item, i) => (*/}
+                                {/*                <ProviderProductListItem item={item} />*/}
+                                {/*            ))*/}
+                                {/*        }*/}
+                                {/*    </div>*/}
+                                {/*    <ProviderProductVariables variables={product?.description?.variables && product?.description?.variables} />*/}
+                                {/*    <ProviderProductTags tags={product?.description?.tags}  />*/}
+                                {/*    <ProviderProductComments comments={product?.description?.comments && product?.description?.comments} />*/}
+                                {/*</div>*/}
+                                <div className="ProviderProduct__details--prices">
+                                    {
+                                        product?.saleDetails && (
+                                            <div className={'ProviderProduct__details--sale'}>
+                                                <div className="ProviderProduct__details--sale-icon">
+                                                    <i className="fa-solid fa-circle-exclamation"></i>
+                                                </div>
+                                                <div className="ProviderProduct__details--sale-price">
+                                                    {t('price')}
+                                                </div>
+                                                <div className="ProviderProduct__details--sale-pricenum">
+                                                    {
+                                                        product?.saleDetails?.price && <span>{product?.saleDetails?.price}</span>
+                                                    }
+                                                </div>
+                                                <div className="ProviderProduct__details--sale-shekel">
+                                                    <i className="fa-solid fa-shekel-sign"></i>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                    {
+                                        product?.rentDetails && (
+                                            <div className={'ProviderProduct__details--rent'}>
+                                                <div className="ProviderProduct__details--sale-icon">
+                                                    <i className="fa-solid fa-circle-exclamation"></i>
+                                                </div>
+                                                <div className="ProviderProduct__details--rent-price">
+                                                    {t('rentPrice')}
+                                                </div>
+                                                <div className="ProviderProduct__details--rent-pricenum">
+                                                    {
+                                                        product?.rentDetails?.price && <span>{product?.rentDetails?.price}</span>
+                                                    }
+                                                </div>
+                                                <div className="ProviderProduct__details--rent-shekel">
+                                                    <i className="fa-solid fa-shekel-sign"></i>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
                                 </div>
                                 {
-                                    product?.rentDetails && (
-                                        <div className="ProviderProduct__details--rent">
-                                            <p className="ProviderProduct__details--rent-msg">
-                                                <i className="fa-solid fa-handshake"></i>
-                                                {product?.rentDetails?.priceMsg && product.rentDetails.priceMsg}({product?.rentDetails?.minimumforRentMsg && product?.rentDetails?.minimumforRentMsg})
-                                            </p>
-                                            {
-                                                product?.comments && <p className="ProviderProduct__details--rent-comments">
-                                                                        <sup><i className="fa-solid fa-comments"></i></sup>{product?.comments && product.comments}
-                                                                    </p>
-                                            }
-
-                                        </div>
-
-                                    )
-                                }
-                                {
-                                    product?.saleDetails && (
-                                        <div className="ProviderProduct__details--sale">
-                                            <p className="ProviderProduct__details--sale-msg">
-                                                <i className="fa-solid fa-sack-dollar"></i>{product?.saleDetails?.priceMsg && product.saleDetails.priceMsg}
-                                                {/*<div className="ProviderProduct__details--rent-price">*/}
-                                                {/*    <p>*/}
-                                                {/*        {product?.saleDetails?.price && product?.saleDetails?.price}*/}
-                                                {/*        <i className="fa-solid fa-shekel-sign"></i>*/}
-                                                {/*        <sub>/Unit</sub>*/}
-                                                {/*    </p>*/}
-                                                {/*</div>*/}
-                                            </p>
-                                            {/*<p className="ProviderProduct__details--sale-priceMsg">*/}
-                                            {/*    {product?.saleDetails?.priceMsg && product.saleDetails.priceMsg}*/}
-                                            {/*</p>*/}
-                                            {
-                                                product?.comments && <p className="ProviderProduct__details--sale-comments">
-                                                    <sup><i className="fa-solid fa-comments"></i></sup>{product?.comments && product.comments}
-                                                </p>
-                                            }
-
+                                    product?.description && (
+                                        <div className="ProviderProduct__details--desc">
+                                                {product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}
                                         </div>
                                     )
                                 }
-                                <div onClick={() => setDetailed(!detailed)} className="ProviderProduct__dropdown--btn">
-                                    <i className={`fa-solid fa-caret-down ${detailed && 'rotate'}`}></i>
-                                </div>
+                                {/*{*/}
+                                {/*    product?.rentDetails && (*/}
+                                {/*        <div className="ProviderProduct__details--rent">*/}
+                                {/*            <p className="ProviderProduct__details--rent-msg">*/}
+                                {/*                <i className="fa-solid fa-handshake"></i>*/}
+                                {/*                {product?.rentDetails?.priceMsg && product.rentDetails.priceMsg}({product?.rentDetails?.minimumforRentMsg && product?.rentDetails?.minimumforRentMsg})*/}
+                                {/*            </p>*/}
+                                {/*            {*/}
+                                {/*                product?.comments && <p className="ProviderProduct__details--rent-comments">*/}
+                                {/*                                        <sup><i className="fa-solid fa-comments"></i></sup>{product?.comments && product.comments}*/}
+                                {/*                                    </p>*/}
+                                {/*            }*/}
+
+                                {/*        </div>*/}
+
+                                {/*    )*/}
+                                {/*}*/}
+                                {/*{*/}
+                                {/*    product?.saleDetails && (*/}
+                                {/*        <div className="ProviderProduct__details--sale">*/}
+                                {/*            <p className="ProviderProduct__details--sale-msg">*/}
+                                {/*                <i className="fa-solid fa-sack-dollar"></i>{product?.saleDetails?.priceMsg && product.saleDetails.priceMsg}*/}
+                                {/*                /!*<div className="ProviderProduct__details--rent-price">*!/*/}
+                                {/*                /!*    <p>*!/*/}
+                                {/*                /!*        {product?.saleDetails?.price && product?.saleDetails?.price}*!/*/}
+                                {/*                /!*        <i className="fa-solid fa-shekel-sign"></i>*!/*/}
+                                {/*                /!*        <sub>/Unit</sub>*!/*/}
+                                {/*                /!*    </p>*!/*/}
+                                {/*                /!*</div>*!/*/}
+                                {/*            </p>*/}
+                                {/*            /!*<p className="ProviderProduct__details--sale-priceMsg">*!/*/}
+                                {/*            /!*    {product?.saleDetails?.priceMsg && product.saleDetails.priceMsg}*!/*/}
+                                {/*            /!*</p>*!/*/}
+                                {/*            {*/}
+                                {/*                product?.comments && <p className="ProviderProduct__details--sale-comments">*/}
+                                {/*                    <sup><i className="fa-solid fa-comments"></i></sup>{product?.comments && product.comments}*/}
+                                {/*                </p>*/}
+                                {/*            }*/}
+
+                                {/*        </div>*/}
+                                {/*    )*/}
+                                {/*}*/}
+                                {/*<div onClick={() => setDetailed(!detailed)} className="ProviderProduct__dropdown--btn">*/}
+                                {/*    <i className={`fa-solid fa-caret-down ${detailed && 'rotate'}`}></i>*/}
+                                {/*</div>*/}
                             </div>
                         </div>
                     )

@@ -11,6 +11,7 @@ import Failure from "../Product/Provider/ProviderProducts/Failure/Failure";
 import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../components/Loader/Loader";
 import {useTranslation} from "react-i18next";
+import {useNavigate} from "react-router-dom";
 
 const SearchScreen = ({
     fetchSearchResults,
@@ -34,7 +35,7 @@ const SearchScreen = ({
     const [moreLoading, setMoreLoading] = useState(true);
 
     const {t} = useTranslation();
-
+    const navigate = useNavigate();
     useEffect(() => {
         const home = document.querySelector('body');
         const freezeStyles = () => {
@@ -60,7 +61,7 @@ const SearchScreen = ({
 
     useEffect(() => {
         if(!loadingCategories && categoryId) {
-            fetchSearchResults(lan, categoryId, filter, term, 0);
+            fetchSearchResults(lan, categoryId, filter, term, 0, navigate);
         }
 
     }, [term, categoryId]);

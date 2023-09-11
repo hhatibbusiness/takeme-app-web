@@ -8,12 +8,12 @@
 
   .Socials__link--location {
     position: relative;
-    z-index: 700;
 
     &:hover {
       .Socials__location {
         visibility: visible;
         opacity: 1;
+        z-index: 600;
       }
     }
 

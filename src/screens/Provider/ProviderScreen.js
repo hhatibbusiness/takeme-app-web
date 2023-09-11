@@ -3,7 +3,7 @@ import Navbar from "../../components/HOC/Navbar/Navbar";
 import './ProviderSceen.scss';
 import {connect} from "react-redux";
 import {fetchProviderData, closeProviderGallery, openProviderGallery} from "../../store/actions/provider.actions";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Gallery from "../Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery";
 import Provider from "../Product/Provider/Provider";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
@@ -11,8 +11,9 @@ import ProviderLinkCopy from "./ProviderLinkCopy/ProviderLinkCopy";
 
 const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery}) => {
     const params = useParams();
+    const navigate = useNavigate();
     useEffect(() => {
-        fetchProviderData(lan, params.providerId, filter);
+        fetchProviderData(lan, params.providerId, filter, navigate);
     }, [params.providerId]);
 
 

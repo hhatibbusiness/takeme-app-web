@@ -4,8 +4,10 @@ import Body from "./Body/Body";
 import {connect} from "react-redux";
 import {fetchCategories} from '../../store/actions/categories.action';
 import './Home.scss';
+import {useNavigate} from "react-router-dom";
 const Home = ({lan, fetchCategories, filter}) => {
     const [logoStart, setLogoStart] = useState(true);
+    const navigate = useNavigate();
 
     // set 2s for the intro page to show
     useEffect(() => {
@@ -19,7 +21,7 @@ const Home = ({lan, fetchCategories, filter}) => {
     }, []);
 
     useEffect(() => {
-        fetchCategories(lan, filter);
+        fetchCategories(lan, filter, navigate);
     }, [filter]);
 
     return (

@@ -11,7 +11,7 @@ const Provider = ({provider: p, prov, socials, link, openGallery, providerOrNot}
     const navigator = useNavigate();
     return (
         <div className={'Provider'}>
-            <div style={{background: `${prov && '#EEF2F5'}`, marginLeft: 'auto', width: '100%'}}>
+            <div style={{background: `${prov && '#EEF2F5'}`, marginLeft: 'auto', width: '100%', paddingBottom: '10px'}}>
                 <ProviderProfile prov={prov} socials={socials} link={link} provider={p} />
                 {
                     socials && <Socials activeProduct={activeProduct} provider={p} right />

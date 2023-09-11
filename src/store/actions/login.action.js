@@ -1,11 +1,16 @@
 import axios from "axios";
 import {
-    END_LOGGING_USER_IN, LOAD_USER_DATA, LOG_USER_OUT, LOGIN_ERROR,
+    END_LOGGING_USER_IN,
+    LOAD_USER_DATA,
+    LOG_USER_OUT,
+    LOGIN_ERROR,
     LOGIN_USER_IN,
     START_LOGGING_USER_IN
 } from "./action.types";
 import setAxiosHeaders from "../../utls/set.axios.headers";
 import { BASE_URL } from "../../utls/assets";
+import {logEvent} from "firebase/analytics";
+import {getAnalytics} from "firebase/analytics";
 
 export const login = (data, navigate, lan) => async dispatch => {
     try {
@@ -13,15 +18,18 @@ export const login = (data, navigate, lan) => async dispatch => {
         dispatch({
             type: LOGIN_ERROR,
             message: ''
-        })
+        });
         const res = await axios.post(`${BASE_URL}endpoints/signin/customer?locale=${lan}`, data);
         if(res.status == 200 &&res.data.status === true) {
             dispatch({
                 type: LOGIN_USER_IN,
                 data: res.data,
             });
+
             navigate('/');
-        } else {
+            const analytics = getAnalytics();
+            logEvent(analytics, 'login_website', {UserId: res.data?.output?.id, Username: res.data?.output?.name, UserPhone: res.data?.output?.phone});
+        } else{
             dispatch({
                 type: LOGIN_ERROR,
                 message: res.data.message
@@ -29,7 +37,7 @@ export const login = (data, navigate, lan) => async dispatch => {
         }
         dispatch(endLogin);
     } catch (err) {
-        console.error(err.response.data.message);
+        console.error(err?.response?.data?.message);
         dispatch({
             type: LOGIN_ERROR,
             message: err.message

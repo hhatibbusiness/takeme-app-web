@@ -6,11 +6,13 @@ import {changeSliderValue} from "../../../../../../../../store/actions/categorie
 const Img = ({value, imgUrl, setImgLoaded}) => {
     const imgRef = useRef();
     useEffect(() => {
+        if(!imgRef.current) return;
         const image = imgRef.current;
         image.addEventListener('load', () => {
+            console.log(imgUrl);
             setImgLoaded(true);
         })
-    }, []);
+    }, [imgRef]);
     return (
         <img ref={imgRef} className={'Img'} style={{width: `${value < 100 ? '100%' : 'unset'}`, height: `${value < 100 && '100%'}`}} onClick={() => {
             // setGalleryOpen(true);

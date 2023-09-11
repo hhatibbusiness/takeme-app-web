@@ -9,6 +9,8 @@ import Count from "./Count/Count";
 import SpinnerComponent from "../../../../../../../components/Spinner/Spinner.Component";
 import LoadingProduct from "../../../../../../../components/LoadingProduct/LoadingProduct";
 import {useNavigate} from "react-router-dom";
+import {logEvent} from "firebase/analytics";
+import {analytics} from "../../../../../../../utls/firebase.auth";
 // import {notFoundImg} from "../../../../assets";
 
 const Product = ({product, value, setCurrentProduct, setPopup}) => {
@@ -58,6 +60,10 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
 
     return (
         <div ref={productRef} className={'Product'} onClick={() => {
+            logEvent(analytics, 'product_type_click', {
+                Product_type_id: product?.id,
+                Product_type_name: product?.title
+            })
             if(value == 100) {
                 return navigate(`/product/${product.id}`);
             }

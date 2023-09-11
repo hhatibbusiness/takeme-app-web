@@ -3,7 +3,7 @@ import './Product.scss';
 import Navbar from "../../components/HOC/Navbar/Navbar";
 import {fetchProductDetails, fetchProductTypeDetails, resetProductData, closeGallery, openGallery} from "../../store/actions/product.actions";
 import {connect} from "react-redux";
-import {Outlet, useParams} from "react-router-dom";
+import {Outlet, useNavigate, useParams} from "react-router-dom";
 import Provider from "./Provider/Provider";
 import Failure from "./Provider/ProviderProducts/Failure/Failure";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
@@ -17,6 +17,7 @@ const Product = ({galleryProduct, filter, closeGallery, fetchProductDetails, mor
     const productRef = useRef();
     const params = useParams();
     const scrollableParent = useRef();
+    const navigate = useNavigate();
 
     const {t} = useTranslation()
 
@@ -25,8 +26,8 @@ const Product = ({galleryProduct, filter, closeGallery, fetchProductDetails, mor
     }, [more]);
 
     useEffect (() => {
-        fetchProductTypeDetails(params.id, lan);
-        fetchProductDetails(params.id, page, lan, filter);
+        fetchProductTypeDetails(params.id, lan, navigate);
+        fetchProductDetails(params.id, page, lan, filter, navigate);
         return () => {
             resetProductData();
         }

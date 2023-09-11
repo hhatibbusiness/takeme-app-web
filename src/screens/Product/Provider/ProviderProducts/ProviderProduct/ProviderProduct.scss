@@ -45,6 +45,77 @@
       position: relative;
       padding: 0 10px;
 
+      .ProviderProduct__details--desc {
+
+        .ProviderProduct__details--text {
+          color: #a29e9e;
+        }
+
+        .ProviderProduct__details--text-short {
+          color: blue;
+          cursor: pointer;
+        }
+
+      }
+
+      .ProviderProduct__details--prices {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+
+        .ProviderProduct__details--rent {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          .ProviderProduct__details--rent-price {
+            font-size: 13px;
+            color: #acacac;
+          }
+
+          .ProviderProduct__details--rent-pricenum {
+            color: #03ac84;
+            font-size: 18px;
+            font-weight: bold;
+          }
+
+          .ProviderProduct__details--rent-shekel {
+            color: #03ac84;
+
+            i {
+              font-size: 13px;
+            }
+          }
+        }
+
+        .ProviderProduct__details--sale {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          .ProviderProduct__details--sale-price {
+            font-size: 13px;
+            color: #acacac;
+          }
+
+          .ProviderProduct__details--sale-pricenum {
+            color: #03ac84;
+            font-size: 18px;
+            font-weight: bold;
+          }
+
+          .ProviderProduct__details--sale-shekel {
+            color: #03ac84;
+
+            i {
+              font-size: 13px;
+
+            }
+          }
+        }
+      }
+
       .highlight {
         color: #03ac84;
       }
@@ -136,7 +207,7 @@
       .ProviderProduct__title {
         font-size: 20px;
         font-weight: bold;
-        border-bottom: 1px solid rgba(0, 255, 0, 0.3);
+        //border-bottom: 1px solid rgba(0, 255, 0, 0.3);
         padding-bottom: 10px;
         cursor: pointer;
       }
@@ -282,6 +353,14 @@
       display: block;
       margin: auto;
       margin: 0 auto;
+
+      .ProviderProduct__image--container {
+        width: 100%;
+
+        img {
+          width: 100% !important;
+        }
+      }
     }
 
   }

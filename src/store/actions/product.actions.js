@@ -10,6 +10,7 @@ import {
     INCREASE_FETCHING_PROVIDERS_PRODUCTS_PAGE, RESET_PROVIDERS_FETCHING_PAGE, CHANGE_ACTIVE_PRODUCT
 } from "./action.types";
 import { BASE_URL } from '../../utls/assets';
+import tokenUnautharizedMiddleware from "../../utls/middlewares/token.unautharized.middleware";
 
 const providersArray = [
     {
@@ -2814,7 +2815,7 @@ const providersArray = [
     },
 ]
 
-export const fetchProductDetails = (id, page, lan, filter) => async dispatch => {
+export const fetchProductDetails = (id, page, lan, filter, navigate) => async dispatch => {
     try {
         if(page == 0) dispatch(startFetchingProvidersProducts);
         // const providersCopy = providersArray.slice((page + 1) * 10 - 10, (page + 1) * 10);
@@ -2833,10 +2834,13 @@ export const fetchProductDetails = (id, page, lan, filter) => async dispatch => 
     } catch (e) {
         console.error(e.message);
         dispatch(endFetchingProvidersProducts);
+        if(e?.response?.status == 401) {
+            tokenUnautharizedMiddleware(navigate, '/login');
+        }
     }
 }
 
-export const fetchProductTypeDetails = (id, lan) => async dispatch => {
+export const fetchProductTypeDetails = (id, lan, navigate) => async dispatch => {
     try {
         const res = await axios.get(`${BASE_URL}endpoints/product-type-details?locale=${lan}&productTypeId=${id}`);
         dispatch({
@@ -2845,6 +2849,9 @@ export const fetchProductTypeDetails = (id, lan) => async dispatch => {
         });
     } catch (e) {
         console.error(e.message);
+        if(e?.response?.status == 401) {
+            tokenUnautharizedMiddleware(navigate, '/login')
+        }
     }
 }
 

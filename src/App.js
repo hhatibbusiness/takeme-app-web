@@ -1,5 +1,5 @@
 import './App.scss';
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, useNavigate} from "react-router-dom";
 import Home from "./screens/Home/Home";
 import {useEffect} from "react";
 import {connect} from "react-redux";
@@ -17,12 +17,14 @@ import {loadUser} from "./store/actions/login.action";
 import {createOrder} from "./store/actions/order.actions";
 import Forget from "./screens/Forget/Forget";
 import {changePlatform} from "./store/actions/assets.actions";
+import {analytics} from "./utls/firebase.auth";
+import {logEvent} from "firebase/analytics";
 
 const App = (props) => {
     const {t} = useTranslation();
-
+    const navigate = useNavigate();
     useEffect(() => {
-        props.fetchAssets();
+        props.fetchAssets(navigate);
         props.loadUser();
         // props.createOrder();
     }, []);
@@ -41,7 +43,9 @@ const App = (props) => {
     }, []);
 
     return (
-        <div className={'App'} style={{font: `${t('font')}`}}>
+        <div onClick={e => {
+            // logEvent(analytics, 'web_clicked', {user: 'clicked'})
+        }} className={'App'} style={{font: `${t('font')}`}}>
             <Routes history={history}>
                 <Route path={'/'} exact element={<Home />} >
                     <Route path={'/product/:id'} exact element={<Product />} />

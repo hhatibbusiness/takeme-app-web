@@ -6,6 +6,7 @@ import {
     START_FETCHING_SEARCH_RESULTS
 } from "./action.types";
 import { BASE_URL } from "../../utls/assets";
+import tokenUnautharizedMiddleware from "../../utls/middlewares/token.unautharized.middleware";
 
 const providersArray = [
     {
@@ -2819,7 +2820,7 @@ export const endFetchingSearchResults = {
     type: END_FETCHING_SEARCH_RESULTS
 }
 
-export const fetchSearchResults = (lan, categoryId, filter, term, page) => async dispatch => {
+export const fetchSearchResults = (lan, categoryId, filter, term, page, navigate) => async dispatch => {
     try {
         if(page == 0){
             dispatch(startFetchingSearchResults);
@@ -2838,6 +2839,9 @@ export const fetchSearchResults = (lan, categoryId, filter, term, page) => async
     } catch (e) {
         console.error(e.message);
         dispatch(endFetchingSearchResults);
+        if(e?.response?.status == 401) {
+            tokenUnautharizedMiddleware(navigate, '/login');
+        }
     }
 }
 

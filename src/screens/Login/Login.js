@@ -19,6 +19,19 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
     const {t} = useTranslation();
 
     useEffect(() => {
+        localStorage.removeItem('takemetoken');
+        localStorage.removeItem('takemeuser')
+    }, []);
+
+    const browseClickHandler = e => {
+        e.preventDefault();
+        localStorage.removeItem('takemetoken');
+        localStorage.removeItem('takemeuser')
+        navigate('/');
+        navigate(0);
+    }
+
+    useEffect(() => {
         const home = document.querySelector('body');
 
         const freezeStyles = () => {
@@ -94,6 +107,10 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
                 <div className="Login__form--element">
                     <button className="Login__form--button">{logging ? <i className="fa-solid fa-circle-notch"></i> : t('loginbtn')}</button>
                     <p className="Login__form--register">{t('create')}?<NavLink className={'Login__form--register-link'} to={'/register'}>{t('loginregister')}</NavLink></p>
+                </div>
+                <div className="Login__from--element Login__form--browse">
+                    <span>{t('or')}</span>
+                    <span onClick={browseClickHandler}>{t('browse')}</span>
                 </div>
             </form>
             {

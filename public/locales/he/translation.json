@@ -49,6 +49,10 @@
   "confirmpassworderror": "נא להזין סיסמה לאשר",
   "passwordmatcherror": "הסיסמה וסיסמת האישור חייבים להתאים",
   "more": "יותר",
-  "less": "קטן"
+  "less": "קטן",
+  "browse": "לְדַפדֵף",
+  "or": "או",
+  "price": "המחיר",
+  "rentPrice": "מחיר השכרה"
 
 }

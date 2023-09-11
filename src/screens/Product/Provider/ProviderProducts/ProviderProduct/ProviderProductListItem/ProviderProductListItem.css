@@ -3,12 +3,28 @@
     flex-direction: row;
     align-items: center;
     gap: 10px;
+    direction: rtl;
 }
 
 .ProviderProductListItem__img {
     width: 20px;
     height: 20px;
     color: #33AB85;
+}
+
+.ProviderProductListItem__img img {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.ProviderProductListItem .LoadingProduct {
+    width: 20px;
+    height: 20px;
+}
+
+.ProviderProductListItem .LoadingProduct .LoadingProduct__image {
+    height: 100%;
+    width: 100%;
 }
 
 .ProviderProductListItem__img .Img {

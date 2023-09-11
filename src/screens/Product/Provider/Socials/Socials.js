@@ -3,6 +3,7 @@ import './Socials.scss';
 import {connect} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {createOrder} from "../../../../store/actions/order.actions";
+import {getAnalytics, logEvent} from "firebase/analytics";
 
 const Socials = ({right, assets, platform, isAuthenticated, provider, createOrder, currentUser, activeProduct, lan}) => {
     const navigate = useNavigate();
@@ -21,7 +22,8 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
                 navigate('/login');
             }else {
                 const order = {
-                    orderId: `${currentUser.phone}_${currentUser.name}-${provider.phone}_${provider.name}-${activeProduct.name}-${Date.now()}`,
+                    orderId:`${Date.now()}-${activeProduct.name}_${currentUser.name}-${currentUser.phone}_${provider.name}-${provider.phone}` ,
+                    // orderId: `${currentUser.phone}${currentUser.name}_${provider.phone}-${provider.name}-${activeProduct.name}-${Date.now()}`,
                     locale: lan,
                     customerId: currentUser?.id,
                     providerId: provider?.id,
@@ -36,7 +38,11 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
                 createOrder(order);
             }
         }} className={`Socials`} style={{marginleft: `${right && 'auto'}`, display: 'flex', alignItems: `${right && 'left'}`, marginRight: `${right && '10px'}`, marginTop: `${right && '10px'}`}}>
-            <div target={'_blank'} href={provider.navigateLink}  className="Socials__link  Socials__link--location">
+            <div onClick={e => {
+                if(isAuthenticated) {
+
+                }
+            }} target={'_blank'} href={provider.navigateLink}  className="Socials__link  Socials__link--location">
                 <i className="fa-solid fa-location-arrow"></i>
                 <div className="Socials__location">
                     <a onClick={e => {
@@ -56,12 +62,27 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
             </div>
             <a onClick={e => {
                 !isAuthenticated && e.preventDefault();
+                const analytics = getAnalytics();
+                if(isAuthenticated) {
+                    logEvent(analytics, 'WhatsApp', {
+                        ProviderId: provider?.id,
+                        ProviderName: provider?.name,
+                        ProviderPhone: provider?.phone
+                    });
+                }
             }} target={'_blank'} className="Socials__link" href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${provider?.phoneCountryCode && provider?.phoneCountryCode}${provider?.phone && provider.phone}&text=hello` : `http://web.whatsapp.com/send?phone=${provider?.phoneCountryCode && provider?.phoneCountryCode}${provider?.phone && provider.phone}`)}><i className="fa-brands fa-whatsapp"></i></a>
             {/* <a onClick={e => {
                 !isAuthenticated && e.preventDefault();
             }} target={'_blank'} className="Socials__link" href={`whatsapp://send?phone=${provider.phoneCountryCode}${provider.phone}`}><i className="fa-brands fa-whatsapp"></i></a> */}
             <a onClick={e => {
                 !isAuthenticated && e.preventDefault();
+                const analytics = getAnalytics();
+                if(isAuthenticated) {
+                    logEvent(analytics, 'call_button', {
+                        PhoneNumber: provider?.phone,
+                        ProviderName: provider?.name
+                    })
+                }
             }} href={`tel:${provider.phoneCountryCode}${provider.phone}`} className="Socials__link">
                 <i className="fa-solid fa-phone"></i>
             </a>
