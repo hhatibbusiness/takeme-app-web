@@ -9,6 +9,7 @@ import contractReducer from "./contract.reducer";
 import loginReducer from "./login.reducer";
 import forgetPasswordReducer from "./forget.password.reducer";
 import registerReducer from "./register.reducer";
+import uiReducer from "./ui.reducer";
 
 const initialState = {
     message: 'Hello from the store'
@@ -29,5 +30,6 @@ export default combineReducers({
     contract: contractReducer,
     login: loginReducer,
     forget: forgetPasswordReducer,
-    register: registerReducer
+    register: registerReducer,
+    ui: uiReducer
 });

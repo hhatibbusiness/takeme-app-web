@@ -3,14 +3,25 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  //justify-content: center;
   gap: 10px;
 
-  span {
-    font-size: 13px;
-    background-color: #03ac84;
-    border-radius: 3px;
-    padding: 3px 10px;
-    color: white;
+  .ProviderProductTags__tag {
+    font-size: 16px;
+    //background-color: #03ac84;
+    //border-radius: 3px;
+    padding: 3px 0;
+    //color: white;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+  }
+
+  .ProviderProductTags__dot {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: gray;
+    border-radius: 50%;
   }
 }

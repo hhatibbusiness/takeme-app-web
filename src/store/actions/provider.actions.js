@@ -15,7 +15,7 @@ export const fetchProviderData = (lan, id, filter, navigate) => async dispatch =
         if(res.status == 200 && res.data.status == true) {
             dispatch({
                 type: FETCH_PROVIDER_DATA,
-                provider: res.data.output
+                provider: res.data.output || {}
             });
         }
         console.log(res);
@@ -25,6 +25,7 @@ export const fetchProviderData = (lan, id, filter, navigate) => async dispatch =
             tokenUnautharizedMiddleware(navigate, '/login');
         }
         console.error(e.message);
+        dispatch(endFetchingProvider);
     }
 }
 

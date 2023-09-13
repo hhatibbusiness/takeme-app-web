@@ -6,7 +6,7 @@ const ProviderProductTags = ({tags}) => {
         <div className={'ProviderProductTags'}>
             {
                 tags.length > 0 && tags.map((t, i) => (
-                    <span>{t}</span>
+                    <span className={'ProviderProductTags__tag'}><span className="ProviderProductTags__dot"></span>{t}</span>
                 ))
             }
         </div>

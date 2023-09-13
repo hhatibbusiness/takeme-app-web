@@ -8,6 +8,8 @@ import Gallery from "../Product/Provider/ProviderProducts/ProviderProduct/Galler
 import Provider from "../Product/Provider/Provider";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
 import ProviderLinkCopy from "./ProviderLinkCopy/ProviderLinkCopy";
+import Failure from "../Product/Provider/ProviderProducts/Failure/Failure";
+import {useTranslation} from "react-i18next";
 
 const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery}) => {
     const params = useParams();
@@ -15,6 +17,7 @@ const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provid
     useEffect(() => {
         fetchProviderData(lan, params.providerId, filter, navigate);
     }, [params.providerId]);
+    const {t} = useTranslation();
 
 
     useEffect(() => {
@@ -35,18 +38,27 @@ const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provid
 
     return (
         <div className={'ProviderScreen'}>
-            <Navbar backBtn={true} midText={provider.name} />
             {
-                !loadingProvider ? (
+                Object.keys(provider).length === 0 ? (
                     <>
-                        <Provider providerOrNot={true} prov={true} socials={true} provider={provider} link={false} openGallery={openProviderGallery}/>
+                        <Navbar backBtn={true} midText={provider.name} />
                         {
-                            gallery && <Gallery product={galleryProduct} closeGallery={closeProviderGallery}/>
+                            !loadingProvider ? (
+                                <>
+                                    <Provider providerOrNot={true} prov={true} socials={true} provider={provider} link={false} openGallery={openProviderGallery}/>
+                                    {
+                                        gallery && <Gallery product={galleryProduct} closeGallery={closeProviderGallery}/>
+                                    }
+                                    <ProviderLinkCopy />
+                                </>
+                            ) : <SpinnerComponent />
                         }
-                        <ProviderLinkCopy />
                     </>
-                ) : <SpinnerComponent />
+                ) : (
+                    <Failure text={t('fail to load providers')}/>
+                )
             }
+
         </div>
     );
 };

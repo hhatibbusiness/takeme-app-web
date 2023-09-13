@@ -110,6 +110,8 @@ const ProviderProduct = ({imgRef, product, sliding, openGallery, term}) => {
             // innerHTML = <p onClick={() => setDetailed(!detailed)} className={'ProviderProduct__title'}>{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
             innerHTML = <p className={'ProviderProduct__title'}>{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
             return innerHTML;
+        } else {
+            return innerHTML;
         }
     }
 

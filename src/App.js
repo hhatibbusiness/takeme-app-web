@@ -19,6 +19,7 @@ import Forget from "./screens/Forget/Forget";
 import {changePlatform} from "./store/actions/assets.actions";
 import {analytics} from "./utls/firebase.auth";
 import {logEvent} from "firebase/analytics";
+import ProductPopup from "./components/ProductPopup/ProductPopup";
 
 const App = (props) => {
     const {t} = useTranslation();
@@ -58,6 +59,7 @@ const App = (props) => {
                     <Route path={'/forget/:email'} exact element={<Forget />} />
                 </Route>
             </Routes>
+            <ProductPopup />
         </div>
     )
 }

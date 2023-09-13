@@ -11,8 +11,10 @@ import Gallery from "./Provider/ProviderProducts/ProviderProduct/Gallery/Gallery
 import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../components/Loader/Loader";
 import {useTranslation} from "react-i18next";
+import ProductPopup from "../../components/ProductPopup/ProductPopup";
+import {togglePopup} from "../../store/actions/ui.actions";
 
-const Product = ({galleryProduct, filter, closeGallery, fetchProductDetails, more, page, lan, providers, resetProductData, fetchProductTypeDetails, productType, loadingProductsProviders, gallery, openGallery}) => {
+const Product = ({galleryProduct, togglePopup, filter, closeGallery, fetchProductDetails, more, page, lan, providers, resetProductData, fetchProductTypeDetails, productType, loadingProductsProviders, gallery, openGallery}) => {
     const [moreLoading, setMoreLoading] = useState(true);
     const productRef = useRef();
     const params = useParams();
@@ -55,7 +57,7 @@ const Product = ({galleryProduct, filter, closeGallery, fetchProductDetails, mor
     }, []);
 
     return (
-        <div ref={productRef} className={'ProductScreen'}>
+        <div ref={productRef} onClick={e => togglePopup()} className={'ProductScreen'}>
             <Navbar backBtn={true} midText={productType?.title && productType.title} logoLink={'/'}/>
             {
                 !loadingProductsProviders ? (
@@ -113,4 +115,4 @@ const mapStateToProps = state => ({
     filter: state.categories.filter
 });
 
-export default connect(mapStateToProps, {resetProductData, fetchProductDetails, fetchProductTypeDetails, closeGallery, openGallery}) (Product);
+export default connect(mapStateToProps, {resetProductData, fetchProductDetails, fetchProductTypeDetails, togglePopup, closeGallery, openGallery}) (Product);
