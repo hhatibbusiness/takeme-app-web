@@ -25,7 +25,7 @@
         justify-content: center;
         width: 100%;
         text-decoration: none;
-        color: gray;
+        color: var(--sec-color-shades-8);
         font-size: 15px;
         cursor: pointer;
         padding: 10px;
@@ -70,7 +70,7 @@
       .Sidebar__register {
         text-align: center;
         justify-content: center;
-        color: #33AB85;
+        color: var(--main-color-green-dark-1);
       }
     }
 
@@ -79,7 +79,7 @@
       align-items: center;
       height: 50px;
       width: 100%;
-      background: #33AB85;
+      background: var(--main-color-green-dark-1);
       padding-left: 10px;
 
       img {

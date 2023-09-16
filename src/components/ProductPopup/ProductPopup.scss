@@ -14,8 +14,8 @@
   }
 
   .ProductPopup__product--fullwidth {
-    height: 100% !important;
-    border-radius: 0 !important;
+    height: calc(100% - 90px) !important;
+    //border-radius: 0 !important;
   }
 
   .ProductPopup__product {
@@ -28,10 +28,10 @@
     z-index: 2;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
-    outline: 1px solid lightgrey;
+    outline: 1px solid var(--sec-color-shades-5);
     box-shadow: 0 -1px 10px rgba(0, 0, 0, .2);
     //padding: 20px;
-    padding-top: 50px;
+    padding-top: 90px;
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -42,6 +42,9 @@
       height: 100%;
       overflow-y: auto;
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
 
 
       &::-webkit-scrollbar {
@@ -50,18 +53,18 @@
       }
 
       &::-webkit-scrollbar-track {
-        background: #aba7a7;        /* color of the tracking area */
+        background: var(--sec-color-shades-8);        /* color of the tracking area */
       }
 
       &::-webkit-scrollbar-thumb {
-        background-color: lightgrey;    /* color of the scroll thumb */
+        background-color: var(--sec-color-shades-3);    /* color of the scroll thumb */
         border-radius: 15px;       /* roundness of the scroll thumb */
         //border: 3px solid white;  /* creates padding around scroll thumb */
       }
     }
     .ProviderProduct__details-dropdown {
       .ProviderProduct__details--list {
-        border-bottom: 1px solid lightgrey;
+        border-bottom: 1px solid var(--sec-color-shades-3);
         padding: 30px 0;
         margin-bottom: 30px;
         display: flex;
@@ -73,7 +76,7 @@
     .ProviderProduct__details--desc {
 
       .ProviderProduct__details--text {
-        color: #898686;
+        color: var(--sec-color-shades-9);
       }
 
       .ProviderProduct__details--text-short {
@@ -96,19 +99,24 @@
         font-size: 20px;
         gap: 5px;
 
+
+        .ProviderProduct__details--sale-icon i {
+          font-size: 15px;
+        }
+
         .ProviderProduct__details--rent-price {
           font-size: 15px;
-          color: #acacac;
+          color: var(--sec-color-shades-7);
         }
 
         .ProviderProduct__details--rent-pricenum {
-          color: #03ac84;
+          color: var(--main-color-green-dark-1);
           font-size: 18px;
           font-weight: bold;
         }
 
         .ProviderProduct__details--rent-shekel {
-          color: #03ac84;
+          color: var(--main-color-green-dark-1);
 
           i {
             font-size: 13px;
@@ -123,19 +131,23 @@
         gap: 5px;
         font-size: 20px;
 
+        .ProviderProduct__details--sale-icon i {
+          font-size: 15px;
+        }
+
         .ProviderProduct__details--sale-price {
           font-size: 13px;
-          color: #acacac;
+          color: var(--sec-color-shades-7);
         }
 
         .ProviderProduct__details--sale-pricenum {
-          color: #03ac84;
+          color: var(--main-color-green-dark-1);
           font-size: 18px;
           font-weight: bold;
         }
 
         .ProviderProduct__details--sale-shekel {
-          color: #03ac84;
+          color: var(--main-color-green-dark-1);
 
           i {
             font-size: 13px;
@@ -148,6 +160,11 @@
     .ProductPopup__product--title {
       font-size: 20px;
       font-weight: bold;
+      position: absolute;
+      top: 65px;
+      padding: 10px 0;
+      background-color: white;
+      width: 90%;
     }
 
     .ProductPopup__product--close {
@@ -155,13 +172,15 @@
       top: 20px;
       right: 20px;
       font-size: 20px;
+      cursor: pointer;
     }
   }
 
   .ProductPopup__backdrop {
     width: 100%;
     height: 100%;
-    backdrop-filter: blur(2px);
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(1px);
     position: absolute;
     top: 0;
     left: 0;

@@ -11,7 +11,7 @@
   .Navbar__container {
     width: 100%;
     height: 100%;
-    background: #33AB85;
+    background: var(--main-color-green-dark-1);
     flex-direction: row-reverse;
     @include center-h();
     justify-content: space-between;

@@ -104,10 +104,10 @@ const ProductPopup = ({togglePopup, openPopup, term}) => {
         var index = innerHTML.indexOf(term);
         if (index >= 0) {
             // innerHTML = <p onClick={() => setDetailed(!detailed)} className={'ProviderProduct__title'}>{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
-            innerHTML = <p className={'ProductPopup__product--title'}>{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
+            innerHTML = <p >{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
             return innerHTML;
         } else {
-            return <p className={'ProductPopup__product--title'}>{innerHTML}</p>;
+            return <p >{innerHTML}</p>;
         }
     }
 
@@ -195,7 +195,10 @@ const ProductPopup = ({togglePopup, openPopup, term}) => {
                     {
                         currentProduct?.description && (
                             <div className="ProviderProduct__details--desc">
-                                {currentProduct?.description?.text && <p className="ProviderProduct__details--text">{currentProduct?.description?.text && ((short ? `${currentProduct?.description?.text.substr(0, 50)}` : currentProduct?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{currentProduct?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}
+                                {
+                                    currentProduct?.description?.text && <p className={'ProviderProduct__details--text'}>{currentProduct?.description?.text}</p>
+                                }
+                                {/*{currentProduct?.description?.text && <p className="ProviderProduct__details--text">{currentProduct?.description?.text && ((short ? `${currentProduct?.description?.text.substr(0, 50)}` : currentProduct?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{currentProduct?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}*/}
                             </div>
                         )
                     }
@@ -219,6 +222,7 @@ const ProductPopup = ({togglePopup, openPopup, term}) => {
             <div className="ProductPopup__backdrop" onClick={e => {
                 console.log('Hello');
                 togglePopup();
+                notFullHeight()
             }}></div>
         </div>
     );

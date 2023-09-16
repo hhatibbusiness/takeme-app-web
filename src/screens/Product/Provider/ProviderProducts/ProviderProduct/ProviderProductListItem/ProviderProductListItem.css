@@ -7,9 +7,9 @@
 }
 
 .ProviderProductListItem__img {
-    width: 20px;
-    height: 20px;
-    color: #33AB85;
+    width: 15px;
+    height: 15px;
+    color: var(--main-color-green-dark-1);
 }
 
 .ProviderProductListItem__img img {
@@ -33,6 +33,6 @@
 }
 
 .ProviderProductListItem__icon {
-    color: #33AB85;
+    color: var(--main-color-green-dark-1);
     font-size: 20px;
 }
