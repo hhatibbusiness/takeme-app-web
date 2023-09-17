@@ -57,7 +57,7 @@ const Product = ({galleryProduct, togglePopup, filter, closeGallery, fetchProduc
     }, []);
 
     return (
-        <div ref={productRef} onClick={e => togglePopup()} className={'ProductScreen'}>
+        <div ref={productRef} className={'ProductScreen'}>
             <Navbar backBtn={true} midText={productType?.title && productType.title} logoLink={'/'}/>
             {
                 !loadingProductsProviders ? (

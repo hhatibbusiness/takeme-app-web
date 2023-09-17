@@ -39,7 +39,7 @@ const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provid
     return (
         <div className={'ProviderScreen'}>
             {
-                Object.keys(provider).length === 0 ? (
+                Object.keys(provider).length !== 0 ? (
                     <>
                         <Navbar backBtn={true} midText={provider.name} />
                         {

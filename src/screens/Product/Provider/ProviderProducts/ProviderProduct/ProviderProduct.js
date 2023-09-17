@@ -11,8 +11,10 @@ import ProviderProductListItem from "./ProviderProductListItem/ProviderProductLi
 import ProviderProductTags from "./ProviderProductTags/ProviderProductTags";
 import ProviderProductComments from "./ProviderProductComments/ProviderProductComments";
 import ProviderProductVariables from "./ProviderProductVariables/ProviderProductVariables";
+import {togglePopup} from "../../../../../store/actions/ui.actions";
+import {changePopupProduct} from "../../../../../store/actions/ui.actions";
 
-const ProviderProduct = ({imgRef, product, sliding, openGallery, term}) => {
+const ProviderProduct = ({imgRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
     const [imgLoaded, setImgLoaded] = useState(false);
     const [imgUI, setImgUI] = useState(null);
     const [detailed, setDetailed] = useState(false);
@@ -153,9 +155,13 @@ const ProviderProduct = ({imgRef, product, sliding, openGallery, term}) => {
                                     {
                                         product?.saleDetails && (
                                             <div className={'ProviderProduct__details--sale'}>
-                                                <div className="ProviderProduct__details--sale-icon">
-                                                    <i className="fa-solid fa-circle-exclamation"></i>
-                                                </div>
+                                                {
+                                                    product?.saleDetails?.comment && (
+                                                        <div className="ProviderProduct__details--sale-icon">
+                                                            <i className="fa-solid fa-circle-exclamation"></i>
+                                                        </div>
+                                                    )
+                                                }
                                                 <div className="ProviderProduct__details--sale-price">
                                                     {t('price')}
                                                 </div>
@@ -173,9 +179,14 @@ const ProviderProduct = ({imgRef, product, sliding, openGallery, term}) => {
                                     {
                                         product?.rentDetails && (
                                             <div className={'ProviderProduct__details--rent'}>
-                                                <div className="ProviderProduct__details--sale-icon">
-                                                    <i className="fa-solid fa-circle-exclamation"></i>
-                                                </div>
+                                                {
+                                                    product?.rentDetails?.comment && (
+                                                        <div className="ProviderProduct__details--sale-icon">
+                                                            <i className="fa-solid fa-circle-exclamation"></i>
+                                                        </div>
+                                                    )
+                                                }
+
                                                 <div className="ProviderProduct__details--rent-price">
                                                     {t('rentPrice')}
                                                 </div>
@@ -194,7 +205,11 @@ const ProviderProduct = ({imgRef, product, sliding, openGallery, term}) => {
                                 {
                                     product?.description && (
                                         <div className="ProviderProduct__details--desc">
-                                                {product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}
+                                            {/*{product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}*/}
+                                            {product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => {
+                                                changePopupProduct(product);
+                                                togglePopup()
+                                            }} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}
                                         </div>
                                     )
                                 }
@@ -256,4 +271,4 @@ const mapStateToProps = state => ({
     term: state.search.term
 })
 
-export default connect(mapStateToProps) (ProviderProduct);
+export default connect(mapStateToProps, {togglePopup, changePopupProduct}) (ProviderProduct);

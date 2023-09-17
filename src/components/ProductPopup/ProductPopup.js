@@ -12,99 +12,99 @@ import ProviderProductTags
 import ProviderProductComments
     from "../../screens/Product/Provider/ProviderProducts/ProviderProduct/ProviderProductComments/ProviderProductComments";
 
-const ProductPopup = ({togglePopup, openPopup, term}) => {
+const ProductPopup = ({togglePopup, openPopup, currentProduct, term}) => {
     const [short, setShort] = useState(true);
 
     const {t} = useTranslation();
 
-    const currentProduct = {
-        "id": 6,
-        "name": "جولات لففرد والعائلة",
-        "description": {
-            "text": "هذة الجولات مناسبة للافراد و العائلات او الكبار او الصغار او الشباب او البنات",
-            "list": [
-                {
-                    "imagePath": "https://images.unsplash.com/photo-1589092073238-d7cc7fd602fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=464&q=80",
-                    "item": "رحلات"
-                },
-                {
-                    "imagePath": "https://images.unsplash.com/photo-1575907794679-016b6bd90285?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dGlycHN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=60",
-                    "item": "جولات"
-                },
-                {
-                    "imagePath": "https://images.unsplash.com/photo-1558536289-b647067c08e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGlycHN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=60",
-                    "item": "سياحية"
-                }
-            ],
-            "variables": [
-                {
-                    "iconPath": "https://images.unsplash.com/photo-1682687982141-0143020ed57a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=1000&q=60",
-                    "key": "المدة",
-                    "value": "يوم"
-                },
-                {
-                    "iconPath": "https://plus.unsplash.com/premium_photo-1694074422763-9ddc6d3ae085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=1000&q=60",
-                    "key": "العدد",
-                    "value": "خمسة"
-                },
-                {
-                    "iconPath": "https://images.unsplash.com/photo-1694309984301-60e69e095ae7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=1000&q=60",
-                    "key": "المواصلات",
-                    "value": "عجل"
-                }
-            ],
-            "tags": [
-                "اضفال",
-                "الجولان",
-                "القدس"
-            ],
-            "comments": [
-                "ممتازة للعائلات",
-                "جيدة جدا للعائلات والاطفال",
-                "مناسبة للشباب و كبار السن"
-            ]
-        },
-        "saleDetails": {
-            "title": "تفاصيل البيع",
-            "price": 400,
-            "status": null,
-            "priceMsg": "السعر 400 شيكل",
-            "statusMsg": "حالة المنتج null"
-        },
-        "rentDetails": {
-            "title": "تفاصيل البيع",
-            "price": 400,
-            "status": null,
-            "priceMsg": "السعر 400 شيكل",
-            "statusMsg": "حالة المنتج null"
-        },
-        "navigateLink": "null",
-        "productTypeId": 1,
-        "providerId": 8,
-        "action": "SALE",
-        "rentPrice": null,
-        "minTimeForRent": 1,
-        "rentUnit": "hours",
-        "salePrice": 150,
-        "productStatusForSale": "NEW",
-        "comments": "טעימות כולל הדרכה והסברים על הכפר: 200 שח לבן אדם (המחירים הם לבן אדם)",
-        "sortIndex": 1,
-        "createdDate": "2023-08-23T18:39:34.000+00:00",
-        "updatedDate": "2023-08-23T18:39:34.000+00:00",
-        "images": [],
-        "latitude": 0.0,
-        "longitude": 0.0,
-        "googleMapLink": "https://maps.google.com/maps?q=0.0%2C0.0",
-        "wazeMapLink": "https://www.waze.com/ul?ll=0.0%2C0.0&navigate=yes"
-    };
+    // const currentProduct = {
+    //     "id": 6,
+    //     "name": "جولات لففرد والعائلة",
+    //     "description": {
+    //         "text": "هذة الجولات مناسبة للافراد و العائلات او الكبار او الصغار او الشباب او البنات",
+    //         "list": [
+    //             {
+    //                 "imagePath": "https://images.unsplash.com/photo-1589092073238-d7cc7fd602fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=464&q=80",
+    //                 "item": "رحلات"
+    //             },
+    //             {
+    //                 "imagePath": "https://images.unsplash.com/photo-1575907794679-016b6bd90285?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dGlycHN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=60",
+    //                 "item": "جولات"
+    //             },
+    //             {
+    //                 "imagePath": "https://images.unsplash.com/photo-1558536289-b647067c08e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGlycHN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=60",
+    //                 "item": "سياحية"
+    //             }
+    //         ],
+    //         "variables": [
+    //             {
+    //                 "iconPath": "https://images.unsplash.com/photo-1682687982141-0143020ed57a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=1000&q=60",
+    //                 "key": "المدة",
+    //                 "value": "يوم"
+    //             },
+    //             {
+    //                 "iconPath": "https://plus.unsplash.com/premium_photo-1694074422763-9ddc6d3ae085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=1000&q=60",
+    //                 "key": "العدد",
+    //                 "value": "خمسة"
+    //             },
+    //             {
+    //                 "iconPath": "https://images.unsplash.com/photo-1694309984301-60e69e095ae7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=1000&q=60",
+    //                 "key": "المواصلات",
+    //                 "value": "عجل"
+    //             }
+    //         ],
+    //         "tags": [
+    //             "اضفال",
+    //             "الجولان",
+    //             "القدس"
+    //         ],
+    //         "comments": [
+    //             "ممتازة للعائلات",
+    //             "جيدة جدا للعائلات والاطفال",
+    //             "مناسبة للشباب و كبار السن"
+    //         ]
+    //     },
+    //     "saleDetails": {
+    //         "title": "تفاصيل البيع",
+    //         "price": 400,
+    //         "status": null,
+    //         "priceMsg": "السعر 400 شيكل",
+    //         "statusMsg": "حالة المنتج null"
+    //     },
+    //     "rentDetails": {
+    //         "title": "تفاصيل البيع",
+    //         "price": 400,
+    //         "status": null,
+    //         "priceMsg": "السعر 400 شيكل",
+    //         "statusMsg": "حالة المنتج null"
+    //     },
+    //     "navigateLink": "null",
+    //     "productTypeId": 1,
+    //     "providerId": 8,
+    //     "action": "SALE",
+    //     "rentPrice": null,
+    //     "minTimeForRent": 1,
+    //     "rentUnit": "hours",
+    //     "salePrice": 150,
+    //     "productStatusForSale": "NEW",
+    //     "comments": "טעימות כולל הדרכה והסברים על הכפר: 200 שח לבן אדם (המחירים הם לבן אדם)",
+    //     "sortIndex": 1,
+    //     "createdDate": "2023-08-23T18:39:34.000+00:00",
+    //     "updatedDate": "2023-08-23T18:39:34.000+00:00",
+    //     "images": [],
+    //     "latitude": 0.0,
+    //     "longitude": 0.0,
+    //     "googleMapLink": "https://maps.google.com/maps?q=0.0%2C0.0",
+    //     "wazeMapLink": "https://www.waze.com/ul?ll=0.0%2C0.0&navigate=yes"
+    // };
 
     const renderName = () => {
-        console.log(currentProduct.name);
-        var innerHTML = currentProduct.name;
-        var index = innerHTML.indexOf(term);
+        console.log(currentProduct?.name);
+        var innerHTML = currentProduct?.name;
+        var index = innerHTML?.indexOf(term);
         if (index >= 0) {
             // innerHTML = <p onClick={() => setDetailed(!detailed)} className={'ProviderProduct__title'}>{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
-            innerHTML = <p >{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
+            innerHTML = <p >{innerHTML?.substring(0,index)}<span class='highlight'>{innerHTML?.substring(index,index+term.length) }</span>{innerHTML?.substring(index + term.length)}</p>;
             return innerHTML;
         } else {
             return <p >{innerHTML}</p>;
@@ -154,9 +154,13 @@ const ProductPopup = ({togglePopup, openPopup, term}) => {
                         {
                             currentProduct?.saleDetails && (
                                 <div className={'ProviderProduct__details--sale'}>
-                                    <div className="ProviderProduct__details--sale-icon">
-                                        <i className="fa-solid fa-circle-exclamation"></i>
-                                    </div>
+                                    {
+                                        currentProduct?.saleDetails?.comment && (
+                                            <div className="ProviderProduct__details--sale-icon">
+                                                <i className="fa-solid fa-circle-exclamation"></i>
+                                            </div>
+                                        )
+                                    }
                                     <div className="ProviderProduct__details--sale-price">
                                         {t('price')}
                                     </div>
@@ -174,9 +178,13 @@ const ProductPopup = ({togglePopup, openPopup, term}) => {
                         {
                             currentProduct?.rentDetails && (
                                 <div className={'ProviderProduct__details--rent'}>
-                                    <div className="ProviderProduct__details--sale-icon">
-                                        <i className="fa-solid fa-circle-exclamation"></i>
-                                    </div>
+                                    {
+                                        currentProduct?.rentDetails?.comment && (
+                                            <div className="ProviderProduct__details--sale-icon">
+                                                <i className="fa-solid fa-circle-exclamation"></i>
+                                            </div>
+                                        )
+                                    }
                                     <div className="ProviderProduct__details--rent-price">
                                         {t('rentPrice')}
                                     </div>
