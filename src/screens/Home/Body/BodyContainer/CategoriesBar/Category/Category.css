@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    color: black;
+    color: var(--main-color-green-dark-10);
     /*border-radius: 50%;*/
     opacity: 0.5;
 }
@@ -17,7 +17,7 @@
 }
 
 .Category__active .Category__container {
-    background: #33AB85;
+    background: var(--main-color-green-dark-1);
     border: none;
 }
 
@@ -26,13 +26,13 @@
 }
 
 .Category__active p {
-    color: #33AB85;
+    color: var(--main-color-green-dark-1);
 }
 
 .Category__container {
     padding: 5px;
     border-radius: 50%;
-    border: 1px solid black;
+    border: 1px solid var(--main-color-green-dark-10);
     display: flex;
     align-items: center;
     justify-content: center;

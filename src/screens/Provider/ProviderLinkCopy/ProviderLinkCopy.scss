@@ -16,9 +16,9 @@
     p {
       font-size: 13px;
       padding: 3px 5px;
-      background: black;
+      background: var(--main-color-green-dark-10);
       border-radius: 3px;
-      color: white;
+      color: var(--main-color-green-light-1);
       position: relative;
 
       span {
@@ -26,14 +26,14 @@
         left: -6px;
 
         i {
-          color: black;
+          color: var(--main-color-green-dark-10);
         }
       }
     }
   }
 
   i{
-    color: #03ac84;
+    color: var(--main-color-green-dark-1);
     font-size: 20px;
   }
 }

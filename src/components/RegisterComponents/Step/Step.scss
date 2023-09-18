@@ -12,7 +12,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: #A5A5A5;
+    background: var(--sec-color-shades-6);
     color: white;
     position: relative;
     cursor: pointer;
@@ -23,7 +23,7 @@
       content: '';
       width: 60px;
       height: 5px;
-      background: #A5A5A5;
+      background: var(--sec-color-shades-6);
       position: absolute;
       top: 50%;
       left: 100%;
@@ -33,10 +33,10 @@
   }
 
   .Step__active {
-    background: #03ac84;
+    background: var(--main-color-green-dark-1);
 
     &:before {
-      background: #03ac84;
+      background: var(--main-color-green-dark-1);
     }
   }
 }

@@ -14,7 +14,7 @@
     align-items: center;
     /*justify-content: space-between;*/
     text-decoration: none;
-    color: black;
+    color: var(--main-color-green-dark-10);
 }
 
 .Product__image--container img {

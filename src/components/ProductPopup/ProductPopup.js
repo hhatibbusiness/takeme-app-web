@@ -134,8 +134,8 @@ const ProductPopup = ({togglePopup, openPopup, currentProduct, term}) => {
 
     }
     return (
-        <div className={`ProductPopup ${openPopup && 'ProductPopup__open'}`}>
-            <div ref={contRef} className="ProductPopup__product">
+        <div className={`ProductPopup ${openPopup ? 'ProductPopup__open' : 'ProductPopup__close'}`}>
+            <div ref={contRef} className={`ProductPopup__product ${openPopup && 'ProductPopup__product--open'}`}>
                 <div onScroll={e => {
                     fullHeight()
                 }} className="ProductPopup__product--container">
@@ -227,7 +227,7 @@ const ProductPopup = ({togglePopup, openPopup, currentProduct, term}) => {
                 </div>
 
             </div>
-            <div className="ProductPopup__backdrop" onClick={e => {
+            <div className={`ProductPopup__backdrop ${openPopup && 'ProductPopup__backdrop--open'}`} onClick={e => {
                 console.log('Hello');
                 togglePopup();
                 notFullHeight()

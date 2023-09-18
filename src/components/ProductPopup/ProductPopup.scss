@@ -6,16 +6,17 @@
   height: 100%;
   //background-color: red;
   z-index: 1000;
-  transition: 0.4s;
+  //transition: 0.4s;
   direction: rtl;
 
-  .ProductPopup__close {
-    position: fixed;
-  }
 
   .ProductPopup__product--fullwidth {
     height: calc(100% - 90px) !important;
     //border-radius: 0 !important;
+  }
+
+  .ProductPopup__product--open {
+    bottom: 0 !important;
   }
 
   .ProductPopup__product {
@@ -23,7 +24,7 @@
     height: 80%;
     background-color: white;
     position: absolute;
-    bottom: 0;
+    bottom: -100%;
     left: 0;
     z-index: 2;
     border-top-left-radius: 30px;
@@ -176,6 +177,10 @@
     }
   }
 
+  .ProductPopup__backdrop--open {
+    opacity: 1 !important;
+  }
+
   .ProductPopup__backdrop {
     width: 100%;
     height: 100%;
@@ -185,7 +190,15 @@
     top: 0;
     left: 0;
     z-index: 1;
+    transition: 0.4s;
+    opacity: 0;
   }
+}
+
+.ProductPopup__close {
+  bottom: -100%;
+  transition: 0.4s;
+  transition-delay: 0.4s;
 }
 
 

@@ -57,7 +57,7 @@ export const fetchCategories = (lan, filter, navigate) => async dispatch => {
         if(err?.response?.status == 401) {
             tokenUnautharizedMiddleware(navigate, '/login');
         }
-        // dispatch(errorActive);
+        dispatch(errorActive);
     }
 }
 
@@ -90,7 +90,7 @@ export const fetchCategoryProducts = (id, lan, page, filter, navigate) => async 
         }
         dispatch(endFetchingProducts);
 
-        // dispatch(errorActive)
+        dispatch(errorActive)
     }
 }
 
@@ -110,7 +110,7 @@ export const changeLan = (lan, id) => async dispatch => {
         dispatch(errorInactive)
     } catch (e) {
         console.error(e);
-        // dispatch(errorActive);
+        dispatch(errorActive);
     }
 };
 

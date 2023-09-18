@@ -4,10 +4,12 @@
   height: 100%;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.4);
+  opacity: 0.4;
+  background: var(--sec-color-shades-7);
   transform: translateX(-100%);
   z-index: 150;
   transition: 0.3s;
+  backdrop-filter: blur(2px);
 }
 
 .Backdrop__active {

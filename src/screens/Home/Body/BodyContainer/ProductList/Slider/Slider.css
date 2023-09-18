@@ -23,5 +23,5 @@
 }
 
 .Slider__bar {
-    color: #03AC84 !important;
+    color: var(--main-color-green-dark-1) !important;
 }

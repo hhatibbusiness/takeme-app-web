@@ -6,7 +6,7 @@
     height: 32px;
     border: none;
     outline: none;
-    background: #02AC84;
+    background: var(--main-color-green-dark-1);
     color: white;
     font-size: 18px;
     border-radius: 5px;
@@ -19,7 +19,7 @@
     }
     
     &:disabled {
-      background: gray;
+      background: var(--sec-color-shades-8);
       cursor: not-allowed;
     }
   }
@@ -29,7 +29,7 @@
     margin-top: 20px;
 
     .Button__register--link {
-      color: #03ac84;
+      color: var(--main-color-green-dark-1);
       text-decoration: none;
       margin-right: 5px;
 

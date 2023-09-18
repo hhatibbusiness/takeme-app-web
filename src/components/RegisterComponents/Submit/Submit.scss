@@ -7,7 +7,7 @@
 
     .Register__form--element {
         .Register__form--button-submit:disabled {
-            background-color: gray;
+            background-color: var(--sec-color-shades-9);
             cursor: not-allowed;
         }
         .Register__form--element-wrapper {
@@ -21,7 +21,7 @@
                     cursor: pointer;
                     
                     &:checked {
-                        background-color: #03ac84;
+                        background-color: var(--main-color-green-dark-1);
                     }
                 }
                 
@@ -35,7 +35,7 @@
 
             label {
                 a {
-                    color: blue;
+                    color: var(--sec-color-blue-light-8);
                 }
             }
         }
