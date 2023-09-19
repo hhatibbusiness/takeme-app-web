@@ -46,13 +46,35 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
                 <i className="fa-solid fa-location-arrow"></i>
                 <div className="Socials__location">
                     <a onClick={e => {
+                        const analytics = getAnalytics();
                         !isAuthenticated && e.preventDefault();
+                        if(isAuthenticated) {
+                            logEvent(analytics, 'location-event', {
+                                latitude: provider?.latitude,
+                                longtude: provider?.longtude,
+                                providerId: provider?.id,
+                                providerName: provider?.name,
+                                providerPhone: provider?.name,
+                                method: 'waze'
+                            })
+                        }
                     }} target={"_blank"} href={`${!provider.wazeMapLink ? formatWazeLink(provider.latitude, provider.longitude) : provider.wazeMapLink}`}  className="Socials__location--link">
                         <span><i className="fa-brands fa-waze"></i></span>
                         <span>waze</span>
                     </a>
                     <a onClick={e => {
                         !isAuthenticated && e.preventDefault();
+                        const analytics = getAnalytics();
+                        if(isAuthenticated) {
+                            logEvent(analytics, 'location-event', {
+                                latitude: provider?.latitude,
+                                longtude: provider?.longtude,
+                                providerId: provider?.id,
+                                providerName: provider?.name,
+                                providerPhone: provider?.name,
+                                method: 'waze'
+                            })
+                        }
                     }} target={"_blank"} href={`${!provider.googleMapLink ? formateMapsLink() : provider.googleMapLink}`} className="Socials__location--link">
                         <span><i className="fa-solid fa-map-location-dot"></i></span>
                         <span>maps</span>

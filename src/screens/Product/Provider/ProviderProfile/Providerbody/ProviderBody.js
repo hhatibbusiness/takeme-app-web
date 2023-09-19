@@ -43,7 +43,7 @@ const ProviderBody = ({provider: p, socials, prov}) => {
                 {
                     p?.ratingsCount > 0 ? (
                         <p className={'ProviderBody__score'}>
-                            <span>{p?.ratingsScore && p?.ratingsScore}</span>{
+                            {
                                 p?.ratingsScore && p?.ratingsScore > 0 && (
                                     <p className={'ProviderBody__stars'}>
                                         {
