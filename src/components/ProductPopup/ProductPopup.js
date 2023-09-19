@@ -220,9 +220,19 @@ const ProductPopup = ({togglePopup, openPopup, currentProduct, term}) => {
                                 ))
                             }
                         </div>
-                        <ProviderProductVariables variables={currentProduct?.description?.variables && currentProduct?.description?.variables} />
-                        <ProviderProductComments comments={currentProduct?.description?.comments && currentProduct?.description?.comments} />
-                        <ProviderProductTags tags={currentProduct?.description?.tags}  />
+                        {
+                            currentProduct?.description?.variables?.length > 0 && (currentProduct?.description?.variables?.length === 1 ? (
+                                currentProduct?.description?.variables[0]?.value && currentProduct?.description?.variables[0]?.key && <ProviderProductVariables variables={currentProduct?.description?.variables && currentProduct?.description?.variables} />
+                            ) : <ProviderProductVariables variables={currentProduct?.description?.variables && currentProduct?.description?.variables} />)
+                        }
+
+                        {
+                            currentProduct?.description?.comments?.length > 0 && <ProviderProductComments comments={currentProduct?.description?.comments && currentProduct?.description?.comments} />
+                        }
+
+                        {
+                            currentProduct?.description?.tags?.length > 0 && <ProviderProductTags tags={currentProduct?.description?.tags}  />
+                        }
                     </div>
                 </div>
 

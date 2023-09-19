@@ -38,27 +38,24 @@ const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provid
 
     return (
         <div className={'ProviderScreen'}>
+            <Navbar backBtn={true} midText={provider.name} />
             {
-                Object.keys(provider).length !== 0 ? (
-                    <>
-                        <Navbar backBtn={true} midText={provider.name} />
-                        {
-                            !loadingProvider ? (
-                                <>
-                                    <Provider providerOrNot={true} prov={true} socials={true} provider={provider} link={false} openGallery={openProviderGallery}/>
-                                    {
-                                        gallery && <Gallery product={galleryProduct} closeGallery={closeProviderGallery}/>
-                                    }
-                                    <ProviderLinkCopy />
-                                </>
-                            ) : <SpinnerComponent />
-                        }
-                    </>
+                !loadingProvider ? (
+                    Object.keys(provider).length !== 0 ? (
+                        <>
+                            <Provider providerOrNot={true} prov={true} socials={true} provider={provider} link={false} openGallery={openProviderGallery}/>
+                            {
+                                gallery && <Gallery product={galleryProduct} closeGallery={closeProviderGallery}/>
+                            }
+                            {/*<ProviderLinkCopy />*/}
+                        </>
+                    ) : (
+                        <Failure text={t('fail to load providers')}/>
+                    )
                 ) : (
-                    <Failure text={t('fail to load providers')}/>
+                    <SpinnerComponent />
                 )
             }
-
         </div>
     );
 };

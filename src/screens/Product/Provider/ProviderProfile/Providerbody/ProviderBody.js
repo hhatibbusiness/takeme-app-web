@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react';
 import './ProviderBody.scss';
 import Socials from "../../Socials/Socials";
 import {useTranslation} from "react-i18next";
+import copy from "copy-to-clipboard";
 
-const ProviderBody = ({provider: p, socials}) => {
+const ProviderBody = ({provider: p, socials, prov}) => {
     const [array, setArray] = useState([]);
+    const [copied, setCopied] = useState('')
 
     const {t} = useTranslation();
 
@@ -17,7 +19,20 @@ const ProviderBody = ({provider: p, socials}) => {
         <div className={'ProviderBody'}>
             <div className="ProviderBody__details--container">
                 <div className="ProviderBody__details">
-                    <h2 className={'ProviderBody__name'}>{p?.name && p.name}</h2>
+                    <h2 onClick={e => {
+                        if(prov) {
+                            copy(window?.location?.href && window.location.href);
+                            setCopied(
+                                <div className={'ProviderLinkCopy__container'}>
+                                    {/*<i className="fa-solid fa-clipboard-list"></i>*/}
+                                    <p><span><i className="fa-solid fa-caret-left"></i></span>link copied</p>
+                                </div>
+                            );
+                            setTimeout(() => {
+                                setCopied('')
+                            }, 1000);
+                        }
+                    }} className={'ProviderBody__name'}>{p?.name && p.name} {copied}</h2>
                     <div className="ProviderBody__location">
                         <i className="fa-solid fa-location-dot"></i>
                         <p className={'ProviderBody__city'}>{p?.city && p?.city}</p>
