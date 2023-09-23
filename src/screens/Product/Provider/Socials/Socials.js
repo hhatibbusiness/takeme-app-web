@@ -22,17 +22,18 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
                 navigate('/login');
             }else {
                 const order = {
-                    orderId:`${Date.now()}-${activeProduct.name}_${currentUser.name}-${currentUser.phone}_${provider.name}-${provider.phone}` ,
+                    orderId:`${Date.now()}-${activeProduct?.name}_${currentUser?.name}-${currentUser?.phone}_${provider?.name}-${provider?.phone}` ,
                     // orderId: `${currentUser.phone}${currentUser.name}_${provider.phone}-${provider.name}-${activeProduct.name}-${Date.now()}`,
                     locale: lan,
                     customerId: currentUser?.id,
-                    providerId: provider?.id,
+                    providerId: activeProduct?.providerId,
                     productId: activeProduct?.id,
                     status: 'started',
-                    // "acceptedTermsAndConditions": currentUser?.termsConditionsAccepted,
+                    "acceptedTermsAndConditions": false,
+                    invoiceLink: 'test',
                     // "sort_index": 15,
-                    // "statusDetails": provider?.statusDetails,
-                    // "price": 10088,
+                    "statusDetails": 'started',
+                    "price": activeProduct?.saleDetails?.price,
                     // "comments": activeProduct?.comments
                 }
                 createOrder(order);
@@ -72,7 +73,7 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
                                 providerId: provider?.id,
                                 providerName: provider?.name,
                                 providerPhone: provider?.name,
-                                method: 'waze'
+                                method: 'maps'
                             })
                         }
                     }} target={"_blank"} href={`${!provider.googleMapLink ? formateMapsLink() : provider.googleMapLink}`} className="Socials__location--link">

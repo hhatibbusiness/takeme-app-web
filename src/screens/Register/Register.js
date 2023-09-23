@@ -66,6 +66,16 @@ const Register = ({errorMessage, validation, registerError, sendingCodeToServer,
             valid: false,
             touched: false,
             name: 'confirmPassword'
+        },
+        phoneCountryCode: {
+            value:'',
+            touched: false,
+            name: 'phoneCountryCode',
+            rules: {
+                required: true,
+            },
+            valid: false,
+            type: 'tel'
         }
     });
     const [city, setCity] = useState({
@@ -89,6 +99,7 @@ const Register = ({errorMessage, validation, registerError, sendingCodeToServer,
     const [confirmPasswordActive, setConfirmPasswordActive] = useState(false);
     const [emailActive, setEmailActive] = useState(false);
     const [cityActive, setCityActive] = useState(false);
+    const [phoneCountryCodeActive, setPhoneCountryCodeActive] = useState(false);
 
     const {t} = useTranslation();
 
@@ -139,6 +150,8 @@ const Register = ({errorMessage, validation, registerError, sendingCodeToServer,
                         setForm={setForm}
                         isValid={isValid}
                         setIsValid={setIsValid}
+                        phoneCountryCodeActive={phoneCountryCodeActive}
+                        setPhoneCountryCodeActive={setPhoneCountryCodeActive}
                     />
                 );
             case 2:

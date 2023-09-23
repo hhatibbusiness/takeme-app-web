@@ -1,7 +1,7 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './ProductPopup.scss';
 import {connect} from "react-redux";
-import {togglePopup} from "../../store/actions/ui.actions";
+import {togglePopup, openPopup as Opopup, closePopup} from "../../store/actions/ui.actions";
 import {useTranslation} from "react-i18next";
 import ProviderProductListItem
     from "../../screens/Product/Provider/ProviderProducts/ProviderProduct/ProviderProductListItem/ProviderProductListItem";
@@ -11,11 +11,67 @@ import ProviderProductTags
     from "../../screens/Product/Provider/ProviderProducts/ProviderProduct/ProviderProductTags/ProviderProductTags";
 import ProviderProductComments
     from "../../screens/Product/Provider/ProviderProducts/ProviderProduct/ProviderProductComments/ProviderProductComments";
-
-const ProductPopup = ({togglePopup, openPopup, currentProduct, term}) => {
+import history from '../../history/history';
+const ProductPopup = ({togglePopup, currentProduct, openPopup, term, Opopup, closePopup}) => {
     const [short, setShort] = useState(true);
 
     const {t} = useTranslation();
+    useEffect(() => {
+        //
+        // window.addEventListener('popstate', e => history.go(1));
+        if(openPopup) {
+            window.history.pushState(null, null, window.location.href);
+            window.addEventListener('popstate', e => {
+                e.preventDefault();
+                closePopup();
+            });
+        }
+    }, [openPopup]);
+
+    // useEffect(() => {
+    //     console.log(window);
+    //     if(!window || !document) return;
+    //     setTimeout(() => {
+    //         window.history.forward();
+    //     }, 0);
+    //     window.onpopstate = e => {
+    //         console.log(e);
+    //         // if(openPopup) {
+    //         //     // togglePopup();
+    //         //     return window.history.pushState(null, document.title, window.location.href);
+    //         // }
+    //         return window.history.pushState(-1, null);
+    //     }
+    // }, [window]);
+
+    // const onBackButtonEvent = (e) => {
+    //
+    //     e.preventDefault();var currentLocation = window.location.pathname;
+    //
+    //     window.history.pushState(`${currentLocation}/mypage/new`)};
+    //
+    // useEffect(() => {
+    //     window.addEventListener('popstate', onBackButtonEvent);return () => {window.removeEventListener('popstate', onBackButtonEvent);
+    //
+    // };}, [])
+
+    //
+    // useEffect(() => {
+    //     if(!window) return;
+    //     console.log('hello event!');
+
+    //     // window.history.pushState({}, null, window?.location?.href);
+    //     window.addEventListener('unload', e => {
+    //         // e.preventDefault();
+    //         console.log('hello back button!');
+    //         togglePopup();
+    //         function preventBack() {
+    //             window?.history?.forward();
+    //         }
+    //         setTimeout(preventBack(), 0);
+    //         window?.history?.forward();
+    //     });
+    // }, [window]);
 
     // const currentProduct = {
     //     "id": 6,
@@ -251,4 +307,4 @@ const mapStateToProps = state => ({
     currentProduct: state.ui.currentProduct
 })
 
-export default connect(mapStateToProps, {togglePopup}) (ProductPopup);
+export default connect(mapStateToProps, {togglePopup, Opopup, closePopup}) (ProductPopup);

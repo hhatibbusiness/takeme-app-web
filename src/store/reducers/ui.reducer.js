@@ -17,6 +17,16 @@ export default (state = initialState, action) => {
                 ...state,
                 openPopup: !state.openPopup
             }
+        case actionTypes.OPEN_POPUP:
+            return {
+                ...state,
+                openPopup: true
+            }
+        case actionTypes.CLOSE_POPUP:
+            return {
+                ...state,
+                openPopup: false
+            }
         default:
             return state;
     }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './Provider.scss';
 import history from '../../../history/history';
 import {useNavigate} from "react-router-dom";
@@ -9,6 +9,10 @@ import Socials from "./Socials/Socials";
 const Provider = ({provider: p, prov, socials, link, openGallery, providerOrNot}) => {
     const [activeProduct, setActiveProduct] = useState(null);
     const navigator = useNavigate();
+    useEffect(() => {
+        if (!p) return;
+        setActiveProduct(p?.products[Object.keys(p?.products)][0]);
+    }, []);
     return (
         <div className={'Provider'}>
             <div style={{background: `${prov && '#EEF2F5'}`, marginLeft: 'auto', width: '100%', paddingBottom: '10px'}}>

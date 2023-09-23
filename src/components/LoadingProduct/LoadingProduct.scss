@@ -18,7 +18,7 @@
     animation-name: placeHolderShimmer;
     animation-timing-function: linear;
     background-color: var(--sec-color-shades-2);
-    background: linear-gradient(to right, #f3f2f2 8%, #e5e5e5 100%);
+    background: linear-gradient(to right, var(--sec-color-shades-5) 8%, var(--sec-color-shades-2) 30%, var(--sec-color-shades-2) 70%, var(--sec-color-shades-5)100%);
     opacity: 0.2;
     background-size: 200px 104px;
     height: 200px;
@@ -38,7 +38,7 @@
       animation-name: placeHolderShimmerHeader;
       animation-timing-function: linear;
       background-color: #f6f7f8;
-      background: linear-gradient(to right, #f3f2f2 8%, #e5e5e5 18%, #f3f2f2 33%);
+      background: linear-gradient(to right, var(--sec-color-shades-4) 8%, var(--sec-color-shades-6) 18%, var(--sec-color-shades-4) 33%);
       background-size: 300px 104px;
       position: relative;
       margin-bottom: 20px;
@@ -53,7 +53,7 @@
       animation-name: placeHolderShimmerHeader;
       animation-timing-function: linear;
       background-color: #f6f7f8;
-      background: linear-gradient(to right, #f3f2f2 8%, #e5e5e5 18%, #f3f2f2 33%);
+      background: linear-gradient(to right, var(--sec-color-shades-4) 8%, var(--sec-color-shades-6) 18%, var(--sec-color-shades-4) 33%);
       background-size: 300px 104px;
       position: relative;
       margin-bottom: 10px;
@@ -68,7 +68,7 @@
       animation-name: placeHolderShimmerHeader;
       animation-timing-function: linear;
       background-color: #f6f7f8;
-      background: linear-gradient(to right, #f3f2f2 8%, #e5e5e5 18%, #f3f2f2 33%);
+      background: linear-gradient(to right, var(--sec-color-shades-4) 8%, var(--sec-color-shades-6) 18%, var(--sec-color-shades-4) 33%);
       background-size: 200px 50px;
       position: relative;
       //margin-bottom: 20px;

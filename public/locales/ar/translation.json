@@ -48,10 +48,11 @@
   "new password": "كلمة المرور الجديدة",
   "rewrite new password": "التحقق من كلمة المرور الجديدة",
   "change": "تغيير",
-  "more": "المزيد",
+  "more": "للمزيد",
   "less": "القليل",
   "browse": "تصفح",
   "or": "أو",
   "price": "السعر",
-  "rentPrice": "سعر الاستأجار"
+  "rentPrice": "سعر الاستأجار",
+  "phoneCountryCode": "كود الدولة"
 }

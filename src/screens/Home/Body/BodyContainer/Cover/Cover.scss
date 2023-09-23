@@ -1,6 +1,22 @@
 .Cover {
   width: 100%;
   margin-top: 50px;
+  height: 70vh;
+
+  img {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .LoadingProduct {
+    min-height: 400px;
+
+    .LoadingProduct__image {
+      //height: 100%;
+      display: block;
+      height: 50vh;
+    }
+  }
 
   .Cover__img {
     width: 100%;

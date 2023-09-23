@@ -59,6 +59,10 @@ export const endSendingCodeToServer = {
 export const sendCodeToServer = data => async dispatch => {
     try {
         dispatch(startSendingCodeToServer);
+        dispatch({
+            type: LOGIN_ERROR,
+            message: ''
+        });
         const formData = {
             email: data.email.value,
             code: data.code
@@ -95,6 +99,10 @@ export const endRegisteringCustomer = {
 export const registerCustomer = data => async disptch => {
     try {
         disptch(startRegisteringCustomer);
+        disptch({
+            type: LOGIN_ERROR,
+            message: ''
+        });
         const formData = {
             phone: data.phone,
             email: data.email,
@@ -104,7 +112,10 @@ export const registerCustomer = data => async disptch => {
             roles: ['user'],
             name: data.name,
             country: data.city,
-            city: data.city
+            city: data.city,
+            phoneCountryCode: data.phoneCountryCode,
+            statusDetails: 'test',
+            activeStatus: 'active'
         };
 
         const res = await axios.post(`${BASE_URL}endpoints/register/customer?locale=ar`, formData);
@@ -124,6 +135,10 @@ export const registerCustomer = data => async disptch => {
     } catch (e) {
         console.error(e.message);
         disptch(endRegisteringCustomer);
+        disptch({
+            type: LOGIN_ERROR,
+            message: e.message
+        });
     }
 }
 

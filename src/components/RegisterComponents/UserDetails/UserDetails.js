@@ -6,7 +6,7 @@ import Spinner from '../../../components/Spinner/Spinner.Component';
 import {registerError} from "../../../store/actions/register.actions";
 import {connect} from "react-redux";
 
-const UserDetails = ({setStep, step, phoneActive,registerError, setPhoneActive, confirmPasswordActive, setConfirmPasswordActive, setUsernameActive, usernameActive, passwordActive, setPasswordActive, email, setEmail, emailActive, setEmailActive, form, setForm, setIsValid, isValid}) => {
+const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPhoneCountryCodeActive, registerError, setPhoneActive, confirmPasswordActive, setConfirmPasswordActive, setUsernameActive, usernameActive, passwordActive, setPasswordActive, email, setEmail, emailActive, setEmailActive, form, setForm, setIsValid, isValid}) => {
     const [sending, setSending] = useState(false);
     const [sent, setSent] = useState(false);
     const [formIsValid, setFormIsValid] = useState(false);
@@ -68,12 +68,21 @@ const UserDetails = ({setStep, step, phoneActive,registerError, setPhoneActive, 
             </div>
             <div className="Register__form--element">
                 <div className="Register__form--element-wrapper">
+                    <label htmlFor="phone" className={`Register__form--element-label ${(phoneCountryCodeActive || form.phoneCountryCode.value.length > 0) && 'Register__form--element-label-active'}`}>{t('phoneCountryCode')}<span className='Register__reguired'>*</span></label>
+                    <input value={form.phoneCountryCode.value} onChange={e => {
+                        handleInputChange(e, form.phoneCountryCode)
+                    }} onBlur={e => form.phoneCountryCode.value.length === 0 && setPhoneCountryCodeActive(false)} onFocus={e => setPhoneCountryCodeActive(true)} name={'phone'} type="tel" className={`Register__form--element-input Register__form--element-inputPhone ${(form['phoneCountryCode'].touched && !form['phoneCountryCode'].valid) && 'Register__element--input-notvalid'}`} />
+                </div>
+            </div>
+            <div className="Register__form--element">
+                <div className="Register__form--element-wrapper">
                     <label htmlFor="phone" className={`Register__form--element-label ${(phoneActive || form.phone.value.length > 0) && 'Register__form--element-label-active'}`}>{t('phone')}<span className='Register__reguired'>*</span></label>
                     <input value={form.phone.value} onChange={e => {
-                        handleInputChange(e, form.phone)
+                        handleInputChange(e, form.phone);
                     }} onBlur={e => form.phone.value.length === 0 && setPhoneActive(false)} onFocus={e => setPhoneActive(true)} name={'phone'} type="tel" className={`Register__form--element-input Register__form--element-inputPhone ${(form['phone'].touched && !form['phone'].valid) && 'Register__element--input-notvalid'}`} />
                 </div>
             </div>
+
             <div className="Register__form--element">
                 <div className="Register__form--element-wrapper">
                     <label htmlFor="email" className={`Register__form--element-label ${(emailActive || form.email.value.length > 0) && 'Register__form--element-label-active'}`}>{t('email')}<span className='Register__reguired'>*</span></label>

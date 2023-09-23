@@ -58,7 +58,8 @@ const Submit = ({validation, city, isValid, registerCustomer, registeringCustome
                         name: form.username.value,
                         country: city.value,
                         city: city.value,
-                        navigate
+                        navigate,
+                        phoneCountryCode: form.phoneCountryCode.value
                     }
                     await registerCustomer(data);
                 }} disabled={!agree || !isValid || !validation.valid || validation.email != form.email.value} className="Register__form--button Register__form--button-submit">

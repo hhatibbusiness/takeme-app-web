@@ -48,11 +48,13 @@
   "phone": "מספר הטלפון",
   "confirmpassworderror": "נא להזין סיסמה לאשר",
   "passwordmatcherror": "הסיסמה וסיסמת האישור חייבים להתאים",
-  "more": "יותר",
+  "more": "לעוד",
   "less": "קטן",
   "browse": "לְדַפדֵף",
   "or": "או",
   "price": "המחיר",
-  "rentPrice": "מחיר השכרה"
+  "rentPrice": "מחיר השכרה",
+  "phoneCountryCode": "קוד מדינה"
+
 
 }
