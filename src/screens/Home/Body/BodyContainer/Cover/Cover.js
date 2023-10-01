@@ -11,22 +11,22 @@ const Cover = ({assets, products, categories, curId}) => {
     const [imgUI, setImgUI] = useState(null);
     const [currentCategory, setCurrentCategory] = useState(null);
 
-    useEffect(() => {
-        if(categories?.length == 0 || !curId) return;
-        console.log(curId);
-        setCurrentCategory(prevState => {
-            return categories.filter(ca => ca.id == curId)[0];
-        });
-        setImgLoaded(false);
-        setImgUI(null);
-    }, [categories, curId]);
+    // useEffect(() => {
+    //     if(categories?.length == 0 || !curId) return;
+    //     console.log(curId);
+    //     setCurrentCategory(prevState => {
+    //         return categories.filter(ca => ca.id == curId)[0];
+    //     });
+    //     setImgLoaded(false);
+    //     setImgUI(null);
+    // }, [categories, curId]);
 
     const renderImage = async () => {
         try{
             console.log(currentCategory)
-            const res = await axios.get(currentCategory?.imagePath);
+            const res = await axios.get(assets?.coverPath && assets?.coverPath);
             if(res.status === 200) {
-                const img = <Img setImgLoaded={setImgLoaded} imgUrl={currentCategory?.imagePath}/>;
+                const img = <Img setImgLoaded={setImgLoaded} imgUrl={assets?.coverPath && assets?.coverPath}/>;
                 setImgUI(img);
             }
         }catch(e) {
@@ -38,17 +38,21 @@ const Cover = ({assets, products, categories, curId}) => {
     }
 
     useEffect(() => {
-        if(categories.length == 0 || !curId || !currentCategory) return ;
-        console.log(curId);
         renderImage()
-    }, [currentCategory]);
+    }, [assets]);
 
-    useEffect(() => {
-        if(!curId) return setCurrentCategory({
-            imagePath: assets.coverPath
-        });
-        renderImage();
-    }, []);
+    // useEffect(() => {
+    //     if(categories.length == 0 || !curId || !currentCategory) return ;
+    //     console.log(curId);
+    //     renderImage()
+    // }, [currentCategory]);
+    //
+    // useEffect(() => {
+    //     if(!curId) return setCurrentCategory({
+    //         imagePath: assets.coverPath
+    //     });
+    //     renderImage();
+    // }, []);
 
     return (
         <div className={'Cover'}>

@@ -12,6 +12,7 @@
     //min-height: 200px;
     width: 100%;
     margin: auto;
+    margin-bottom: 20px;
     animation-duration: 6s;
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;
@@ -21,54 +22,54 @@
     background: linear-gradient(to right, var(--sec-color-shades-5) 8%, var(--sec-color-shades-2) 30%, var(--sec-color-shades-2) 70%, var(--sec-color-shades-5)100%);
     opacity: 0.2;
     background-size: 200px 104px;
-    height: 200px;
+    height: 350px;
     position: relative;
   }
 
   .LoadingProduct__details {
-    padding: 20px;
+    //padding: 20px;
     margin-bottom: 25px;
 
     .LoadingProduct__header {
-      height: 26.8px;
+      height: 20px;
       width: 100px;
       animation-duration: 2s;
       animation-fill-mode: forwards;
       animation-iteration-count: infinite;
       animation-name: placeHolderShimmerHeader;
       animation-timing-function: linear;
-      background-color: #f6f7f8;
-      background: linear-gradient(to right, var(--sec-color-shades-4) 8%, var(--sec-color-shades-6) 18%, var(--sec-color-shades-4) 33%);
+      background-color: var(--sec-color-shades-2);
+      background: linear-gradient(to right, var(--sec-color-shades-5) 8%, var(--sec-color-shades-2) 30%, var(--sec-color-shades-2) 70%, var(--sec-color-shades-5)100%);
       background-size: 300px 104px;
       position: relative;
       margin-bottom: 20px;
     }
 
     .LoadingProduct__msg {
-      height: 24px;
+      height: 18px;
       width: 120px;
       animation-duration: 2s;
       animation-fill-mode: forwards;
       animation-iteration-count: infinite;
       animation-name: placeHolderShimmerHeader;
       animation-timing-function: linear;
-      background-color: #f6f7f8;
-      background: linear-gradient(to right, var(--sec-color-shades-4) 8%, var(--sec-color-shades-6) 18%, var(--sec-color-shades-4) 33%);
+      background-color: var(--sec-color-shades-2);
+      background: linear-gradient(to right, var(--sec-color-shades-5) 8%, var(--sec-color-shades-2) 30%, var(--sec-color-shades-2) 70%, var(--sec-color-shades-5)100%);
       background-size: 300px 104px;
       position: relative;
       margin-bottom: 10px;
     }
 
     .LoadingProduct__price {
-      height: 21.6px;
+      height: 18px;
       width: 150px;
       animation-duration: 2s;
       animation-fill-mode: forwards;
       animation-iteration-count: infinite;
       animation-name: placeHolderShimmerHeader;
       animation-timing-function: linear;
-      background-color: #f6f7f8;
-      background: linear-gradient(to right, var(--sec-color-shades-4) 8%, var(--sec-color-shades-6) 18%, var(--sec-color-shades-4) 33%);
+      background-color: var(--sec-color-shades-2);
+      background: linear-gradient(to right, var(--sec-color-shades-5) 8%, var(--sec-color-shades-2) 30%, var(--sec-color-shades-2) 70%, var(--sec-color-shades-5)100%);
       background-size: 200px 50px;
       position: relative;
       //margin-bottom: 20px;
@@ -106,3 +107,8 @@
   }
 }
 
+@media (max-width: 500px) {
+  .LoadingProduct {
+    max-width: 500px !important;
+  }
+}

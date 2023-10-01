@@ -29,7 +29,7 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
                     providerId: activeProduct?.providerId,
                     productId: activeProduct?.id,
                     status: 'started',
-                    "acceptedTermsAndConditions": false,
+                    "acceptedTermsAndConditions": 0,
                     invoiceLink: 'test',
                     // "sort_index": 15,
                     "statusDetails": 'started',

@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import ProviderProduct from "../ProviderProduct";
 import GalleryItem from "./GalleryItem/GalleryItem";
 import Dots from "../../Dots/Dots";
+import {getAnalytics, logEvent} from "firebase/analytics";
 
 const Gallery = ({product, closeGallery}) => {
     const [active, setActive] = useState(0);
@@ -43,6 +44,19 @@ const Gallery = ({product, closeGallery}) => {
                 className="mySwiper"
                 onSlideChange={swiper => {
                     setActive(swiper.activeIndex);
+                    const currentImage = product?.images?.length > 0 && product?.images[swiper.activeIndex];
+                    console.log(currentImage);
+                    const analytics = getAnalytics();
+
+                    logEvent(analytics, 'swipe-image', {
+                        imageName: currentImage?.imagePath
+                    });
+
+                    if(product?.images.length == swiper.activeIndex) {
+                        logEvent(analytics, 'last-photo', {
+                            imagesPath: currentImage.imagesPath
+                        })
+                    }
                 }}
             >
                 {

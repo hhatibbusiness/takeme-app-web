@@ -9,18 +9,19 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow-y: auto;
+  overflow-y: scroll;
   //backface-visibility: hidden;
   //backdrop-filter: none;
   width: 100vw;
   height: 100vh;
-  overscroll-behavior: contain;
-  overscroll-behavior-y: none;
+  //overscroll-behavior: contain;
+  //overscroll-behavior-y: none;
 
   .ProductScreen__container {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    //overflow-y: scroll;
   }
 
   .Navbar {
@@ -41,5 +42,11 @@
   to {
     width: 100vw;
     height: 100vh;
+  }
+}
+
+@media (max-width: 500px) {
+  .ProductScreen__container {
+    padding-bottom: 40px;
   }
 }

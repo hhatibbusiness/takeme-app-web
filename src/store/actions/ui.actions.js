@@ -1,4 +1,9 @@
-import {CHANGE_CURRENT_POPUP_PRODUCT, CLOSE_POPUP, OPEN_POPUP, TOGGLE_POPUP} from "./action.types";
+import {
+    CHANGE_CURRENT_POPUP_PRODUCT,
+    CLOSE_POPUP,
+    OPEN_POPUP,
+    TOGGLE_POPUP
+} from "./action.types";
 
 export const changePopupProduct = product => ({
     type: CHANGE_CURRENT_POPUP_PRODUCT,

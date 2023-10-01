@@ -10,6 +10,7 @@ import SpinnerComponent from "../../components/Spinner/Spinner.Component";
 import ProviderLinkCopy from "./ProviderLinkCopy/ProviderLinkCopy";
 import Failure from "../Product/Provider/ProviderProducts/Failure/Failure";
 import {useTranslation} from "react-i18next";
+import {getAnalytics, logEvent} from "firebase/analytics";
 
 const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery}) => {
     const params = useParams();
@@ -19,6 +20,14 @@ const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provid
     }, [params.providerId]);
     const {t} = useTranslation();
 
+    useEffect(() => {
+        if(Object.keys(provider).length == 0 && loadingProvider) return;
+        const analytics = getAnalytics();
+        logEvent(analytics, 'provider-screen', {
+            providerName: provider.name,
+            providerId: provider.id
+        })
+    }, [provider]);
 
     useEffect(() => {
         const home = document.querySelector('body');

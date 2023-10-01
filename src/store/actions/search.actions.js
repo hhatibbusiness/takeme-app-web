@@ -7,6 +7,7 @@ import {
 } from "./action.types";
 import { BASE_URL } from "../../utls/assets";
 import tokenUnautharizedMiddleware from "../../utls/middlewares/token.unautharized.middleware";
+import {getAnalytics, logEvent} from "firebase/analytics";
 
 const providersArray = [
     {
@@ -2834,6 +2835,12 @@ export const fetchSearchResults = (lan, categoryId, filter, term, page, navigate
             // results: providers
             results: res.data
         });
+        if(page > 0 && res.data.length > 0) {
+            const analytics = getAnalytics();
+            logEvent(analytics, 'pagination', {
+                paginationName: 'search-providers'
+            });
+        }
         dispatch(endFetchingSearchResults);
         dispatch(increaseSearchPage());
     } catch (e) {

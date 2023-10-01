@@ -13,8 +13,9 @@ import ProviderProductComments from "./ProviderProductComments/ProviderProductCo
 import ProviderProductVariables from "./ProviderProductVariables/ProviderProductVariables";
 import {togglePopup} from "../../../../../store/actions/ui.actions";
 import {changePopupProduct} from "../../../../../store/actions/ui.actions";
+import {getAnalytics, logEvent} from "firebase/analytics";
 
-const ProviderProduct = ({imgRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
+const ProviderProduct = ({imgRef, search, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
     const [imgLoaded, setImgLoaded] = useState(false);
     const [imgUI, setImgUI] = useState(null);
     const [detailed, setDetailed] = useState(false);
@@ -64,9 +65,14 @@ const ProviderProduct = ({imgRef, togglePopup, product, changePopupProduct, slid
     }
 
     return (
-        <div ref={imgRef} className={'ProviderProduct'}>
+        <div onClick={e => {
+            const analytics = getAnalytics();
+            logEvent(analytics, 'search', {
+                productId: product.id
+            })
+        }} ref={imgRef} className={'ProviderProduct'}>
                 {
-                    imgUI && (
+                    imgUI ? (
                         <div className={`ProviderProduct__container ${imgLoaded ? 'ProviderProduct__visible' : 'ProviderProduct__hidden'}`}>
                             <div onClick={() => openGallery(product)} className={'ProviderProduct__body--container'}>
                                 <div className="ProviderProduct__image--container">
@@ -136,16 +142,23 @@ const ProviderProduct = ({imgRef, togglePopup, product, changePopupProduct, slid
                                             {/*{product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}*/}
                                             {product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => {
                                                 changePopupProduct(product);
-                                                togglePopup()
+                                                togglePopup();
+                                                const analytics = getAnalytics();
+                                                logEvent(analytics, 'expand', {
+                                                    productName: product.name,
+                                                    productId: product.id,
+                                                    screen: search && 'search' || 'provider'
+                                                })
                                             }} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}
                                         </div>
                                     )
                                 }
                             </div>
                         </div>
+                    ) : (
+                        <LoadingProduct priceStartFrom={true} priceTitle={true} imgLoaded={imgLoaded} details={true} btn={false} />
                     )
                 }
-            <LoadingProduct priceStartFrom={true} priceTitle={true} imgLoaded={imgLoaded} details={true} btn={false} />
         </div>
     );
 };

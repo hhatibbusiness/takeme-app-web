@@ -4,6 +4,7 @@ import {useTranslation} from 'react-i18next';
 import {useNavigate} from "react-router-dom";
 import {fetchSearchResults, changeSearchTerm} from "../../../../store/actions/search.actions";
 import {connect} from "react-redux";
+import {getAnalytics, logEvent} from "firebase/analytics";
 
 const waitTime = 1000;
 
@@ -32,7 +33,11 @@ const Search = ({focused, fetchSearchResults, lan, changeSearchTerm}) => {
     }
 
     return (
-        <div  onClick={() => navigate('/search')} className={'Search'}>
+        <div  onClick={() => {
+            navigate('/search');
+            const analytics = getAnalytics();
+            logEvent(analytics, 'search_bar', {});
+        }} className={'Search'}>
             <form onSubmit={e=> e.preventDefault()} className="Search__form">
                 <input value={searchTerm} onChange={inputChangeHandler} onKeyUp={inputKeyUpHandler} ref={inputRef} type="text" className="Search__input" placeholder={t('search')}/>
                 <button className="Search__btn">

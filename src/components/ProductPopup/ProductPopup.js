@@ -12,6 +12,7 @@ import ProviderProductTags
 import ProviderProductComments
     from "../../screens/Product/Provider/ProviderProducts/ProviderProduct/ProviderProductComments/ProviderProductComments";
 import history from '../../history/history';
+import {getAnalytics, logEvent} from "firebase/analytics";
 const ProductPopup = ({togglePopup, currentProduct, openPopup, term, Opopup, closePopup}) => {
     const [short, setShort] = useState(true);
 
@@ -24,6 +25,11 @@ const ProductPopup = ({togglePopup, currentProduct, openPopup, term, Opopup, clo
             window.addEventListener('popstate', e => {
                 e.preventDefault();
                 closePopup();
+                const analytics = getAnalytics();
+                logEvent(analytics, 'collapse', {
+                    productName: currentProduct.name,
+                    productId: currentProduct.id,
+                })
             });
         }
     }, [openPopup]);
@@ -296,7 +302,12 @@ const ProductPopup = ({togglePopup, currentProduct, openPopup, term, Opopup, clo
             <div className={`ProductPopup__backdrop ${openPopup && 'ProductPopup__backdrop--open'}`} onClick={e => {
                 console.log('Hello');
                 togglePopup();
-                notFullHeight()
+                notFullHeight();
+                const analytics = getAnalytics();
+                logEvent(analytics, 'collapse', {
+                    productName: currentProduct.name,
+                    productId: currentProduct.id,
+                })
             }}></div>
         </div>
     );

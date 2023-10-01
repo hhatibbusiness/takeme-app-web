@@ -104,7 +104,7 @@ const SearchScreen = ({
                                         {
                                             searchResults.map((p, i) => (
                                                 <>
-                                                    <Provider link provider={p} key={p.id} openGallery={openSearchGallery}/>
+                                                    <Provider search={true} link provider={p} key={p.id} openGallery={openSearchGallery}/>
                                                     {
                                                         gallery && <Gallery product={galleryProduct} closeGallery={closeSearchGallery} openGallery={openSearchGallery} />
                                                     }

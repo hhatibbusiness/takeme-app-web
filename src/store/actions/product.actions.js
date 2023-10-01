@@ -11,6 +11,7 @@ import {
 } from "./action.types";
 import { BASE_URL } from '../../utls/assets';
 import tokenUnautharizedMiddleware from "../../utls/middlewares/token.unautharized.middleware";
+import {getAnalytics, logEvent} from "firebase/analytics";
 
 const providersArray = [
     {
@@ -2829,6 +2830,12 @@ export const fetchProductDetails = (id, page, lan, filter, navigate) => async di
             // providers: providers
             providers: res.data.output
         });
+        if(page > 0 && res.data.output.length > 0) {
+            const analytics = getAnalytics();
+            logEvent(analytics, 'pagination', {
+                paginationName: 'product-type-providers'
+            })
+        }
         dispatch(increaseProvidersFetchingPage());
         dispatch(endFetchingProvidersProducts);
     } catch (e) {

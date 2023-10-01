@@ -23,13 +23,17 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
         localStorage.removeItem('takemeuser')
     }, []);
 
-    const browseClickHandler = e => {
-        e.preventDefault();
+    const browseClickHandler = () => {
+        // e.preventDefault();
         localStorage.removeItem('takemetoken');
         localStorage.removeItem('takemeuser')
         navigate('/');
         navigate(0);
     }
+
+    useEffect(() => {
+        browseClickHandler();
+    }, []);
 
     useEffect(() => {
         const home = document.querySelector('body');

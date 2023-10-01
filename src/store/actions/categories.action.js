@@ -10,6 +10,7 @@ import {
 import {changeSearchCategoryId} from "./search.actions";
 import {BASE_URL} from "../../utls/assets";
 import tokenUnautharizedMiddleware from "../../utls/middlewares/token.unautharized.middleware";
+import {getAnalytics, logEvent} from "firebase/analytics";
 
 // 'https://takeme-all.com/app/endpoints/categories/list?locale=ar';
 // https://takeme-all.com/app/endpoints/products-types?locale=ar&categoryId=${id}&page=0
@@ -80,6 +81,12 @@ export const fetchCategoryProducts = (id, lan, page, filter, navigate) => async 
             products: res.data
         });
         dispatch(increasePageNumber());
+        const analytics = getAnalytics();
+        if(page > 0 && res.status == 200 && res?.data?.length > 0) {
+            logEvent(analytics, 'pagination', {
+                paginationName: 'procutType'
+            })
+        }
         dispatch(errorInactive)
         if(page == 0) dispatch(endFetchingProducts);
     } catch (e) {

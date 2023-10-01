@@ -3,6 +3,7 @@ import './ProviderBody.scss';
 import Socials from "../../Socials/Socials";
 import {useTranslation} from "react-i18next";
 import copy from "copy-to-clipboard";
+import {getAnalytics, logEvent} from "firebase/analytics";
 
 const ProviderBody = ({provider: p, socials, prov}) => {
     const [array, setArray] = useState([]);
@@ -31,6 +32,11 @@ const ProviderBody = ({provider: p, socials, prov}) => {
                             setTimeout(() => {
                                 setCopied('')
                             }, 1000);
+                            const analytics = getAnalytics();
+                            logEvent(analytics, 'link copied', {
+                                providerName: p.name,
+                                providerId: p.id
+                            })
                         }
                     }} className={'ProviderBody__name'}>{p?.name && p.name} {copied}</h2>
                     <div className="ProviderBody__location">

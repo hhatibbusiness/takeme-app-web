@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/action.types';
+import {getAnalytics, logEvent} from "firebase/analytics";
 
 const initialState = {
     currentProduct: null,
