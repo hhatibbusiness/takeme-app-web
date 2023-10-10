@@ -3,12 +3,12 @@ import './LoadingProduct.scss';
 import {useTranslation} from "react-i18next";
 
 
-const LoadingProduct = ({btn, details, imgLoaded, priceTitle, priceStartFrom}) => {
+const LoadingProduct = ({btn, imgLoaderRef, details, imgLoaded, priceTitle, priceStartFrom}) => {
     const {t} = useTranslation();
 
     return (
         <div className={'LoadingProduct'} style={{paddingTop: `${details ? '30px' : 0}`, padding: `${details ? '0' : '0'}`, display: `${imgLoaded ? 'none' : 'block'}`}}>
-            <div className="LoadingProduct__image" style={{minHeight: `${details ? '200px' : '100%'}`}}></div>
+            <div ref={imgLoaderRef} className="LoadingProduct__image" style={{minHeight: `${details ? '200px' : '100%'}`}}></div>
             {
                 details && (
                     <div className={'LoadingProduct__details'}>

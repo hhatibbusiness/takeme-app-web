@@ -3,18 +3,18 @@ import './Img.scss';
 import {connect} from "react-redux";
 import {changeSliderValue} from "../../../../../../../../store/actions/categories.action";
 
-const Img = ({value, imgUrl, setImgLoaded}) => {
-    const imgRef = useRef();
+const Img = ({value, ref, imgUrl, setImgLoaded, imgRefDub: imgRef}) => {
+    // const imgRef = useRef();
     useEffect(() => {
-        if(!imgRef.current) return;
-        const image = imgRef.current;
+        if(!imgRef?.current) return;
+        const image = imgRef?.current;
         image.addEventListener('load', () => {
             console.log(imgUrl);
             setImgLoaded(true);
         })
     }, [imgRef]);
     return (
-        <img ref={imgRef} className={'Img'} style={{width: `${value < 100 ? '100%' : 'unset'}`, height: `${value < 100 && '100%'}`}} onClick={() => {
+        <img ref={imgRef}  className={'Img'} style={{width: `${value < 100 && '100%'}`}} onClick={() => {
             // setGalleryOpen(true);
         }} src={imgUrl} alt=""/>
     );

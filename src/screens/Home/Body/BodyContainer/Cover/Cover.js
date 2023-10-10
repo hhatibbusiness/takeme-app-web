@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './Cover.scss';
 import {connect} from "react-redux";
 import axios from "axios";
@@ -10,6 +10,7 @@ const Cover = ({assets, products, categories, curId}) => {
     const [imgLoaded, setImgLoaded] = useState(false);
     const [imgUI, setImgUI] = useState(null);
     const [currentCategory, setCurrentCategory] = useState(null);
+    const imgRefDub = useRef(null);
 
     // useEffect(() => {
     //     if(categories?.length == 0 || !curId) return;
@@ -26,7 +27,9 @@ const Cover = ({assets, products, categories, curId}) => {
             console.log(currentCategory)
             const res = await axios.get(assets?.coverPath && assets?.coverPath);
             if(res.status === 200) {
-                const img = <Img setImgLoaded={setImgLoaded} imgUrl={assets?.coverPath && assets?.coverPath}/>;
+                const img = await  <Img imgRefDub={imgRefDub} setImgLoaded={setImgLoaded} imgUrl={assets?.coverPath && assets?.coverPath}/>;
+                // setImgUI(img);
+                // await setImgLoaded(true);
                 setImgUI(img);
             }
         }catch(e) {
@@ -59,7 +62,14 @@ const Cover = ({assets, products, categories, curId}) => {
             {/*<img src={assets?.coverPath && assets.coverPath} className={'Cover__img'} />*/}
             {
                 imgUI && (
-                    imgUI
+                    <>
+                        <div className={`${imgLoaded ? 'Cover__visible' : 'Cover__hidden'}`}>
+                            {
+                                imgUI
+                            }
+                        </div>
+                        {/*<LoadingProduct priceStartFrom={true} priceTitle={false} imgLoaded={imgLoaded} details={false} btn={false} />*/}
+                    </>
                 )
             }
             <LoadingProduct priceStartFrom={true} priceTitle={false} imgLoaded={imgLoaded} details={false} btn={false} />

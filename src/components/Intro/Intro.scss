@@ -6,12 +6,25 @@
   height: 100vh;
   background: var(--main-color-green-light-1);
 
-  .Intro__logo {
-    width: 130px;
-    height: 130px;
+  .Intro__container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    .Intro__logo {
+      width: 130px;
+      height: 130px;
+    }
+
+    p {
+      text-align: center;
+      font-size: 17px;
+      font-style: italic;
+      position: relative;
+      top: -39px;
+      font-family: 'wotfard';
+    }
   }
+
 }

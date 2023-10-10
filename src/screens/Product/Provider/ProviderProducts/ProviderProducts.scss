@@ -18,21 +18,29 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 10px;
   flex: 1;
+  background: #eff2f5;
 
   .ProviderProducts__array {
     position: relative;
+    background: white;
+    //padding: 10px 0;
+    padding-bottom: 10px;
     flex: 1;
-    &::after {
-      content: '';
-      width: 100%;
-      height: 1px;
-      background-color: lightgrey;
-      position: absolute;
-      bottom: -20px;
-      //z-index: 100000;
+
+    &:first-child {
+      //padding: 0 0 10px 0;
     }
+    //&::after {
+    //  content: '';
+    //  width: 100%;
+    //  height: 1px;
+    //  background-color: lightgrey;
+    //  position: absolute;
+    //  bottom: -20px;
+    //  //z-index: 100000;
+    //}
 
     &:last-of-type {
       &::after {
@@ -103,5 +111,6 @@
 }
 
 .mySwiper {
+  flex: 1;
   height: 100%;
 }

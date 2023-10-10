@@ -15,7 +15,7 @@ import {togglePopup} from "../../../../../store/actions/ui.actions";
 import {changePopupProduct} from "../../../../../store/actions/ui.actions";
 import {getAnalytics, logEvent} from "firebase/analytics";
 
-const ProviderProduct = ({imgRef, search, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
+const ProviderProduct = ({imgRef, providerOrNot, productTypesCount, search, providerRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
     const [imgLoaded, setImgLoaded] = useState(false);
     const [imgUI, setImgUI] = useState(null);
     const [detailed, setDetailed] = useState(false);
@@ -23,12 +23,16 @@ const ProviderProduct = ({imgRef, search, togglePopup, product, changePopupProdu
     const navigate = useNavigate();
     const descRef = useRef();
     const {t} = useTranslation();
+    const imgRefDub = useRef(null);
+    const imgLoaderRef = useRef(null);
+    const containerRef = useRef(null);
+    const failureRef = useRef(null);
 
     const renderImage = async () => {
         try{
             const res = await axios.get(product?.images[0]?.imagePath);
             if(res.status === 200) {
-                const img = <Img setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath}/>;
+                const img = <Img imgRefDub={imgRefDub} setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath}/>;
                 setImgUI(img);
             }
         }catch(e) {
@@ -64,6 +68,42 @@ const ProviderProduct = ({imgRef, search, togglePopup, product, changePopupProdu
         }
     }
 
+    const imgContainerRef = useRef();
+    //
+    // useEffect(() => {
+    //     if(!imgContainerRef?.current || !imgRef?.current) return;
+    //     window.addEventListener('resize', () => {
+    //         imgContainerRef.current.style.height = `${imgRef.current.getBoundingClientRect().height}px`;
+    //     })
+    //     console.log(imgContainerRef, imgRef);
+    // }, []);
+
+    const changeHeightToWidth = () => {
+        const imgElement = containerRef.current;
+        const imgLoader = imgLoaderRef.current
+        const imgContainer = imgContainerRef.current;
+        const providerElem = providerRef.current;
+        if(!imgElement) return;
+        const containerHeight = imgElement?.getBoundingClientRect().width;
+        console.log(imgContainer);
+        if(imgLoader) imgLoader.style.height = `${containerHeight}px`;
+        if(imgContainer) imgContainer.style.height = `${containerHeight}px`;
+        if(providerElem && !providerOrNot) providerElem.style.height = `${750 + (containerHeight - 400)}px`;
+        if(providerElem && providerOrNot) providerElem.style.height = `${250 + 400 * productTypesCount + productTypesCount * 200 + (containerHeight - 400) * productTypesCount}px`;
+    }
+
+
+    useEffect(() => {
+        changeHeightToWidth();
+    }, [imgLoaded, providerOrNot]);
+
+    useEffect(() => {
+        window.addEventListener('resize', () => {
+            changeHeightToWidth();
+        });
+    }, []);
+
+
     return (
         <div onClick={e => {
             const analytics = getAnalytics();
@@ -71,94 +111,95 @@ const ProviderProduct = ({imgRef, search, togglePopup, product, changePopupProdu
                 productId: product.id
             })
         }} ref={imgRef} className={'ProviderProduct'}>
+            <div ref={containerRef} className={`ProviderProduct__container`}>
                 {
-                    imgUI ? (
-                        <div className={`ProviderProduct__container ${imgLoaded ? 'ProviderProduct__visible' : 'ProviderProduct__hidden'}`}>
-                            <div onClick={() => openGallery(product)} className={'ProviderProduct__body--container'}>
-                                <div className="ProviderProduct__image--container">
-                                    {
-                                        imgUI
-                                    }
+                    imgUI && (
+                            <div className={`${imgLoaded ? 'ProviderProduct__visible' : 'ProviderProduct__hidden'}`}>
+                                <div onClick={() => openGallery(product)} className={'ProviderProduct__body--container'}>
+                                    <div ref={imgContainerRef} className="ProviderProduct__image--container">
+                                        {
+                                            imgUI
+                                        }
+                                    </div>
                                 </div>
-                            </div>
-                            <div className={'ProviderProduct__details'}>
-                                {
-                                    renderName()
-                                }
-                                <div className="ProviderProduct__details--prices">
+                                <div className={'ProviderProduct__details'}>
                                     {
-                                        product?.saleDetails && (
-                                            <div className={'ProviderProduct__details--sale'}>
-                                                {
-                                                    product?.saleDetails?.comment && (
-                                                        <div className="ProviderProduct__details--sale-icon">
-                                                            <i className="fa-solid fa-circle-exclamation"></i>
-                                                        </div>
-                                                    )
-                                                }
-                                                <div className="ProviderProduct__details--sale-price">
-                                                    {t('price')}
-                                                </div>
-                                                <div className="ProviderProduct__details--sale-pricenum">
-                                                    {
-                                                        product?.saleDetails?.price && <span>{product?.saleDetails?.price}</span>
-                                                    }
-                                                </div>
-                                                <div className="ProviderProduct__details--sale-shekel">
-                                                    <i className="fa-solid fa-shekel-sign"></i>
-                                                </div>
-                                            </div>
-                                        )
+                                        renderName()
                                     }
-                                    {
-                                        product?.rentDetails && (
-                                            <div className={'ProviderProduct__details--rent'}>
-                                                {
-                                                    product?.rentDetails?.comment && (
-                                                        <div className="ProviderProduct__details--sale-icon">
-                                                            <i className="fa-solid fa-circle-exclamation"></i>
-                                                        </div>
-                                                    )
-                                                }
+                                    <div className="ProviderProduct__details--prices">
+                                        {
+                                            product?.saleDetails && (
+                                                <div className={'ProviderProduct__details--sale'}>
+                                                    {
+                                                        product?.saleDetails?.comment && (
+                                                            <div className="ProviderProduct__details--sale-icon">
+                                                                <i className="fa-solid fa-circle-exclamation"></i>
+                                                            </div>
+                                                        )
+                                                    }
+                                                    <div className="ProviderProduct__details--sale-price">
+                                                        {t('price')}
+                                                    </div>
+                                                    <div className="ProviderProduct__details--sale-pricenum">
+                                                        {
+                                                            product?.saleDetails?.price && <span>{product?.saleDetails?.price}</span>
+                                                        }
+                                                    </div>
+                                                    <div className="ProviderProduct__details--sale-shekel">
+                                                        <i className="fa-solid fa-shekel-sign"></i>
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
+                                        {
+                                            product?.rentDetails && (
+                                                <div className={'ProviderProduct__details--rent'}>
+                                                    {
+                                                        product?.rentDetails?.comment && (
+                                                            <div className="ProviderProduct__details--sale-icon">
+                                                                <i className="fa-solid fa-circle-exclamation"></i>
+                                                            </div>
+                                                        )
+                                                    }
 
-                                                <div className="ProviderProduct__details--rent-price">
-                                                    {t('rentPrice')}
+                                                    <div className="ProviderProduct__details--rent-price">
+                                                        {t('rentPrice')}
+                                                    </div>
+                                                    <div className="ProviderProduct__details--rent-pricenum">
+                                                        {
+                                                            product?.rentDetails?.price && <span>{product?.rentDetails?.price}</span>
+                                                        }
+                                                    </div>
+                                                    <div className="ProviderProduct__details--rent-shekel">
+                                                        <i className="fa-solid fa-shekel-sign"></i>
+                                                    </div>
                                                 </div>
-                                                <div className="ProviderProduct__details--rent-pricenum">
-                                                    {
-                                                        product?.rentDetails?.price && <span>{product?.rentDetails?.price}</span>
-                                                    }
-                                                </div>
-                                                <div className="ProviderProduct__details--rent-shekel">
-                                                    <i className="fa-solid fa-shekel-sign"></i>
-                                                </div>
+                                            )
+                                        }
+                                    </div>
+                                    {
+                                        product?.description && (
+                                            <div className="ProviderProduct__details--desc">
+                                                {/*{product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}*/}
+                                                {product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => {
+                                                    changePopupProduct(product);
+                                                    togglePopup();
+                                                    const analytics = getAnalytics();
+                                                    logEvent(analytics, 'expand', {
+                                                        productName: product.name,
+                                                        productId: product.id,
+                                                        screen: search && 'search' || 'provider'
+                                                    })
+                                                }} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}
                                             </div>
                                         )
                                     }
                                 </div>
-                                {
-                                    product?.description && (
-                                        <div className="ProviderProduct__details--desc">
-                                            {/*{product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}*/}
-                                            {product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => {
-                                                changePopupProduct(product);
-                                                togglePopup();
-                                                const analytics = getAnalytics();
-                                                logEvent(analytics, 'expand', {
-                                                    productName: product.name,
-                                                    productId: product.id,
-                                                    screen: search && 'search' || 'provider'
-                                                })
-                                            }} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}
-                                        </div>
-                                    )
-                                }
                             </div>
-                        </div>
-                    ) : (
-                        <LoadingProduct priceStartFrom={true} priceTitle={true} imgLoaded={imgLoaded} details={true} btn={false} />
                     )
                 }
+                <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={true} priceTitle={true} imgLoaded={imgLoaded} details={true} btn={false} />
+            </div>
         </div>
     );
 };

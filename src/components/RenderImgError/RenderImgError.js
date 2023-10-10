@@ -2,9 +2,10 @@ import React, {useEffect} from 'react';
 import './RenderImgError.scss';
 import {connect} from "react-redux";
 
-const RenderImgError = ({value}) => {
+const RenderImgError = ({value, failureRef}) => {
     return (
-        <div style={{height: `${value < 100 ? '100%' : '50%'}`}} className={'RenderImgError'}>
+        // <div ref={failureRef} style={{height: `${value < 100 ? '100%' : '50%'}`}} className={'RenderImgError'}>
+        <div ref={failureRef} className={'RenderImgError'}>
             <i className="fa-solid fa-circle-exclamation"></i>
             <p style={{fontSize: `${value === 100 && '12px'}`}}>فشل تحميل الصورة</p>
         </div>

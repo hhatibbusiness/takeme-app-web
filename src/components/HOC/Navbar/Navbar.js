@@ -15,6 +15,7 @@ const Navbar = ({assets, setSidebar, backBtn, backUrl, midText, search, focused}
             <div className={'Navbar__container'}>
                 <div onClick={() => backBtn && navigate('/')} style={{cursor: `${backBtn && 'pointer'}`}} className="Navbar__logo">
                     <img src={assets?.logoPath && assets.logoPath} alt="logo"/>
+                    {/*<p>For Your Needs</p>*/}
                 </div>
                 {
                     search && <Search />

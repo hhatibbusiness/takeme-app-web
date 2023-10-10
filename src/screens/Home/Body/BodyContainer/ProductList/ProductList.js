@@ -11,6 +11,7 @@ import SpinnerComponent from "../../../../../components/Spinner/Spinner.Componen
 import Loader from "../../../../../components/Loader/Loader";
 // import Gallery from "./Gallery/Gallery";
 // import {Swiper} from "swiper";
+import './ProductList.css';
 
 const Category = ({products, id, lan, page, fetchCategoryProducts, increasePageNumber, more, filter}) => {
     const [moreLoading, setMoreLoading] = useState(true);

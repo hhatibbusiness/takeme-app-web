@@ -7,12 +7,15 @@ import {login} from "../../store/actions/login.action";
 import {connect} from "react-redux";
 import {registerError} from "../../store/actions/register.actions";
 import AuthenticationError from '../../components/AuthenticationError/AuthenticationError';
+import deleteDefaultHeader from '../../utls/remove.axios.headers';
+import removeAxiosHeaders from "../../utls/remove.axios.headers";
 
 const Login = ({lan, login, logging, data, registerError, error, errorMessage}) => {
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [phoneActive, setPhoneActive] = useState(false);
     const [passwordActive, setPasswordActive] = useState(false);
+    const [type, setType] = useState(true); //if true its password and if its false its text
 
     const navigate = useNavigate();
 
@@ -20,7 +23,8 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
 
     useEffect(() => {
         localStorage.removeItem('takemetoken');
-        localStorage.removeItem('takemeuser')
+        localStorage.removeItem('takemeuser');
+        removeAxiosHeaders();
     }, []);
 
     const browseClickHandler = () => {
@@ -30,10 +34,6 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
         navigate('/');
         navigate(0);
     }
-
-    useEffect(() => {
-        browseClickHandler();
-    }, []);
 
     useEffect(() => {
         const home = document.querySelector('body');
@@ -90,7 +90,16 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
                         <label htmlFor="phone" className={`Login__form--element-label ${(passwordActive || password.length > 0) && 'Login__form--element-label-active'}`}>{t('password')}</label>
                         <input value={password} onChange={e => {
                             setPassword(e.target.value);
-                        }} name={'phone'} onBlur={e => password.length === 0 && setPasswordActive(false)} onFocus={e => setPasswordActive(true)} type="password" className="Login__form--element-input Login__form--element-inputPhone"/>
+                        }} name={'password'} onBlur={e => password.length === 0 && setPasswordActive(false)} onFocus={e => setPasswordActive(true)} type={type ? 'password' : 'text'} className="Login__form--element-input Login__form--element-inputPhone"/>
+                        <p onClick={e => setType(!type)} className={'Login__form--element-eye'}>
+                            {
+                                type ? (
+                                    <span><i className="fa-solid fa-eye Login__form--element-eye-see"></i></span>
+                                ) : (
+                                    <span><i className="fa-solid fa-eye-slash Login__form--element-eye-unsee"></i></span>
+                                )
+                            }
+                        </p>
                     </div>
                     <NavLink to={`/forget/${phone}`} onClick={e => {
                         if(!phone) {

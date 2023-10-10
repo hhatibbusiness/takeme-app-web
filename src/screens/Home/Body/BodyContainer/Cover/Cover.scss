@@ -1,11 +1,23 @@
 .Cover {
   width: 100%;
   margin-top: 50px;
-  height: 70vh;
+  height: 50vh;
+
+  .Cover__visible {
+    height: 100%;
+    width: 100%;
+  }
+
+  .Cover__hidden {
+    height: 0;
+    overflow: hidden;
+  }
+
 
   img {
     width: 100% !important;
     height: 100% !important;
+    object-fit: cover;
   }
 
   .LoadingProduct {

@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import ProviderProduct from "./ProviderProduct/ProviderProduct";
+// import ProviderProduct from "./ProviderProduct/ProviderProductTest";
 import Failure from "./Failure/Failure";
 import './ProviderProducts.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -12,9 +13,10 @@ import 'swiper/css';
 import "swiper/css/navigation";
 import Dots from "./Dots/Dots";
 import {getAnalytics, logEvent} from "firebase/analytics";
+import ProductsTypeContainer from "./ProductsTypeContainer/ProductsTypeContainer";
 
 
-const ProviderProducts = ({products, search, openGallery, setActiveProduct, prov, providerOrNot}) => {
+const ProviderProducts = ({products, providerRef, search, openGallery, setActiveProduct, providerOrNot, provider}) => {
     const carouselRef = useRef();
     const imgRef = useRef();
     const [productsArray, setProductsArray] = useState([]);
@@ -24,26 +26,26 @@ const ProviderProducts = ({products, search, openGallery, setActiveProduct, prov
     const prevRef = useRef();
 
     const groupProducts = products => {
-        // if(providerOrNot) {
-        //     setProductsArray(products);
-        // } else {
-        //     const productsArray = [];
-        //     Object.keys(products).map((p, i) => {
-        //         return products[p].map((product, j) => {
-        //             return productsArray.push(product);
-        //         })
-        //     });
-        //     setProductsArray(productsArray);
-        //     productsArray.length > 0 && setActiveProduct(productsArray[0]);
-        // }
-        const productsArray = [];
-        Object.keys(products).map((p, i) => {
-            return products[p].map((product, j) => {
-                return productsArray.push(product);
-            })
-        });
-        setProductsArray(productsArray);
-        productsArray.length > 0 && setActiveProduct(productsArray[0]);
+        if(providerOrNot) {
+            setProductsArray(products);
+        } else {
+            const productsArray = [];
+            Object.keys(products).map((p, i) => {
+                return products[p].map((product, j) => {
+                    return productsArray.push(product);
+                })
+            });
+            setProductsArray(productsArray);
+            productsArray.length > 0 && setActiveProduct(productsArray[0]);
+        }
+        // const productsArray = [];
+        // Object.keys(products).map((p, i) => {
+        //     return products[p].map((product, j) => {
+        //         return productsArray.push(product);
+        //     })
+        // });
+        // setProductsArray(productsArray);
+        // productsArray.length > 0 && setActiveProduct(productsArray[0]);
 
     }
 
@@ -60,111 +62,7 @@ const ProviderProducts = ({products, search, openGallery, setActiveProduct, prov
     return (
         <div ref={carouselRef} className={'ProviderProducts ProviderProducts__carousel'}>
             {
-                Object.keys(products).length > 0 ? (
-                    <div className={'ProviderProducts__array'}>
-                        <Swiper
-                            grabCursor={true}
-                            centeredSlides={true}
-                            slidesPerView={'auto'}
-                            coverflowEffect={{
-                                rotate: 50,
-                                stretch: 0,
-                                depth: 100,
-                                modifier: 3,
-                                slideShadows: false,
-                            }}
-                            // navigation={{
-                            //     nextEl: nextRef.current,
-                            //     prevEl: prevRef.current,
-                            //     disabledClass: "swiper-button-disabled"
-                            // }}
-                            // modules={[Navigation]}
-                            pagination={true}
-                            className="mySwiper"
-                            onSlideChange={swiper => {
-                                setSliding(true);
-                                setActive(swiper.activeIndex);
-                                setTimeout(() => {
-                                    setSliding(false);
-                                });
-                                console.log(swiper.activeIndex);
-                                const currentProduct = productsArray.length > 0 && productsArray[swiper.activeIndex]
-                                setActiveProduct(currentProduct);
-                                const analytics = getAnalytics();
-                                logEvent(analytics, 'swipe', {
-                                    productName: currentProduct.name,
-                                    productId: currentProduct.id
-                                });
-                                console.log(productsArray[swiper.activeIndex]);
-                                if(productsArray.length == swiper.activeIndex) {
-                                    logEvent(analytics, 'last-product', {
-                                        productId: currentProduct.id,
-                                        productName: currentProduct.name
-                                    })
-                                }
-                            }}
-                        >
-                            {
-                                productsArray.map((p, i) => (
-                                    <SwiperSlide className={'ProviderProducts__swiper'} key={i}>
-                                        <ProviderProduct search={search} sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} />
-                                    </SwiperSlide>
-                                ))
-                            }
-                        </Swiper>
-                        {
-                            productsArray.length > 1 && <Dots color={'black'} products={productsArray} activeIndex={active}  />
-                        }
-                    </div>
-                ) : (
-                    <Failure text={t('fail to load providers')} />
-                )
-                // providerOrNot ? Object.keys(productsArray).map((key, i) => Object.keys(productsArray).length > 0 ? (
-                //         <div className={'ProviderProducts__array'}>
-                //             <Swiper
-                //                 grabCursor={true}
-                //                 centeredSlides={true}
-                //                 slidesPerView={'auto'}
-                //                 coverflowEffect={{
-                //                     rotate: 50,
-                //                     stretch: 0,
-                //                     depth: 100,
-                //                     modifier: 3,
-                //                     slideShadows: false,
-                //                 }}
-                //                 // navigation={{
-                //                 //     nextEl: nextRef.current,
-                //                 //     prevEl: prevRef.current,
-                //                 //     disabledClass: "swiper-button-disabled"
-                //                 // }}
-                //                 // modules={[Navigation]}
-                //                 pagination={true}
-                //                 className="mySwiper"
-                //                 onSlideChange={swiper => {
-                //                     setSliding(true);
-                //                     setActive(swiper.activeIndex);
-                //                     setTimeout(() => {
-                //                         setSliding(false);
-                //                     });
-                //                     setActiveProduct(productsArray.length > 0 && productsArray[swiper.activeIndex])
-                //                 }}
-                //             >
-                //                 {
-                //                     productsArray[key].map((p, i) => (
-                //                         <SwiperSlide className={'ProviderProducts__swiper'} key={i}>
-                //                             <ProviderProduct sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} />
-                //                         </SwiperSlide>
-                //                     ))
-                //                 }
-                //             </Swiper>
-                //             {
-                //                 productsArray[key].length > 1 && <Dots color={'black'} products={productsArray[key]} activeIndex={active}  />
-                //             }
-                //         </div>
-                //     ) : (
-                //         <Failure text={t('fail to load providers')} />
-                //     )
-                // ) : Object.keys(products).length > 0 ? (
+                // Object.keys(products).length > 0 ? (
                 //     <div className={'ProviderProducts__array'}>
                 //         <Swiper
                 //             grabCursor={true}
@@ -191,13 +89,27 @@ const ProviderProducts = ({products, search, openGallery, setActiveProduct, prov
                 //                 setTimeout(() => {
                 //                     setSliding(false);
                 //                 });
-                //                 setActiveProduct(productsArray.length > 0 && productsArray[swiper.activeIndex])
+                //                 console.log(swiper.activeIndex);
+                //                 const currentProduct = productsArray.length > 0 && productsArray[swiper.activeIndex]
+                //                 setActiveProduct(currentProduct);
+                //                 const analytics = getAnalytics();
+                //                 logEvent(analytics, 'swipe', {
+                //                     productName: currentProduct.name,
+                //                     productId: currentProduct.id
+                //                 });
+                //                 console.log(productsArray[swiper.activeIndex]);
+                //                 if(productsArray.length == swiper.activeIndex) {
+                //                     logEvent(analytics, 'last-product', {
+                //                         productId: currentProduct.id,
+                //                         productName: currentProduct.name
+                //                     })
+                //                 }
                 //             }}
                 //         >
                 //             {
                 //                 productsArray.map((p, i) => (
                 //                     <SwiperSlide className={'ProviderProducts__swiper'} key={i}>
-                //                         <ProviderProduct sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} />
+                //                         <ProviderProduct providerRef={providerRef} search={search} sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} />
                 //                     </SwiperSlide>
                 //                 ))
                 //             }
@@ -209,6 +121,58 @@ const ProviderProducts = ({products, search, openGallery, setActiveProduct, prov
                 // ) : (
                 //     <Failure text={t('fail to load providers')} />
                 // )
+                providerOrNot ? Object.keys(productsArray).map((key, i) => Object.keys(productsArray).length > 0 ? (
+                        <div className={'ProviderProducts__array'}>
+                            <ProductsTypeContainer provider={provider} openGallery={openGallery} imgRef={imgRef} providerRef={providerRef} providerOrNot={providerOrNot} sliding={sliding} setSliding={setSliding} keyMap={key} productsArray={productsArray} />
+                        </div>
+                    ) : (
+                        <Failure text={t('fail to load providers')} />
+                    )
+                ) : Object.keys(products).length > 0 ? (
+                    <div className={'ProviderProducts__array'}>
+                        <Swiper
+                            grabCursor={true}
+                            centeredSlides={true}
+                            slidesPerView={'auto'}
+                            coverflowEffect={{
+                                rotate: 50,
+                                stretch: 0,
+                                depth: 100,
+                                modifier: 3,
+                                slideShadows: false,
+                            }}
+                            // navigation={{
+                            //     nextEl: nextRef.current,
+                            //     prevEl: prevRef.current,
+                            //     disabledClass: "swiper-button-disabled"
+                            // }}
+                            // modules={[Navigation]}
+                            pagination={true}
+                            className="mySwiper"
+                            onSlideChange={swiper => {
+                                setSliding(true);
+                                setActive(swiper.activeIndex);
+                                setTimeout(() => {
+                                    setSliding(false);
+                                });
+                                setActiveProduct(productsArray.length > 0 && productsArray[swiper.activeIndex])
+                            }}
+                        >
+                            {
+                                productsArray.map((p, i) => (
+                                    <SwiperSlide className={'ProviderProducts__swiper'} key={i}>
+                                        <ProviderProduct providerOrNot={providerOrNot}  providerRef={providerRef} sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} />
+                                    </SwiperSlide>
+                                ))
+                            }
+                        </Swiper>
+                        {
+                            productsArray.length > 1 && <Dots color={'black'} products={productsArray} activeIndex={active}  />
+                        }
+                    </div>
+                ) : (
+                    <Failure text={t('fail to load providers')} />
+                )
             }
         </div>
     );

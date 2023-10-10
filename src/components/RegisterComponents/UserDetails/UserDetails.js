@@ -11,6 +11,8 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
     const [sent, setSent] = useState(false);
     const [formIsValid, setFormIsValid] = useState(false);
     const {t} = useTranslation();
+    const [passwordType, setPasswordType] = useState(true);
+    const [confirmedType, setConfirmedType] = useState(true);
 
     const handleInputValidation = (value, rules) => {
         let inputIsValid = true;
@@ -129,7 +131,18 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                                 }
                             })
                         }
-                    }} name={'password'} onBlur={e => form.password.value.length === 0 && setPasswordActive(false)} onFocus={e => setPasswordActive(true)} type="password" className={`Register__form--element-input Register__form--element-inputPhone ${(form['password'].touched && form['password'].valid === false) && 'Register__element--input-notvalid'}`}/>
+                    }} name={'password'}  onBlur={e => form.password.value.length === 0 && setPasswordActive(false)} onFocus={e => setPasswordActive(true)} type={
+                        passwordType ? 'password' : 'text'
+                    } className={`Register__form--element-input Register__form--element-inputPhone ${(form['password'].touched && form['password'].valid === false) && 'Register__element--input-notvalid'}`}/>
+                    <p onClick={e => setPasswordType(!passwordType)} className={'Register__form--eye'}>
+                        {
+                            passwordType ? (
+                                <span><i className="fa-solid fa-eye Register__form--element-eye-see"></i></span>
+                            ) : (
+                                <span><i className="fa-solid fa-eye-slash Register__form--element-eye-unsee"></i></span>
+                            )
+                        }
+                    </p>
                 </div>
             </div>
             <div className="Register__form--element">
@@ -137,7 +150,18 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                     <label htmlFor="confirmPassword" className={`Register__form--element-label ${(confirmPasswordActive || form.confirmPassword.value.length > 0) && 'Register__form--element-label-active'}`}>{t('confirmPassword')}<span className='Register__reguired'>*</span></label>
                     <input value={form.confirmPassword.value} onChange={e => {
                         handleInputChange(e, form.confirmPassword);
-                    }} name={'confirmPassword'} onBlur={e => form.confirmPassword.value.length === 0 && setConfirmPasswordActive(false)} onFocus={e => setConfirmPasswordActive(true)} type="password" className={`Register__form--element-input Register__form--element-inputPhone ${(form['confirmPassword'].touched && form['confirmPassword'].valid === false) && 'Register__element--input-notvalid'}`}/>
+                    }} name={'confirmPassword'} onBlur={e => form.confirmPassword.value.length === 0 && setConfirmPasswordActive(false)} onFocus={e => setConfirmPasswordActive(true)} type={
+                        confirmedType ? 'password' : 'text'
+                    } className={`Register__form--element-input Register__form--element-inputPhone ${(form['confirmPassword'].touched && form['confirmPassword'].valid === false) && 'Register__element--input-notvalid'}`}/>
+                    <p onClick={e => setConfirmedType(!confirmedType)} className={'Register__form--eye'}>
+                        {
+                            confirmedType ? (
+                                <span><i className="fa-solid fa-eye Register__form--element-eye-see"></i></span>
+                            ) : (
+                                <span><i className="fa-solid fa-eye-slash Register__form--element-eye-unsee"></i></span>
+                            )
+                        }
+                    </p>
                 </div>
             </div>
             <div className="Register__form--element">
