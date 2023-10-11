@@ -16,10 +16,14 @@ import {changePopupProduct} from "../../../../../store/actions/ui.actions";
 import {getAnalytics, logEvent} from "firebase/analytics";
 
 const ProviderProduct = ({imgRef, providerOrNot, productTypesCount, search, providerRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
-    const [imgLoaded, setImgLoaded] = useState(false);
-    const [imgUI, setImgUI] = useState(null);
+    //test
+    const [error, setError] = useState(false);
+    const [loaded, setLoaded] = useState(false);
+    const [imgLoaded, setImgLoaded] = useState(true);
+    const [imgUI, setImgUI] = useState(true);
     const [detailed, setDetailed] = useState(false);
     const [short, setShort] = useState(true);
+    const [containerLoaded, setContainerLoaded] = useState(false);
     const navigate = useNavigate();
     const descRef = useRef();
     const {t} = useTranslation();
@@ -27,24 +31,31 @@ const ProviderProduct = ({imgRef, providerOrNot, productTypesCount, search, prov
     const imgLoaderRef = useRef(null);
     const containerRef = useRef(null);
     const failureRef = useRef(null);
+    const imgContainerRef = useRef(null);
 
-    const renderImage = async () => {
-        try{
-            const res = await axios.get(product?.images[0]?.imagePath);
-            if(res.status === 200) {
-                const img = <Img imgRefDub={imgRefDub} setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath}/>;
-                setImgUI(img);
-            }
-        }catch(e) {
-            console.error(e);
-            const imgUI =  <RenderImgError />;
-            setImgLoaded(true);
-            setImgUI(prevState => imgUI);
-        }
+
+    // const renderImage = async () => {
+    //     try{
+    //         const res = await axios.get(product?.images[0]?.imagePath);
+    //         if(res.status === 200) {
+    //             const img = <Img imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath}/>;
+    //             setImgUI(img);
+    //         }
+    //     }catch(e) {
+    //         console.error(e);
+    //         const imgUI =  <RenderImgError failureRef={failureRef} />;
+    //         setImgLoaded(true);
+    //         setImgUI(prevState => imgUI);
+    //         setContainerLoaded(true);
+    //     }
+    // }
+
+    const renderImage = () => {
+        const img = <Img imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath}/>;
+        console.log(img);
     }
 
     useEffect(() => {
-        // convertMarkup();
         renderImage()
     }, []);
 
@@ -68,7 +79,6 @@ const ProviderProduct = ({imgRef, providerOrNot, productTypesCount, search, prov
         }
     }
 
-    const imgContainerRef = useRef();
     //
     // useEffect(() => {
     //     if(!imgContainerRef?.current || !imgRef?.current) return;
@@ -83,19 +93,20 @@ const ProviderProduct = ({imgRef, providerOrNot, productTypesCount, search, prov
         const imgLoader = imgLoaderRef.current
         const imgContainer = imgContainerRef.current;
         const providerElem = providerRef.current;
+        const failureEle = failureRef.current;
         if(!imgElement) return;
         const containerHeight = imgElement?.getBoundingClientRect().width;
         console.log(imgContainer);
-        if(imgLoader) imgLoader.style.height = `${containerHeight}px`;
-        if(imgContainer) imgContainer.style.height = `${containerHeight}px`;
         if(providerElem && !providerOrNot) providerElem.style.height = `${750 + (containerHeight - 400)}px`;
         if(providerElem && providerOrNot) providerElem.style.height = `${250 + 400 * productTypesCount + productTypesCount * 200 + (containerHeight - 400) * productTypesCount}px`;
+        if(imgLoader) imgLoader.style.height = `${containerHeight}px`;
+        if(imgContainer) imgContainer.style.height = `${containerHeight}px`;
+        if(failureEle) failureEle.style.height = `${containerHeight}px`
     }
-
 
     useEffect(() => {
         changeHeightToWidth();
-    }, [imgLoaded, providerOrNot]);
+    }, [loaded, providerOrNot, error]);
 
     useEffect(() => {
         window.addEventListener('resize', () => {
@@ -117,9 +128,8 @@ const ProviderProduct = ({imgRef, providerOrNot, productTypesCount, search, prov
                             <div className={`${imgLoaded ? 'ProviderProduct__visible' : 'ProviderProduct__hidden'}`}>
                                 <div onClick={() => openGallery(product)} className={'ProviderProduct__body--container'}>
                                     <div ref={imgContainerRef} className="ProviderProduct__image--container">
-                                        {
-                                            imgUI
-                                        }
+                                        <Img setError={setError} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath}/>
+                                        {loaded && error && <RenderImgError imgLoaderRef={imgLoaderRef} failureRef={failureRef} elemRef={imgContainerRef} /> }
                                     </div>
                                 </div>
                                 <div className={'ProviderProduct__details'}>
@@ -198,7 +208,7 @@ const ProviderProduct = ({imgRef, providerOrNot, productTypesCount, search, prov
                             </div>
                     )
                 }
-                <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={true} priceTitle={true} imgLoaded={imgLoaded} details={true} btn={false} />
+                {!loaded && <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={true} priceTitle={true} imgLoaded={false} details={true} btn={false} />}
             </div>
         </div>
     );

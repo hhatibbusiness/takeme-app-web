@@ -17,6 +17,15 @@
     text-decoration: none;
     color: var(--main-color-green-dark-10);
     width: 100%;
+    position: relative;
+}
+
+.Product__body--container .LoadingProduct {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    background: white;
 }
 
 .Product__image--container img {
@@ -38,6 +47,7 @@
     /*align-items: center;*/
     /*justify-content: center;*/
     width: 100% !important;
+    z-index: 1;
 }
 
 .Product__image--container .RenderImgError {

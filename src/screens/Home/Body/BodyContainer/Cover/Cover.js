@@ -7,10 +7,15 @@ import RenderImgError from "../../../../../components/RenderImgError/RenderImgEr
 import LoadingProduct from "../../../../../components/LoadingProduct/LoadingProduct";
 
 const Cover = ({assets, products, categories, curId}) => {
-    const [imgLoaded, setImgLoaded] = useState(false);
-    const [imgUI, setImgUI] = useState(null);
+    const [imgLoaded, setImgLoaded] = useState(true);
+    const [imgUI, setImgUI] = useState(true);
     const [currentCategory, setCurrentCategory] = useState(null);
     const imgRefDub = useRef(null);
+    const [containerLoaded, setContainerLoaded] = useState(false);
+    const [error, setError] = useState(false);
+    const [loaded, setLoaded] = useState(false);
+    const failureRef= useRef(null);
+    const imgContainerRef = useRef(null);
 
     // useEffect(() => {
     //     if(categories?.length == 0 || !curId) return;
@@ -27,7 +32,7 @@ const Cover = ({assets, products, categories, curId}) => {
             console.log(currentCategory)
             const res = await axios.get(assets?.coverPath && assets?.coverPath);
             if(res.status === 200) {
-                const img = await  <Img imgRefDub={imgRefDub} setImgLoaded={setImgLoaded} imgUrl={assets?.coverPath && assets?.coverPath}/>;
+                const img = await  <Img setContainerLoaded={setContainerLoaded} imgRefDub={imgRefDub} setImgLoaded={setImgLoaded} imgUrl={assets?.coverPath && assets?.coverPath}/>;
                 // setImgUI(img);
                 // await setImgLoaded(true);
                 setImgUI(img);
@@ -63,16 +68,15 @@ const Cover = ({assets, products, categories, curId}) => {
             {
                 imgUI && (
                     <>
-                        <div className={`${imgLoaded ? 'Cover__visible' : 'Cover__hidden'}`}>
-                            {
-                                imgUI
-                            }
+                        <div ref={imgContainerRef} className={`${imgLoaded ? 'Cover__visible' : 'Cover__hidden'}`}>
+                            <Img setError={setError} setLoaded={setLoaded} setContainerLoaded={setContainerLoaded} imgRefDub={imgRefDub} setImgLoaded={setImgLoaded} imgUrl={assets?.coverPath && assets?.coverPath}/>
+                            {loaded && error && <RenderImgError failureRef={failureRef} cover={true} elemRef={imgContainerRef} />}
                         </div>
                         {/*<LoadingProduct priceStartFrom={true} priceTitle={false} imgLoaded={imgLoaded} details={false} btn={false} />*/}
                     </>
                 )
             }
-            <LoadingProduct priceStartFrom={true} priceTitle={false} imgLoaded={imgLoaded} details={false} btn={false} />
+            {!loaded && <LoadingProduct priceStartFrom={true} priceTitle={false} imgLoaded={false} details={false} btn={false} />}
         </div>
     );
 };

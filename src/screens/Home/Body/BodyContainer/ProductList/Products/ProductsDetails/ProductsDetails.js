@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './ProductsDetails.scss';
 import Count from "../Product/Count/Count";
 import Img from "../Product/Img/Img";
@@ -10,15 +10,19 @@ import LoadingProduct from "../../../../../../../components/LoadingProduct/Loadi
 import {useNavigate} from "react-router-dom";
 
 const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) => {
-    const [imgUI, setImgUI] = useState(null);
+    const [imgUI, setImgUI] = useState(true);
     const [imgLoaded, setImgLoaded] = useState(false);
+    const [error, setError] = useState(false);
+    const [loaded, setLoaded] = useState(false);
+    const imgContainer = useRef(null);
+    const failureRef = useRef(null);
 
     const navigate = useNavigate();
     const {t} = useTranslation();
 
-    useEffect(() => {
-        renderImage()
-    }, []);
+    // useEffect(() => {
+    //     renderImage()
+    // }, []);
 
     const renderImage = async () => {
         try{
@@ -47,10 +51,9 @@ const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) =
                 {
                     imgUI && (
                         <div className={`ProductDetails__body ${imgLoaded ? 'ProductsDetails__visible' : 'ProductsDetails__hidden'}`}>
-                            <div className="ProductDetails__img--container">
-                                {
-                                    imgUI
-                                }
+                            <div ref={imgContainer} className="ProductDetails__img--container">
+                                <Img setError={setError} setLoaded={setLoaded} setImgLoaded={setImgLoaded} imgUrl={currentProduct?.imagePath && currentProduct.imagePath}/>
+                                {loaded && error && <RenderImgError failureRef={failureRef} elemRef={imgContainer} />}
                             </div>
                             <div className="ProductDetails__details">
                                 <h3 className="ProductDetails__header">{currentProduct?.title && currentProduct.title}</h3>
@@ -72,7 +75,7 @@ const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) =
                     )
                 }
 
-                <LoadingProduct priceStartFrom={currentProduct?.saleDetails?.priceStartingFromMsg} priceTitle={currentProduct?.saleDetails?.title} imgLoaded={imgLoaded} details={true} btn={true} />
+                {!loaded && <LoadingProduct priceStartFrom={currentProduct?.saleDetails?.priceStartingFromMsg} priceTitle={currentProduct?.saleDetails?.title} imgLoaded={false} details={true} btn={true} /> }
 
                 {
                     currentProduct && <Count count={currentProduct?.totalNumberOfProducts || 0} />

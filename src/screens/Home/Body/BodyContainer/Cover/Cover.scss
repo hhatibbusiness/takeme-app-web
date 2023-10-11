@@ -2,15 +2,18 @@
   width: 100%;
   margin-top: 50px;
   height: 50vh;
+  position: relative;
 
   .Cover__visible {
     height: 100%;
     width: 100%;
+    position: relative;
   }
 
   .Cover__hidden {
     height: 0;
     overflow: hidden;
+    position: relative;
   }
 
 
@@ -22,11 +25,16 @@
 
   .LoadingProduct {
     min-height: 400px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    height: 50vh;
+    background: white;
 
     .LoadingProduct__image {
       //height: 100%;
       display: block;
-      height: 50vh;
     }
   }
 

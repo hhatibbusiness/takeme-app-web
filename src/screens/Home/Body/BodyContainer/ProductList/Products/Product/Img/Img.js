@@ -3,18 +3,46 @@ import './Img.scss';
 import {connect} from "react-redux";
 import {changeSliderValue} from "../../../../../../../../store/actions/categories.action";
 
-const Img = ({value, ref, imgUrl, setImgLoaded, imgRefDub: imgRef}) => {
+const Img = ({value, ref, imgUrl, setError, setLoaded, setContainerLoaded, setImgLoaded, imgRefDub: imgRef}) => {
     // const imgRef = useRef();
-    useEffect(() => {
-        if(!imgRef?.current) return;
-        const image = imgRef?.current;
-        image.addEventListener('load', () => {
-            console.log(imgUrl);
-            setImgLoaded(true);
-        })
-    }, [imgRef]);
+    // useEffect(() => {
+    //     if(!imgRef?.current) return;
+    //     const image = imgRef?.current;
+    //     image.addEventListener('load', () => {
+    //         console.log(imgUrl);
+    //         setImgLoaded(true);
+    //         console.log('Hello from Image!')
+    //         setContainerLoaded(true);
+    //     })
+    // }, [imgRef]);
+
+    // useEffect(() => {
+    //     if(!imgRef?.current) return;
+    //     const image = imgRef?.current;
+    //     image.addEventListener('load', () => {
+    //         console.log(imgUrl);
+    //         setImgLoaded(true);
+    //         console.log('Hello from Image!')
+    //         setContainerLoaded(true);
+    //     });
+    //     image.addEventListener('error', e => {
+    //         console.log('Helo there!');
+    //         setImgLoaded(true);
+    //         setContainerLoaded(true);
+    //     });
+    // }, [imgRef]);
     return (
-        <img ref={imgRef}  className={'Img'} style={{width: `${value < 100 && '100%'}`}} onClick={() => {
+        <img ref={imgRef} onLoad={e => {
+            console.log('Loaded!');
+            setImgLoaded(true);
+            setError(false);
+            setLoaded(true);
+        }} onError={e => {
+            console.log('Error');
+            setImgLoaded(true);
+            setError(true);
+            setLoaded(true);
+        }} className={'Img'} style={{width: `${value < 100 && '100%'}`}} onClick={() => {
             // setGalleryOpen(true);
         }} src={imgUrl} alt=""/>
     );
