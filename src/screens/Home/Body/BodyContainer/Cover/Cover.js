@@ -16,6 +16,7 @@ const Cover = ({assets, products, categories, curId}) => {
     const [loaded, setLoaded] = useState(false);
     const failureRef= useRef(null);
     const imgContainerRef = useRef(null);
+    const [hidden, setHidden] = useState(true);
 
     // useEffect(() => {
     //     if(categories?.length == 0 || !curId) return;
@@ -69,14 +70,14 @@ const Cover = ({assets, products, categories, curId}) => {
                 imgUI && (
                     <>
                         <div ref={imgContainerRef} className={`${imgLoaded ? 'Cover__visible' : 'Cover__hidden'}`}>
-                            <Img setError={setError} setLoaded={setLoaded} setContainerLoaded={setContainerLoaded} imgRefDub={imgRefDub} setImgLoaded={setImgLoaded} imgUrl={assets?.coverPath && assets?.coverPath}/>
-                            {loaded && error && <RenderImgError failureRef={failureRef} cover={true} elemRef={imgContainerRef} />}
+                            <Img setError={setError} setHidden={setHidden} setLoaded={setLoaded} setContainerLoaded={setContainerLoaded} imgRefDub={imgRefDub} setImgLoaded={setImgLoaded} imgUrl={assets?.coverPath && assets?.coverPath}/>
+                            {loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} failureRef={failureRef} cover={true} elemRef={imgContainerRef} />}
                         </div>
                         {/*<LoadingProduct priceStartFrom={true} priceTitle={false} imgLoaded={imgLoaded} details={false} btn={false} />*/}
                     </>
                 )
             }
-            {!loaded && <LoadingProduct priceStartFrom={true} priceTitle={false} imgLoaded={false} details={false} btn={false} />}
+            {(!loaded || (!loaded && hidden)) && <LoadingProduct priceStartFrom={true} priceTitle={false} imgLoaded={false} details={false} btn={false} />}
         </div>
     );
 };

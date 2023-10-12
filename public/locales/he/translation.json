@@ -54,7 +54,11 @@
   "or": "או",
   "price": "המחיר",
   "rentPrice": "מחיר השכרה",
-  "phoneCountryCode": "קוד מדינה"
+  "phoneCountryCode": "קוד מדינה",
+  "phoneCountryCodeُError": "נא להזין את קוד המדינה",
+  "requiredField": "נא להזין את הנתונים הנדרשים"
+
+
 
 
 }

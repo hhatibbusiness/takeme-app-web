@@ -167,7 +167,35 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
             <div className="Register__form--element">
                 <button className="Register__form--button" onClick={async e => {
                     e.preventDefault();
+                    setForm({
+                        ...form,
+                        username: {
+                            ...form.username,
+                            touched: true
+                        },
+                        phone: {
+                            ...form.phone,
+                            touched: true
+                        },
+                        email: {
+                            ...form.email,
+                            touched: true
+                        },
+                        password: {
+                            ...form.password,
+                            touched: true
+                        },
+                        confirmedPassword: {
+                            ...form.confirmPassword,
+                            touched: true
+                        },
+                        phoneCountryCode: {
+                            ...form.phoneCountryCode,
+                            touched: true
+                        }
+                    })
                     if(form.username.value.length == 0) return registerError(t('usernameerror'));
+                    if(form.phoneCountryCode.value.length == 0) return registerError(t('phoneCountryCodeُError'));
                     if(form.phone.value.length == 0) return registerError(t('phoneerror'));
                     if(form.email.value.length == 0) return registerError(t('emailerror'));
                     if(form.password.value.length == 0) return registerError(t('passworderror'));

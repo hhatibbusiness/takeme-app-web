@@ -3,7 +3,7 @@ import './Img.scss';
 import {connect} from "react-redux";
 import {changeSliderValue} from "../../../../../../../../store/actions/categories.action";
 
-const Img = ({value, ref, imgUrl, setError, setLoaded, setContainerLoaded, setImgLoaded, imgRefDub: imgRef}) => {
+const Img = ({value, ref, imgUrl, setError, setHidden, setLoaded, setContainerLoaded, setImgLoaded, imgRefDub: imgRef}) => {
     // const imgRef = useRef();
     // useEffect(() => {
     //     if(!imgRef?.current) return;
@@ -31,12 +31,20 @@ const Img = ({value, ref, imgUrl, setError, setLoaded, setContainerLoaded, setIm
     //         setContainerLoaded(true);
     //     });
     // }, [imgRef]);
+    useEffect(() => {
+        if(!imgUrl) {
+            setImgLoaded(true);
+            setError(true);
+            setLoaded(true);
+        }
+    }, [imgUrl]);
     return (
         <img ref={imgRef} onLoad={e => {
             console.log('Loaded!');
             setImgLoaded(true);
             setError(false);
             setLoaded(true);
+            setHidden(false);
         }} onError={e => {
             console.log('Error');
             setImgLoaded(true);

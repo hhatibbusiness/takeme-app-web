@@ -32,6 +32,7 @@ const ProviderProduct = ({imgRef, providerOrNot, productTypesCount, search, prov
     const containerRef = useRef(null);
     const failureRef = useRef(null);
     const imgContainerRef = useRef(null);
+    const [hidden, setHidden] = useState(true);
 
 
     // const renderImage = async () => {
@@ -128,8 +129,8 @@ const ProviderProduct = ({imgRef, providerOrNot, productTypesCount, search, prov
                             <div className={`${imgLoaded ? 'ProviderProduct__visible' : 'ProviderProduct__hidden'}`}>
                                 <div onClick={() => openGallery(product)} className={'ProviderProduct__body--container'}>
                                     <div ref={imgContainerRef} className="ProviderProduct__image--container">
-                                        <Img setError={setError} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath}/>
-                                        {loaded && error && <RenderImgError imgLoaderRef={imgLoaderRef} failureRef={failureRef} elemRef={imgContainerRef} /> }
+                                        <Img setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath}/>
+                                        {loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} imgLoaderRef={imgLoaderRef} failureRef={failureRef} elemRef={imgContainerRef} /> }
                                     </div>
                                 </div>
                                 <div className={'ProviderProduct__details'}>
@@ -208,7 +209,7 @@ const ProviderProduct = ({imgRef, providerOrNot, productTypesCount, search, prov
                             </div>
                     )
                 }
-                {!loaded && <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={true} priceTitle={true} imgLoaded={false} details={true} btn={false} />}
+                {(!loaded || hidden) && <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={true} priceTitle={true} imgLoaded={false} details={true} btn={false} />}
             </div>
         </div>
     );

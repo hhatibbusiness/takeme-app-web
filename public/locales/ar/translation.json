@@ -54,5 +54,7 @@
   "or": "أو",
   "price": "السعر",
   "rentPrice": "سعر الاستأجار",
-  "phoneCountryCode": "كود الدولة"
+  "phoneCountryCode": "كود الدولة",
+  "phoneCountryCodeُError": "من فضلك ادخل كود الدولة",
+  "requiredField": "من فضلك ادخل البيانات المطلوبة"
 }

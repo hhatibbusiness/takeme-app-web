@@ -29,6 +29,7 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
     const imgRefDub = useRef(null);
     const imgContainerRef = useRef(null);
     const [windowWidth, setWindowSize] = useState(window.innerWidth);
+    const [hidden, setHidden] = useState(true);
 
     useEffect(() => {
         setCurrentValue(value);
@@ -134,8 +135,8 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
                     imgUI && (
                         <div className={`${imgLoaded ? 'Product__visible' : 'Product__hidden'}`}>
                             <div ref={imgContainer} className={`Product__image--container ${value < 100 ? 'Product__image--container-center' : 'Product__image--container-min'}`}>
-                                <Img setError={setError} setLoaded={setLoaded} setContainerLoaded={setContainerLoaded} imgRefDub={imgRef} setImgUi={setImgUI} setImgLoaded={setImgLoaded} imgUrl={product?.imagePath && product.imagePath}/>
-                                {loaded && error && <RenderImgError failureRef={failureRef} elemRef={imgContainer} /> }
+                                <Img setError={setError} setHidden={setHidden} setLoaded={setLoaded} setContainerLoaded={setContainerLoaded} imgRefDub={imgRef} setImgUi={setImgUI} setImgLoaded={setImgLoaded} imgUrl={product?.imagePath && product.imagePath}/>
+                                {loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} failureRef={failureRef} elemRef={imgContainer} /> }
                             </div>
                             <div className={`Product__details ${value < 100 && 'Product__details--hide'}`}>
                                 <p className={'Product__details--title'}>{product?.title && product.title}</p>
@@ -148,7 +149,7 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
                         </div>
                     )
                 }
-                {!loaded && <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={product?.saleDetails?.priceStartingFromMsg} priceTitle={product?.saleDetails?.title} imgLoaded={false} details={value === 100 } btn={false} />}
+                {(!loaded || (!loaded && hidden)) && <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={product?.saleDetails?.priceStartingFromMsg} priceTitle={product?.saleDetails?.title} imgLoaded={false} details={value === 100 } btn={false} />}
             </div>
         </div>
     );

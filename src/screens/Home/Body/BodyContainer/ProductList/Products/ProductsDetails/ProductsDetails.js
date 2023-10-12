@@ -16,6 +16,7 @@ const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) =
     const [loaded, setLoaded] = useState(false);
     const imgContainer = useRef(null);
     const failureRef = useRef(null);
+    const [hidden, setHidden] = useState(true);
 
     const navigate = useNavigate();
     const {t} = useTranslation();
@@ -52,8 +53,8 @@ const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) =
                     imgUI && (
                         <div className={`ProductDetails__body ${imgLoaded ? 'ProductsDetails__visible' : 'ProductsDetails__hidden'}`}>
                             <div ref={imgContainer} className="ProductDetails__img--container">
-                                <Img setError={setError} setLoaded={setLoaded} setImgLoaded={setImgLoaded} imgUrl={currentProduct?.imagePath && currentProduct.imagePath}/>
-                                {loaded && error && <RenderImgError failureRef={failureRef} elemRef={imgContainer} />}
+                                <Img setError={setError} setHidden={setHidden} setLoaded={setLoaded} setImgLoaded={setImgLoaded} imgUrl={currentProduct?.imagePath && currentProduct.imagePath}/>
+                                {loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} failureRef={failureRef} elemRef={imgContainer} />}
                             </div>
                             <div className="ProductDetails__details">
                                 <h3 className="ProductDetails__header">{currentProduct?.title && currentProduct.title}</h3>
@@ -75,7 +76,7 @@ const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) =
                     )
                 }
 
-                {!loaded && <LoadingProduct priceStartFrom={currentProduct?.saleDetails?.priceStartingFromMsg} priceTitle={currentProduct?.saleDetails?.title} imgLoaded={false} details={true} btn={true} /> }
+                {(!loaded || (hidden)) && <LoadingProduct priceStartFrom={currentProduct?.saleDetails?.priceStartingFromMsg} priceTitle={currentProduct?.saleDetails?.title} imgLoaded={false} details={true} btn={true} /> }
 
                 {
                     currentProduct && <Count count={currentProduct?.totalNumberOfProducts || 0} />

@@ -11,6 +11,10 @@
     justify-content: center;
     direction: ltr;
 
+    .Register__element--input-notvalid {
+      border-bottom: 2px solid red !important;
+    }
+
     input {
       width: 35px;
       border: none;
