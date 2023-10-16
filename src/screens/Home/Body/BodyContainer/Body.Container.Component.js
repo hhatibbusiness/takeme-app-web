@@ -6,18 +6,27 @@ import Categories from "./CategoriesBar/Categories";
 import ProductList from "./ProductList/ProductList";
 import SpinnerComponent from "../../../../components/Spinner/Spinner.Component";
 import {fetchCategoryProducts, fetchCategories} from "../../../../store/actions/categories.action";
+import Failure from "../../../Product/Provider/ProviderProducts/Failure/Failure";
+import {useTranslation} from "react-i18next";
 
 const BodyContainerComponent = ({loadingCategories, page, lan, categories, id, fetchCategoryProducts, value, fetchCategories}) => {
-
+    const {t} = useTranslation();
     return (
         <div className={'BodyContainer'}>
             <Cover />
             <Categories home />
-            {!loadingCategories ? (
-                <ProductList />
-            ) : (
-                <SpinnerComponent />
-            )}
+            {
+                categories?.length > 0 ? (
+                    !loadingCategories ? (
+                        <ProductList />
+                    ) : (
+                        <SpinnerComponent />
+                    )
+
+                ) : (
+                    <Failure text={t('there\'s not products')} />
+                )
+            }
         </div>
     );
 };

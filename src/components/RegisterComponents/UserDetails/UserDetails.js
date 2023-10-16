@@ -193,7 +193,7 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                             ...form.phoneCountryCode,
                             touched: true
                         }
-                    })
+                    });
                     if(form.username.value.length == 0) return registerError(t('usernameerror'));
                     if(form.phoneCountryCode.value.length == 0) return registerError(t('phoneCountryCodeُError'));
                     if(form.phone.value.length == 0) return registerError(t('phoneerror'));
@@ -201,7 +201,9 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                     if(form.password.value.length == 0) return registerError(t('passworderror'));
                     if(form.confirmPassword.value.length == 0) return registerError(t('confirmpassworderror'));
                     if(form.confirmPassword.value !== form.password.value) return registerError(t('passwordmatcherror'))
+                    console.log(step + 1 == 2 && !isValid);
                     if(step + 1 == 2 && !isValid) return;
+                    console.log('Reached!')
                     setStep(step + 1);
                 }}>
                     {

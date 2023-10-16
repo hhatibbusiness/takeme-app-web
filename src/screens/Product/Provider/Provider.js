@@ -12,8 +12,8 @@ const Provider = ({provider: p, prov, search, socials, link, openGallery, provid
     const providerRef = useRef();
     useEffect(() => {
         if (!p) return;
-        console.log(p?.products[Object.keys(p?.products)[0]][0]);
-        setActiveProduct(p?.products[Object.keys(p?.products)[0]][0]);
+        // console.log(p?.products[Object.keys(p?.products)[0]]?[0]);
+        setActiveProduct(p?.products[Object.keys(p?.products)[0]] && p?.products[Object.keys(p?.products)[0]][0]);
     }, [p]);
     return (
         <div ref={providerRef} className={'Provider'} style={{gap: `${providerOrNot ? 0 : 10}px`}}>

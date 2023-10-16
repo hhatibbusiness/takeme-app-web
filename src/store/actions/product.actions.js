@@ -2817,35 +2817,768 @@ const providersArray = [
 ]
 
 export const fetchProductDetails = (id, page, lan, filter, navigate) => async dispatch => {
-    try {
-        if(page == 0) dispatch(startFetchingProvidersProducts);
-        // const providersCopy = providersArray.slice((page + 1) * 10 - 10, (page + 1) * 10);
-        // const providers = providersCopy.map((p, i) => {
-        //     p.phoneCountryCode = 972;
-        //     return p;
-        // })
-        const res = await axios.get(`${BASE_URL}endpoints/providers-details?locale=${lan}&productTypeId=${id}&page=${page}&filterByAction=${filter}`);
-        dispatch({
-            type: FETCH_PRODUCT_TYPE_PROVIDERS,
-            // providers: providers
-            providers: res.data.output
-        });
-        if(page > 0 && res.data.output.length > 0) {
-            const analytics = getAnalytics();
-            logEvent(analytics, 'pagination', {
-                paginationName: 'product-type-providers'
-            })
-        }
-        dispatch(increaseProvidersFetchingPage());
-        dispatch(endFetchingProvidersProducts);
-    } catch (e) {
-        console.error(e.message);
-        dispatch(endFetchingProvidersProducts);
-        if(e?.response?.status == 401) {
-            tokenUnautharizedMiddleware(navigate, '/login');
-        }
-    }
+    const res = JSON.parse(
+        JSON.stringify(
+                {
+                    "status": true,
+                    "message": "تم الحصول على أصحاب منتجات أو خدمات بنجاح",
+                    "output": [
+                        {
+                            "id": 27,
+                            "providerId": 13,
+                            "name": "Mo Ziko Updated",
+                            "phoneCountryCode": "972",
+                            "phone": "0506331701",
+                            "whatsappLink": "https://wa.me/9720506331658",
+                            "navigateLink": "test",
+                            "imagePath": "https://takeme-all.com/app/resources/providers/images/default_profile_image.png",
+                            "workDaysAndHours": "Sun-Fri, 16:00 - 18:00",
+                            "orderMinDuration": "24 hours",
+                            "country": "israel",
+                            "city": "Ghajar",
+                            "email": null,
+                            "activeStatus": "active",
+                            "statusDetails": "ssss",
+                            "ratingsScore": 2.0,
+                            "ratingsCount": 1,
+                            "infoMessage": "سيتم فتح محادثة واتساب مع صاحب المنتج أو الخدمة. \n اسأل صاحب المنتج أو الخدمة أي سؤال تريده عن منتجاته او خدماته. \n حدد معه موعدًا لاستلام المنتج او الخدمة وقم بالدفع له عند استلام المنتج او الخدمة. \n \n إذا واجهت أي مشكلة مع صاحب المنتج أو الخدمة أخبرنا بذلك، كما يمكنك أيضًا تقييمه في هذا التطبيق.",
+                            "productTypeId": 1,
+                            "productTypeTitle": "جولات شرح",
+                            "totalProducts": 11,
+                            "totalProductsOfTypeId": 11,
+                            "localtionMsg": "Ghajar",
+                            "productsCountMsg": "يوجد لدي 11 جولات شرح و 0 منتجات اخرى",
+                            "ratingMsg": "(تقييمات 1) 2",
+                            "products": {
+                                "1": [
+                                    {
+                                        "id": 10,
+                                        "name": "عربية 91 jnj update2",
+                                        "description": {
+                                            "text": "text",
+                                            "list": [
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                }
+                                            ],
+                                            "variables": [
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                }
+                                            ],
+                                            "tags": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ],
+                                            "comments": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ]
+                                        },
+                                        "navigateLink": "null",
+                                        "comments": "",
+                                        "productTypeId": 1,
+                                        "providerId": 13,
+                                        "rentDetails": {
+                                            "title": "تفاصيل الايجار",
+                                            "price": 50,
+                                            "rentUnit": "days",
+                                            "priceMsg": "سعر الايجار 50 شيكل لليوم",
+                                            "minimumforRentMsg": "الحد الادنى لمدة الاستئجار 1 ايام",
+                                            "minTimForRent": 1
+                                        },
+                                        "saleDetails": null,
+                                        "images": []
+                                    },
+                                    {
+                                        "id": 14,
+                                        "name": "Page test 1",
+                                        "description": {
+                                            "text": "text",
+                                            "list": [
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                }
+                                            ],
+                                            "variables": [
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                }
+                                            ],
+                                            "tags": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ],
+                                            "comments": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ]
+                                        },
+                                        "navigateLink": "null",
+                                        "comments": "",
+                                        "productTypeId": 1,
+                                        "providerId": 13,
+                                        "rentDetails": {
+                                            "title": "تفاصيل الايجار",
+                                            "price": 50,
+                                            "rentUnit": "days",
+                                            "priceMsg": "سعر الايجار 50 شيكل لليوم",
+                                            "minimumforRentMsg": "الحد الادنى لمدة الاستئجار 1 ايام",
+                                            "minTimForRent": 1
+                                        },
+                                        "saleDetails": null,
+                                        "images": []
+                                    },
+                                    {
+                                        "id": 15,
+                                        "name": "Page test 2",
+                                        "description": {
+                                            "text": "text",
+                                            "list": [
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                }
+                                            ],
+                                            "variables": [
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                }
+                                            ],
+                                            "tags": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ],
+                                            "comments": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ]
+                                        },
+                                        "navigateLink": "null",
+                                        "comments": "",
+                                        "productTypeId": 1,
+                                        "providerId": 13,
+                                        "rentDetails": {
+                                            "title": "تفاصيل الايجار",
+                                            "price": 50,
+                                            "rentUnit": "days",
+                                            "priceMsg": "سعر الايجار 50 شيكل لليوم",
+                                            "minimumforRentMsg": "الحد الادنى لمدة الاستئجار 1 ايام",
+                                            "minTimForRent": 1
+                                        },
+                                        "saleDetails": null,
+                                        "images": []
+                                    },
+                                    {
+                                        "id": 16,
+                                        "name": "Page test 3",
+                                        "description": {
+                                            "text": "text",
+                                            "list": [
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                }
+                                            ],
+                                            "variables": [
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                }
+                                            ],
+                                            "tags": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ],
+                                            "comments": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ]
+                                        },
+                                        "navigateLink": "null",
+                                        "comments": "",
+                                        "productTypeId": 1,
+                                        "providerId": 13,
+                                        "rentDetails": {
+                                            "title": "تفاصيل الايجار",
+                                            "price": 50,
+                                            "rentUnit": "days",
+                                            "priceMsg": "سعر الايجار 50 شيكل لليوم",
+                                            "minimumforRentMsg": "الحد الادنى لمدة الاستئجار 1 ايام",
+                                            "minTimForRent": 1
+                                        },
+                                        "saleDetails": null,
+                                        "images": []
+                                    },
+                                    {
+                                        "id": 17,
+                                        "name": "Page test 4",
+                                        "description": {
+                                            "text": "text",
+                                            "list": [
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                }
+                                            ],
+                                            "variables": [
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                }
+                                            ],
+                                            "tags": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ],
+                                            "comments": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ]
+                                        },
+                                        "navigateLink": "null",
+                                        "comments": "",
+                                        "productTypeId": 1,
+                                        "providerId": 13,
+                                        "rentDetails": {
+                                            "title": "تفاصيل الايجار",
+                                            "price": 50,
+                                            "rentUnit": "days",
+                                            "priceMsg": "سعر الايجار 50 شيكل لليوم",
+                                            "minimumforRentMsg": "الحد الادنى لمدة الاستئجار 1 ايام",
+                                            "minTimForRent": 1
+                                        },
+                                        "saleDetails": null,
+                                        "images": []
+                                    },
+                                    {
+                                        "id": 18,
+                                        "name": "Page test 5",
+                                        "description": {
+                                            "text": "text",
+                                            "list": [
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                }
+                                            ],
+                                            "variables": [
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                }
+                                            ],
+                                            "tags": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ],
+                                            "comments": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ]
+                                        },
+                                        "navigateLink": "null",
+                                        "comments": "",
+                                        "productTypeId": 1,
+                                        "providerId": 13,
+                                        "rentDetails": {
+                                            "title": "تفاصيل الايجار",
+                                            "price": 50,
+                                            "rentUnit": "days",
+                                            "priceMsg": "سعر الايجار 50 شيكل لليوم",
+                                            "minimumforRentMsg": "الحد الادنى لمدة الاستئجار 1 ايام",
+                                            "minTimForRent": 1
+                                        },
+                                        "saleDetails": null,
+                                        "images": []
+                                    },
+                                    {
+                                        "id": 19,
+                                        "name": "Page test 6",
+                                        "description": {
+                                            "text": "text",
+                                            "list": [
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                }
+                                            ],
+                                            "variables": [
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                }
+                                            ],
+                                            "tags": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ],
+                                            "comments": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ]
+                                        },
+                                        "navigateLink": "null",
+                                        "comments": "",
+                                        "productTypeId": 1,
+                                        "providerId": 13,
+                                        "rentDetails": {
+                                            "title": "تفاصيل الايجار",
+                                            "price": 50,
+                                            "rentUnit": "days",
+                                            "priceMsg": "سعر الايجار 50 شيكل لليوم",
+                                            "minimumforRentMsg": "الحد الادنى لمدة الاستئجار 1 ايام",
+                                            "minTimForRent": 1
+                                        },
+                                        "saleDetails": null,
+                                        "images": []
+                                    },
+                                    {
+                                        "id": 20,
+                                        "name": "Page test 7",
+                                        "description": {
+                                            "text": "text",
+                                            "list": [
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                }
+                                            ],
+                                            "variables": [
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                }
+                                            ],
+                                            "tags": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ],
+                                            "comments": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ]
+                                        },
+                                        "navigateLink": "null",
+                                        "comments": "",
+                                        "productTypeId": 1,
+                                        "providerId": 13,
+                                        "rentDetails": {
+                                            "title": "تفاصيل الايجار",
+                                            "price": 50,
+                                            "rentUnit": "days",
+                                            "priceMsg": "سعر الايجار 50 شيكل لليوم",
+                                            "minimumforRentMsg": "الحد الادنى لمدة الاستئجار 1 ايام",
+                                            "minTimForRent": 1
+                                        },
+                                        "saleDetails": null,
+                                        "images": []
+                                    },
+                                    {
+                                        "id": 21,
+                                        "name": "Page test 8",
+                                        "description": {
+                                            "text": "text",
+                                            "list": [
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                }
+                                            ],
+                                            "variables": [
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                }
+                                            ],
+                                            "tags": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ],
+                                            "comments": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ]
+                                        },
+                                        "navigateLink": "null",
+                                        "comments": "",
+                                        "productTypeId": 1,
+                                        "providerId": 13,
+                                        "rentDetails": {
+                                            "title": "تفاصيل الايجار",
+                                            "price": 50,
+                                            "rentUnit": "days",
+                                            "priceMsg": "سعر الايجار 50 شيكل لليوم",
+                                            "minimumforRentMsg": "الحد الادنى لمدة الاستئجار 1 ايام",
+                                            "minTimForRent": 1
+                                        },
+                                        "saleDetails": null,
+                                        "images": []
+                                    },
+                                    {
+                                        "id": 22,
+                                        "name": "Page test 9",
+                                        "description": {
+                                            "text": "text",
+                                            "list": [
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                }
+                                            ],
+                                            "variables": [
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                }
+                                            ],
+                                            "tags": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ],
+                                            "comments": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ]
+                                        },
+                                        "navigateLink": "null",
+                                        "comments": "",
+                                        "productTypeId": 1,
+                                        "providerId": 13,
+                                        "rentDetails": {
+                                            "title": "تفاصيل الايجار",
+                                            "price": 50,
+                                            "rentUnit": "days",
+                                            "priceMsg": "سعر الايجار 50 شيكل لليوم",
+                                            "minimumforRentMsg": "الحد الادنى لمدة الاستئجار 1 ايام",
+                                            "minTimForRent": 1
+                                        },
+                                        "saleDetails": null,
+                                        "images": []
+                                    },
+                                    {
+                                        "id": 23,
+                                        "name": "Page test 10",
+                                        "description": {
+                                            "text": "text",
+                                            "list": [
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                },
+                                                {
+                                                    "imagePath": "string",
+                                                    "item": "string"
+                                                }
+                                            ],
+                                            "variables": [
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                },
+                                                {
+                                                    "iconPath": "string",
+                                                    "key": "key",
+                                                    "value": "value"
+                                                }
+                                            ],
+                                            "tags": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ],
+                                            "comments": [
+                                                "string",
+                                                "string",
+                                                "string"
+                                            ]
+                                        },
+                                        "navigateLink": "null",
+                                        "comments": "",
+                                        "productTypeId": 1,
+                                        "providerId": 13,
+                                        "rentDetails": {
+                                            "title": "تفاصيل الايجار",
+                                            "price": 50,
+                                            "rentUnit": "days",
+                                            "priceMsg": "سعر الايجار 50 شيكل لليوم",
+                                            "minimumforRentMsg": "الحد الادنى لمدة الاستئجار 1 ايام",
+                                            "minTimForRent": 1
+                                        },
+                                        "saleDetails": null,
+                                        "images": []
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+        )
+    );
+
+    dispatch({
+        type: FETCH_PRODUCT_TYPE_PROVIDERS,
+        // providers: providers
+        providers: res.output
+    });
+    dispatch(endFetchingProvidersProducts);
+
 }
+// export const fetchProductDetails = (id, page, lan, filter, navigate) => async dispatch => {
+//     try {
+//         if(page == 0) dispatch(startFetchingProvidersProducts);
+//         // const providersCopy = providersArray.slice((page + 1) * 10 - 10, (page + 1) * 10);
+//         // const providers = providersCopy.map((p, i) => {
+//         //     p.phoneCountryCode = 972;
+//         //     return p;
+//         // })
+//         const res = await axios.get(`${BASE_URL}endpoints/providers-details?locale=${lan}&productTypeId=${id}&page=${page}&filterByAction=${filter}`);
+//         dispatch({
+//             type: FETCH_PRODUCT_TYPE_PROVIDERS,
+//             // providers: providers
+//             providers: res.data.output
+//         });
+//         if(page > 0 && res.data.output.length > 0) {
+//             const analytics = getAnalytics();
+//             logEvent(analytics, 'pagination', {
+//                 paginationName: 'product-type-providers'
+//             });
+//         }
+//         dispatch(increaseProvidersFetchingPage());
+//         dispatch(endFetchingProvidersProducts);
+//     } catch (e) {
+//         console.error(e.message);
+//         dispatch(endFetchingProvidersProducts);
+//         if(e?.response?.status == 401) {
+//             tokenUnautharizedMiddleware(navigate, '/login');
+//         }
+//     }
+// }
 
 export const fetchProductTypeDetails = (id, lan, navigate) => async dispatch => {
     try {

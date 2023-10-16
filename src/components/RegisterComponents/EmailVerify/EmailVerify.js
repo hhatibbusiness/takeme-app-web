@@ -255,7 +255,7 @@ const PhoneVerify = ({step, setStep, registerError, buttonText, buttonLink, form
                             email: form.email,
                             lan,
                             setStep,
-                            code: `${code1}${code2}${code3}${code4}${code5}${code6}`
+                            code: `${code1.value}${code2.value}${code3.value}${code4.value}${code5.value}${code6.value}`
                         }
                         await sendCodeToServerFun(data);
                     }}>

@@ -12,11 +12,14 @@ export const fetchProviderData = (lan, id, filter, navigate) => async dispatch =
     try {
         dispatch(startFetchingProvider);
         const res = await axios.get(`${BASE_URL}endpoints/provider-details?locale=${lan}&providerId=${id}&filterByAction=${filter}`);
-        if(res.status == 200 && res.data.status == true) {
+        if(res.status == 200 && res.data.status == true && Object.keys(res.data.output).length != 0 && res.data.output != null) {
             dispatch({
                 type: FETCH_PROVIDER_DATA,
-                provider: res.data.output || {}
+                provider: res.data.output
             });
+        }
+        if(res?.data?.output == null) {
+            
         }
         console.log(res);
         dispatch(endFetchingProvider);

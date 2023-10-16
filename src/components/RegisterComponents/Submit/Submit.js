@@ -2,10 +2,10 @@ import React from 'react';
 import {useTranslation} from "react-i18next";
 import './Submit.scss';
 import {Link, NavLink, useNavigate} from 'react-router-dom';
-import {registerCustomer} from "../../../store/actions/register.actions";
+import {registerCustomer, registerError} from "../../../store/actions/register.actions";
 import {connect} from "react-redux";
 
-const Submit = ({validation, city, isValid, registerCustomer, registeringCustomer, formIsValid, setFormIsValid, setCity, agree, setAgree, emailActive, setEmailActive, cityActive, setCityActive, form, setForm}) => {
+const Submit = ({validation, city, isValid, registerError, registerCustomer, registeringCustomer, formIsValid, setFormIsValid, setCity, agree, setAgree, emailActive, setEmailActive, cityActive, setCityActive, form, setForm}) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     return (
@@ -50,6 +50,7 @@ const Submit = ({validation, city, isValid, registerCustomer, registeringCustome
                 <button onClick={async e => {
                     e.preventDefault();
                     e.stopPropagation();
+                    if(!agree) return registerError(t('requiredField'))
                     if(!agree || !isValid || validation.email != form.email.value || !validation.valid) return;
                     const data = {
                         phone: form.phone.value,
@@ -83,4 +84,4 @@ const mapStateToProps = state => ({
     validation: state.register.validation
 })
 
-export default connect(mapStateToProps, {registerCustomer}) (Submit);
+export default connect(mapStateToProps, {registerCustomer, registerError}) (Submit);

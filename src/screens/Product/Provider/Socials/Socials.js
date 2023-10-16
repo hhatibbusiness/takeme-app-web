@@ -7,22 +7,26 @@ import {getAnalytics, logEvent} from "firebase/analytics";
 
 const Socials = ({right, assets, platform, isAuthenticated, provider, createOrder, currentUser, activeProduct, lan}) => {
     const navigate = useNavigate();
+
     const formatWazeLink = (lat, long) => {
         const linkArray = assets.waze_template.split('%');
         console.log(linkArray);
         let finalLink = `${linkArray[0]}${lat}%${linkArray[1]}${long}`;
         return finalLink;
     }
+
     const formateMapsLink = (lat, long) => {
         return `${assets.maps_template}${provider.latitude},${provider.longitude}`
     }
+
     return (
         <div onClick={e => {
             if(!isAuthenticated) {
                 navigate('/login');
             }else {
                 const order = {
-                    orderId:`${Date.now()}-${activeProduct?.name}_${currentUser?.name}-${currentUser?.phone}_${provider?.name}-${provider?.phone}` ,
+                    // orderId:`${Date.now()}-${activeProduct?.name}_${currentUser?.name}-${currentUser?.phone}_${provider?.name}-${provider?.phone}` ,
+                    orderId: `${currentUser?.phone && currentUser.phone}` + '_' + `${currentUser?.name && currentUser.name}` + '-' + `${provider?.phone && provider.phone}` + '_' + `${provider?.name && provider.name}` + '-' + `${activeProduct?.name && activeProduct?.name}` + '-' + `${Date.now()}`,
                     // orderId: `${currentUser.phone}${currentUser.name}_${provider.phone}-${provider.name}-${activeProduct.name}-${Date.now()}`,
                     locale: lan,
                     customerId: currentUser?.id,

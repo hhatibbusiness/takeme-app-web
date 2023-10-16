@@ -18,6 +18,7 @@ const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provid
     useEffect(() => {
         fetchProviderData(lan, params.providerId, filter, navigate);
     }, [params.providerId]);
+
     const {t} = useTranslation();
 
     useEffect(() => {
