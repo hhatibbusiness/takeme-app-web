@@ -56,5 +56,7 @@
   "rentPrice": "سعر الاستأجار",
   "phoneCountryCode": "كود الدولة",
   "phoneCountryCodeُError": "من فضلك ادخل كود الدولة",
-  "requiredField": "من فضلك ادخل البيانات المطلوبة"
+  "requiredField": "من فضلك ادخل البيانات المطلوبة",
+  "ratings": "التقييم",
+  "dateCreated": "تم كتابة هذا التقييم في "
 }

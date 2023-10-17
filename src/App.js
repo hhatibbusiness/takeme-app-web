@@ -20,6 +20,7 @@ import {changePlatform} from "./store/actions/assets.actions";
 import {analytics} from "./utls/firebase.auth";
 import {logEvent} from "firebase/analytics";
 import ProductPopup from "./components/ProductPopup/ProductPopup";
+import ProviderRatings from "./screens/Provider/ProviderRatings/ProviderRatings";
 
 const App = (props) => {
     const {t} = useTranslation();
@@ -51,6 +52,7 @@ const App = (props) => {
                 <Route path={'/'} exact element={<Home />} >
                     <Route path={'/product/:id'} exact element={<Product />} />
                     <Route path={'/provider/:providerId'} exact element={<ProviderScreen />} />
+                    <Route exact path={'/provider/:provider_id/ratings'} element={<ProviderRatings />} />
                     <Route path={'/search'} exact element={<SearchScreen />} />
                     <Route path={'/about'} exact element={<About />} />
                     <Route path={'/contract'} exact element={<Contract />} />

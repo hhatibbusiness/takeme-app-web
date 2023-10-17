@@ -4,6 +4,7 @@ import Socials from "../../Socials/Socials";
 import {useTranslation} from "react-i18next";
 import copy from "copy-to-clipboard";
 import {getAnalytics, logEvent} from "firebase/analytics";
+import {Link} from "react-router-dom";
 
 const ProviderBody = ({provider: p, socials, prov}) => {
     const [array, setArray] = useState([]);
@@ -48,7 +49,7 @@ const ProviderBody = ({provider: p, socials, prov}) => {
             <div className="ProviderBody__left">
                 {
                     p?.ratingsCount > 0 ? (
-                        <p className={'ProviderBody__score'}>
+                        <Link to={`/provider/${p.id}/ratings`} className={'ProviderBody__score'}>
                             {
                                 p?.ratingsScore && p?.ratingsScore > 0 && (
                                     <p className={'ProviderBody__stars'}>
@@ -60,9 +61,9 @@ const ProviderBody = ({provider: p, socials, prov}) => {
                                     </p>
                                 )
                             }<span>({p?.ratingsCount && p.ratingsCount})</span>
-                        </p>
+                        </Link>
                     ) : (
-                        <p className={'ProviderBody__score'}>{t('no reviews')}</p>
+                        <Link to={`/provider/${p.id}/ratings`} className={'ProviderBody__score'}>{t('no reviews')}</Link>
                     )
                 }
                 {

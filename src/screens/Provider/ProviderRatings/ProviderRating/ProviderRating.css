@@ -1,0 +1,9 @@
+.ProviderRating {
+    direction: rtl;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: white;
+    margin-bottom: 20px;
+}

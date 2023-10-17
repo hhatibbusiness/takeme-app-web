@@ -1,3 +1,3 @@
-// export const BASE_URL = "http://194.31.150.116:8080/app/";
-// export const BASE_URL = "http://194.31.150.116:8080/app_test/";
-export const BASE_URL = "https://takeme-all.com/app/";
+export const BASE_URL = "http://191.96.1.25:8080/app/";
+// export const BASE_URL = "http://191.96.1.25:8080/app_test/";
+// export const BASE_URL = "https://takeme-all.com/app/";

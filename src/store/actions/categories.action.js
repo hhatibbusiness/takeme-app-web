@@ -38,150 +38,150 @@ export const changeId = id => ({
 })
 
 // fetch the categories list
-// export const fetchCategories = (lan, filter, navigate) => async dispatch => {
-//     const res = JSON.parse(
-//         JSON.stringify(
-//             {
-//                 "status": true,
-//                 "message": "تم الحصول على الفئات بنجاح",
-//                 "output": [
-//                     {
-//                         "id": 1,
-//                         "name": "الكل",
-//                         "description": null,
-//                         "imagePath": "http://194.31.150.116:8080/app/resources/images/categories/all.jpg",
-//                         "sortIndex": 1,
-//                         "createdDate": "2023-08-05T18:06:11.000+00:00",
-//                         "updatedDate": "2023-08-05T18:06:11.000+00:00",
-//                         "imageName": "all.jpg"
-//                     },
-//                     {
-//                         "id": 2,
-//                         "name": "سياح",
-//                         "description": null,
-//                         "imagePath": "http://194.31.150.116:8080/app/resources/images/categories/tourists.jpg",
-//                         "sortIndex": 2,
-//                         "createdDate": "2023-08-05T18:06:11.000+00:00",
-//                         "updatedDate": "2023-08-05T18:06:11.000+00:00",
-//                         "imageName": "tourists.jpg"
-//                     },
-//                     {
-//                         "id": 3,
-//                         "name": "تخييم",
-//                         "description": "شرح عن التخييم",
-//                         "imagePath": "http://194.31.150.116:8080/app/resources/images/categories/camping.jpg",
-//                         "sortIndex": 3,
-//                         "createdDate": "2023-08-05T18:06:11.000+00:00",
-//                         "updatedDate": "2023-08-05T18:06:11.000+00:00",
-//                         "imageName": "camping.jpg"
-//                     },
-//                     {
-//                         "id": 4,
-//                         "name": "بناء",
-//                         "description": null,
-//                         "imagePath": "http://194.31.150.116:8080/app/resources/images/categories/build-and-renovations.jpg",
-//                         "sortIndex": 4,
-//                         "createdDate": "2023-08-05T18:06:11.000+00:00",
-//                         "updatedDate": "2023-08-05T18:06:11.000+00:00",
-//                         "imageName": "build-and-renovations.jpg"
-//                     },
-//                     {
-//                         "id": 5,
-//                         "name": "ادوات",
-//                         "description": "ادوات مميزة",
-//                         "imagePath": "http://194.31.150.116:8080/app/resources/images/categories/others.jpg",
-//                         "sortIndex": 5,
-//                         "createdDate": "2023-08-05T18:06:11.000+00:00",
-//                         "updatedDate": "2023-08-05T18:06:11.000+00:00",
-//                         "imageName": "others.jpg"
-//                     },
-//                     {
-//                         "id": 21,
-//                         "name": "test page 1",
-//                         "description": "desc of test",
-//                         "imagePath": "https://takeme-all.com/app/resources/images/categories/tourists.jpg",
-//                         "sortIndex": 6,
-//                         "createdDate": "2023-10-10T18:45:00.000+00:00",
-//                         "updatedDate": "2023-10-10T18:45:00.000+00:00",
-//                         "imageName": "tourists.jpg"
-//                     },
-//                     {
-//                         "id": 22,
-//                         "name": "test page 2",
-//                         "description": "desc of test",
-//                         "imagePath": "https://takeme-all.com/app/resources/images/categories/tourists.jpg",
-//                         "sortIndex": 7,
-//                         "createdDate": "2023-10-10T18:45:07.000+00:00",
-//                         "updatedDate": "2023-10-10T18:45:07.000+00:00",
-//                         "imageName": "tourists.jpg"
-//                     },
-//                     {
-//                         "id": 23,
-//                         "name": "test page 3",
-//                         "description": "desc of test",
-//                         "imagePath": "https://takeme-all.com/app/resources/images/categories/tourists.jpg",
-//                         "sortIndex": 8,
-//                         "createdDate": "2023-10-10T18:45:12.000+00:00",
-//                         "updatedDate": "2023-10-10T18:45:12.000+00:00",
-//                         "imageName": "tourists.jpg"
-//                     },
-//                     {
-//                         "id": 24,
-//                         "name": "test page 4",
-//                         "description": "desc of test",
-//                         "imagePath": "https://takeme-all.com/app/resources/images/categories/tourists.jpg",
-//                         "sortIndex": 9,
-//                         "createdDate": "2023-10-10T18:45:19.000+00:00",
-//                         "updatedDate": "2023-10-10T18:45:19.000+00:00",
-//                         "imageName": "tourists.jpg"
-//                     },
-//                     {
-//                         "id": 25,
-//                         "name": "test page 5",
-//                         "description": "desc of test",
-//                         "imagePath": "https://takeme-all.com/app/resources/images/categories/tourists.jpg",
-//                         "sortIndex": 10,
-//                         "createdDate": "2023-10-10T18:45:23.000+00:00",
-//                         "updatedDate": "2023-10-10T18:45:23.000+00:00",
-//                         "imageName": "tourists.jpg"
-//                     }
-//                 ]
-//             }
-//         )
-//     )
-//     dispatch({
-//         type: FETCH_CATEGORIES_SUCCESS,
-//         categories: res.output
-//     });
-//             const firstId = res.output[0].id;
-//
-//     dispatch(fetchCategoryProducts(firstId, lan, 0, filter, navigate));
-//     dispatch(endFetchingCategories)
-// }
-// // fetch the categories list
 export const fetchCategories = (lan, filter, navigate) => async dispatch => {
-    try {
-        dispatch(startFetchingCategories);
-        const res = await axios.get(`${BASE_URL}endpoints/categories/list?locale=${lan}`);
-        dispatch({
-            type: FETCH_CATEGORIES_SUCCESS,
-            categories: res.data.output
-        });
-        dispatch(endFetchingCategories);
-        if(res?.data?.output?.length === 0) return;
-        const firstId = res.data.output[0].id;
-        await dispatch(changeId(firstId));
-        await dispatch(fetchCategoryProducts(firstId, lan, 0, filter, navigate));
-        dispatch(errorInactive);
-    }catch (err) {
-        console.error(err.message);
-        dispatch(endFetchingCategories);
-        if(err?.response?.status == 401) {
-            tokenUnautharizedMiddleware(navigate, '/login');
-        }
-        dispatch(errorActive);
-    }
+    const res = JSON.parse(
+        JSON.stringify(
+            {
+                "status": true,
+                "message": "تم الحصول على الفئات بنجاح",
+                "output": [
+                    {
+                        "id": 1,
+                        "name": "الكل",
+                        "description": null,
+                        "imagePath": "http://194.31.150.116:8080/app/resources/images/categories/all.jpg",
+                        "sortIndex": 1,
+                        "createdDate": "2023-08-05T18:06:11.000+00:00",
+                        "updatedDate": "2023-08-05T18:06:11.000+00:00",
+                        "imageName": "all.jpg"
+                    },
+                    {
+                        "id": 2,
+                        "name": "سياح",
+                        "description": null,
+                        "imagePath": "http://194.31.150.116:8080/app/resources/images/categories/tourists.jpg",
+                        "sortIndex": 2,
+                        "createdDate": "2023-08-05T18:06:11.000+00:00",
+                        "updatedDate": "2023-08-05T18:06:11.000+00:00",
+                        "imageName": "tourists.jpg"
+                    },
+                    {
+                        "id": 3,
+                        "name": "تخييم",
+                        "description": "شرح عن التخييم",
+                        "imagePath": "http://194.31.150.116:8080/app/resources/images/categories/camping.jpg",
+                        "sortIndex": 3,
+                        "createdDate": "2023-08-05T18:06:11.000+00:00",
+                        "updatedDate": "2023-08-05T18:06:11.000+00:00",
+                        "imageName": "camping.jpg"
+                    },
+                    {
+                        "id": 4,
+                        "name": "بناء",
+                        "description": null,
+                        "imagePath": "http://194.31.150.116:8080/app/resources/images/categories/build-and-renovations.jpg",
+                        "sortIndex": 4,
+                        "createdDate": "2023-08-05T18:06:11.000+00:00",
+                        "updatedDate": "2023-08-05T18:06:11.000+00:00",
+                        "imageName": "build-and-renovations.jpg"
+                    },
+                    {
+                        "id": 5,
+                        "name": "ادوات",
+                        "description": "ادوات مميزة",
+                        "imagePath": "http://194.31.150.116:8080/app/resources/images/categories/others.jpg",
+                        "sortIndex": 5,
+                        "createdDate": "2023-08-05T18:06:11.000+00:00",
+                        "updatedDate": "2023-08-05T18:06:11.000+00:00",
+                        "imageName": "others.jpg"
+                    },
+                    {
+                        "id": 21,
+                        "name": "test page 1",
+                        "description": "desc of test",
+                        "imagePath": "https://takeme-all.com/app/resources/images/categories/tourists.jpg",
+                        "sortIndex": 6,
+                        "createdDate": "2023-10-10T18:45:00.000+00:00",
+                        "updatedDate": "2023-10-10T18:45:00.000+00:00",
+                        "imageName": "tourists.jpg"
+                    },
+                    {
+                        "id": 22,
+                        "name": "test page 2",
+                        "description": "desc of test",
+                        "imagePath": "https://takeme-all.com/app/resources/images/categories/tourists.jpg",
+                        "sortIndex": 7,
+                        "createdDate": "2023-10-10T18:45:07.000+00:00",
+                        "updatedDate": "2023-10-10T18:45:07.000+00:00",
+                        "imageName": "tourists.jpg"
+                    },
+                    {
+                        "id": 23,
+                        "name": "test page 3",
+                        "description": "desc of test",
+                        "imagePath": "https://takeme-all.com/app/resources/images/categories/tourists.jpg",
+                        "sortIndex": 8,
+                        "createdDate": "2023-10-10T18:45:12.000+00:00",
+                        "updatedDate": "2023-10-10T18:45:12.000+00:00",
+                        "imageName": "tourists.jpg"
+                    },
+                    {
+                        "id": 24,
+                        "name": "test page 4",
+                        "description": "desc of test",
+                        "imagePath": "https://takeme-all.com/app/resources/images/categories/tourists.jpg",
+                        "sortIndex": 9,
+                        "createdDate": "2023-10-10T18:45:19.000+00:00",
+                        "updatedDate": "2023-10-10T18:45:19.000+00:00",
+                        "imageName": "tourists.jpg"
+                    },
+                    {
+                        "id": 25,
+                        "name": "test page 5",
+                        "description": "desc of test",
+                        "imagePath": "https://takeme-all.com/app/resources/images/categories/tourists.jpg",
+                        "sortIndex": 10,
+                        "createdDate": "2023-10-10T18:45:23.000+00:00",
+                        "updatedDate": "2023-10-10T18:45:23.000+00:00",
+                        "imageName": "tourists.jpg"
+                    }
+                ]
+            }
+        )
+    )
+    dispatch({
+        type: FETCH_CATEGORIES_SUCCESS,
+        categories: res.output
+    });
+            const firstId = res.output[0].id;
+
+    dispatch(fetchCategoryProducts(firstId, lan, 0, filter, navigate));
+    dispatch(endFetchingCategories)
 }
+// // fetch the categories list
+// export const fetchCategories = (lan, filter, navigate) => async dispatch => {
+//     try {
+//         dispatch(startFetchingCategories);
+//         const res = await axios.get(`${BASE_URL}endpoints/categories/list?locale=${lan}`);
+//         dispatch({
+//             type: FETCH_CATEGORIES_SUCCESS,
+//             categories: res.data.output
+//         });
+//         dispatch(endFetchingCategories);
+//         if(res?.data?.output?.length === 0) return;
+//         const firstId = res.data.output[0].id;
+//         await dispatch(changeId(firstId));
+//         await dispatch(fetchCategoryProducts(firstId, lan, 0, filter, navigate));
+//         dispatch(errorInactive);
+//     }catch (err) {
+//         console.error(err.message);
+//         dispatch(endFetchingCategories);
+//         if(err?.response?.status == 401) {
+//             tokenUnautharizedMiddleware(navigate, '/login');
+//         }
+//         dispatch(errorActive);
+//     }
+// }
 
 // ACTION TO KEEP THE UI FROM CRASHING
 const startFetchingProducts = {
