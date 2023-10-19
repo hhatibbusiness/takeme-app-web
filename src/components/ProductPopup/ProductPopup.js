@@ -13,7 +13,11 @@ import ProviderProductComments
     from "../../screens/Product/Provider/ProviderProducts/ProviderProduct/ProviderProductComments/ProviderProductComments";
 import history from '../../history/history';
 import {getAnalytics, logEvent} from "firebase/analytics";
-const ProductPopup = ({togglePopup, currentProduct, openPopup, term, Opopup, closePopup}) => {
+import ProviderRatings from "../../screens/Provider/ProviderRatings/ProviderRatings";
+import {fetchProviderRatigs} from "../../store/actions/ratings.actions";
+import CreateRating from "../../screens/Provider/CreateRating/CreateRating";
+
+const ProductPopup = ({togglePopup, currentProduct, lan, fetchProviderRatigs, openPopup, term, Opopup, closePopup}) => {
     const [short, setShort] = useState(true);
 
     const {t} = useTranslation();
@@ -34,50 +38,15 @@ const ProductPopup = ({togglePopup, currentProduct, openPopup, term, Opopup, clo
         }
     }, [openPopup]);
 
-    // useEffect(() => {
-    //     console.log(window);
-    //     if(!window || !document) return;
-    //     setTimeout(() => {
-    //         window.history.forward();
-    //     }, 0);
-    //     window.onpopstate = e => {
-    //         console.log(e);
-    //         // if(openPopup) {
-    //         //     // togglePopup();
-    //         //     return window.history.pushState(null, document.title, window.location.href);
-    //         // }
-    //         return window.history.pushState(-1, null);
-    //     }
-    // }, [window]);
-
-    // const onBackButtonEvent = (e) => {
-    //
-    //     e.preventDefault();var currentLocation = window.location.pathname;
-    //
-    //     window.history.pushState(`${currentLocation}/mypage/new`)};
-    //
-    // useEffect(() => {
-    //     window.addEventListener('popstate', onBackButtonEvent);return () => {window.removeEventListener('popstate', onBackButtonEvent);
-    //
-    // };}, [])
-
-    //
-    // useEffect(() => {
-    //     if(!window) return;
-    //     console.log('hello event!');
-
-    //     // window.history.pushState({}, null, window?.location?.href);
-    //     window.addEventListener('unload', e => {
-    //         // e.preventDefault();
-    //         console.log('hello back button!');
-    //         togglePopup();
-    //         function preventBack() {
-    //             window?.history?.forward();
-    //         }
-    //         setTimeout(preventBack(), 0);
-    //         window?.history?.forward();
-    //     });
-    // }, [window]);
+    useEffect(() => {
+        if(openPopup) {
+            const data = {
+                providerId: currentProduct.providerId,
+                lan
+            }
+            fetchProviderRatigs(data);
+        }
+    }, [openPopup]);
 
     // const currentProduct = {
     //     "id": 6,
@@ -296,6 +265,8 @@ const ProductPopup = ({togglePopup, currentProduct, openPopup, term, Opopup, clo
                             currentProduct?.description?.tags?.length > 0 && <ProviderProductTags tags={currentProduct?.description?.tags}  />
                         }
                     </div>
+                    <ProviderRatings />
+                    <CreateRating />
                 </div>
 
             </div>
@@ -315,7 +286,10 @@ const ProductPopup = ({togglePopup, currentProduct, openPopup, term, Opopup, clo
 
 const mapStateToProps = state => ({
     openPopup: state.ui.openPopup,
-    currentProduct: state.ui.currentProduct
-})
+    currentProduct: state.ui.currentProduct,
+    ratings: state.ratings.ratings,
+    fetchingRatings: state.ratings.fetchingRatings,
+    lan: state.categories.lan
+});
 
-export default connect(mapStateToProps, {togglePopup, Opopup, closePopup}) (ProductPopup);
+export default connect(mapStateToProps, {togglePopup, Opopup, closePopup, fetchProviderRatigs}) (ProductPopup);

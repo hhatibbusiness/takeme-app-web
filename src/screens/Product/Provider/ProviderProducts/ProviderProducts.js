@@ -161,7 +161,7 @@ const ProviderProducts = ({products, providerRef, search, openGallery, setActive
                             {
                                 productsArray.map((p, i) => (
                                     <SwiperSlide className={'ProviderProducts__swiper'} key={i}>
-                                        <ProviderProduct providerOrNot={providerOrNot}  providerRef={providerRef} sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} />
+                                        <ProviderProduct providerOrNot={providerOrNot}  providerRef={providerRef} sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} provider={provider} />
                                     </SwiperSlide>
                                 ))
                             }

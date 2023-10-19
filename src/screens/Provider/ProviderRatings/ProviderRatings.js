@@ -10,30 +10,29 @@ import ProviderRating from "./ProviderRating/ProviderRating";
 const ProviderRatings = ({fetchProviderRatigs, fetchingRatings, ratings}) => {
 
     useEffect(() => {
-        fetchProviderRatigs();
+
     }, []);
 
-    useEffect(() => {
-        const home = document.querySelector('body');
-        const freezeStyles = () => {
-            home.classList.add('Home__hide')
-        }
-        const releaseStyles = () => {
-            home.classList.remove('Home__hide')
-        }
-
-        freezeStyles();
-
-        return () => {
-            releaseStyles();
-        }
-    }, []);
+    // useEffect(() => {
+    //     const home = document.querySelector('body');
+    //     const freezeStyles = () => {
+    //         home.classList.add('Home__hide')
+    //     }
+    //     const releaseStyles = () => {
+    //         home.classList.remove('Home__hide')
+    //     }
+    //
+    //     freezeStyles();
+    //
+    //     return () => {
+    //         releaseStyles();
+    //     }
+    // }, []);
 
     const {t} = useTranslation();
 
     return (
         <div className={'ProviderRatings'}>
-            <Navbar backBtn={true} midText={t('ratings')} />
             <div className="ProviderRatings__container">
                 {
                     fetchingRatings ? (

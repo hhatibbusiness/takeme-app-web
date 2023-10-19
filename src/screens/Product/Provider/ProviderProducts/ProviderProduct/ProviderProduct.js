@@ -15,7 +15,7 @@ import {togglePopup} from "../../../../../store/actions/ui.actions";
 import {changePopupProduct} from "../../../../../store/actions/ui.actions";
 import {getAnalytics, logEvent} from "firebase/analytics";
 
-const ProviderProduct = ({imgRef, providerOrNot, productTypesCount, search, providerRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
+const ProviderProduct = ({imgRef, provider, providerOrNot, productTypesCount, search, providerRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
     //test
     const [error, setError] = useState(false);
     const [loaded, setLoaded] = useState(false);
