@@ -5,14 +5,31 @@
   justify-content: center;
   width: 100%;
   height: 100%;
+  position: relative;
+
+  .RenderImgError {
+    background: white;
+    height: 100%;
+    width: 100%;
+    color: white;
+  }
+
   img {
     //height: 70%;
     display: block;
-    margin: auto;
     margin: 0;
+    margin: auto;
     max-width: 100% !important;
     width: 100% !important;
     max-height: 80% !important;
     object-fit: cover;
+  }
+
+  .LoadingProduct {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100% !important;
+    width: 100% !important;
   }
 }

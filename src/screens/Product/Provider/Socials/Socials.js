@@ -24,9 +24,10 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
             if(!isAuthenticated) {
                 navigate('/login');
             }else {
+                console.log(provider);
                 const order = {
                     // orderId:`${Date.now()}-${activeProduct?.name}_${currentUser?.name}-${currentUser?.phone}_${provider?.name}-${provider?.phone}` ,
-                    orderId: `${currentUser?.phone && currentUser.phone}` + '_' + `${currentUser?.name && currentUser.name}` + '-' + `${provider?.phone && provider.phone}` + '_' + `${provider?.name && provider.name}` + '-' + `${activeProduct?.name && activeProduct?.name}` + '-' + `${Date.now()}`,
+                    orderId: `${currentUser?.name && currentUser.name}-${currentUser?.phone && currentUser.phone}_${provider?.name && provider.name}-${provider?.phone && provider.phone}_${activeProduct?.name && activeProduct?.name}_${Date.now()}`,
                     // orderId: `${currentUser.phone}${currentUser.name}_${provider.phone}-${provider.name}-${activeProduct.name}-${Date.now()}`,
                     locale: lan,
                     customerId: currentUser?.id,

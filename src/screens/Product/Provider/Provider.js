@@ -18,7 +18,7 @@ const Provider = ({provider: p, prov, search, socials, link, openGallery, provid
     return (
         <div ref={providerRef} className={'Provider'} style={{gap: `${providerOrNot ? 0 : 10}px`}}>
             <div style={{background: `${prov && '#EEF2F5'}`, marginLeft: 'auto', width: '100%', paddingBottom: '10px'}}>
-                <ProviderProfile prov={prov} socials={socials} link={link} provider={p} />
+                <ProviderProfile activeProduct={activeProduct} prov={prov} socials={socials} link={link} provider={p} />
                 {
                     socials && <Socials activeProduct={activeProduct} provider={p} right />
                 }

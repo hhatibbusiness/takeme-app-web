@@ -24,6 +24,7 @@ const ProviderProducts = ({products, providerRef, search, openGallery, setActive
     const [active, setActive] = useState(0);
     const nextRef = useRef();
     const prevRef = useRef();
+    const containerRef = useRef();
 
     const groupProducts = products => {
         if(providerOrNot) {
@@ -122,14 +123,14 @@ const ProviderProducts = ({products, providerRef, search, openGallery, setActive
                 //     <Failure text={t('fail to load providers')} />
                 // )
                 providerOrNot ? Object.keys(productsArray).map((key, i) => Object.keys(productsArray).length > 0 ? (
-                        <div className={'ProviderProducts__array'}>
-                            <ProductsTypeContainer provider={provider} openGallery={openGallery} imgRef={imgRef} providerRef={providerRef} providerOrNot={providerOrNot} sliding={sliding} setSliding={setSliding} keyMap={key} productsArray={productsArray} />
+                        <div ref={containerRef} className={'ProviderProducts__array'}>
+                            <ProductsTypeContainer arrayRef={containerRef} provider={provider} openGallery={openGallery} imgRef={imgRef} providerRef={providerRef} providerOrNot={providerOrNot} sliding={sliding} setSliding={setSliding} keyMap={key} productsArray={productsArray} />
                         </div>
                     ) : (
                         <Failure text={t('fail to load providers')} />
                     )
                 ) : Object.keys(products).length > 0 ? (
-                    <div className={'ProviderProducts__array'}>
+                    <div ref={containerRef} className={'ProviderProducts__array'}>
                         <Swiper
                             grabCursor={true}
                             centeredSlides={true}
@@ -161,7 +162,7 @@ const ProviderProducts = ({products, providerRef, search, openGallery, setActive
                             {
                                 productsArray.map((p, i) => (
                                     <SwiperSlide className={'ProviderProducts__swiper'} key={i}>
-                                        <ProviderProduct providerOrNot={providerOrNot}  providerRef={providerRef} sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} provider={provider} />
+                                        <ProviderProduct arrayRef={containerRef} providerOrNot={providerOrNot}  providerRef={providerRef} sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} provider={provider} />
                                     </SwiperSlide>
                                 ))
                             }

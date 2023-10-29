@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './Img.scss';
 import {connect} from "react-redux";
 import {changeSliderValue} from "../../../../../../../../store/actions/categories.action";

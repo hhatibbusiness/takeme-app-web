@@ -58,11 +58,13 @@
   "phoneCountryCodeُError": "נא להזין את קוד המדינה",
   "requiredField": "נא להזין את הנתונים הנדרשים",
   "ratings": "הַעֲרָכָה",
-  "dateCreated": "סקירה זו נכתבה ב "
-
-
-
-
-
+  "dateCreated": "סקירה זו נכתבה ב ",
+  "add-rating": "הוסף דירוג",
+  "requiredInput": "זהו שדה חובה",
+  "integer": "שדה זה צריך להיות מספר שלם",
+  "notemail": "שדה זה חייב להיות דוא",
+  "minLength": "מספר התווים קטן מ 6",
+  "matchMessage": "הסיסמה חייבת להיות זהה",
+  "fraction": "מספר זה אינו חייב להיות מספר עשרוני"
 
 }

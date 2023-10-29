@@ -1,0 +1,161 @@
+.GroupPosts__form {
+    position: sticky;
+    top: 70px;
+    background: #EBEBEB;
+    margin-bottom: 30px;
+}
+
+.w-input-text-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.w-placeholder {
+    color: #a0a0a0;
+    /*top: 0;*/
+    pointer-events: none;
+    user-select: none;
+    position: absolute;
+    opacity: 0;
+    transition: 0.2s padding ease-in-out;
+    margin: auto 0;
+    right: 10px;
+    direction: rtl;
+}
+
+#w-input-text {
+    overflow-x: hidden;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    z-index: 1;
+    max-height: 100px;
+    min-height: 20px;
+    width: 100%;
+    /*height: 100%;*/
+    /*padding: 0 0 0 2px;*/
+    outline: 0;
+    /*transition: 0.2s padding ease-in-out;*/
+    text-align: start;
+    border: 1px solid lightgray;
+    padding: 10px;
+    direction: rtl;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+#w-input-text:focus + #w-input-container {
+    border-radius: 0;
+}
+
+#w-input-container:hover {
+    cursor: text;
+}
+
+#w-input-text:empty + .w-placeholder {
+    opacity: 1;
+}
+
+#w-input-text:focus + .w-placeholder {
+    /*padding: 0 6px 0px;*/
+}
+
+#w-input-text:focus {
+    border: 1px solid black;
+}
+
+.GroupPosts__btns {
+    display: flex;
+    flex-direction: row;
+    /*padding: 5px;*/
+    gap: 5px;
+    margin-top: 15px;
+}
+
+.GroupPosts__btn {
+    width: 50%;
+    text-align: center;
+    position: relative;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.GroupPosts__file {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+}
+
+.GroupPosts__publish {
+    background: var(--main-color-green-dark-1);
+    color: white;
+}
+
+/*.CreateRating__comments {*/
+/*    height: 60px;*/
+/*}*/
+
+.CreateRating__stars {
+    padding: 20px 5px;
+}
+
+.CreateRating__star {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.CreateRating__star:hover {
+    color: gold;
+}
+
+.GroupPosts__loadpost--spinner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.GroupPosts__loadpost--spinner i {
+    transform: rotate(0);
+    animation: spin 0.5s linear infinite;
+}
+
+.GroupPosts__image {
+    border: 1px solid gray;
+}
+
+.GroupPosts__image--show {
+    max-height: 300px;
+}
+
+.GroupPosts__image--show img {
+    max-height: 300px;
+    display:block;
+    margin: auto;
+}
+
+.GroupPosts__publish i {
+    transform: rotate(0);
+    animation: spin 0.5s linear infinite;
+}
+
+.GroupPosts__moreposts {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--main-color-green-dark-1);
+    cursor: pointer;
+}
+
+.GroupPosts__cancel {
+    background: red;
+    color: white;
+}

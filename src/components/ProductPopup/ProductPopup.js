@@ -39,14 +39,15 @@ const ProductPopup = ({togglePopup, currentProduct, lan, fetchProviderRatigs, op
     }, [openPopup]);
 
     useEffect(() => {
-        if(openPopup) {
+        if(openPopup && lan) {
+
             const data = {
-                providerId: currentProduct.providerId,
+                providerId: currentProduct?.providerId,
                 lan
             }
             fetchProviderRatigs(data);
         }
-    }, [openPopup]);
+    }, [openPopup, lan]);
 
     // const currentProduct = {
     //     "id": 6,
@@ -266,7 +267,7 @@ const ProductPopup = ({togglePopup, currentProduct, lan, fetchProviderRatigs, op
                         }
                     </div>
                     <ProviderRatings />
-                    <CreateRating />
+                    <CreateRating currentProduct={currentProduct} />
                 </div>
 
             </div>

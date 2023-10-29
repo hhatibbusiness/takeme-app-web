@@ -40,7 +40,7 @@ export const login = (data, navigate, lan) => async dispatch => {
         console.error(err?.response?.data?.message);
         dispatch({
             type: LOGIN_ERROR,
-            message: err.message
+            message: err?.response?.data?.message
         });
         dispatch(endLogin);
     }

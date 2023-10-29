@@ -4,12 +4,12 @@ import ProviderBody from "./Providerbody/ProviderBody";
 import './ProviderProfile.scss';
 import {useNavigate} from "react-router-dom";
 
-const ProviderProfile = ({provider: p, prov, link, socials}) => {
+const ProviderProfile = ({provider: p, activeProduct, prov, link, socials}) => {
     const navigate = useNavigate();
     return (
-        <div onClick={() => link && navigate(`/provider/${p.id}`)} style={{cursor: `${link && 'pointer'}`}} className={'ProviderProfile'}>
+        <div onClick={() => link && navigate(`/provider/${p.providerId}`)} style={{cursor: `${link && 'pointer'}`}} className={'ProviderProfile'}>
             <ProviderImage id={p.id} img={p?.imagePath && p.imagePath} />
-            <ProviderBody prov={prov} socials={socials} provider={p} />
+            <ProviderBody activeProduct={activeProduct} prov={prov} socials={socials} provider={p} />
         </div>
     );
 };

@@ -1,4 +1,11 @@
-import {END_FETCHING_PROVIDER_RATINGS, FETCH_PROVIDER_RATINGS, START_FETCHING_PROVIDER_RATINGS} from "./action.types";
+import {
+    ADD_PROVIDER_RATING,
+    END_ADDING_PROVIDER_RATING,
+    END_FETCHING_PROVIDER_RATINGS,
+    FETCH_PROVIDER_RATINGS,
+    START_ADDING_PROVIDER_RATING,
+    START_FETCHING_PROVIDER_RATINGS
+} from "./action.types";
 import axios from "axios";
 import {BASE_URL} from "../../utls/assets";
 
@@ -113,9 +120,9 @@ export const fetchProviderRatigs = data => async dispatch => {
     try {
         dispatch(startFetchingProviderRatings);
         console.log(data);
-        const res = await axios.get(`${BASE_URL}endpoints/rating/providers/list-provider-ratings?locale=${data.lang}&providerId=${data.providerId}`);
+        const res = await axios.get(`${BASE_URL}endpoints/rating/providers/list-provider-ratings?locale=${data.lan}&providerId=${data.providerId}`);
         console.log(res);
-        if(res.status == 200 && res.data.output.length > 0) {
+        if(res.status == 200 && res.data.status == true) {
             dispatch({
                 type: FETCH_PROVIDER_RATINGS,
                 ratings: res?.data?.output
@@ -134,4 +141,31 @@ const startFetchingProviderRatings = {
 
 const endFetchingProviderRatings = {
     type: END_FETCHING_PROVIDER_RATINGS
+}
+
+const startAddingProviderRating = {
+    type: START_ADDING_PROVIDER_RATING
+}
+
+const endAddingProviderRating = {
+    type: END_ADDING_PROVIDER_RATING
+}
+
+export const addProviderRating = data => async dispatch => {
+    try {
+        dispatch(startAddingProviderRating);
+        const res = await axios.post(`${BASE_URL}endpoints/rating/providers/add`, data);
+        if(res.status == 200 && res.data.status == true) {
+            console.log(res);
+            dispatch({
+                type: ADD_PROVIDER_RATING,
+                rating: res?.data?.output
+            });
+        }
+        dispatch(endAddingProviderRating);
+        return res;
+    } catch (e) {
+        console.error(e?.message);
+        dispatch(endAddingProviderRating)
+    }
 }

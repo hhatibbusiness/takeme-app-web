@@ -8,6 +8,10 @@
   .Register__form--element {
     position: relative;
 
+    .Register__form--element-rules {
+      margin-top: 10px;
+    }
+
     .Register__form--eye {
       position: absolute;
       top: 5px;

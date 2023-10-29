@@ -4,10 +4,11 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 600;
+  z-index: 1000;
   background: white;
   padding-top: 50px;
   overflow-y: scroll;
+  direction: rtl;
 
 
   .ContractScreen__content {
@@ -35,5 +36,6 @@
 
   .Navbar {
     direction: ltr;
+    z-index: 5;
   }
 }

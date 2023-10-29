@@ -13,7 +13,7 @@ const ProviderRatingScore = ({rating}) => {
             <div className="ProviderRatingScore__stars">
                 {
                     starsArray?.map((s, i) => (
-                        <i style={{color: `${i < rating.ratingScore && 'gold'}`}} className="fa-solid fa-star"></i>
+                        <i style={{color: `${i < rating.ratingScore ? 'gold' : 'gray'}`}} className="fa-solid fa-star"></i>
                     ))
                 }
             </div>

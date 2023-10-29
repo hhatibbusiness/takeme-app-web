@@ -78,13 +78,13 @@ export const sendCodeToServer = data => async dispatch => {
             data.setStep(2);
             dispatch({
                 type: LOGIN_ERROR,
-                message: res.data.message
+                message: res?.data?.message
             });
         }
         dispatch(endSendingCodeToServer);
     } catch (e) {
         console.error(e.message);
-        dispatch(endSendingCodeToServer)
+        dispatch(endSendingCodeToServer);
     }
 }
 
@@ -128,16 +128,16 @@ export const registerCustomer = data => async disptch => {
         }else {
             disptch({
                 type: LOGIN_ERROR,
-                message: res.data.message
+                message: res?.data?.message
             });
         }
         disptch(endRegisteringCustomer);
     } catch (e) {
-        console.error(e.message);
+        console.error(e);
         disptch(endRegisteringCustomer);
         disptch({
             type: LOGIN_ERROR,
-            message: e.message
+            message: e?.response?.data?.message
         });
     }
 }

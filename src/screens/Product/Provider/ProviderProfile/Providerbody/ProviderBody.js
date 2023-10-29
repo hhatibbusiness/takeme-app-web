@@ -5,8 +5,10 @@ import {useTranslation} from "react-i18next";
 import copy from "copy-to-clipboard";
 import {getAnalytics, logEvent} from "firebase/analytics";
 import {Link} from "react-router-dom";
+import {openPopup, changePopupProduct} from "../../../../../store/actions/ui.actions";
+import {connect} from "react-redux";
 
-const ProviderBody = ({provider: p, socials, prov}) => {
+const ProviderBody = ({provider: p, activeProduct, socials, prov, openPopup, changePopupProduct}) => {
     const [array, setArray] = useState([]);
     const [copied, setCopied] = useState('')
 
@@ -49,7 +51,12 @@ const ProviderBody = ({provider: p, socials, prov}) => {
             <div className="ProviderBody__left">
                 {
                     p?.ratingsCount > 0 ? (
-                        <Link to={`/provider/${p.id}/ratings`} className={'ProviderBody__score'}>
+                        <p onClick={e => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            changePopupProduct(activeProduct);
+                            openPopup();
+                        }} className={'ProviderBody__score'}>
                             {
                                 p?.ratingsScore && p?.ratingsScore > 0 && (
                                     <p className={'ProviderBody__stars'}>
@@ -61,9 +68,14 @@ const ProviderBody = ({provider: p, socials, prov}) => {
                                     </p>
                                 )
                             }<span>({p?.ratingsCount && p.ratingsCount})</span>
-                        </Link>
+                        </p>
                     ) : (
-                        <Link to={`/provider/${p.id}/ratings`} className={'ProviderBody__score'}>{t('no reviews')}</Link>
+                        <p onClick={e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            changePopupProduct(activeProduct);
+                            openPopup();
+                        }}>{t("add-rating")}</p>
                     )
                 }
                 {
@@ -76,4 +88,8 @@ const ProviderBody = ({provider: p, socials, prov}) => {
     );
 };
 
-export default ProviderBody;
+const mapStateToProps = state => ({
+
+})
+
+export default connect(mapStateToProps, {openPopup, changePopupProduct}) (ProviderBody);

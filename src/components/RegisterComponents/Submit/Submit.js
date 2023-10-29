@@ -43,7 +43,7 @@ const Submit = ({validation, city, isValid, registerError, registerCustomer, reg
                         }}  name={'conditions'} type="checkbox" className="Register__form--element-input" />
                         <span></span>
                     </div>
-                    <label htmlFor="conditions" className={''}>{t('aggree')} <Link to={'/contract'}>{t('condition')}</Link></label>
+                    <label htmlFor="conditions" className={''}>{t('aggree')} <Link to={'/register/contract'}>{t('condition')}</Link></label>
                 </div>
             </div>
             <div className="Register__form--element">

@@ -21,6 +21,7 @@ import {analytics} from "./utls/firebase.auth";
 import {logEvent} from "firebase/analytics";
 import ProductPopup from "./components/ProductPopup/ProductPopup";
 import ProviderRatings from "./screens/Provider/ProviderRatings/ProviderRatings";
+import {openPopup} from "./store/actions/ui.actions";
 
 const App = (props) => {
     const {t} = useTranslation();
@@ -57,13 +58,19 @@ const App = (props) => {
                     <Route path={'/about'} exact element={<About />} />
                     <Route path={'/contract'} exact element={<Contract />} />
                     <Route path={'/login'} exact element={<Login />} />
-                    <Route path={'/register'} exact element={<Register />} />
+                    <Route path={'/register'} element={<Register />} >
+                        <Route path={'/register/contract'} element={<Contract />} />
+                    </Route>
                     <Route path={'/forget/:email'} exact element={<Forget />} />
                 </Route>
             </Routes>
-            <ProductPopup />
+            {props.openPopup && <ProductPopup />}
         </div>
     )
 }
 
-export default connect(null, {fetchAssets, createOrder, loadUser, changePlatform}) (App);
+const mapStateToProps = state => ({
+    openPopup: state.ui.openPopup
+})
+
+export default connect(mapStateToProps, {fetchAssets, createOrder, loadUser, changePlatform}) (App);

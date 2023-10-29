@@ -1,4 +1,6 @@
 .BackBtn {
   color: var(--main-color-green-light-2);
   cursor: pointer;
+  position: relative;
+  z-index: 5;
 }

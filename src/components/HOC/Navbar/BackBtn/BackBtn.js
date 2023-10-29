@@ -4,10 +4,14 @@ import './BackBtn.scss';
 import {useNavigate} from "react-router-dom";
 import history from '../../../../history/history';
 
-const BackBtn = () => {
+const BackBtn = ({step, setStep}) => {
     return (
         <div onClick={() => {
-            history.back()
+            if(step && step > 1) {
+                setStep(step - 1)
+            } else {
+                history.back()
+            }
         }} className={'BackBtn'}>
             <i className="fa-solid fa-arrow-left"></i>
         </div>

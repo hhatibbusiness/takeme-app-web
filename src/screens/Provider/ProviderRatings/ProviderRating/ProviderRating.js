@@ -12,7 +12,7 @@ const ProviderRating = ({rating}) => {
         <div className={'ProviderRating'}>
             <ProviderRatingProfile rating={rating} />
             <ProviderRatingScore rating={rating} />
-            <ProviderRatingComment rating={rating} />
+            {/*<ProviderRatingComment rating={rating} />*/}
             <ProviderRatingDate rating={rating} />
             <ProviderRatingDetailedComment rating={rating} />
         </div>

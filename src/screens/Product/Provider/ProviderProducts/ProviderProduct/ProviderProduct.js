@@ -15,7 +15,7 @@ import {togglePopup} from "../../../../../store/actions/ui.actions";
 import {changePopupProduct} from "../../../../../store/actions/ui.actions";
 import {getAnalytics, logEvent} from "firebase/analytics";
 
-const ProviderProduct = ({imgRef, provider, providerOrNot, productTypesCount, search, providerRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
+const ProviderProduct = ({imgRef, provider, arrayRef, providerOrNot, productTypesCount, search, providerRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
     //test
     const [error, setError] = useState(false);
     const [loaded, setLoaded] = useState(false);
@@ -95,19 +95,23 @@ const ProviderProduct = ({imgRef, provider, providerOrNot, productTypesCount, se
         const imgContainer = imgContainerRef.current;
         const providerElem = providerRef.current;
         const failureEle = failureRef.current;
+        const productContainer = arrayRef?.current;
         if(!imgElement) return;
-        const containerHeight = imgElement?.getBoundingClientRect().width;
-        console.log(imgContainer);
+        const containerHeight = productContainer?.getBoundingClientRect().width;
         if(providerElem && !providerOrNot) providerElem.style.height = `${750 + (containerHeight - 400)}px`;
         if(providerElem && providerOrNot) providerElem.style.height = `${250 + 400 * productTypesCount + productTypesCount * 200 + (containerHeight - 400) * productTypesCount}px`;
         if(imgLoader) imgLoader.style.height = `${containerHeight}px`;
         if(imgContainer) imgContainer.style.height = `${containerHeight}px`;
-        if(failureEle) failureEle.style.height = `${containerHeight}px`
+        if(failureEle) failureEle.style.height = `${containerHeight}px`;
+        if(productContainer || failureEle || imgContainer || imgLoader || imgElement && containerHeight) {
+            console.log(containerHeight)
+            productContainer.style.height = `${imgLoader?.getBoundingClientRect().height + 150}px`
+        }
     }
 
     useEffect(() => {
         changeHeightToWidth();
-    }, [loaded, providerOrNot, error]);
+    }, [loaded, providerOrNot, error, containerRef, imgLoaderRef, imgContainerRef, providerRef, failureRef, arrayRef]);
 
     useEffect(() => {
         window.addEventListener('resize', () => {
