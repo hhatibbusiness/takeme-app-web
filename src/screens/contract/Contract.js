@@ -13,7 +13,6 @@ const Contract = ({fetchContractPage, lan, fetchingContractPage, contractData}) 
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(fetchingContractPage, contractData)
         fetchContractPage(lan, navigate);
     }, [lan]);
 

@@ -7,11 +7,9 @@ import copy from 'copy-to-clipboard';
 const ProviderLinkCopy = () => {
     const [icon, setIcon] = useState(<i className="fa-solid fa-link"></i>);
     useEffect(() => {
-        console.log(history.location.pathname);
     }, []);
 
     const copyLink = () => {
-        console.log(window?.location?.href && window.location.href);
         copy(window?.location?.href && window.location.href);
         setIcon(prevState => (
             <div className={'ProviderLinkCopy__container'}>

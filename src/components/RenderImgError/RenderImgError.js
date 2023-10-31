@@ -5,8 +5,6 @@ import LoadingProduct from "../LoadingProduct/LoadingProduct";
 
 const RenderImgError = ({value, failureRef, elemRef, imgLoaderRef, hidden, setHidden}) => {
     useEffect(() => {
-        console.log('Hello from the error!')
-        console.log(failureRef?.current?.getBoundingClientRect().height, elemRef?.current?.getBoundingClientRect().height)
         if(failureRef?.current?.getBoundingClientRect().height == elemRef?.current?.getBoundingClientRect().height) setHidden(false)
     }, [failureRef?.current?.getBoundingClientRect().height]);
 

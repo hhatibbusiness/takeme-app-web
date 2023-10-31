@@ -45,7 +45,6 @@ const Gallery = ({product, closeGallery}) => {
                 onSlideChange={swiper => {
                     setActive(swiper.activeIndex);
                     const currentImage = product?.images?.length > 0 && product?.images[swiper.activeIndex];
-                    console.log(currentImage);
                     const analytics = getAnalytics();
 
                     logEvent(analytics, 'swipe-image', {

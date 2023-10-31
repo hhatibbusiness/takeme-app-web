@@ -5,7 +5,11 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
 
   .RenderImgError {
     background: white;
@@ -23,6 +27,7 @@
     width: 100% !important;
     max-height: 80% !important;
     object-fit: cover;
+
   }
 
   .LoadingProduct {

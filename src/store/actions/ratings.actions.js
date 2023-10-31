@@ -119,9 +119,7 @@ import {BASE_URL} from "../../utls/assets";
 export const fetchProviderRatigs = data => async dispatch => {
     try {
         dispatch(startFetchingProviderRatings);
-        console.log(data);
         const res = await axios.get(`${BASE_URL}endpoints/rating/providers/list-provider-ratings?locale=${data.lan}&providerId=${data.providerId}`);
-        console.log(res);
         if(res.status == 200 && res.data.status == true) {
             dispatch({
                 type: FETCH_PROVIDER_RATINGS,
@@ -130,7 +128,6 @@ export const fetchProviderRatigs = data => async dispatch => {
         }
         dispatch(endFetchingProviderRatings);
     } catch (e) {
-        console.log(e?.message);
         dispatch(endFetchingProviderRatings);
     }
 }
@@ -156,7 +153,6 @@ export const addProviderRating = data => async dispatch => {
         dispatch(startAddingProviderRating);
         const res = await axios.post(`${BASE_URL}endpoints/rating/providers/add`, data);
         if(res.status == 200 && res.data.status == true) {
-            console.log(res);
             dispatch({
                 type: ADD_PROVIDER_RATING,
                 rating: res?.data?.output

@@ -91,7 +91,6 @@ const SearchScreen = ({
                                         dataLength={searchResults.length}
                                         pageStart={searchPage}
                                         loadMore={() => {
-                                            console.log('hhhhhh')
                                             if(searchResults.length === 0 && searchPage === 0) return;
                                             if(!moreLoading) return;
                                             if(!more) return setMoreLoading(false);

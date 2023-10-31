@@ -53,7 +53,6 @@ const ProviderProduct = ({imgRef, provider, arrayRef, providerOrNot, productType
 
     const renderImage = () => {
         const img = <Img imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath}/>;
-        console.log(img);
     }
 
     useEffect(() => {
@@ -104,7 +103,6 @@ const ProviderProduct = ({imgRef, provider, arrayRef, providerOrNot, productType
         if(imgContainer) imgContainer.style.height = `${containerHeight}px`;
         if(failureEle) failureEle.style.height = `${containerHeight}px`;
         if(productContainer || failureEle || imgContainer || imgLoader || imgElement && containerHeight) {
-            console.log(containerHeight)
             productContainer.style.height = `${imgLoader?.getBoundingClientRect().height + 150}px`
         }
     }

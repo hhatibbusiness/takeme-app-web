@@ -44,7 +44,6 @@ const NewPassword = ({changingPassword, changePassword, validation, lan}) => {
                 .match(
                     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                 ) && inputIsValid;
-            console.log(inputIsValid);
         }
         if(rules.required) {
             inputIsValid = value.trim() !== '' && inputIsValid;
@@ -86,7 +85,6 @@ const NewPassword = ({changingPassword, changePassword, validation, lan}) => {
 
     const confirmPasswordChangeHandler = (e) => {
         if(e.target.value == newPassword.value) {
-            console.log(e.target.value , newPassword.value);
             setConfirmNewPassword(prevState => ({
                 ...confirmNewPassword,
                 value: e.target.value,
@@ -94,7 +92,6 @@ const NewPassword = ({changingPassword, changePassword, validation, lan}) => {
                 valid: newPassword.valid
             }));
         } else {
-            console.log(e.target.value , newPassword.value);
             setConfirmNewPassword({
                 ...confirmNewPassword,
                 value: e.target.value,
@@ -109,10 +106,7 @@ const NewPassword = ({changingPassword, changePassword, validation, lan}) => {
     const btnClickHandler = e => {
         e.preventDefault();
         e.stopPropagation();
-        console.log(!validation.valid, params.email, validation.email);
-        console.log(validation.valid || (params.email != validation.email))
         if(!validation.valid || (params.email != validation.email)) return;
-        console.log('hello');
         const data = {
             navigate,
             email: params.email,

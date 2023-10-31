@@ -10,12 +10,10 @@ const ProductsTypeContainer = ({sliding, arrayRef, provider, imgRef, openGallery
     const [active, setActive] = useState(0);
 
     useEffect(() => {
-        console.log(productsArray);
         if(!productsArray && productsArray[key].length == 0) return;
         setActiveProduct(productsArray[key][0]);
     }, [productsArray]);
 
-    console.log(productsArray, key);
     return (
         <div className={'ProductsTypeContainer'}>
             <Swiper

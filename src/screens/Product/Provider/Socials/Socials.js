@@ -10,7 +10,6 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
 
     const formatWazeLink = (lat, long) => {
         const linkArray = assets.waze_template.split('%');
-        console.log(linkArray);
         let finalLink = `${linkArray[0]}${lat}%${linkArray[1]}${long}`;
         return finalLink;
     }
@@ -24,7 +23,6 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
             if(!isAuthenticated) {
                 navigate('/login');
             }else {
-                console.log(provider);
                 const order = {
                     // orderId:`${Date.now()}-${activeProduct?.name}_${currentUser?.name}-${currentUser?.phone}_${provider?.name}-${provider?.phone}` ,
                     orderId: `${currentUser?.name && currentUser.name}-${currentUser?.phone && currentUser.phone}_${provider?.name && provider.name}-${provider?.phone && provider.phone}_${activeProduct?.name && activeProduct?.name}_${Date.now()}`,

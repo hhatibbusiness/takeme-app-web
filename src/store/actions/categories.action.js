@@ -320,7 +320,6 @@ export const fetchCategoryProducts = (id, lan, page, filter, navigate) => async 
     } catch (e) {
         console.error(e?.response?.status);
         if(e?.response?.status == 401) {
-            console.log('Error!')
             tokenUnautharizedMiddleware(navigate, '/login');
         }
         dispatch(endFetchingProducts);

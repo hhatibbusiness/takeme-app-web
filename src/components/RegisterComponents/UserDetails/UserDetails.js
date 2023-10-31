@@ -264,26 +264,21 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                 );
             inputIsValid = isValidEmail && inputIsValid;
             isValidEmail ? (inputCopy.rules.isEmail.valid = true) : (inputCopy.rules.isEmail.valid = false);
-            console.log(inputIsValid);
         }
         if(input?.rules?.isNumber) {
             inputIsValid = !isNaN(value) && inputIsValid;
             !isNaN(value) && (inputCopy.rules.isNumber.valid = true)
         }
         if(input.rules.required) {
-            console.log(input);
-            console.log(value.trim() !== '');
             inputIsValid = value.trim() !== '' && inputIsValid;
             (value.trim() !== '') ? (inputCopy.rules.required.valid = true) : (inputCopy.rules.required.valid = false);
         }
         if(input.rules.fraction) {
-            console.log(typeof value);
             inputIsValid = Number.isInteger(Number(value)) && inputIsValid;
             (Number.isInteger(Number(value)) && value !== '') ? (inputCopy.rules.fraction.valid = true) : (inputCopy.rules.fraction.valid = false);
             // inputIsValid = true;
         }
         if(input.rules.match) {
-            console.log(form.password.value, value);
             const match = form.password.value === value;
             inputIsValid = match && inputIsValid;
             if(match) {
@@ -307,7 +302,6 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
 
         }
         if(input.rules.minLength) {
-            console.log(input.rules.minLength.value);
             inputIsValid = value.length >= input.rules.minLength.value && inputIsValid;
             (value.length >= input.rules.minLength.value) ? (inputCopy.rules.minLength.valid = true) : (inputCopy.rules.minLength.valid = false);
         }
@@ -324,7 +318,6 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
         let changedInputData = {
             ...formData[input.name]
         };
-        console.log(input.name);
         changedInputData.value = e.target.value;
         changedInputData.touched = true;
         changedInputData = JSON.parse(JSON.stringify(handleInputValidation(changedInputData.value, changedInputData, input.name)));
@@ -352,7 +345,7 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                             <ul>
                                 {
                                     Object.keys(form['username'].rules).map((r, i) => (
-                                        <li style={{color: `${form['username'].rules[r].valid ? 'green' : 'red'}`}}>{form['username'].rules[r].message}</li>
+                                        !form['username'].rules[r].valid && r != 'required' &&  <li style={{color: `${form['username'].rules[r].valid ? 'green' : 'red'}`}}>{form['username'].rules[r].message}</li>
                                     ))
                                 }
                             </ul>
@@ -373,7 +366,7 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                             <ul>
                                 {
                                     Object.keys(form['phoneCountryCode'].rules).map((r, i) => (
-                                        <li style={{color: `${form['phoneCountryCode'].rules[r].valid ? 'green' : 'red'}`}}>{form['phoneCountryCode'].rules[r].message}</li>
+                                        !form['phoneCountryCode'].rules[r].valid && r != 'required' &&  <li style={{color: `${form['phoneCountryCode'].rules[r].valid ? 'green' : 'red'}`}}>{form['phoneCountryCode'].rules[r].message}</li>
                                     ))
                                 }
                             </ul>
@@ -394,7 +387,7 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                             <ul>
                                 {
                                     Object.keys(form['phone'].rules).map((r, i) => (
-                                        <li style={{color: `${form['phone'].rules[r].valid ? 'green' : 'red'}`}}>{form['phone'].rules[r].message}</li>
+                                        !form['phone'].rules[r].valid && r != 'required' &&  <li style={{color: `${form['phone'].rules[r].valid ? 'green' : 'red'}`}}>{form['phone'].rules[r].message}</li>
                                     ))
                                 }
                             </ul>
@@ -416,7 +409,7 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                             <ul>
                                 {
                                     Object.keys(form['email'].rules).map((r, i) => (
-                                        <li style={{color: `${form['email'].rules[r].valid ? 'green' : 'red'}`}}>{form['email'].rules[r].message}</li>
+                                        !form['email'].rules[r].valid && r != 'required' &&  <li style={{color: `${form['email'].rules[r].valid ? 'green' : 'red'}`}}>{form['email'].rules[r].message}</li>
                                     ))
                                 }
                             </ul>
@@ -435,7 +428,6 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                         let changedInputData = {
                             ...formData[input.name]
                         };
-                        console.log(input);
                         changedInputData.value = e.target.value;
                         changedInputData.touched = true;
                         changedInputData = JSON.parse(JSON.stringify(handleInputValidation(changedInputData.value, changedInputData, input.name)));
@@ -463,7 +455,6 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                             for(let inputKey in formData) {
                                 formIsValid = formData[inputKey].valid && formIsValid;
                             }
-                            console.log(formData);
                             setIsValid(formIsValid);
                             setForm(formData);
                         }else {
@@ -477,7 +468,6 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                             for(let inputKey in formData) {
                                 formIsValid = formData[inputKey].valid && formIsValid;
                             }
-                            console.log(formData);
                             setIsValid(formIsValid);
                             setForm(formData);
 
@@ -534,7 +524,7 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                             <ul>
                                 {
                                     Object.keys(form['password'].rules).map((r, i) => (
-                                        <li style={{color: `${form['password'].rules[r].valid ? 'green' : 'red'}`}}>{form['password'].rules[r].message}</li>
+                                        !form['password'].rules[r].valid && r != 'required' &&  <li style={{color: `${form['password'].rules[r].valid ? 'green' : 'red'}`}}>{form['password'].rules[r].message}</li>
                                     ))
                                 }
                             </ul>
@@ -566,7 +556,7 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                             <ul>
                                 {
                                     Object.keys(form['confirmPassword'].rules).map((r, i) => (
-                                        <li style={{color: `${form['confirmPassword'].rules[r].valid ? 'green' : 'red'}`}}>{form['confirmPassword'].rules[r].message}</li>
+                                        !form['confirmPassword'].rules[r].valid && r != 'required' &&  <li style={{color: `${form['confirmPassword'].rules[r].valid ? 'green' : 'red'}`}}>{form['confirmPassword'].rules[r].message}</li>
                                     ))
                                 }
                             </ul>
@@ -611,9 +601,7 @@ const UserDetails = ({setStep, step, phoneActive, phoneCountryCodeActive, setPho
                     if(form.password.value.length == 0) return registerError(t('passworderror'));
                     if(form.confirmPassword.value.length == 0) return registerError(t('confirmpassworderror'));
                     if(form.confirmPassword.value !== form.password.value) return registerError(t('passwordmatcherror'))
-                    console.log(step + 1 == 2 && !isValid);
                     if(step + 1 == 2 && !isValid) return;
-                    console.log('Reached!')
                     setStep(step + 1);
                 }}>
                     {

@@ -131,7 +131,6 @@ const ProductPopup = ({togglePopup, currentProduct, lan, fetchProviderRatigs, op
     // };
 
     const renderName = () => {
-        console.log(currentProduct?.name);
         var innerHTML = currentProduct?.name;
         var index = innerHTML?.indexOf(term);
         if (index >= 0) {
@@ -147,7 +146,6 @@ const ProductPopup = ({togglePopup, currentProduct, lan, fetchProviderRatigs, op
     const fullHeight = () => {
         if(!contRef.current) return;
         const ele = contRef.current;
-        console.log(ele.className);
         if(!ele.className.includes('ProductPopup__product--fullwidth')) {
             ele.className = ele.className + ' ProductPopup__product--fullwidth';
         }
@@ -158,9 +156,7 @@ const ProductPopup = ({togglePopup, currentProduct, lan, fetchProviderRatigs, op
     const notFullHeight = () => {
         if(!contRef.current) return;
         const ele = contRef.current;
-        console.log(ele.className);
         if(ele.className.includes('ProductPopup__product--fullwidth')) {
-            console.log('hello');
             ele.className = ele.className.replace(' ProductPopup__product--fullwidth', '');
         }
 
@@ -272,7 +268,6 @@ const ProductPopup = ({togglePopup, currentProduct, lan, fetchProviderRatigs, op
 
             </div>
             <div className={`ProductPopup__backdrop ${openPopup && 'ProductPopup__backdrop--open'}`} onClick={e => {
-                console.log('Hello');
                 togglePopup();
                 notFullHeight();
                 const analytics = getAnalytics();

@@ -82,7 +82,6 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
         if(!productContainer) return;
         const productHeight = productContainer.getBoundingClientRect().width;
         if(currentValue < 100) {
-            console.log(currentValue);
             if(productContainer) productContainer.style.height = `${productHeight}px`;
             if(img) {
                 img.style.width = `${productHeight}px`;
@@ -96,8 +95,6 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
         }
         if(currentValue == 100) {
             if(img) {
-                console.log('Hello from product!')
-                console.log(productContainer.getBoundingClientRect().width);
                 img.style.width = `${productHeight}px`;
                 img.style.height = `${productHeight}px`;
             }

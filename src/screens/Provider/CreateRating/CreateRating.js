@@ -26,7 +26,6 @@ const CreateRating = ({addingRating, isAuthenticated, closePopup, addProviderRat
         };
         const ratingComment = inputRef?.current?.innerText;
         const comments = commentRef?.current?.innerText;
-        console.log(ratingComment);
         const data = {
             locale: lan,
             customerId: user.id,
@@ -53,7 +52,6 @@ const CreateRating = ({addingRating, isAuthenticated, closePopup, addProviderRat
 
     useEffect(() => {
         const inputElem = inputRef?.current;
-        console.log(inputElem.innerText);
         // if(inputElem) setRatingComment(inputElem.innerText);
     }, [inputRef?.current?.innerText]);
 

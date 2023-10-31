@@ -29,7 +29,6 @@ const Submit = ({validation, city, isValid, registerError, registerCustomer, reg
                 <div className="Register__form--element-wrapper Register__form--element-conditions">
                     <div className='Register__form--element-input--wrapper'>
                         <input value={agree} onChange={e => {
-                            console.log(e);
                             if(e.target.checked) {
                                 setAgree(true);
                             } else {

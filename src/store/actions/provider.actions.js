@@ -21,7 +21,6 @@ export const fetchProviderData = (lan, id, filter, navigate) => async dispatch =
         if(res?.data?.output == null) {
 
         }
-        console.log(res);
         dispatch(endFetchingProvider);
     } catch (e) {
         if(e?.response?.status == 401) {

@@ -59,7 +59,6 @@ const Sidebar = ({assets, sidebar, isAuthenticated, logout, setSidebar, changeFi
         if(!filterElement) return;
         const input = filterElement.querySelector('input');
         if(!input) return;
-        console.log(input);
         changeFilter(input.value);
     }
 

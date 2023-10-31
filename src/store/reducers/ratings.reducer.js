@@ -44,10 +44,8 @@ export default (state = initialState, action) => {
             //     ratings: indexInCurrentWorkspaceFilteredTasks !== -1 ? [...JSON.parse(JSON.stringify(state.ratings))] : [...JSON.parse(JSON.stringify(state.ratings)), action.rating]
             // }
             const ratingsCopy = [...JSON.parse(JSON.stringify(state.ratings))];
-            console.log(ratingsCopy);
             const indexOfExistedRating = ratingsCopy.filter(r => r.ratingId == action.rating.ratingId).length;
             if(indexOfExistedRating > 0) {
-                console.log(indexOfExistedRating);
                 ratingsCopy[indexOfExistedRating - 1] = action.rating;
 
                 return {
@@ -55,7 +53,6 @@ export default (state = initialState, action) => {
                     ratings: [...JSON.parse(JSON.stringify(ratingsCopy))]
                 }
             }else {
-                console.log(indexOfExistedRating);
                 return {
                     ...state,
                     ratings: [...ratingsCopy, action.rating]

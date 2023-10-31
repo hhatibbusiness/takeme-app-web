@@ -25,7 +25,6 @@ export const sendForgetPasswordVerificationCode = data => async dispatch => {
             email: data.email
         }
         const res = await axios.post(`${BASE_URL}endpoints/email_verify_forget_password?locale=${data.lan}`, formData);
-        console.log(res);
         if(res.status == 200 && res.data.status) {
             dispatch({
                 type: SEND_FORGET_PASSWORD_VERIFICATION_CODE,

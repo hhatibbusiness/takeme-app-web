@@ -40,13 +40,11 @@ const Img = ({value, ref, imgUrl, setError, setHidden, setLoaded, setContainerLo
     }, [imgUrl]);
     return (
         <img ref={imgRef} onLoad={e => {
-            console.log('Loaded!');
             setImgLoaded(true);
             setError(false);
             setLoaded(true);
             setHidden(false);
         }} onError={e => {
-            console.log('Error');
             setImgLoaded(true);
             setError(true);
             setLoaded(true);

@@ -66,7 +66,6 @@ const Product = ({galleryProduct, togglePopup, filter, closeGallery, fetchProduc
                             dataLength={providers.length}
                             pageStart={page}
                             loadMore={() => {
-                                console.log('Hello There!')
                                 if(providers.length === 0 && page === 0) return;
                                 if(!moreLoading) return;
                                 if(!more) setMoreLoading(false);

@@ -49,7 +49,6 @@ export const login = (data, navigate, lan) => async dispatch => {
 export const loadUser = () => async dispatch => {
     const userData = JSON.parse(localStorage.getItem('takemeuser'));
     const token = localStorage.getItem('takemetoken');
-    console.log(userData);
     if (userData?.id && token) {
         // const otherToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbi8wNTA5NjQ4NDQ1IiwiaWF0IjoxNjkwMTI4NDE1LCJyb2xlIjoiUk9MRV9BZG1pbiIsImV4cCI6MTY5MDIxNDgxNX0.kfFfiWafNFFww0zYotG4sd-7CEDkmxIugzoJMVJ2_tgZ-hEBswAxOZgf5bYjVjHxzAsk34sc_iQq8K2l2wELHg';
         const otherToken = localStorage.getItem('takemetoken')

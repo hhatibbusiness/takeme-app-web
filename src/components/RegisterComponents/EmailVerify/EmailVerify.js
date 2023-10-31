@@ -108,7 +108,6 @@ const PhoneVerify = ({step, setStep, registerError, buttonText, buttonLink, form
                             input2Ref?.current?.focus();
                         }
                     }} type="text" onKeyDown={e => {
-                        console.log(e.key);
                         if(e.key == "Backspace" && e.target.value.length == 0) {
                             e.target.blur();
                             input1Ref?.current?.focus();
@@ -130,7 +129,6 @@ const PhoneVerify = ({step, setStep, registerError, buttonText, buttonLink, form
                             input1Ref?.current?.focus();
                         }
                     }} type="text" onKeyDown={e => {
-                        console.log(e.key);
                         if(e.key == "Backspace" && e.target.value.length == 0) {
                             e.target.blur();
                             input1Ref?.current?.focus();
@@ -152,7 +150,6 @@ const PhoneVerify = ({step, setStep, registerError, buttonText, buttonLink, form
                             input2Ref?.current?.focus();
                         }
                     }} type="text" onKeyDown={e => {
-                        console.log(e.key);
                         if(e.key == "Backspace" && e.target.value.length == 0) {
                             e.target.blur();
                             input2Ref?.current?.focus();
@@ -174,7 +171,6 @@ const PhoneVerify = ({step, setStep, registerError, buttonText, buttonLink, form
                             input3Ref?.current?.focus();
                         }
                     }} type="text" onKeyDown={e => {
-                        console.log(e.key);
                         if(e.key == "Backspace" && e.target.value.length == 0) {
                             e.target.blur();
                             input3Ref?.current?.focus();
@@ -196,7 +192,6 @@ const PhoneVerify = ({step, setStep, registerError, buttonText, buttonLink, form
                             input4Ref?.current?.focus();
                         }
                     }} type="text" onKeyDown={e => {
-                        console.log(e.key);
                         if(e.key == "Backspace" && e.target.value.length == 0) {
                             e.target.blur();
                             input4Ref?.current?.focus();
@@ -215,7 +210,6 @@ const PhoneVerify = ({step, setStep, registerError, buttonText, buttonLink, form
                             input5Ref?.current?.focus();
                         }
                     }} onKeyDown={e => {
-                        console.log(e.key);
                         if(e.key == "Backspace" && e.target.value.length == 0) {
                             e.target.blur();
                             input5Ref?.current?.focus();

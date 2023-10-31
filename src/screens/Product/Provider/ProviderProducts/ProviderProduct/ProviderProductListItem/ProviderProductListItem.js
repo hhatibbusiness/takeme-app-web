@@ -24,7 +24,6 @@ const ProviderProductListItem = ({item}) => {
                 const img = <Img setImgLoaded={setImgLoaded} imgUrl={item?.imagePath && item?.imagePath}/>;
                 setImgUI(img);
             }
-            console.log('Hello from there!', imgLoaded)
         }catch(e) {
             console.error(e);
             const imgUI = <i className="fa-solid fa-circle-check"></i>;

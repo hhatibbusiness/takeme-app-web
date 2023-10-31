@@ -15,6 +15,7 @@ const GalleryItem = ({imgUrl}) => {
     const imgRefDub = useRef(null);
     const [containerLoaded, setContainerLoaded] = useState(false);
     const imgContainerRef = useRef(null);
+    const galleryContainer = useRef();
 
     const renderImage = async () => {
         try{
@@ -35,8 +36,29 @@ const GalleryItem = ({imgUrl}) => {
         renderImage()
     }, []);
 
+    const getGalleryMin = () => {
+        const containerElem = galleryContainer?.current;
+        if(!containerElem) return;
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const minDim = Math.min(width, height);
+        containerElem.style.width = `${minDim}px`;
+        containerElem.style.height = `${minDim}px`;
+        console.log(minDim);
+    }
+
+    useEffect(() => {
+        getGalleryMin();
+    }, [galleryContainer]);
+
+    useEffect(() => {
+        window.addEventListener('resize', () => {
+            getGalleryMin();
+        });
+    }, []);
+
     return (
-        <div className={'GalleryItem'}>
+        <div ref={galleryContainer} className={'GalleryItem'}>
             {
                 imgUI && (
                     <>

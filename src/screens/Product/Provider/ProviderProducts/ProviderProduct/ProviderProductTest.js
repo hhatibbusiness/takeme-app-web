@@ -86,7 +86,6 @@ const ProviderProduct = ({imgRef, providerOrNot, productTypesCount, search, prov
         const providerElem = providerRef.current;
         if(!imgElement) return;
         const containerHeight = imgElement?.getBoundingClientRect().width;
-        console.log(imgContainer);
         if(imgLoader) imgLoader.style.height = `${containerHeight}px`;
         if(imgContainer) imgContainer.style.height = `${containerHeight}px`;
         if(providerElem && !providerOrNot) providerElem.style.height = `${750 + (containerHeight - 400)}px`;

@@ -32,7 +32,6 @@ export const createOrder = (orderData) => async dispatch => {
                 orderId: orderData.orderId
             });
         }
-        console.log(res);
     } catch (e) {
         console.error(e.message);
     }
