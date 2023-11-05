@@ -7,13 +7,14 @@ import configureReducer from './store/index.store';
 import {Provider} from "react-redux";
 import {BrowserRouter} from "react-router-dom";
 import './i18n';
+import history from "./utls/history/history.utl";
 
 const store = configureReducer(reducer);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
-        <BrowserRouter>
+        <BrowserRouter history={history}>
             <App />
         </BrowserRouter>
     </Provider>

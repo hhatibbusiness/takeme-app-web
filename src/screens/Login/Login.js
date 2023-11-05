@@ -9,6 +9,8 @@ import {registerError} from "../../store/actions/register.actions";
 import AuthenticationError from '../../components/AuthenticationError/AuthenticationError';
 import deleteDefaultHeader from '../../utls/remove.axios.headers';
 import removeAxiosHeaders from "../../utls/remove.axios.headers";
+import {useLocation} from "react-router-dom";
+import LoginPopup from "./LoginPopup/LoginPopup";
 
 const Login = ({lan, login, logging, data, registerError, error, errorMessage}) => {
     const [phone, setPhone] = useState('');
@@ -16,8 +18,12 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
     const [phoneActive, setPhoneActive] = useState(false);
     const [passwordActive, setPasswordActive] = useState(false);
     const [type, setType] = useState(true); //if true its password and if its false its text
+    const [loginErrorMessage, setLoginErrorMessage] = useState('');
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('');
 
     const navigate = useNavigate();
+    const history = useLocation();
 
     const {t} = useTranslation();
 
@@ -36,6 +42,7 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
     }
 
     useEffect(() => {
+        console.log(history.state);
         const home = document.querySelector('body');
 
         const freezeStyles = () => {
@@ -57,7 +64,7 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
     const inputRef = useRef()
 
     useEffect(() => {
-        registerError('');
+        // registerError('');
         (inputRef.current && (inputRef.current.autoComplete = 'off'));
     }, []);
 
@@ -71,7 +78,7 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
             password
         };
 
-        login(data, navigate, lan);
+        login(data, navigate, lan, history);
     }
     return (
         <div className={'Login'}>
@@ -102,8 +109,9 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
                         </p>
                     </div>
                     <NavLink to={`/forget/${phone}`} onClick={e => {
+                        registerError('');
                         if(!phone) {
-                            alert('Please, enter an email!')
+                            registerError(t("emailmessage"));
                             return e.preventDefault();
                         }
                         const validEmail =String(phone)
@@ -112,7 +120,8 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
                                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                             );
                         if(!validEmail) {
-                            alert('Please, enter a valid email!')
+                            console.log('dlkajsflkdsajflk')
+                            registerError(t('emailmessage'))
                             return e.preventDefault();
                         }
                     }} className="Login__form--forgetPassword">{t('forget')}</NavLink>
@@ -130,6 +139,9 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
                 error && (
                     <AuthenticationError errorMessage={errorMessage} />
                 )
+            }
+            {
+                open && <LoginPopup open={open} message={message} setOpen={setOpen} />
             }
         </div>
     );

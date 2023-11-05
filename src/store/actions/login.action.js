@@ -12,7 +12,7 @@ import { BASE_URL } from "../../utls/assets";
 import {logEvent} from "firebase/analytics";
 import {getAnalytics} from "firebase/analytics";
 
-export const login = (data, navigate, lan) => async dispatch => {
+export const login = (data, navigate, lan, history) => async dispatch => {
     try {
         dispatch(startLogin);
         dispatch({
@@ -26,7 +26,12 @@ export const login = (data, navigate, lan) => async dispatch => {
                 data: res.data,
             });
 
-            navigate('/');
+            // navigate('/');
+            if(history?.state?.previousLocation && history?.state?.previousLocation != 'register') {
+                navigate(history?.state?.previousLocation);
+            } else {
+                navigate('/');
+            }
             const analytics = getAnalytics();
             logEvent(analytics, 'login_website', {UserId: res.data?.output?.id, Username: res.data?.output?.name, UserPhone: res.data?.output?.phone});
         } else{

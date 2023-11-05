@@ -14,3 +14,8 @@
 .ProviderRatings__container {
     background: #eff2f5;
 }
+
+.ProviderRatings__header {
+    background: white;
+    margin-top: 20px;
+}

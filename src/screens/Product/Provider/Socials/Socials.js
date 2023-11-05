@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './Socials.scss';
 import {connect} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import {createOrder} from "../../../../store/actions/order.actions";
 import {getAnalytics, logEvent} from "firebase/analytics";
 
 const Socials = ({right, assets, platform, isAuthenticated, provider, createOrder, currentUser, activeProduct, lan}) => {
+    const [currentLocation, setCurrentLocation] = useState('');
     const navigate = useNavigate();
+    const location = useLocation();
 
     const formatWazeLink = (lat, long) => {
         const linkArray = assets.waze_template.split('%');
@@ -18,10 +20,15 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
         return `${assets.maps_template}${provider.latitude},${provider.longitude}`
     }
 
+    useEffect(() => {
+        console.log(location.pathname);
+        setCurrentLocation(location.pathname);
+    }, []);
+
     return (
         <div onClick={e => {
             if(!isAuthenticated) {
-                navigate('/login');
+                navigate('/login', {state: {previousLocation: currentLocation}});
             }else {
                 const order = {
                     // orderId:`${Date.now()}-${activeProduct?.name}_${currentUser?.name}-${currentUser?.phone}_${provider?.name}-${provider?.phone}` ,
@@ -36,7 +43,7 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
                     invoiceLink: 'test',
                     // "sort_index": 15,
                     "statusDetails": 'started',
-                    "price": activeProduct?.saleDetails?.price,
+                    "price": activeProduct?.saleDetails?.price || activeProduct?.rentDetails?.price,
                     // "comments": activeProduct?.comments
                 }
                 createOrder(order);
@@ -84,7 +91,6 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
                         <span>maps</span>
                     </a>
                 </div>
-
             </div>
             <a onClick={e => {
                 !isAuthenticated && e.preventDefault();

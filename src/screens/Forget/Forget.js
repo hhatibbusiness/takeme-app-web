@@ -10,14 +10,49 @@ import {useNavigate, useParams} from "react-router-dom";
 import {sendForgetPasswordVerificationCode, sendCodePasswordToServer} from "../../store/actions/forget.password.actions";
 import {connect} from "react-redux";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
+import AuthenticationError from "../../components/AuthenticationError/AuthenticationError";
 
-const Forget = ({sendingCode, sendingCodeToServer, sendCodePasswordToServer, sendForgetPasswordVerificationCode, lan, validation}) => {
-    const [step, setStep] = useState(1);
-    const [newPassword, setNewPassword] = useState('');
-    const [newPasswordActive, setNewPasswordActive] = useState(false)
-    const [confirmNewPassword, setConfirmNewPassword] = useState('');
-    const [confirmNewPasswordActive, setConfirmNewPasswordActive] = useState(false);
+const Forget = ({sendingCode, error, errorMessage, sendingCodeToServer, sendCodePasswordToServer, sendForgetPasswordVerificationCode, lan, validation}) => {
     const {t} = useTranslation();
+    const [step, setStep] = useState(1);
+    const [newPassword, setNewPassword] = useState({
+        value: '',
+        type: 'password',
+        rules: {
+            required: {
+                message: t('requiredInput'),
+                valid: false
+            },
+            minLength: {
+                value: 6,
+                message: t('minLength'),
+                valid: false
+            }
+        },
+        valid: false,
+        touched: false,
+        name: 'password'
+    });
+    const [newPasswordActive, setNewPasswordActive] = useState(false)
+    const [confirmNewPassword, setConfirmNewPassword] = useState({
+        value: '',
+        type: 'password',
+        rules: {
+            required: {
+                message: t('requiredInput'),
+                valid: false
+            },
+            match: {
+                value: true,
+                message: t('matchMessage'),
+                valid: false
+            }
+        },
+        valid: false,
+        touched: false,
+        name: "confirmPassword"
+    });
+    const [confirmNewPasswordActive, setConfirmNewPasswordActive] = useState(false);
     const params = useParams();
     const navigate = useNavigate();
 
@@ -112,6 +147,11 @@ const Forget = ({sendingCode, sendingCodeToServer, sendCodePasswordToServer, sen
                     renderForm()
                 }
             </form>
+            {
+                error && (
+                    <AuthenticationError errorMessage={errorMessage} />
+                )
+            }
         </div>
     );
 };
@@ -120,7 +160,9 @@ const mapStateToProps = state => ({
     sendingCode: state.forget.sendingCode,
     lan: state.categories.lan,
     validation: state.forget.validation,
-    sendingCodeToServer: state.forget.sendingCodeToServer
+    sendingCodeToServer: state.forget.sendingCodeToServer,
+    errorMessage: state.login.errorMessage,
+    error: state.login.error
     // code: state.forget.code
 })
 

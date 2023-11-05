@@ -29,6 +29,14 @@ export const sendForgetPasswordVerificationCode = data => async dispatch => {
             dispatch({
                 type: SEND_FORGET_PASSWORD_VERIFICATION_CODE,
             });
+        }else {
+            const errorMessage = res?.data?.message;
+            await dispatch({
+                type: LOGIN_ERROR,
+                message: errorMessage
+            });
+            console.log(res.data.message);
+            data.navigate('/login', {state : data.history.state});
         }
         dispatch(endSendingForgetPasswordVerificationCode);
     } catch (e) {

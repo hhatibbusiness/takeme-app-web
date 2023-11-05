@@ -34,6 +34,9 @@ const ProviderRatings = ({fetchProviderRatigs, fetchingRatings, ratings}) => {
     return (
         <div className={'ProviderRatings'}>
             <div className="ProviderRatings__container">
+                <div className="ProviderRatings__header">
+                    <h3>{t("providerratings")}</h3>
+                </div>
                 {
                     fetchingRatings ? (
                         <SpinnerComponent />

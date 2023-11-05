@@ -194,7 +194,7 @@ const ProviderProduct = ({imgRef, provider, arrayRef, providerOrNot, productType
                                         product?.description && (
                                             <div className="ProviderProduct__details--desc">
                                                 {/*{product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}*/}
-                                                {product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => {
+                                                {<p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => {
                                                     changePopupProduct(product);
                                                     togglePopup();
                                                     const analytics = getAnalytics();
@@ -202,8 +202,8 @@ const ProviderProduct = ({imgRef, provider, arrayRef, providerOrNot, productType
                                                         productName: product.name,
                                                         productId: product.id,
                                                         screen: search && 'search' || 'provider'
-                                                    })
-                                                }} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}
+                                                    });
+                                                }} className={'ProviderProduct__details--text-short'}>{(short ? `...${t('more')}` : t('less'))}</span></p>}
                                             </div>
                                         )
                                     }

@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useTranslation} from "react-i18next";
-import {NavLink, useNavigate, useParams} from "react-router-dom";
+import {NavLink, useLocation, useNavigate, useParams} from "react-router-dom";
 import './EmailVerify.scss';
 import {connect} from "react-redux";
 import SpinnerComponent from "../../Spinner/Spinner.Component";
@@ -65,6 +65,7 @@ const PhoneVerify = ({step, setStep, registerError, buttonText, buttonLink, form
     const input6Ref = useRef();
     const navigate = useNavigate();
     const params = useParams();
+    const history = useLocation();
     useEffect(() => {
         if(!conRef.current) return;
         // conRef.current.querySelector('.PhoneVerify__input').focus();
@@ -79,7 +80,8 @@ const PhoneVerify = ({step, setStep, registerError, buttonText, buttonLink, form
                 email: form.email.value || params.email,
                 lan,
                 setStep,
-                navigate
+                navigate,
+                history
             }
             sendCodeFun(data);
         }

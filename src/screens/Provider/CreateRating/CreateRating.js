@@ -2,17 +2,28 @@ import React, {useEffect, useRef, useState} from 'react';
 import './CreateRating.css';
 import {connect} from "react-redux";
 import {addProviderRating} from "../../../store/actions/ratings.actions";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {closePopup} from "../../../store/actions/ui.actions";
+import AuthenticationError from "../../../components/AuthenticationError/AuthenticationError";
+import {registerError} from "../../../store/actions/register.actions";
+import {useTranslation} from "react-i18next";
 
-const CreateRating = ({addingRating, isAuthenticated, closePopup, addProviderRating, currentProduct, lan, user}) => {
+const CreateRating = ({addingRating, registerError, error, errorMessage, isAuthenticated, closePopup, addProviderRating, currentProduct, lan, user}) => {
     // const [ratingComment, setRatingComment] = useState('');
     const [array, setArray] = useState([]);
     const [ratingNumber, setRatingNumber] = useState(null);
     const [ratingScore, setRatingScore] = useState(0);
+    const [currentLocation, setCurrentLocation] = useState('');
     const inputRef = useRef();
     const commentRef = useRef();
     const navigate = useNavigate();
+    const history = useLocation();
+    const {t} = useTranslation();
+
+    useEffect(() => {
+        console.log(history.pathname);
+        setCurrentLocation(history.pathname);
+    }, []);
 
     useEffect(() => {
         const array = Array.from(Array(5).keys());
@@ -22,16 +33,17 @@ const CreateRating = ({addingRating, isAuthenticated, closePopup, addProviderRat
     const publish = async e => {
         if(!isAuthenticated) {
             closePopup();
-            return navigate('/login')
+            return navigate('/login', {state: {previousLocation: currentLocation}})
         };
-        const ratingComment = inputRef?.current?.innerText;
+        // const ratingComment = inputRef?.current?.innerText;
         const comments = commentRef?.current?.innerText;
+        if(comments.length == 0) return registerError(t('commentRequired'));
         const data = {
             locale: lan,
             customerId: user.id,
             providerId: currentProduct.providerId,
             ratingScore,
-            ratingComment,
+            // ratingComment,
             comments
         };
         const res = await addProviderRating(data);
@@ -58,16 +70,16 @@ const CreateRating = ({addingRating, isAuthenticated, closePopup, addProviderRat
     return (
         <div className={'CreateRating'}>
             <div className="GroupPosts__form">
-                <div className="w-input-text-group">
-                    <div ref={inputRef} id="w-input-text" contentEditable></div>
-                    <div className="w-placeholder">
-                        اضافة تعليق
-                    </div>
-                </div>
+                {/*<div className="w-input-text-group">*/}
+                {/*    <div ref={inputRef} id="w-input-text" contentEditable></div>*/}
+                {/*    <div className="w-placeholder">*/}
+                {/*        اضافة تعليق*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <div className="w-input-text-group">
                     <div className={'CreateRating__comments'} ref={commentRef} id="w-input-text" contentEditable></div>
                     <div className="w-placeholder">
-                        اضافة تعليق شامل
+                        اضافة تعليق
                     </div>
                 </div>
                 <div className="w-input-text-group">
@@ -108,6 +120,11 @@ const CreateRating = ({addingRating, isAuthenticated, closePopup, addProviderRat
                     </div>
                 </div>
             </div>
+            {
+                error && (
+                    <AuthenticationError errorMessage={errorMessage} />
+                )
+            }
         </div>
     );
 };
@@ -117,6 +134,8 @@ const mapStateToProps = state => ({
     lan: state.categories.lan,
     user: state.login.data,
     isAuthenticated: state.login.isAuthenticated,
+    error: state.login.error,
+    errorMessage: state.login.errorMessage
 })
 
-export default connect(mapStateToProps, {addProviderRating, closePopup}) (CreateRating);
+export default connect(mapStateToProps, {addProviderRating, closePopup, registerError}) (CreateRating);
