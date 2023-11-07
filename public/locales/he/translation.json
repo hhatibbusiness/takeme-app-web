@@ -69,6 +69,10 @@
   "commentRequired": "מי הכניס תגובה",
   "cancel": "ביטול",
   "emailmessage": "נא להזין מייל או מספר טלפון",
-  "providerratings": "דירוגי ספקי שירות"
+  "providerratings": "דירוגי ספקי שירות",
+  "salestartsfrom": "מחיר המכירה מתחיל מ ",
+  "rentstartsfrom": "מחיר ההשכרה מתחיל מ "
+
+
 
 }

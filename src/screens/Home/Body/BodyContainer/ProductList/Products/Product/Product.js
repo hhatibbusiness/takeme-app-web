@@ -11,6 +11,7 @@ import LoadingProduct from "../../../../../../../components/LoadingProduct/Loadi
 import {useNavigate} from "react-router-dom";
 import {logEvent} from "firebase/analytics";
 import {analytics} from "../../../../../../../utls/firebase.auth";
+import {useTranslation} from "react-i18next";
 // import {notFoundImg} from "../../../../assets";
 
 const Product = ({product, value, setCurrentProduct, setPopup}) => {
@@ -30,6 +31,8 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
     const imgContainerRef = useRef(null);
     const [windowWidth, setWindowSize] = useState(window.innerWidth);
     const [hidden, setHidden] = useState(true);
+
+    const {t} = useTranslation();
 
     useEffect(() => {
         setCurrentValue(value);
@@ -137,8 +140,25 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
                             </div>
                             <div className={`Product__details ${value < 100 && 'Product__details--hide'}`}>
                                 <p className={'Product__details--title'}>{product?.title && product.title}</p>
-                                <p className={'Product__price--header'}>{product?.saleDetails?.title && product.saleDetails.title}</p>
-                                <p className={'Product__price'}>{product.saleDetails?.priceStartingFromMsg && product.saleDetails.priceStartingFromMsg}</p>
+                                {/*<p className={'Product__price--header'}>{product?.saleDetails?.title && product.saleDetails.title}</p>*/}
+                                {/*<p className={'Product__price'}>{product.saleDetails?.priceStartingFromMsg && product.saleDetails.priceStartingFromMsg}</p>*/}
+                                <div className="Product__details--prices">
+                                    {
+                                        product?.saleDetails && (
+                                            <p>
+                                                <span className={'Product__details--sale-message'}>{t("salestartsfrom")}</span><span className={'Product__details--sale-starts'}>{product?.saleDetails?.priceStartingFrom && product?.saleDetails?.priceStartingFrom}</span> <span className={'Product__details--icon'}><i className="fa-solid fa-shekel-sign"></i></span>
+                                            </p>
+                                        )
+                                    }
+                                    {
+                                        product?.saleDetails && (
+                                            <p>
+                                                <span className={'Product__details--sale-message'}>{t("rentstartsfrom")}</span><span className={'Product__details--sale-starts'}>{product?.saleDetails?.priceStartingFrom && product?.saleDetails?.priceStartingFrom}</span> <span className={'Product__details--icon'}><i className="fa-solid fa-shekel-sign"></i></span>
+                                            </p>
+                                        )
+                                    }
+                                </div>
+                                {product?.description && <p className={'Product__details--description'}>{product?.description}</p>}
                             </div>
                             {
                                 value === 100 && <Count count={product?.totalNumberOfProducts || 0} />

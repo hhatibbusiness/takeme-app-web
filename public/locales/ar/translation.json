@@ -69,5 +69,7 @@
   "commentRequired": "من ادخل تعليق",
   "cancel": "الغاء",
   "emailmessage": "من فضلك ادخل ايميل او رقم هاتف",
-  "providerratings": "تقييمات مزود الخدمة"
+  "providerratings": "تقييمات مزود الخدمة",
+  "salestartsfrom": "سعر البيع يبدأ من ",
+  "rentstartsfrom": "سعر الايجار يبدأ من "
 }
