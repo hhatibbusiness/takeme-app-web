@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 import SpinnerComponent from "../../Spinner/Spinner.Component";
 import {registerError} from "../../../store/actions/register.actions";
 
-const PhoneVerify = ({step, setStep, registerError, buttonText, buttonLink, form, sendCodeFun, sendingCode, lan, sendCodeToServerFun, sendingCodeToServer}) => {
+const PhoneVerify = ({step, setStep, forget, registerError, buttonText, buttonLink, form, sendCodeFun, sendingCode, lan, sendCodeToServerFun, sendingCodeToServer}) => {
     const [code1, setCode1] = useState({
         value: '',
         touched: false,
@@ -73,17 +73,19 @@ const PhoneVerify = ({step, setStep, registerError, buttonText, buttonLink, form
         inputs[code1.value.length].focus();
     }, [conRef]);
     useEffect(() => {
-        if(!form.email && !params.email) {
-            navigate('/login');
-        } else {
-            const data = {
-                email: form.email.value || params.email,
-                lan,
-                setStep,
-                navigate,
-                history
+        if(!forget) {
+            if(!form.email && !params.email) {
+                navigate('/login');
+            } else {
+                const data = {
+                    email: form.email.value || params.email,
+                    lan,
+                    setStep,
+                    navigate,
+                    history
+                }
+                sendCodeFun(data);
             }
-            sendCodeFun(data);
         }
     }, []);
     return (

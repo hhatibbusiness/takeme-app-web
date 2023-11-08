@@ -25,12 +25,12 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
     const imgRef = useRef();
     const imgContainer = useRef();
     const imgLoaderRef = useRef();
-    const [containerLoaded, setContainerLoaded] = useState(false);
     const failureRef = useRef(null);
     const imgRefDub = useRef(null);
     const imgContainerRef = useRef(null);
     const [windowWidth, setWindowSize] = useState(window.innerWidth);
     const [hidden, setHidden] = useState(true);
+    const [containerLoaded, setContainerLoaded] = useState(false);
 
     const {t} = useTranslation();
 
@@ -158,7 +158,7 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
                                         )
                                     }
                                 </div>
-                                {product?.description && <p className={'Product__details--description'}>{product?.description}</p>}
+                                {product?.description && <p className={'Product__details--description'}>{product?.description?.slice(0, 80)}</p>}
                             </div>
                             {
                                 value === 100 && <Count count={product?.totalNumberOfProducts || 0} />

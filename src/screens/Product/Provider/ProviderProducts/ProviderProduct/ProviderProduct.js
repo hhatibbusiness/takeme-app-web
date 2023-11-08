@@ -51,6 +51,23 @@ const ProviderProduct = ({imgRef, provider, arrayRef, providerOrNot, productType
     //     }
     // }
 
+    const formateMinDuration = (duration, unit) => {
+        switch (unit) {
+            case "Days":
+                if(duration == 0) return;
+                if(duration == 1) return t("rentDurationDay");
+                if(duration == 2) return t("twoDays");
+                else return `${duration}${t("multipleDays")}`;
+                break;
+            case "Hours":
+                if(duration == 0) return;
+                if(duration == 1) return t("rentDurationHour");
+                if(duration == 2) return t("twoHours");
+                else return `${duration}${t("MultipleHours")}`;
+                break;
+        }
+    }
+
     const renderImage = () => {
         const img = <Img imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath}/>;
     }
@@ -186,6 +203,7 @@ const ProviderProduct = ({imgRef, provider, arrayRef, providerOrNot, productType
                                                     <div className="ProviderProduct__details--rent-shekel">
                                                         <i className="fa-solid fa-shekel-sign"></i>
                                                     </div>
+                                                    {product?.rentDetails?.minTimForRent && <p className={'ProviderProduct__details--rent-min'}>({t("minRentTimeMessage")}{formateMinDuration(product?.rentDetails?.minTimForRent, product?.rentDetails?.rentUnit)})</p>}
                                                 </div>
                                             )
                                         }

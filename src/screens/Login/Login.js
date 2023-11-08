@@ -11,8 +11,10 @@ import deleteDefaultHeader from '../../utls/remove.axios.headers';
 import removeAxiosHeaders from "../../utls/remove.axios.headers";
 import {useLocation} from "react-router-dom";
 import LoginPopup from "./LoginPopup/LoginPopup";
+import {sendForgetPasswordVerificationCode, sendCodePasswordToServer} from "../../store/actions/forget.password.actions";
 
-const Login = ({lan, login, logging, data, registerError, error, errorMessage}) => {
+
+const Login = ({lan, login, logging, data, sendingCode, registerError, error, sendForgetPasswordVerificationCode, errorMessage}) => {
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [phoneActive, setPhoneActive] = useState(false);
@@ -108,7 +110,7 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
                             }
                         </p>
                     </div>
-                    <NavLink to={`/forget/${phone}`} onClick={e => {
+                    <div onClick={ async e => {
                         registerError('');
                         if(!phone) {
                             registerError(t("emailmessage"));
@@ -124,7 +126,14 @@ const Login = ({lan, login, logging, data, registerError, error, errorMessage}) 
                             registerError(t('emailmessage'))
                             return e.preventDefault();
                         }
-                    }} className="Login__form--forgetPassword">{t('forget')}</NavLink>
+                        const data = {
+                            email: phone,
+                            lan,
+                            navigate,
+                            history
+                        }
+                        const res = await sendForgetPasswordVerificationCode(data);
+                    }} className="Login__form--forgetPassword"><span>{sendingCode && <i className="fa-solid fa-circle-notch"></i>}</span>{t('forget')}</div>
                 </div>
                 <div className="Login__form--element">
                     <button className="Login__form--button">{logging ? <i className="fa-solid fa-circle-notch"></i> : t('loginbtn')}</button>
@@ -152,7 +161,8 @@ const mapStateToProps = (state) => ({
     logging: state.login.logging,
     data: state.login.data,
     errorMessage: state.login.errorMessage,
-    error: state.login.error
+    error: state.login.error,
+    sendingCode: state.forget.sendingCode
 })
 
-export default connect(mapStateToProps, {login, registerError}) (Login);
+export default connect(mapStateToProps, {login, registerError, sendForgetPasswordVerificationCode}) (Login);

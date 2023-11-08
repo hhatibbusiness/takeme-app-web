@@ -14,7 +14,7 @@
   "show products": "הצג מוצרים",
   "fail to load providers": "הורדת הבעלים של המוצרים או השירותים נכשלה",
   "there's no search results": "אין תוצאות חיפוש",
-  "there's not products": "אין מוצרים\n",
+  "there's not products": "אין מוצרים",
   "no reviews": "אין דירוגים",
   "font": "guttman",
   "login": "התחבר",
@@ -71,8 +71,12 @@
   "emailmessage": "נא להזין מייל או מספר טלפון",
   "providerratings": "דירוגי ספקי שירות",
   "salestartsfrom": "מחיר המכירה מתחיל מ ",
-  "rentstartsfrom": "מחיר ההשכרה מתחיל מ "
-
-
-
+  "rentstartsfrom": "מחיר ההשכרה מתחיל מ ",
+  "minRentTimeMessage": "תקופת שכירות מינימלית ",
+  "rentDurationDay": "יום",
+  "twoDays": "יומיים",
+  "rentDurationHour": "שעה",
+  "twoHours": "שעתיים",
+  "multipleDays": "ימים",
+  "multipleHours": "שעה (ות"
 }

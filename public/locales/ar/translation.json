@@ -71,5 +71,12 @@
   "emailmessage": "من فضلك ادخل ايميل او رقم هاتف",
   "providerratings": "تقييمات مزود الخدمة",
   "salestartsfrom": "سعر البيع يبدأ من ",
-  "rentstartsfrom": "سعر الايجار يبدأ من "
+  "rentstartsfrom": "سعر الايجار يبدأ من ",
+  "minRentTimeMessage": "اقل مدة للايجار ",
+  "rentDurationDay": "يوم",
+  "twoDays": "يومين",
+  "rentDurationHour": "ساعة",
+  "twoHours": "ساعتين",
+  "multipleDays": "أيام",
+  "multipleHours": "ساعات"
 }

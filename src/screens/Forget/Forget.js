@@ -102,6 +102,7 @@ const Forget = ({sendingCode, error, errorMessage, sendingCodeToServer, sendCode
                             }
                         }
                     }
+                    forget={true}
                     buttonLink={'/register'}
                     buttonText={'loginregister'}
                     setStep={setStep}

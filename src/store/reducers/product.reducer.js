@@ -216,7 +216,7 @@ export default (state = initialState, action) => {
                 return {
                     ...state,
                     providers:  [...state.providers, ...action.providers],
-                    more: action.providers.length >=10
+                    more: action.providers.length >= 10
                 }
             })();
         case actionTypes.FETCH_PRODUCT_TYPE_DETAILS:

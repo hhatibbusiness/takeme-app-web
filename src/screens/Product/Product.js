@@ -68,7 +68,7 @@ const Product = ({galleryProduct, togglePopup, filter, closeGallery, fetchProduc
                             loadMore={() => {
                                 if(providers.length === 0 && page === 0) return;
                                 if(!moreLoading) return;
-                                if(!more) setMoreLoading(false);
+                                if(!more) return setMoreLoading(false);
                                 fetchProductDetails(params.id, page, lan, filter);
                             }}
                             hasMore={moreLoading}

@@ -7,6 +7,8 @@ import {getAnalytics, logEvent} from "firebase/analytics";
 import {Link} from "react-router-dom";
 import {openPopup, changePopupProduct} from "../../../../../store/actions/ui.actions";
 import {connect} from "react-redux";
+import providerRatingScore
+    from "../../../../Provider/ProviderRatings/ProviderRating/ProviderRatingScore/ProviderRatingScore";
 
 const ProviderBody = ({provider: p, activeProduct, socials, prov, openPopup, changePopupProduct}) => {
     const [array, setArray] = useState([]);
@@ -18,6 +20,16 @@ const ProviderBody = ({provider: p, activeProduct, socials, prov, openPopup, cha
         const array = Array.from(Array(5).keys());
         setArray(array);
     }, []);
+
+    const renderStars = (rating, i) => {
+        const floorNumber = Math.floor(rating);
+        const ceil = Math.ceil(rating);
+        if(floorNumber == ceil) {
+            return <i style={{color: `${i < p.ratingsScore && 'gold'}`}} className={`fa-solid fa-star`}></i>
+        } else {
+            return <i style={{color: `${i < ceil && 'gold'}`, transform: 'rotateY(180deg)'}} className={`fa-solid ${(i <= floorNumber - 1 || i > ceil - 1) ? 'fa-star' : 'fa-star-half-stroke'} `}></i>;
+        }
+    }
 
     return (
         <div className={'ProviderBody'}>
@@ -62,7 +74,7 @@ const ProviderBody = ({provider: p, activeProduct, socials, prov, openPopup, cha
                                     <p className={'ProviderBody__stars'}>
                                         {
                                             p?.ratingsScore && array.map((a, i) => (
-                                                <i style={{color: `${i < p.ratingsScore && 'gold'}`}} className="fa-solid fa-star"></i>
+                                                renderStars(p?.ratingsScore, i)
                                             ))
                                         }
                                     </p>
@@ -81,7 +93,6 @@ const ProviderBody = ({provider: p, activeProduct, socials, prov, openPopup, cha
                 {
                     p?.productsCountMsg && <p className={'ProviderBody__msg'}>{p.productsCountMsg}</p>
                 }
-
             </div>
 
         </div>

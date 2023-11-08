@@ -68,6 +68,12 @@
         font-size: 13px;
         text-decoration: none;
         color: var(--main-color-green-dark-1);
+        cursor: pointer;
+
+        i {
+          transform: none;
+          animation: spin 0.5s forwards linear infinite;
+        }
 
         &:hover {
           text-decoration: underline;
