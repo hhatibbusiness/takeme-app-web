@@ -3,7 +3,7 @@ import Navbar from "../../components/HOC/Navbar/Navbar";
 import './ProviderSceen.scss';
 import {connect} from "react-redux";
 import {fetchProviderData, closeProviderGallery, openProviderGallery} from "../../store/actions/provider.actions";
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import Gallery from "../Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery";
 import Provider from "../Product/Provider/Provider";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
@@ -11,13 +11,24 @@ import ProviderLinkCopy from "./ProviderLinkCopy/ProviderLinkCopy";
 import Failure from "../Product/Provider/ProviderProducts/Failure/Failure";
 import {useTranslation} from "react-i18next";
 import {getAnalytics, logEvent} from "firebase/analytics";
+import {openPopup, changePopupProduct} from "../../store/actions/ui.actions";
 
-const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery}) => {
+const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup}) => {
     const params = useParams();
     const navigate = useNavigate();
+    const history = useLocation();
+
     useEffect(() => {
         fetchProviderData(lan, params.providerId, filter, navigate);
     }, [params.providerId]);
+
+    useEffect(() => {
+        console.log(params);
+        if(!loadingProvider && history?.state?.currentProduct) {
+            changePopupProduct(history?.state?.currentProduct)
+            openPopup();
+        }
+    }, []);
 
     const {t} = useTranslation();
 
@@ -79,4 +90,4 @@ const mapStateToProps = state => ({
     filter: state.categories.filter
 });
 
-export default connect(mapStateToProps, {fetchProviderData, closeProviderGallery, openProviderGallery}) (ProviderScreen);
+export default connect(mapStateToProps, {fetchProviderData, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup}) (ProviderScreen);

@@ -12,10 +12,12 @@ import Loader from "../../../../../components/Loader/Loader";
 // import Gallery from "./Gallery/Gallery";
 // import {Swiper} from "swiper";
 import './ProductList.css';
+import {useNavigate} from "react-router-dom";
 
 const Category = ({products, id, lan, page, fetchCategoryProducts, increasePageNumber, more, filter}) => {
     const [moreLoading, setMoreLoading] = useState(true);
     const containerRef = useRef();
+    const navigate = useNavigate();
 
     useEffect(() => {
         setMoreLoading(more);
@@ -32,7 +34,7 @@ const Category = ({products, id, lan, page, fetchCategoryProducts, increasePageN
                     if(products.length === 0 && page === 0) return;
                     if(!moreLoading) return;
                     if(!more) return setMoreLoading(false);
-                    fetchCategoryProducts(id, lan, page, filter);
+                    fetchCategoryProducts(id, lan, page, filter, navigate);
                 }}
                 hasMore={moreLoading}
                 loader={<Loader />}

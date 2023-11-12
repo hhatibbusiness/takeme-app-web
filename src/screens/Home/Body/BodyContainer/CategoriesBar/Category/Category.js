@@ -6,6 +6,7 @@ import {changeId, fetchCategoryProducts, resetPageNumber} from "../../../../../.
 import {changeSearchCategoryId, fetchSearchResults} from "../../../../../../store/actions/search.actions";
 import {logEvent} from "firebase/analytics";
 import {analytics} from "../../../../../../utls/firebase.auth";
+import {useNavigate} from "react-router-dom";
 
 const Category = ({
     cat,
@@ -20,7 +21,8 @@ const Category = ({
     home,
     search,
     fetchSearchResults,
-    term
+    term,
+    filter
 }) => {
     // const imgRef = useRef();
     // useEffect(() => {
@@ -41,13 +43,14 @@ const Category = ({
     //         return imgRef.current.src = notFoundImg;
     //     }
     // }
+    const navigate = useNavigate();
 
     return (
         <a onClick={() => {
             if(home) {
                 changeId(cat?.id && cat.id);
                 resetPageNumber();
-                fetchCategoryProducts(cat?.id && cat.id, lan, 0);
+                fetchCategoryProducts(cat?.id && cat.id, lan, 0, filter, navigate);
             }
             if(search) {
                 changeSearchCategoryId(cat?.id && cat.id);
@@ -69,6 +72,7 @@ const mapStateToProps = state => ({
     lan: state.categories.lan,
     page: state.categories.page,
     term: state.search.term,
+    filter: state.categories.filter
 });
 
 export default connect(mapStateToProps, {changeId, fetchCategoryProducts, resetPageNumber, changeSearchCategoryId, fetchSearchResults}) (memo(Category));

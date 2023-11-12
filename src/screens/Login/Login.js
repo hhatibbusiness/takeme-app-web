@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import './Login.scss';
 import Navbar from "../../components/HOC/Navbar/Navbar";
 import {useTranslation} from "react-i18next";
-import {NavLink, useNavigate} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 import {login} from "../../store/actions/login.action";
 import {connect} from "react-redux";
 import {registerError} from "../../store/actions/register.actions";
@@ -23,6 +23,7 @@ const Login = ({lan, login, logging, data, sendingCode, registerError, error, se
     const [loginErrorMessage, setLoginErrorMessage] = useState('');
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
+    const [remember, setRemember] = useState(false);
 
     const navigate = useNavigate();
     const history = useLocation();
@@ -33,6 +34,14 @@ const Login = ({lan, login, logging, data, sendingCode, registerError, error, se
         localStorage.removeItem('takemetoken');
         localStorage.removeItem('takemeuser');
         removeAxiosHeaders();
+    }, []);
+
+    useEffect(() => {
+        if(localStorage.getItem('takemeLoginData')) {
+            const loginData = JSON.parse(localStorage.getItem('takemeLoginData'));
+            setPhone(loginData.username);
+            setPassword(loginData.password);
+        }
     }, []);
 
     const browseClickHandler = () => {
@@ -70,7 +79,7 @@ const Login = ({lan, login, logging, data, sendingCode, registerError, error, se
         (inputRef.current && (inputRef.current.autoComplete = 'off'));
     }, []);
 
-    const formSbumitHandler = e => {
+    const formSbumitHandler = async e => {
         e.preventDefault();
         if(phone.length == 0 && password.length == 0) return registerError(t('phoneandpassworderror'));
         if(phone.length == 0) return registerError(t('phoneoremailerror'));
@@ -80,7 +89,16 @@ const Login = ({lan, login, logging, data, sendingCode, registerError, error, se
             password
         };
 
-        login(data, navigate, lan, history);
+        const res = await login(data, navigate, lan, history);
+        if(res.data.status == true && remember == true) {
+            const loginData = {
+                username: phone,
+                password: password
+            }
+            localStorage.setItem('takemeLoginData', JSON.stringify(loginData));
+        } else {
+            localStorage.removeItem('takemeLoginData');
+        }
     }
     return (
         <div className={'Login'}>
@@ -89,7 +107,7 @@ const Login = ({lan, login, logging, data, sendingCode, registerError, error, se
                 <div className="Login__form--element">
                     <div className="Login__form--element-wrapper">
                         <label htmlFor="phone" className={`Login__form--element-label ${(phoneActive || phone.length > 0) && 'Login__form--element-label-active'}`}>{t('phoneoremail')}</label>
-                        <input value={phone} onChange={e => {
+                        <input autoComplete={'off'} value={phone} onChange={e => {
                             setPhone(e.target.value)
                         }} ref={inputRef} onBlur={e => phone.length === 0 && setPhoneActive(false)} onFocus={e => setPhoneActive(true)} name={'phone'} type="text" className="Login__form--element-input" />
                     </div>
@@ -97,7 +115,7 @@ const Login = ({lan, login, logging, data, sendingCode, registerError, error, se
                 <div className="Login__form--element">
                     <div className="Login__form--element-wrapper">
                         <label htmlFor="phone" className={`Login__form--element-label ${(passwordActive || password.length > 0) && 'Login__form--element-label-active'}`}>{t('password')}</label>
-                        <input value={password} onChange={e => {
+                        <input autoComplete={'off'} value={password} onChange={e => {
                             setPassword(e.target.value);
                         }} name={'password'} onBlur={e => password.length === 0 && setPasswordActive(false)} onFocus={e => setPasswordActive(true)} type={type ? 'password' : 'text'} className="Login__form--element-input Login__form--element-inputPhone"/>
                         <p onClick={e => setType(!type)} className={'Login__form--element-eye'}>
@@ -134,7 +152,22 @@ const Login = ({lan, login, logging, data, sendingCode, registerError, error, se
                         }
                         const res = await sendForgetPasswordVerificationCode(data);
                     }} className="Login__form--forgetPassword"><span>{sendingCode && <i className="fa-solid fa-circle-notch"></i>}</span>{t('forget')}</div>
+                    <div className="Login__form--remember">
+                        <div className='Register__form--element-input--wrapper'>
+                            <input value={remember} onChange={e => {
+                                if(e.target.checked) {
+                                    setRemember(true);
+                                } else {
+                                    setRemember(false);
+                                }
+
+                            }}  name={'conditions'} type="checkbox" className="Register__form--element-input" />
+                            <span></span>
+                        </div>
+                        <label htmlFor="conditions" className={''}><span>{t('rememberme')}</span></label>
+                    </div>
                 </div>
+
                 <div className="Login__form--element">
                     <button className="Login__form--button">{logging ? <i className="fa-solid fa-circle-notch"></i> : t('loginbtn')}</button>
                     <p className="Login__form--register">{t('create')}?<NavLink className={'Login__form--register-link'} to={'/register'}>{t('loginregister')}</NavLink></p>

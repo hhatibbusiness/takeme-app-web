@@ -63,7 +63,7 @@ const ProviderProduct = ({imgRef, provider, arrayRef, providerOrNot, productType
                 if(duration == 0) return;
                 if(duration == 1) return t("rentDurationHour");
                 if(duration == 2) return t("twoHours");
-                else return `${duration}${t("MultipleHours")}`;
+                else return `${duration} ${t("MultipleHours")}`;
                 break;
         }
     }

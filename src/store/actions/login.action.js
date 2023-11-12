@@ -28,7 +28,7 @@ export const login = (data, navigate, lan, history) => async dispatch => {
 
             // navigate('/');
             if(history?.state?.previousLocation && history?.state?.previousLocation != 'register') {
-                navigate(history?.state?.previousLocation);
+                navigate(`${history?.state?.previousLocation}`, {state: {currentProduct: history?.state?.currentProduct}});
             } else {
                 navigate('/');
             }
@@ -41,6 +41,7 @@ export const login = (data, navigate, lan, history) => async dispatch => {
             });
         }
         dispatch(endLogin);
+        return res;
     } catch (err) {
         console.error(err?.response?.data?.message);
         dispatch({

@@ -3,7 +3,7 @@ import './Product.scss';
 import Navbar from "../../components/HOC/Navbar/Navbar";
 import {fetchProductDetails, fetchProductTypeDetails, resetProductData, closeGallery, openGallery} from "../../store/actions/product.actions";
 import {connect} from "react-redux";
-import {Outlet, useNavigate, useParams} from "react-router-dom";
+import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import Provider from "./Provider/Provider";
 import Failure from "./Provider/ProviderProducts/Failure/Failure";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
@@ -12,14 +12,15 @@ import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../components/Loader/Loader";
 import {useTranslation} from "react-i18next";
 import ProductPopup from "../../components/ProductPopup/ProductPopup";
-import {togglePopup} from "../../store/actions/ui.actions";
+import {openPopup, togglePopup, changePopupProduct} from "../../store/actions/ui.actions";
 
-const Product = ({galleryProduct, togglePopup, filter, closeGallery, fetchProductDetails, more, page, lan, providers, resetProductData, fetchProductTypeDetails, productType, loadingProductsProviders, gallery, openGallery}) => {
+const Product = ({galleryProduct, openPopup, togglePopup, changePopupProduct, filter, closeGallery, fetchProductDetails, more, page, lan, providers, resetProductData, fetchProductTypeDetails, productType, loadingProductsProviders, gallery, openGallery}) => {
     const [moreLoading, setMoreLoading] = useState(true);
     const productRef = useRef();
     const params = useParams();
     const scrollableParent = useRef();
     const navigate = useNavigate();
+    const history = useLocation();
 
     const {t} = useTranslation()
 
@@ -35,7 +36,14 @@ const Product = ({galleryProduct, togglePopup, filter, closeGallery, fetchProduc
         }
     }, [params.id]);
 
+    useEffect(() => {
+        console.log(params);
+        if(!loadingProductsProviders && history?.state?.currentProduct) {
+            changePopupProduct(history?.state?.currentProduct)
+            openPopup();
 
+        }
+    }, []);
 
     useEffect(() => {
         const home = document.querySelector('body');
@@ -111,7 +119,7 @@ const mapStateToProps = state => ({
     gallery: state.product.openGallery,
     more: state.product.more,
     galleryProduct: state.product.galleryProduct,
-    filter: state.categories.filter
+    filter: state.categories.filter,
 });
 
-export default connect(mapStateToProps, {resetProductData, fetchProductDetails, fetchProductTypeDetails, togglePopup, closeGallery, openGallery}) (Product);
+export default connect(mapStateToProps, {resetProductData, fetchProductDetails, fetchProductTypeDetails, togglePopup, closeGallery, openGallery, openPopup, changePopupProduct}) (Product);

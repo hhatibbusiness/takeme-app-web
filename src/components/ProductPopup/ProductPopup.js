@@ -21,6 +21,24 @@ const ProductPopup = ({togglePopup, currentProduct, lan, fetchProviderRatigs, op
     const [short, setShort] = useState(true);
 
     const {t} = useTranslation();
+
+    const formateMinDuration = (duration, unit) => {
+        switch (unit) {
+            case "Days":
+                if(duration == 0) return;
+                if(duration == 1) return t("rentDurationDay");
+                if(duration == 2) return t("twoDays");
+                else return `${duration}${t("multipleDays")}`;
+                break;
+            case "Hours":
+                if(duration == 0) return;
+                if(duration == 1) return t("rentDurationHour");
+                if(duration == 2) return t("twoHours");
+                else return `${duration} ${t("multipleHours")}`;
+                break;
+        }
+    }
+
     useEffect(() => {
         //
         // window.addEventListener('popstate', e => history.go(1));
@@ -224,6 +242,7 @@ const ProductPopup = ({togglePopup, currentProduct, lan, fetchProviderRatigs, op
                                     <div className="ProviderProduct__details--rent-shekel">
                                         <i className="fa-solid fa-shekel-sign"></i>
                                     </div>
+                                    {currentProduct?.rentDetails?.minTimForRent && <p className={'ProductPopup__details--rent-min'}>({t("minRentTimeMessage")}{formateMinDuration(currentProduct?.rentDetails?.minTimForRent, currentProduct?.rentDetails?.rentUnit)})</p>}
                                 </div>
                             )
                         }

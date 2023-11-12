@@ -302,6 +302,7 @@ const endFetchingProducts = {
 // }
 export const fetchCategoryProducts = (id, lan, page, filter, navigate) => async dispatch => {
     try {
+        console.log(filter);
         if(page == 0) dispatch(startFetchingProducts);
         const res = await axios.get(`${BASE_URL}endpoints/products-types?locale=${lan}&categoryId=${id}&page=${page}&filterByAction=${filter}`)
         dispatch({

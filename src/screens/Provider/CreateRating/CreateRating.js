@@ -33,7 +33,7 @@ const CreateRating = ({addingRating, registerError, error, errorMessage, isAuthe
     const publish = async e => {
         if(!isAuthenticated) {
             closePopup();
-            return navigate('/login', {state: {previousLocation: currentLocation}})
+            return navigate('/login', {state: {previousLocation: currentLocation, currentProduct: currentProduct}})
         };
         // const ratingComment = inputRef?.current?.innerText;
         const comments = commentRef?.current?.innerText;
@@ -135,7 +135,8 @@ const mapStateToProps = state => ({
     user: state.login.data,
     isAuthenticated: state.login.isAuthenticated,
     error: state.login.error,
-    errorMessage: state.login.errorMessage
+    errorMessage: state.login.errorMessage,
+    currentProduct: state.ui.currentProduct
 })
 
 export default connect(mapStateToProps, {addProviderRating, closePopup, registerError}) (CreateRating);

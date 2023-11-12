@@ -78,5 +78,6 @@
   "rentDurationHour": "ساعة",
   "twoHours": "ساعتين",
   "multipleDays": "أيام",
-  "multipleHours": "ساعات"
+  "MultipleHours": "ساعات",
+  "rememberme": "تذكرني"
 }
