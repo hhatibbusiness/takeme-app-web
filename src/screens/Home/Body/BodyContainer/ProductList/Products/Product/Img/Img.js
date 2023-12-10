@@ -1,9 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './Img.scss';
 import {connect} from "react-redux";
-import {changeSliderValue} from "../../../../../../../../store/actions/categories.action";
 
-const Img = ({value, ref, imgUrl, setError, setHidden, setLoaded, setContainerLoaded, setImgLoaded, imgRefDub: imgRef}) => {
+const Img = ({value, imgUrl, setError, setHidden, setLoaded, setImgLoaded, imgRefDub: imgRef}) => {
     // const imgRef = useRef();
     // useEffect(() => {
     //     if(!imgRef?.current) return;
@@ -58,4 +57,4 @@ const mapStateToProps = state => ({
     value: state.categories.value
 })
 
-export default connect(mapStateToProps, {changeSliderValue}) (Img);
+export default connect(mapStateToProps) (Img);

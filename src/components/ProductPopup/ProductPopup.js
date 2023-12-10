@@ -17,7 +17,7 @@ import ProviderRatings from "../../screens/Provider/ProviderRatings/ProviderRati
 import {fetchProviderRatigs} from "../../store/actions/ratings.actions";
 import CreateRating from "../../screens/Provider/CreateRating/CreateRating";
 
-const ProductPopup = ({togglePopup, currentProduct, lan, fetchProviderRatigs, openPopup, term, Opopup, closePopup}) => {
+const ProductPopup = ({togglePopup, isRatings, currentProduct, lan, fetchProviderRatigs, openPopup, term, Opopup, closePopup}) => {
     const [short, setShort] = useState(true);
 
     const {t} = useTranslation();
@@ -40,8 +40,8 @@ const ProductPopup = ({togglePopup, currentProduct, lan, fetchProviderRatigs, op
     }
 
     useEffect(() => {
-        //
-        // window.addEventListener('popstate', e => history.go(1));
+
+        window.addEventListener('popstate', e => history.go(1));
         if(openPopup) {
             window.history.pushState(null, null, window.location.href);
             window.addEventListener('popstate', e => {
@@ -54,11 +54,12 @@ const ProductPopup = ({togglePopup, currentProduct, lan, fetchProviderRatigs, op
                 })
             });
         }
+
+
     }, [openPopup]);
 
     useEffect(() => {
         if(openPopup && lan) {
-
             const data = {
                 providerId: currentProduct?.providerId,
                 lan
@@ -182,105 +183,113 @@ const ProductPopup = ({togglePopup, currentProduct, lan, fetchProviderRatigs, op
     return (
         <div className={`ProductPopup ${openPopup ? 'ProductPopup__open' : 'ProductPopup__close'}`}>
             <div ref={contRef} className={`ProductPopup__product ${openPopup && 'ProductPopup__product--open'}`}>
+
                 <div onScroll={e => {
                     fullHeight()
                 }} className="ProductPopup__product--container">
-                    <div onClick={e => {
-                        notFullHeight()
-                        togglePopup()
-                    }} className="ProductPopup__product--close">
-                        <span><i className="fa-solid fa-xmark"></i></span>
-                    </div>
-                    <div className="ProductPopup__product--title">
-                        {
-                            renderName()
-                        }
-                    </div>
-                    <div className="ProviderProduct__details--prices">
-                        {
-                            currentProduct?.saleDetails && (
-                                <div className={'ProviderProduct__details--sale'}>
-                                    {
-                                        currentProduct?.saleDetails?.comment && (
-                                            <div className="ProviderProduct__details--sale-icon">
-                                                <i className="fa-solid fa-circle-exclamation"></i>
-                                            </div>
-                                        )
-                                    }
-                                    <div className="ProviderProduct__details--sale-price">
-                                        {t('price')}
-                                    </div>
-                                    <div className="ProviderProduct__details--sale-pricenum">
-                                        {
-                                            currentProduct?.saleDetails?.price && <span>{currentProduct?.saleDetails?.price}</span>
-                                        }
-                                    </div>
-                                    <div className="ProviderProduct__details--sale-shekel">
-                                        <i className="fa-solid fa-shekel-sign"></i>
-                                    </div>
-                                </div>
-                            )
-                        }
-                        {
-                            currentProduct?.rentDetails && (
-                                <div className={'ProviderProduct__details--rent'}>
-                                    {
-                                        currentProduct?.rentDetails?.comment && (
-                                            <div className="ProviderProduct__details--sale-icon">
-                                                <i className="fa-solid fa-circle-exclamation"></i>
-                                            </div>
-                                        )
-                                    }
-                                    <div className="ProviderProduct__details--rent-price">
-                                        {t('rentPrice')}
-                                    </div>
-                                    <div className="ProviderProduct__details--rent-pricenum">
-                                        {
-                                            currentProduct?.rentDetails?.price && <span>{currentProduct?.rentDetails?.price}</span>
-                                        }
-                                    </div>
-                                    <div className="ProviderProduct__details--rent-shekel">
-                                        <i className="fa-solid fa-shekel-sign"></i>
-                                    </div>
-                                    {currentProduct?.rentDetails?.minTimForRent && <p className={'ProductPopup__details--rent-min'}>({t("minRentTimeMessage")}{formateMinDuration(currentProduct?.rentDetails?.minTimForRent, currentProduct?.rentDetails?.rentUnit)})</p>}
-                                </div>
-                            )
-                        }
-                    </div>
                     {
-                        currentProduct?.description && (
-                            <div className="ProviderProduct__details--desc">
+                        !isRatings && (
+                            <>
+                                <div onClick={e => {
+                                    notFullHeight()
+                                    togglePopup()
+                                }} className="ProductPopup__product--close">
+                                    <span><i className="fa-solid fa-xmark"></i></span>
+                                </div>
+                                <div className="ProductPopup__product--title">
+                                    {
+                                        renderName()
+                                    }
+                                </div>
+                                <div className="ProviderProduct__details--prices">
+                                    {
+                                        currentProduct?.saleDetails && (
+                                            <div className={'ProviderProduct__details--sale'}>
+                                                {
+                                                    currentProduct?.saleDetails?.comment && (
+                                                        <div className="ProviderProduct__details--sale-icon">
+                                                            <i className="fa-solid fa-circle-exclamation"></i>
+                                                        </div>
+                                                    )
+                                                }
+                                                <div className="ProviderProduct__details--sale-price">
+                                                    {t('price')}
+                                                </div>
+                                                <div className="ProviderProduct__details--sale-pricenum">
+                                                    {
+                                                        currentProduct?.saleDetails?.price && <span>{currentProduct?.saleDetails?.price}</span>
+                                                    }
+                                                </div>
+                                                <div className="ProviderProduct__details--sale-shekel">
+                                                    <i className="fa-solid fa-shekel-sign"></i>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                    {
+                                        currentProduct?.rentDetails && (
+                                            <div className={'ProviderProduct__details--rent'}>
+                                                {
+                                                    currentProduct?.rentDetails?.comment && (
+                                                        <div className="ProviderProduct__details--sale-icon">
+                                                            <i className="fa-solid fa-circle-exclamation"></i>
+                                                        </div>
+                                                    )
+                                                }
+                                                <div className="ProviderProduct__details--rent-price">
+                                                    {t('rentPrice')}
+                                                </div>
+                                                <div className="ProviderProduct__details--rent-pricenum">
+                                                    {
+                                                        currentProduct?.rentDetails?.price && <span>{currentProduct?.rentDetails?.price}</span>
+                                                    }
+                                                </div>
+                                                <div className="ProviderProduct__details--rent-shekel">
+                                                    <i className="fa-solid fa-shekel-sign"></i>
+                                                </div>
+                                                {currentProduct?.rentDetails?.minTimForRent && <p className={'ProductPopup__details--rent-min'}>({t("minRentTimeMessage")}{formateMinDuration(currentProduct?.rentDetails?.minTimForRent, currentProduct?.rentDetails?.rentUnit)})</p>}
+                                            </div>
+                                        )
+                                    }
+                                </div>
                                 {
-                                    currentProduct?.description?.text && <p className={'ProviderProduct__details--text'}>{currentProduct?.description?.text}</p>
+                                    currentProduct?.description && (
+                                        <div className="ProviderProduct__details--desc">
+                                            {
+                                                currentProduct?.description?.text && <p className={'ProviderProduct__details--text'}>{currentProduct?.description?.text}</p>
+                                            }
+                                            {/*{currentProduct?.description?.text && <p className="ProviderProduct__details--text">{currentProduct?.description?.text && ((short ? `${currentProduct?.description?.text.substr(0, 50)}` : currentProduct?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{currentProduct?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}*/}
+                                        </div>
+                                    )
                                 }
-                                {/*{currentProduct?.description?.text && <p className="ProviderProduct__details--text">{currentProduct?.description?.text && ((short ? `${currentProduct?.description?.text.substr(0, 50)}` : currentProduct?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{currentProduct?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}*/}
-                            </div>
+
+                                <div className={`ProviderProduct__details-dropdown`} >
+                                    {/*{currentProduct?.description?.text && <p className="ProviderProduct__details--text">{currentProduct?.description?.text && ((short ? `${currentProduct?.description?.text.substr(0, 50)}` : currentProduct?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{currentProduct?.description?.text && currentProduct?.description?.text.length > 50 && (short ? `...${t('more')}` : t('less'))}</span></p>}*/}
+                                    <div className="ProviderProduct__details--list">
+                                        {
+                                            currentProduct?.description?.list && currentProduct?.description?.list.map((item, i) => (
+                                                <ProviderProductListItem item={item} />
+                                            ))
+                                        }
+                                    </div>
+                                    {
+                                        currentProduct?.description?.variables?.length > 0 && (currentProduct?.description?.variables?.length === 1 ? (
+                                            currentProduct?.description?.variables[0]?.value && currentProduct?.description?.variables[0]?.key && <ProviderProductVariables variables={currentProduct?.description?.variables && currentProduct?.description?.variables} />
+                                        ) : <ProviderProductVariables variables={currentProduct?.description?.variables && currentProduct?.description?.variables} />)
+                                    }
+
+                                    {
+                                        currentProduct?.description?.comments?.length > 0 && <ProviderProductComments comments={currentProduct?.description?.comments && currentProduct?.description?.comments} />
+                                    }
+
+                                    {
+                                        currentProduct?.description?.tags?.length > 0 && <ProviderProductTags tags={currentProduct?.description?.tags}  />
+                                    }
+                                </div>
+                            </>
                         )
                     }
 
-                    <div className={`ProviderProduct__details-dropdown`} >
-                        {/*{currentProduct?.description?.text && <p className="ProviderProduct__details--text">{currentProduct?.description?.text && ((short ? `${currentProduct?.description?.text.substr(0, 50)}` : currentProduct?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{currentProduct?.description?.text && currentProduct?.description?.text.length > 50 && (short ? `...${t('more')}` : t('less'))}</span></p>}*/}
-                        <div className="ProviderProduct__details--list">
-                            {
-                                currentProduct?.description?.list && currentProduct?.description?.list.map((item, i) => (
-                                    <ProviderProductListItem item={item} />
-                                ))
-                            }
-                        </div>
-                        {
-                            currentProduct?.description?.variables?.length > 0 && (currentProduct?.description?.variables?.length === 1 ? (
-                                currentProduct?.description?.variables[0]?.value && currentProduct?.description?.variables[0]?.key && <ProviderProductVariables variables={currentProduct?.description?.variables && currentProduct?.description?.variables} />
-                            ) : <ProviderProductVariables variables={currentProduct?.description?.variables && currentProduct?.description?.variables} />)
-                        }
-
-                        {
-                            currentProduct?.description?.comments?.length > 0 && <ProviderProductComments comments={currentProduct?.description?.comments && currentProduct?.description?.comments} />
-                        }
-
-                        {
-                            currentProduct?.description?.tags?.length > 0 && <ProviderProductTags tags={currentProduct?.description?.tags}  />
-                        }
-                    </div>
                     <ProviderRatings />
                     <CreateRating currentProduct={currentProduct} />
                 </div>
@@ -304,7 +313,8 @@ const mapStateToProps = state => ({
     currentProduct: state.ui.currentProduct,
     ratings: state.ratings.ratings,
     fetchingRatings: state.ratings.fetchingRatings,
-    lan: state.categories.lan
+    lan: state.categories.lan,
+    isRatings: state.ui.rating
 });
 
 export default connect(mapStateToProps, {togglePopup, Opopup, closePopup, fetchProviderRatigs}) (ProductPopup);

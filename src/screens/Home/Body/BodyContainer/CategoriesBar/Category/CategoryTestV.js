@@ -1,28 +1,25 @@
 import React, {memo, useEffect, useRef} from 'react';
 import './Category.css';
-import {connect} from "react-redux";
-import {changeId, fetchCategoryProducts, resetPageNumber} from "../../../../../../store/actions/categories.action";
-import {changeSearchCategoryId, fetchSearchResults} from "../../../../../../store/actions/search.actions";
 import {logEvent} from "firebase/analytics";
 import {analytics} from "../../../../../../utls/firebase.auth";
 import {useNavigate} from "react-router-dom";
 import categoryAlt from '../../../../../../assets/images/categoryalt.jpg';
 const Category = ({
-    cat,
-    changeSearchCategoryId,
-    searchId,
-    id,
-    changeId,
-    fetchCategoryProducts,
-    lan,
-    resetPageNumber,
-    page,
-    home,
-    search,
-    fetchSearchResults,
-    term,
-    filter
-}) => {
+                      cat,
+                      changeSearchCategoryId,
+                      searchId,
+                      id,
+                      changeId,
+                      fetchCategoryProducts,
+                      lan,
+                      resetPageNumber,
+                      page,
+                      home,
+                      search,
+                      fetchSearchResults,
+                      term,
+                      filter
+                  }) => {
     // const imgRef = useRef();
     // useEffect(() => {
     //     console.log(cat);
@@ -46,15 +43,11 @@ const Category = ({
     const imageRef = useRef();
 
     return (
-        <a onClick={async () => {
+        <a role={'category'} onClick={() => {
             if(home) {
-                console.log(document.querySelector('.Products').offsetHeight);
                 changeId(cat?.id && cat.id);
                 resetPageNumber();
-                const containerHeight = document.querySelector('.Products').offsetHeight;
-                document.querySelector('.Products').style.height = `${containerHeight}px`;
-                const res = await fetchCategoryProducts(cat?.id && cat.id, lan, 0, filter, navigate);
-                document.querySelector('.Products').style.height = 'auto';
+                fetchCategoryProducts(cat?.id && cat.id, lan, 0, filter, navigate);
             }
             if(search) {
                 changeSearchCategoryId(cat?.id && cat.id);
@@ -69,18 +62,11 @@ const Category = ({
                     }
                 }} src={cat?.imagePath && cat.imagePath} draggable={false} />
             </div>
-            <p draggable={false}>{cat?.name && (cat.name.length <= 7 ? cat.name : cat.name.substring(0, 5) + ' ...')}</p>
+            <p role={'name'} draggable={false}>{cat?.name && (cat.name.length <= 7 ? cat.name : cat.name.substring(0, 5) + ' ...')}</p>
         </a>
     );
 };
 
-const mapStateToProps = state => ({
-    id: state.categories.curId,
-    searchId: state.search.categoryId,
-    lan: state.categories.lan,
-    page: state.categories.page,
-    term: state.search.term,
-    filter: state.categories.filter
-});
+export default Category;
 
-export default connect(mapStateToProps, {changeId, fetchCategoryProducts, resetPageNumber, changeSearchCategoryId, fetchSearchResults}) (memo(Category));
+// export default connect(mapStateToProps, {changeId, fetchCategoryProducts, resetPageNumber, changeSearchCategoryId, fetchSearchResults}) (memo(Category));

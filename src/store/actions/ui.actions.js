@@ -1,5 +1,5 @@
 import {
-    CHANGE_CURRENT_POPUP_PRODUCT,
+    CHANGE_CURRENT_POPUP_PRODUCT, CHANGE_DESTINATION,
     CLOSE_POPUP,
     OPEN_POPUP,
     TOGGLE_POPUP
@@ -20,4 +20,9 @@ export const openPopup = () => ({
 
 export const closePopup = () => ({
     type: CLOSE_POPUP
+});
+
+export const changeDestination = (destination) => ({
+    type: CHANGE_DESTINATION,
+    destination
 })

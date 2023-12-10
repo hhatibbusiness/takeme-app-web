@@ -11,11 +11,11 @@ import ProviderProductListItem from "./ProviderProductListItem/ProviderProductLi
 import ProviderProductTags from "./ProviderProductTags/ProviderProductTags";
 import ProviderProductComments from "./ProviderProductComments/ProviderProductComments";
 import ProviderProductVariables from "./ProviderProductVariables/ProviderProductVariables";
-import {togglePopup} from "../../../../../store/actions/ui.actions";
+import {togglePopup, changeDestination} from "../../../../../store/actions/ui.actions";
 import {changePopupProduct} from "../../../../../store/actions/ui.actions";
 import {getAnalytics, logEvent} from "firebase/analytics";
 
-const ProviderProduct = ({imgRef, provider, arrayRef, providerOrNot, productTypesCount, search, providerRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
+const ProviderProduct = ({imgRef, provider, changeDestination, arrayRef, providerOrNot, productTypesCount, search, providerRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
     //test
     const [error, setError] = useState(false);
     const [loaded, setLoaded] = useState(false);
@@ -215,6 +215,7 @@ const ProviderProduct = ({imgRef, provider, arrayRef, providerOrNot, productType
                                                 {<p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => {
                                                     changePopupProduct(product);
                                                     togglePopup();
+                                                    changeDestination(false);
                                                     const analytics = getAnalytics();
                                                     logEvent(analytics, 'expand', {
                                                         productName: product.name,
@@ -239,4 +240,4 @@ const mapStateToProps = state => ({
     term: state.search.term
 })
 
-export default connect(mapStateToProps, {togglePopup, changePopupProduct}) (ProviderProduct);
+export default connect(mapStateToProps, {togglePopup, changeDestination, changePopupProduct}) (ProviderProduct);

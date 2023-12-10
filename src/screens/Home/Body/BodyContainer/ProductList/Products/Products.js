@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Product from "./Product/Product";
 import './Products.css';
 import {connect} from "react-redux";
@@ -14,6 +14,7 @@ const Products = ({products, setGalleryOpen, setIndex, value, loadingProducts, p
     const [currentProduct, setCurrentProduct] = useState(null);
     const {t } = useTranslation();
 
+    const containerRef = useRef();
     const turnValueIntoCol = value => {
         if(value === 0) {
             return {
@@ -31,6 +32,13 @@ const Products = ({products, setGalleryOpen, setIndex, value, loadingProducts, p
             gap: 10
         }
     }
+
+    useEffect(() => {
+        if(loadingProducts) {
+
+        }
+    }, [loadingProducts]);
+
     return (
         <div className={'Products'}>
             <div style={{gridTemplateColumns: `${turnValueIntoCol(value).col}`, gap: `${turnValueIntoCol(value).gap}px`}} className={`Products__container ${value === 100 && 'Products__full'}`}>

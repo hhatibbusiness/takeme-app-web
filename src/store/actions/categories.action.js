@@ -173,6 +173,7 @@ export const fetchCategories = (lan, filter, navigate) => async dispatch => {
         await dispatch(changeId(firstId));
         await dispatch(fetchCategoryProducts(firstId, lan, 0, filter, navigate));
         dispatch(errorInactive);
+        return res;
     }catch (err) {
         console.error(err.message);
         dispatch(endFetchingCategories);

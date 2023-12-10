@@ -1,12 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './Cover.scss';
 import {connect} from "react-redux";
-import axios from "axios";
+// import axios from "axios";
 import Img from "../ProductList/Products/Product/Img/Img";
 import RenderImgError from "../../../../../components/RenderImgError/RenderImgError";
 import LoadingProduct from "../../../../../components/LoadingProduct/LoadingProduct";
 
-const Cover = ({assets, products, categories, curId}) => {
+const Cover = ({assets}) => {
     const [imgLoaded, setImgLoaded] = useState(true);
     const [imgUI, setImgUI] = useState(true);
     const [currentCategory, setCurrentCategory] = useState(null);
@@ -28,27 +28,27 @@ const Cover = ({assets, products, categories, curId}) => {
     //     setImgUI(null);
     // }, [categories, curId]);
 
-    const renderImage = async () => {
-        try{
-            console.log(currentCategory)
-            const res = await axios.get(assets?.coverPath && assets?.coverPath);
-            if(res.status === 200) {
-                const img = await  <Img setContainerLoaded={setContainerLoaded} imgRefDub={imgRefDub} setImgLoaded={setImgLoaded} imgUrl={assets?.coverPath && assets?.coverPath}/>;
-                // setImgUI(img);
-                // await setImgLoaded(true);
-                setImgUI(img);
-            }
-        }catch(e) {
-            console.error(e);
-            const imgUI =  <RenderImgError />;
-            setImgLoaded(true);
-            setImgUI(prevState => imgUI);
-        }
-    }
-
-    useEffect(() => {
-        renderImage()
-    }, [assets]);
+    // const renderImage = async () => {
+    //     try{
+    //         console.log(currentCategory)
+    //         const res = await axios.get(assets?.coverPath && assets?.coverPath);
+    //         if(res.status === 200) {
+    //             const img = await  <Img setContainerLoaded={setContainerLoaded} imgRefDub={imgRefDub} setImgLoaded={setImgLoaded} imgUrl={assets?.coverPath && assets?.coverPath}/>;
+    //             // setImgUI(img);
+    //             // await setImgLoaded(true);
+    //             setImgUI(img);
+    //         }
+    //     }catch(e) {
+    //         console.error(e);
+    //         const imgUI =  <RenderImgError />;
+    //         setImgLoaded(true);
+    //         setImgUI(prevState => imgUI);
+    //     }
+    // }
+    //
+    // useEffect(() => {
+    //     renderImage()
+    // }, [assets]);
 
     // useEffect(() => {
     //     if(categories.length == 0 || !curId || !currentCategory) return ;
@@ -84,9 +84,9 @@ const Cover = ({assets, products, categories, curId}) => {
 
 const mapStateToProps = state => ({
     assets: state.assets,
-    products: state.categories.products,
-    categories: state.categories.categories,
-    curId: state.categories.curId
+    // products: state.categories.products,
+    // categories: state.categories.categories,
+    // curId: state.categories.curId
 })
 
 export default connect(mapStateToProps) (Cover);

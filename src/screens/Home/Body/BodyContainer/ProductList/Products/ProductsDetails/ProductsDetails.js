@@ -56,17 +56,27 @@ const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) =
                                 <Img setError={setError} setHidden={setHidden} setLoaded={setLoaded} setImgLoaded={setImgLoaded} imgUrl={currentProduct?.imagePath && currentProduct.imagePath}/>
                                 {loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} failureRef={failureRef} elemRef={imgContainer} />}
                             </div>
-                            <div className="ProductDetails__details">
-                                <h3 className="ProductDetails__header">{currentProduct?.title && currentProduct.title}</h3>
-                                {
-                                    currentProduct?.saleDetails && (
-                                        <>
-                                            <h5 className={'ProductsDetails__msg'}>{currentProduct?.saleDetails.title && currentProduct?.saleDetails.title}</h5>
-                                            <p className={'ProductsDetails__price'}>{currentProduct?.saleDetails.priceStartingFromMsg && currentProduct?.saleDetails.priceStartingFromMsg}</p>
-                                        </>
-
-                                    )
-                                }
+                            <div className={`Product__details`}>
+                                <p className={'Product__details--title'}>{currentProduct?.title && currentProduct.title}</p>
+                                {/*<p className={'Product__price--header'}>{product?.saleDetails?.title && product.saleDetails.title}</p>*/}
+                                {/*<p className={'Product__price'}>{product.saleDetails?.priceStartingFromMsg && product.saleDetails.priceStartingFromMsg}</p>*/}
+                                <div className="Product__details--prices">
+                                    {
+                                        currentProduct?.saleDetails && (
+                                            <p className={'Product__details--sale'}>
+                                                <span className={'Product__details--sale-message'}>{t("salestartsfrom")}</span><span className={'Product__details--sale-starts'}>{currentProduct?.saleDetails?.priceStartingFrom && currentProduct?.saleDetails?.priceStartingFrom}</span> <span className={'Product__details--icon'}><i className="fa-solid fa-shekel-sign"></i></span>
+                                            </p>
+                                        )
+                                    }
+                                    {
+                                        currentProduct?.saleDetails && (
+                                            <p className={'Product__details--sale'}>
+                                                <span className={'Product__details--sale-message'}>{t("rentstartsfrom")}</span><span className={'Product__details--sale-starts'}>{currentProduct?.saleDetails?.priceStartingFrom && currentProduct?.saleDetails?.priceStartingFrom}</span> <span className={'Product__details--icon'}><i className="fa-solid fa-shekel-sign"></i></span>
+                                            </p>
+                                        )
+                                    }
+                                </div>
+                                {currentProduct?.description && <p className={'Product__details--description'}>{currentProduct?.description?.slice(0, 50)}...</p>}
                             </div>
                             <button onClick={e => {
                                 e.preventDefault();

@@ -82,14 +82,19 @@ const PhoneVerify = ({step, setStep, forget, registerError, buttonText, buttonLi
                     lan,
                     setStep,
                     navigate,
-                    history
+                    history,
+                    phone: form.phone.value
                 }
                 sendCodeFun(data);
             }
         }
     }, []);
+
     return (
         !sendingCode ? (
+
+
+
             <div className={'PhoneVerify'}>
                 <div className="PhoneVerify__icon">
                     <i className="fa-solid fa-envelope"></i>

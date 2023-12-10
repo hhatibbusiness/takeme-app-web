@@ -2,15 +2,14 @@ import React, {useEffect, useRef, useState} from 'react';
 import './Sidebar.scss';
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {changeLan, changeFilter} from "../../store/actions/categories.action";
+// import {changeLan, changeFilter} from "../../store/actions/categories.action";
 import i18next from "i18next";
 import {useTranslation} from 'react-i18next';
-import {logout} from "../../store/actions/login.action";
+// import {logout} from "../../store/actions/login.action";
 
 const Sidebar = ({assets, sidebar, isAuthenticated, logout, changeFilter, filter, lan, changeLan, categories}) => {
     const [langShow, setLanShow] = useState(false);
     const [filterShow, setFilterShow] = useState(false);
-    const [socialShow, setSocialShow] = useState(false);
     const [currFilter, setCurrFilter] = useState(filter && filter);
     const whatsappRef = useRef();
 
@@ -29,12 +28,12 @@ const Sidebar = ({assets, sidebar, isAuthenticated, logout, changeFilter, filter
 
     const detectWhatsapp = (phone, text) => {
         var f = Date.now(),
-        j = setTimeout(function() {
-        if (Date.now() - f > 1250)
-            return;
-        alert('WA not installed')
-        }, 1e3);
-      };
+            j = setTimeout(function() {
+                if (Date.now() - f > 1250)
+                    return;
+                alert('WA not installed')
+            }, 1e3);
+    };
 
     const lanChangeHandler = e => {
         // const languageLabel = e.target.closest('input');
@@ -66,12 +65,12 @@ const Sidebar = ({assets, sidebar, isAuthenticated, logout, changeFilter, filter
     useEffect(() => {
         whatsappRef.current && whatsappRef.current.addEventListener('click', function() {
             var f = Date.now(),
-              j = setTimeout(function() {
-                if (Date.now() - f > 1250)
-                  return;
-                alert('WA not installed')
-              }, 1e3);
-          })
+                j = setTimeout(function() {
+                    if (Date.now() - f > 1250)
+                        return;
+                    alert('WA not installed')
+                }, 1e3);
+        })
     }, []);
 
     return (
@@ -81,34 +80,34 @@ const Sidebar = ({assets, sidebar, isAuthenticated, logout, changeFilter, filter
                     <img src={assets?.logoPath && assets.logoPath} />
                 </div>
                 <div className="Sidebar__links">
-                    <Link to={'/about'} className="Sidebar__link">
-                        <div className="Sidebar__link--main">
+                    <Link role={'sidebar__link'} to={'/about'} className="Sidebar__link">
+                        <div role={'about'} className="Sidebar__link--main">
                             <i className="fa-solid fa-circle-exclamation"></i>
                             <p>{t('who we are')}</p>
                         </div>
                     </Link>
-                    <div className="Sidebar__link">
-                        <div onClick={() => setLanShow(!langShow)} className="Sidebar__link--main">
+                    <div role={'sidebar__link'} className="Sidebar__link">
+                        <div role={'language'} onClick={() => setLanShow(!langShow)} className="Sidebar__link--main">
                             <i className="fa-solid fa-globe"></i>
                             <p style={{direction: 'rtl'}}>اللغة-השפה</p>
                         </div>
-                        <form onClick={lanChangeHandler} className={`Sidebar__sublinks Sidebar__lan--form ${langShow && 'Sidebar__sublinks--active'}`}>
-                            <div className="Sidebar__sublinks--element">
+                        <form role={'language__form'} onClick={lanChangeHandler} className={`Sidebar__sublinks Sidebar__lan--form ${langShow && 'Sidebar__sublinks--active'}`}>
+                            <div role={'language__item'} className="Sidebar__sublinks--element">
                                 <input checked={lan === 'ar'} value={'ar'} name={'language'} type="radio"/>
                                 <label htmlFor="{'language'}">العربية</label>
                             </div>
-                            <div className="Sidebar__sublinks--element">
+                            <div role={'language__item'} className="Sidebar__sublinks--element">
                                 <input checked={lan === 'he'} value={'he'} type="radio" name={'language'}/>
                                 <label htmlFor="{'language'}">עִברִית</label>
                             </div>
                         </form>
                     </div>
-                    <Link to={'#'} className="Sidebar__link">
-                        <div onClick={() => setFilterShow(!filterShow)} className="Sidebar__link--main">
+                    <Link role={'sidebar__link'} to={'#'} className="Sidebar__link">
+                        <div role={'filter'} onClick={() => setFilterShow(!filterShow)} className="Sidebar__link--main">
                             <i className="fa-regular fa-images"></i>
                             <p>{t('filter')}</p>
                         </div>
-                        <form onClick={filterHandleChange} className={`Sidebar__sublinks ${filterShow && 'Sidebar__sublinks--active'}`}>
+                        <form role={'filter__form'} onClick={filterHandleChange} className={`Sidebar__sublinks ${filterShow && 'Sidebar__sublinks--active'}`}>
                             {/*{*/}
                             {/*    t("filter array", {returnObjects: true}).map(f => (*/}
                             {/*        <div className="Sidebar__sublinks--element">*/}
@@ -117,49 +116,25 @@ const Sidebar = ({assets, sidebar, isAuthenticated, logout, changeFilter, filter
                             {/*        </div>*/}
                             {/*    ))*/}
                             {/*}*/}
-                            <div className="Sidebar__sublinks--element">
+                            <div role={'filter__item'} className="Sidebar__sublinks--element">
                                 <input checked={currFilter === 'NONE'} value={'NONE'} type="radio" name={'filter'}/>
                                 <label htmlFor="{'filter'}">{t('filter array', {returnObjects: true})[0]}</label>
                             </div>
-                            <div className="Sidebar__sublinks--element">
+                            <div role={'filter__item'} className="Sidebar__sublinks--element">
                                 <input checked={currFilter === 'SERVICE'} value={'SERVICE'} type="radio" name={'filter'}/>
                                 <label htmlFor="{'filter'}">{t('filter array', {returnObjects: true})[1]}</label>
                             </div>
-                            <div className="Sidebar__sublinks--element">
+                            <div role={'filter__item'} className="Sidebar__sublinks--element">
                                 <input checked={currFilter === 'RENT'} value={'RENT'} type="radio" name={'filter'}/>
                                 <label htmlFor="{'filter'}">{t('filter array', {returnObjects: true})[2]}</label>
                             </div>
-                            <div className="Sidebar__sublinks--element">
+                            <div role={'filter__item'} className="Sidebar__sublinks--element">
                                 <input checked={currFilter === 'SALE'} value={'SALE'} type="radio" name={'filter'}/>
                                 <label htmlFor="{'filter'}">{t('filter array', {returnObjects: true})[3]}</label>
                             </div>
 
                         </form>
                     </Link>
-                    <div className={`Sidebar__link ${socialShow && 'Sidebar__link--active'}`}>
-                        <div onClick={() => setSocialShow(!socialShow)} className="Sidebar__link--main">
-                            <i className="fa-regular fa-images"></i>
-                            <p>{t('contactUs')}</p>
-                        </div>
-                        <div className={`Sidebar__sublinks ${socialShow && 'Sidebar__sublinks--active'}`}>
-                            <a href={assets.facebookLink} target={'_blank'} className="Sidebar__sublinks--socials-social">
-                                <span className={'Sidebar__socials--facebook'}><i className="fa-brands fa-facebook"></i></span>
-                                <span>{t("facebook")}</span>
-                            </a>
-                            <a href={assets.instagramLink} target={'_blank'} className="Sidebar__sublinks--socials-social">
-                                <span className={'Sidebar__socials--instagram'}><i class="fa-brands fa-instagram"></i></span>
-                                <span>{t("instagram")}</span>
-                            </a>
-                            <a href={assets.tiktokLink} target={'_blank'} className="Sidebar__sublinks--socials-social">
-                                <span className={'Sidebar__socials--tiktok'}><i class="fa-brands fa-tiktok"></i></span>
-                                <span>{t("tiktok")}</span>
-                            </a>
-                            <a href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=` : `http://web.whatsapp.com/send?phone=${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=`)} target='_blank' className="Sidebar__sublinks--socials-social">
-                                <span className={'Sidebar__socials--whatsapp'}><i class="fa-brands fa-whatsapp"></i></span>
-                                <span>{t("whatsapp")}</span>
-                            </a>
-                        </div>
-                    </div>
                     {/* <a onClick={async e => {
                         detectWhatsapp('201008549612', 'test').then(has => {
                             alert('You ' + (has? 'have whatsapp' : "don't have whatsapp"));
@@ -170,23 +145,23 @@ const Sidebar = ({assets, sidebar, isAuthenticated, logout, changeFilter, filter
                             <p>{t('join')}</p>
                         </div>
                     </a> */}
-                    <a href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=` : `http://web.whatsapp.com/send?phone=${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=`)} target='_blank' className="Sidebar__link">
-                        <div className="Sidebar__link--main">
+                    <a role={'sidebar__link'} href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=` : `http://web.whatsapp.com/send?phone=${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=`)} target='_blank' className="Sidebar__link">
+                        <div role={'join__takeme'} className="Sidebar__link--main">
                             <i className="fa-solid fa-handshake"></i>
                             <p>{t('join')}</p>
                         </div>
                     </a>
-                    <Link to={'/contract'} className="Sidebar__link">
-                        <div className="Sidebar__link--main">
+                    <Link role={'sidebar__link'} to={'/contract'} className="Sidebar__link">
+                        <div role={'conditions'} className="Sidebar__link--main">
                             <i className="fa-regular fa-copyright"></i>
                             <p>{t('condition')}</p>
                         </div>
                     </Link>
                     {
                         isAuthenticated ? (
-                            <p onClick={e => logout()} className="Sidebar__link Sidebar__register Sidebar__logout">{t('logout')}</p>
+                            <p role={'sidebar__link'} onClick={e => logout()} className="Sidebar__link Sidebar__register Sidebar__logout">{t('logout')}</p>
                         ) : (
-                            <Link className={'Sidebar__link Sidebar__register'} to={'/login'}>{t("login")}</Link>
+                            <Link role={'sidebar__link'} className={'Sidebar__link Sidebar__register'} to={'/login'}>{t("login")}</Link>
                         )
                     }
                 </div>
@@ -195,14 +170,15 @@ const Sidebar = ({assets, sidebar, isAuthenticated, logout, changeFilter, filter
     );
 };
 
-const mapStateToProps = state => ({
-    assets: state.assets,
-    lan: state.categories.lan,
-    categories: state.categories.categories,
-    phoneCode: state.assets.phoneCountryCode,
-    phoneNum: state.assets.phone,
-    filter: state.categories.filter,
-    isAuthenticated: state.login.isAuthenticated
-});
+// const mapStateToProps = state => ({
+//     assets: state.assets,
+//     lan: state.categories.lan,
+//     categories: state.categories.categories,
+//     phoneCode: state.assets.phoneCountryCode,
+//     phoneNum: state.assets.phone,
+//     filter: state.categories.filter,
+//     isAuthenticated: state.login.isAuthenticated
+// });
 
-export default connect(mapStateToProps, {changeLan, changeFilter, logout}) (Sidebar);
+export default Sidebar;
+// export default connect(mapStateToProps, {changeLan, changeFilter, logout}) (Sidebar);

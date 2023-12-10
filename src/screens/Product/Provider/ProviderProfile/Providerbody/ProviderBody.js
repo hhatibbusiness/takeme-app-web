@@ -5,12 +5,12 @@ import {useTranslation} from "react-i18next";
 import copy from "copy-to-clipboard";
 import {getAnalytics, logEvent} from "firebase/analytics";
 import {Link} from "react-router-dom";
-import {openPopup, changePopupProduct} from "../../../../../store/actions/ui.actions";
+import {openPopup, changePopupProduct, changeDestination} from "../../../../../store/actions/ui.actions";
 import {connect} from "react-redux";
 import providerRatingScore
     from "../../../../Provider/ProviderRatings/ProviderRating/ProviderRatingScore/ProviderRatingScore";
 
-const ProviderBody = ({provider: p, activeProduct, socials, prov, openPopup, changePopupProduct}) => {
+const ProviderBody = ({provider: p, activeProduct, changeDestination, socials, prov, openPopup, changePopupProduct}) => {
     const [array, setArray] = useState([]);
     const [copied, setCopied] = useState('')
 
@@ -25,9 +25,12 @@ const ProviderBody = ({provider: p, activeProduct, socials, prov, openPopup, cha
         const floorNumber = Math.floor(rating);
         const ceil = Math.ceil(rating);
         if(floorNumber == ceil) {
-            return <i style={{color: `${i < p.ratingsScore && 'gold'}`}} className={`fa-solid fa-star`}></i>
+            console.log(floorNumber, ceil);
+            console.log('star is empty')
+            return <i style={{color: `${i < p.ratingsScore && 'gold'}`}} className={`${i < ceil ? 'fa-solid' : 'fa-regular'} fa-star`}></i>
         } else {
-            return <i style={{color: `${i < ceil && 'gold'}`, transform: 'rotateY(180deg)'}} className={`fa-solid ${(i <= floorNumber - 1 || i > ceil - 1) ? 'fa-star' : 'fa-star-half-stroke'} `}></i>;
+            console.log('star is solid')
+            return <i style={{color: `${i < ceil && 'gold'}`, transform: 'rotateY(180deg)'}} className={`${i <= ceil - 1 ? 'fa-solid' : 'fa-regular'} ${(i <= floorNumber - 1 || i > ceil - 1) ? 'fa-star' : 'fa-star-half-stroke'}`}></i>;
         }
     }
 
@@ -62,12 +65,16 @@ const ProviderBody = ({provider: p, activeProduct, socials, prov, openPopup, cha
             </div>
             <div className="ProviderBody__left">
                 {
+                    p?.productsCountMsg && <p className={'ProviderBody__msg'}>{p.productsCountMsg}</p>
+                }
+                {
                     p?.ratingsCount > 0 ? (
                         <p onClick={e => {
                             e.stopPropagation();
                             e.preventDefault();
                             changePopupProduct(activeProduct);
                             openPopup();
+                            changeDestination(true);
                         }} className={'ProviderBody__score'}>
                             {
                                 p?.ratingsScore && p?.ratingsScore > 0 && (
@@ -82,16 +89,14 @@ const ProviderBody = ({provider: p, activeProduct, socials, prov, openPopup, cha
                             }<span>({p?.ratingsCount && p.ratingsCount})</span>
                         </p>
                     ) : (
-                        <p onClick={e => {
+                        <p style={{color: `var(--main-color-green-dark-1)`, fontWeight: 'bold', columnGap: '3px', display: 'flex', alignItems: "center"}} onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();
                             changePopupProduct(activeProduct);
                             openPopup();
-                        }}>{t("add-rating")}</p>
+                            changeDestination(true);
+                        }}><i className="fa-solid fa-plus"></i>{t("add-rating")}</p>
                     )
-                }
-                {
-                    p?.productsCountMsg && <p className={'ProviderBody__msg'}>{p.productsCountMsg}</p>
                 }
             </div>
 
@@ -103,4 +108,4 @@ const mapStateToProps = state => ({
 
 })
 
-export default connect(mapStateToProps, {openPopup, changePopupProduct}) (ProviderBody);
+export default connect(mapStateToProps, {openPopup, changeDestination, changePopupProduct}) (ProviderBody);

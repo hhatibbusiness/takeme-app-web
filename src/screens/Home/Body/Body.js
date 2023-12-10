@@ -25,7 +25,7 @@ const Body = ({ fetchCategories, loadingCategories, lan, page}) => {
                     <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
                     <Backdrop sidebar={sidebar} setSidebar={setSidebar} />
                     <BodyContainerComponent />
-                    <Footer />
+                    {/*<Footer />*/}
                     <Outlet />
                 </CategoryError>
             }

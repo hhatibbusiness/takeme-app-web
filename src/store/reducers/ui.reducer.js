@@ -3,7 +3,8 @@ import {getAnalytics, logEvent} from "firebase/analytics";
 
 const initialState = {
     currentProduct: null,
-    openPopup: false
+    openPopup: false,
+    rating: false
 }
 
 export default (state = initialState, action) => {
@@ -27,6 +28,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 openPopup: false
+            }
+        case actionTypes.CHANGE_DESTINATION:
+            return {
+                ...state,
+                rating: action.destination
             }
         default:
             return state;

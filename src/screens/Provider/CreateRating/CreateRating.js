@@ -38,6 +38,7 @@ const CreateRating = ({addingRating, registerError, error, errorMessage, isAuthe
         // const ratingComment = inputRef?.current?.innerText;
         const comments = commentRef?.current?.innerText;
         if(comments.length == 0) return registerError(t('commentRequired'));
+        if(ratingScore == 0 || ratingScore == null) return registerError(t("ratingscore"));
         const data = {
             locale: lan,
             customerId: user.id,

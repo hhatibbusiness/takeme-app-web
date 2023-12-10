@@ -34,9 +34,11 @@
       background: white;
       padding: 10px !important;
 
+
       .LoadingProduct__image {
         height: 200px !important;
         width: 200px !important;
+        margin-bottom: 15px;
       }
     }
 
@@ -55,6 +57,7 @@
       //padding: 70px 0 10px 0;
       height: 100%;
       position: relative;
+
 
       .RenderImgError {
         position: absolute;
@@ -131,6 +134,124 @@
     height: 100%;
     background: var(--sec-color-shades-5);
     opacity: 0.5;
+  }
+}
+
+.Product__details {
+  width: 100%;
+  //gap: 10px;
+  font-size: 18px;
+  direction: rtl;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-bottom: 18px;
+}
+
+.Product__details--prices {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.Product__details--sale-message {
+  color: var(--sec-color-shades-6);
+  font-size: 14px;
+}
+
+.Product__details--sale-starts {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--main-color-green-dark-1);
+}
+
+.Product__details--icon {
+  font-weight: normal;
+  font-size: 16px;
+  color: var(--main-color-green-dark-1);
+}
+
+.Product__details--description {
+  font-size: 15px;
+  word-break: break-word;
+  font-weight: bold;
+  color: var(--sec-color-shades-8);
+  max-height: 20px;
+  overflow: hidden;
+}
+
+.Product__details--title {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.Product__price--header {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.Product__price {
+  font-size: 15px;
+  opacity: 0.9;
+}
+
+.Product__details--hide {
+  display: none;
+}
+
+.Product__visible {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+.Product__hidden {
+  height: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 340px) {
+  .Product__details--prices {
+    flex-direction: column;
+    gap: 0;
+    font-size: 14px !important;
+
+  }
+
+}
+
+@media (max-width: 650px) {
+
+  .Product__details--sale-message {
+    font-size: 12px !important;
+  }
+
+  .Product__details--sale-starts {
+    font-size: 14px;
+  }
+
+}
+
+@media (max-width: 410px) {
+  .Product__details--sale-message {
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 370px) {
+  .Product__details--prices {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .Product__details--sale:nth-child(2) {
+    gap: 0;
+    font-size: 12px !important;
+    display: none;
+  }
+
+  .ProductsDetails__container {
   }
 }
 

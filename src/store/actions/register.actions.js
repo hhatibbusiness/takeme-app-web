@@ -29,7 +29,8 @@ export const sendEmailVerifyCodeToCustomer = data => async dispatch => {
         })
         dispatch(startSendingEmailVerifyCodeToCustomer);
         const formData = {
-            email: data.email
+            email: data.email,
+            phone: data.phone
         };
         const res = await axios.post(`${BASE_URL}endpoints/email_verify?locale=${data.lan}`, data);
         if(res.status == 200 && res.data.status == true) {
@@ -46,6 +47,12 @@ export const sendEmailVerifyCodeToCustomer = data => async dispatch => {
         dispatch(endSendingEmailVerifyCodeToCustomer);
     } catch (e) {
         console.error(e.message);
+        dispatch(endSendingEmailVerifyCodeToCustomer);
+        dispatch({
+            type: LOGIN_ERROR,
+            message: e?.response?.data?.message || e?.message
+        });
+        data.setStep(1);
     }
 }
 
@@ -85,6 +92,10 @@ export const sendCodeToServer = data => async dispatch => {
     } catch (e) {
         console.error(e.message);
         dispatch(endSendingCodeToServer);
+        dispatch({
+            type: LOGIN_ERROR,
+            message: e?.response?.data?.message || e?.message
+        });
     }
 }
 
@@ -137,7 +148,7 @@ export const registerCustomer = data => async disptch => {
         disptch(endRegisteringCustomer);
         disptch({
             type: LOGIN_ERROR,
-            message: e?.response?.data?.message
+            message: e?.response?.data?.message || e?.message
         });
     }
 }
