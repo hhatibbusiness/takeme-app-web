@@ -64,7 +64,7 @@ const Products = ({products, setGalleryOpen, setIndex, value, loadingProducts, p
                 } */}
 
                 {
-                    popup && currentProduct && <ProductsDetails setCurrentProduct={setCurrentProduct} setPopup={setPopoup} currentProduct={currentProduct} />
+                    popup && currentProduct && <ProductsDetails setCurrentProduct={setCurrentProduct} setPopup={setPopoup} currentProduct={currentProduct} popup={popup} />
                 }
             </div>
         </div>

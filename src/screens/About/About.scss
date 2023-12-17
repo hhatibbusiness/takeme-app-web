@@ -7,7 +7,7 @@
   z-index: 600;
   background: white;
   padding-top: 50px;
-  overflow-y: scroll;
+  overflow-y: auto;
 
 
   .AboutScreen__content {
@@ -20,9 +20,10 @@
     }
 
     li {
-      padding: 3px;
+      padding: 5px;
       &:before {
         content: '';
+        display: none;
       }
     }
   }
@@ -31,3 +32,8 @@
     direction: ltr;
   }
 }
+
+//.right {
+//  margin: 0 !important;
+//  padding: 0 !important;
+//}

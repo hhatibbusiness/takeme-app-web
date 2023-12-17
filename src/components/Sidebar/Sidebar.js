@@ -1,18 +1,21 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './Sidebar.scss';
 import {connect} from "react-redux";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {changeLan, changeFilter} from "../../store/actions/categories.action";
 import i18next from "i18next";
 import {useTranslation} from 'react-i18next';
 import {logout} from "../../store/actions/login.action";
+import history from "../../history/history";
+import {getAnalytics, logEvent} from "firebase/analytics";
 
-const Sidebar = ({assets, sidebar, isAuthenticated, logout, changeFilter, filter, lan, changeLan, categories}) => {
+const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, changeFilter, filter, lan, changeLan, categories}) => {
     const [langShow, setLanShow] = useState(false);
     const [filterShow, setFilterShow] = useState(false);
     const [socialShow, setSocialShow] = useState(false);
     const [currFilter, setCurrFilter] = useState(filter && filter);
     const whatsappRef = useRef();
+    const navigate = useNavigate();
 
     const {t} = useTranslation();
 
@@ -45,22 +48,28 @@ const Sidebar = ({assets, sidebar, isAuthenticated, logout, changeFilter, filter
         // changeLan(languageLabel.value, id);
         // i18next.changeLanguage(languageLabel.value);
         const lanFormElement = e.target.closest('.Sidebar__sublinks--element');
-        if(!lanFormElement) return;
+        if(!lanFormElement) return alert('There\'s not language');
+        console.log(lanFormElement)
         const input = lanFormElement.querySelector('input');
         if(!input) return;
+        console.log(input);
         const id = categories[0]?.id;
-        if(!id) return;
+        console.log(id);
+        // if(!id) return;
         changeLan(input.value, id);
         i18next.changeLanguage(input.value);
-
     }
 
-    const filterHandleChange = e => {
+    const filterHandleChange = async e => {
         const filterElement = e.target.closest('.Sidebar__sublinks--element');
         if(!filterElement) return;
         const input = filterElement.querySelector('input');
         if(!input) return;
-        changeFilter(input.value);
+        const id = categories[0]?.id;
+        const containerDiv = document.querySelector('.Products');
+        containerDiv.style.height = `${containerDiv.offsetHeight}px`;
+        const res = await changeFilter(id, lan, 0, navigate, input.value);
+        containerDiv.style.height = 'auto';
     }
 
     useEffect(() => {
@@ -73,6 +82,18 @@ const Sidebar = ({assets, sidebar, isAuthenticated, logout, changeFilter, filter
               }, 1e3);
           })
     }, []);
+
+    useEffect(() => {
+
+        // window.addEventListener('popstate', e => history.go(1));
+        if(sidebar) {
+            window.history.pushState(null, null, window.location.href);
+            window.addEventListener('popstate', e => {
+                e.preventDefault();
+                setSidebar(false);
+            });
+        }
+    }, [sidebar]);
 
     return (
         <div className={`Sidebar ${sidebar && 'Sidebar__active'}`}>
@@ -94,11 +115,11 @@ const Sidebar = ({assets, sidebar, isAuthenticated, logout, changeFilter, filter
                         </div>
                         <form onClick={lanChangeHandler} className={`Sidebar__sublinks Sidebar__lan--form ${langShow && 'Sidebar__sublinks--active'}`}>
                             <div className="Sidebar__sublinks--element">
-                                <input checked={lan === 'ar'} value={'ar'} name={'language'} type="radio"/>
+                                <input checked={lan == 'ar'} value={'ar'} name={'language'} type="radio"/>
                                 <label htmlFor="{'language'}">العربية</label>
                             </div>
                             <div className="Sidebar__sublinks--element">
-                                <input checked={lan === 'he'} value={'he'} type="radio" name={'language'}/>
+                                <input checked={lan == 'he'} value={'he'} type="radio" name={'language'}/>
                                 <label htmlFor="{'language'}">עִברִית</label>
                             </div>
                         </form>
@@ -202,7 +223,8 @@ const mapStateToProps = state => ({
     phoneCode: state.assets.phoneCountryCode,
     phoneNum: state.assets.phone,
     filter: state.categories.filter,
-    isAuthenticated: state.login.isAuthenticated
+    isAuthenticated: state.login.isAuthenticated,
+    page: state.categories.page
 });
 
 export default connect(mapStateToProps, {changeLan, changeFilter, logout}) (Sidebar);

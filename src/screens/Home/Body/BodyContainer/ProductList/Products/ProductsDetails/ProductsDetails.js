@@ -8,8 +8,9 @@ import axios from "axios";
 import RenderImgError from "../../../../../../../components/RenderImgError/RenderImgError";
 import LoadingProduct from "../../../../../../../components/LoadingProduct/LoadingProduct";
 import {useNavigate} from "react-router-dom";
+import history from "../../../../../../../history/history";
 
-const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) => {
+const ProductsDetails = ({currentProduct, setPopup, popup, setCurrentProduct, value}) => {
     const [imgUI, setImgUI] = useState(true);
     const [imgLoaded, setImgLoaded] = useState(false);
     const [error, setError] = useState(false);
@@ -39,6 +40,18 @@ const ProductsDetails = ({currentProduct, setPopup, setCurrentProduct, value}) =
             setImgUI(prevState => imgUI);
         }
     }
+
+    useEffect(() => {
+
+        // window.addEventListener('popstate', e => history.go(1));
+        if(popup) {
+            window.history.pushState(null, null, window.location.href);
+            window.addEventListener('popstate', e => {
+                e.preventDefault();
+                setPopup(false);
+            });
+        }
+    }, [setPopup]);
 
     return (
         <div className={'ProductsDetails'}>

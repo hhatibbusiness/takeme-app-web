@@ -10,6 +10,10 @@
   overflow-y: scroll;
   direction: rtl;
 
+  .Mid h3 {
+    font-size: 18px !important;
+  }
+
 
   .ContractScreen__content {
     //width: 90%;
@@ -17,8 +21,9 @@
     //margin: auto;
 
     ul {
-      margin-right: 3px;
       width: 100%;
+      margin: 0;
+      margin-bottom: 3px;
     }
 
     ol {
@@ -30,6 +35,7 @@
       padding: 3px;
       &:before {
         content: '';
+        display: none;
       }
     }
   }

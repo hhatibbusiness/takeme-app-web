@@ -22,7 +22,7 @@ const Home = ({lan, fetchCategories, filter}) => {
 
     useEffect(() => {
         fetchCategories(lan, filter, navigate);
-    }, [filter]);
+    }, []);
 
     return (
         <div className={'Home'}>

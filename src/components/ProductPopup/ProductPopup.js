@@ -16,6 +16,8 @@ import {getAnalytics, logEvent} from "firebase/analytics";
 import ProviderRatings from "../../screens/Provider/ProviderRatings/ProviderRatings";
 import {fetchProviderRatigs} from "../../store/actions/ratings.actions";
 import CreateRating from "../../screens/Provider/CreateRating/CreateRating";
+import sidebar from "../Sidebar/Sidebar";
+
 
 const ProductPopup = ({togglePopup, isRatings, currentProduct, lan, fetchProviderRatigs, openPopup, term, Opopup, closePopup}) => {
     const [short, setShort] = useState(true);
@@ -39,23 +41,74 @@ const ProductPopup = ({togglePopup, isRatings, currentProduct, lan, fetchProvide
         }
     }
 
+    const handleBackButton = (event) => {
+        // Check if the modal is open and close it
+        //     event.preventDefault();
+            window.history.pushState(null, null, window.location.pathname);
+            closePopup();
+            // history.back();
+    };
+
+    const [locationKeys, setLocationKeys] = useState([]);
+
+
+    // useEffect(() => {
+    //     return history.listen((location) => {
+    //         console.log('Back button hello!')
+    //         if (history.action === "PUSH") {
+    //             setLocationKeys([location.key]);
+    //             console.log('First link pushed!')
+    //         }
+    //
+    //         if (history.action === "POP") {
+    //             if (locationKeys[1] === location.key) {
+    //                 if(openPopup) {
+    //                     closePopup();
+    //                 }
+    //                 setLocationKeys(([_, ...keys]) => keys);
+    //                 console.log('Forward Event!')
+    //                 // Handle forward event
+    //             } else {
+    //                 console.log('Back Event!')
+    //                 if(openPopup) {
+    //                     return closePopup();
+    //                 }
+    //                 setLocationKeys((keys) => [location.key, ...keys]);
+    //
+    //                 // Handle back event
+    //             }
+    //         }
+    //     });
+    //     return () => {
+    //
+    //     }
+    // }, [locationKeys, openPopup]);
+
+    // useEffect(() => {
+    //     return history.listen(() => { // listen
+    //         if (history.action === "POP") {
+    //             history.replace("/login");
+    //         }
+    //     });
+    // }, [history]);
+
     useEffect(() => {
 
-        window.addEventListener('popstate', e => history.go(1));
+        // window.addEventListener('popstate', e => history.go(1));
         if(openPopup) {
             window.history.pushState(null, null, window.location.href);
             window.addEventListener('popstate', e => {
                 e.preventDefault();
                 closePopup();
-                const analytics = getAnalytics();
-                logEvent(analytics, 'collapse', {
-                    productName: currentProduct.name,
-                    productId: currentProduct.id,
-                })
+                console.log(history);
             });
         }
 
-
+        return () => {
+            window.removeEventListener('popstate', () => {
+                console.log('Hello there!');
+            });
+        }
     }, [openPopup]);
 
     useEffect(() => {

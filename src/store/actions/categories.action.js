@@ -319,6 +319,7 @@ export const fetchCategoryProducts = (id, lan, page, filter, navigate) => async 
         }
         dispatch(errorInactive)
         if(page == 0) dispatch(endFetchingProducts);
+        return res;
     } catch (e) {
         console.error(e?.response?.status);
         if(e?.response?.status == 401) {
@@ -360,10 +361,20 @@ export const resetPageNumber = () => ({
     type: RESET_PAGE_NUMBER
 });
 
-export const changeFilter = filter => ({
-    type: CHANGE_FILTER,
-    filter: filter
-});
+export const changeFilter = (id, lan, page, navigate, filter) => async dispatch => {
+    try {
+        dispatch({
+            type: CHANGE_FILTER,
+            filter: filter
+        });
+        dispatch(resetPageNumber());
+        const res = await dispatch(fetchCategoryProducts(id, lan, page, filter, navigate));
+        return res;
+    } catch (e) {
+        console.log(e.message);
+    }
+
+};
 
 export const startLoadingMoreProductTypes = {
     type: START_LOADING_MORE_PRODUCT_TYPES

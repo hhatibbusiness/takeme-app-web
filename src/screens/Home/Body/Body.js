@@ -12,7 +12,9 @@ import './Body.scss'
 import {Outlet} from "react-router-dom";
 import BodySub from "./BodyContainer/BodySub/BodySub";
 import SearchScreen from "../../SearchScreen/SearchScreen";
-const Body = ({ fetchCategories, loadingCategories, lan, page}) => {
+import {closePopup} from "../../../store/actions/ui.actions";
+
+const Body = ({ fetchCategories, loadingCategories, lan, page, openPopup, closePopup}) => {
     const [sidebar, setSidebar] = useState(false);
 
     return (
@@ -37,7 +39,8 @@ const mapStateToProps = state => ({
     loadingCategories: state.categories.loadingCategories,
     categoryError: state.categories.categoryError,
     lan: state.categories.lan,
-    page: state.categories.page
+    page: state.categories.page,
+    openPopup: state.ui.openPopup
 })
 
-export default connect(mapStateToProps, {fetchCategories}) (Body);
+export default connect(mapStateToProps, {fetchCategories, closePopup}) (Body);
