@@ -2,3 +2,19 @@
   //object-fit: scale-down;
   object-fit: cover;
 }
+
+.Img__container {
+  height: 100%;
+  width: 100%;
+  div {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.img__gallery {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+}

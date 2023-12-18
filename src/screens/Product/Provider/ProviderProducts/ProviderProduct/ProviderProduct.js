@@ -14,8 +14,9 @@ import ProviderProductVariables from "./ProviderProductVariables/ProviderProduct
 import {togglePopup, changeDestination} from "../../../../../store/actions/ui.actions";
 import {changePopupProduct} from "../../../../../store/actions/ui.actions";
 import {getAnalytics, logEvent} from "firebase/analytics";
+import {closeGallery} from "../../../../../store/actions/product.actions";
 
-const ProviderProduct = ({imgRef, provider, changeDestination, arrayRef, providerOrNot, productTypesCount, search, providerRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
+const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, arrayRef, providerOrNot, productTypesCount, search, providerRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
     //test
     const [error, setError] = useState(false);
     const [loaded, setLoaded] = useState(false);
@@ -146,7 +147,10 @@ const ProviderProduct = ({imgRef, provider, changeDestination, arrayRef, provide
                 {
                     imgUI && (
                             <div className={`${imgLoaded ? 'ProviderProduct__visible' : 'ProviderProduct__hidden'}`}>
-                                <div onClick={() => openGallery(product)} className={'ProviderProduct__body--container'}>
+                                <div onClick={() => {
+                                    openGallery(product);
+                                    setGallery(true);
+                                }} className={'ProviderProduct__body--container'}>
                                     <div ref={imgContainerRef} className="ProviderProduct__image--container">
                                         <Img setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath}/>
                                         {loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} imgLoaderRef={imgLoaderRef} failureRef={failureRef} elemRef={imgContainerRef} /> }

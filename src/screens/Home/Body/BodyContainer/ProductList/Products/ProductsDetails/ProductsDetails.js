@@ -59,6 +59,7 @@ const ProductsDetails = ({currentProduct, setPopup, popup, setCurrentProduct, va
                 <div onClick={() => {
                     setPopup(false);
                     setCurrentProduct(null);
+                    history.back();
                 }} className="ProductsDetails__close">
                     <i className="fa-solid fa-xmark"></i>
                 </div>

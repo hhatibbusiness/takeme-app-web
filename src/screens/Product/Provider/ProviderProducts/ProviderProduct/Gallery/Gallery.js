@@ -6,8 +6,9 @@ import ProviderProduct from "../ProviderProduct";
 import GalleryItem from "./GalleryItem/GalleryItem";
 import Dots from "../../Dots/Dots";
 import {getAnalytics, logEvent} from "firebase/analytics";
+import history from "../../../../../../history/history";
 
-const Gallery = ({product, closeGallery}) => {
+const Gallery = ({product, setGallery, closeGallery, gallery}) => {
     const [active, setActive] = useState(0);
 
     useEffect(() => {
@@ -25,6 +26,26 @@ const Gallery = ({product, closeGallery}) => {
             releaseStyles();
         }
     }, []);
+
+    useEffect(() => {
+
+        // window.addEventListener('popstate', e => history.go(1));
+        if(gallery) {
+            window.history.pushState(null, null, window.location.href);
+            window.addEventListener('popstate', e => {
+                e.preventDefault();
+                closeGallery();
+                setGallery(false);
+                console.log(history);
+            });
+        }
+
+        return () => {
+            window.removeEventListener('popstate', () => {
+                console.log('Hello there!');
+            });
+        }
+    }, [gallery]);
 
     return (
         <div className={'Gallery'}>
@@ -70,7 +91,9 @@ const Gallery = ({product, closeGallery}) => {
                 product?.images?.length > 1 && <Dots color={'white'} products={product?.images && product?.images} activeIndex={active}  />
             }
             <div onClick={() => {
-                closeGallery()
+                closeGallery();
+                history.back();
+                setGallery(false);
             }} className={'Gallery__close'}><i className="fa-solid fa-xmark"></i></div>
         </div>
     );

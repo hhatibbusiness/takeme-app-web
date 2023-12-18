@@ -14,7 +14,7 @@ import {useTranslation} from "react-i18next";
 import ProductPopup from "../../components/ProductPopup/ProductPopup";
 import {openPopup, togglePopup, changePopupProduct} from "../../store/actions/ui.actions";
 
-const Product = ({galleryProduct, openPopup, togglePopup, changePopupProduct, filter, closeGallery, fetchProductDetails, more, page, lan, providers, resetProductData, fetchProductTypeDetails, productType, loadingProductsProviders, gallery, openGallery}) => {
+const Product = ({galleryProduct, openPopup, togglePopup, changePopupProduct, filter, closeGallery, fetchProductDetails, more, page, lan, providers, resetProductData, fetchProductTypeDetails, productType, loadingProductsProviders, openGallery}) => {
     const [moreLoading, setMoreLoading] = useState(true);
     const productRef = useRef();
     const params = useParams();
@@ -88,10 +88,8 @@ const Product = ({galleryProduct, openPopup, togglePopup, changePopupProduct, fi
                             {
                                 providers.map((p, i) => (
                                     <>
-                                        <Provider providerOrNot={false} link provider={p} key={p.id} openGallery={openGallery} />
-                                        {
-                                            gallery && <Gallery product={galleryProduct} closeGallery={closeGallery} />
-                                        }
+                                        <Provider closeGallery={closeGallery} galleryProduct={galleryProduct} providerOrNot={false} link provider={p} key={p.id} openGallery={openGallery} />
+
                                     </>
                                 ))
                             }
@@ -116,7 +114,7 @@ const mapStateToProps = state => ({
     lan: state.categories.lan,
     productType: state.product.product,
     loadingProductsProviders: state.product.loadingProducts,
-    gallery: state.product.openGallery,
+    // gallery: state.product.openGallery,
     more: state.product.more,
     galleryProduct: state.product.galleryProduct,
     filter: state.categories.filter,

@@ -36,7 +36,7 @@ const ProductPopup = ({togglePopup, isRatings, currentProduct, lan, fetchProvide
                 if(duration == 0) return;
                 if(duration == 1) return t("rentDurationHour");
                 if(duration == 2) return t("twoHours");
-                else return `${duration} ${t("multipleHours")}`;
+                else return `${duration} ${t("MultipleHours")}`;
                 break;
         }
     }
@@ -246,6 +246,7 @@ const ProductPopup = ({togglePopup, isRatings, currentProduct, lan, fetchProvide
                                 <div onClick={e => {
                                     notFullHeight()
                                     togglePopup()
+                                    history.back();
                                 }} className="ProductPopup__product--close">
                                     <span><i className="fa-solid fa-xmark"></i></span>
                                 </div>
@@ -343,8 +344,15 @@ const ProductPopup = ({togglePopup, isRatings, currentProduct, lan, fetchProvide
                         )
                     }
 
-                    <ProviderRatings />
-                    <CreateRating currentProduct={currentProduct} />
+                    {
+                        isRatings && (
+                            <>
+                                <ProviderRatings />
+                                <CreateRating currentProduct={currentProduct} />
+                            </>
+
+                        )
+                    }
                 </div>
 
             </div>
@@ -355,7 +363,8 @@ const ProductPopup = ({togglePopup, isRatings, currentProduct, lan, fetchProvide
                 logEvent(analytics, 'collapse', {
                     productName: currentProduct.name,
                     productId: currentProduct.id,
-                })
+                });
+                history.back();
             }}></div>
         </div>
     );

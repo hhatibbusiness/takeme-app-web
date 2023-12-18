@@ -16,7 +16,7 @@ import {getAnalytics, logEvent} from "firebase/analytics";
 import ProductsTypeContainer from "./ProductsTypeContainer/ProductsTypeContainer";
 
 
-const ProviderProducts = ({products, providerRef, search, openGallery, setActiveProduct, providerOrNot, provider}) => {
+const ProviderProducts = ({products, setGallery, providerRef, search, openGallery, setActiveProduct, providerOrNot, provider}) => {
     const carouselRef = useRef();
     const imgRef = useRef();
     const [productsArray, setProductsArray] = useState([]);
@@ -124,7 +124,7 @@ const ProviderProducts = ({products, providerRef, search, openGallery, setActive
                 // )
                 providerOrNot ? Object.keys(productsArray).map((key, i) => Object.keys(productsArray).length > 0 ? (
                         <div ref={containerRef} className={'ProviderProducts__array'}>
-                            <ProductsTypeContainer arrayRef={containerRef} provider={provider} openGallery={openGallery} imgRef={imgRef} providerRef={providerRef} providerOrNot={providerOrNot} sliding={sliding} setSliding={setSliding} keyMap={key} productsArray={productsArray} />
+                            <ProductsTypeContainer setGallery={setGallery} arrayRef={containerRef} provider={provider} openGallery={openGallery} imgRef={imgRef} providerRef={providerRef} providerOrNot={providerOrNot} sliding={sliding} setSliding={setSliding} keyMap={key} productsArray={productsArray} />
                         </div>
                     ) : (
                         <Failure text={t('fail to load providers')} />
@@ -162,7 +162,7 @@ const ProviderProducts = ({products, providerRef, search, openGallery, setActive
                             {
                                 productsArray.map((p, i) => (
                                     <SwiperSlide className={'ProviderProducts__swiper'} key={i}>
-                                        <ProviderProduct arrayRef={containerRef} providerOrNot={providerOrNot}  providerRef={providerRef} sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} provider={provider} />
+                                        <ProviderProduct setGallery={setGallery} arrayRef={containerRef} providerOrNot={providerOrNot}  providerRef={providerRef} sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} provider={provider} />
                                     </SwiperSlide>
                                 ))
                             }

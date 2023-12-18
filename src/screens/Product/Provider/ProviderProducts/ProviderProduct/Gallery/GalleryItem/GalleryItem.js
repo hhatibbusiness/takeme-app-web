@@ -62,7 +62,7 @@ const GalleryItem = ({imgUrl}) => {
             {
                 imgUI && (
                     <>
-                        <Img setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={imgUrl.imagePath && imgUrl.imagePath}/>
+                        <Img gallery={true} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={imgUrl.imagePath && imgUrl.imagePath}/>
                         {loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} imgLoaderRef={imgLoaderRef} failureRef={failureRef} elemRef={imgContainerRef} /> }
                     </>
                 )

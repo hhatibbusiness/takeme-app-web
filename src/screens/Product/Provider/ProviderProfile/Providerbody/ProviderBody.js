@@ -4,21 +4,32 @@ import Socials from "../../Socials/Socials";
 import {useTranslation} from "react-i18next";
 import copy from "copy-to-clipboard";
 import {getAnalytics, logEvent} from "firebase/analytics";
-import {Link} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {openPopup, changePopupProduct, changeDestination} from "../../../../../store/actions/ui.actions";
 import {connect} from "react-redux";
 import providerRatingScore
     from "../../../../Provider/ProviderRatings/ProviderRating/ProviderRatingScore/ProviderRatingScore";
+import history from '../../../../../history/history';
+import {closePopup} from "../../../../../store/actions/ui.actions";
 
-const ProviderBody = ({provider: p, activeProduct, changeDestination, socials, prov, openPopup, changePopupProduct}) => {
+const ProviderBody = ({provider: p, activeProduct, isAuthenticated, changeDestination, socials, prov, openPopup, closePopup, changePopupProduct}) => {
     const [array, setArray] = useState([]);
     const [copied, setCopied] = useState('')
+    const [currentLocation, setCurrentLocation] = useState('');
 
     const {t} = useTranslation();
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const array = Array.from(Array(5).keys());
         setArray(array);
+    }, []);
+
+    useEffect(() => {
+        console.log(location.pathname);
+        setCurrentLocation(location.pathname);
     }, []);
 
     const renderStars = (rating, i) => {
@@ -72,6 +83,10 @@ const ProviderBody = ({provider: p, activeProduct, changeDestination, socials, p
                         <p onClick={e => {
                             e.stopPropagation();
                             e.preventDefault();
+                            if(!isAuthenticated) {
+                                closePopup();
+                                return navigate('/login', {state: {previousLocation: currentLocation}})
+                            };
                             changePopupProduct(activeProduct);
                             openPopup();
                             changeDestination(true);
@@ -105,7 +120,8 @@ const ProviderBody = ({provider: p, activeProduct, changeDestination, socials, p
 };
 
 const mapStateToProps = state => ({
+    isAuthenticated: state.login.isAuthenticated,
 
 })
 
-export default connect(mapStateToProps, {openPopup, changeDestination, changePopupProduct}) (ProviderBody);
+export default connect(mapStateToProps, {openPopup, changeDestination, changePopupProduct, closePopup}) (ProviderBody);

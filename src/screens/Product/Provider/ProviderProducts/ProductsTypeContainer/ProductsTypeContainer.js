@@ -5,7 +5,7 @@ import ProviderProduct from "../ProviderProduct/ProviderProduct";
 import Dots from "../Dots/Dots";
 import Socials from "../../Socials/Socials";
 
-const ProductsTypeContainer = ({sliding, arrayRef, provider, imgRef, openGallery, keyMap: key, providerRef, productsArray, providerOrNot, setSliding}) => {
+const ProductsTypeContainer = ({sliding, setGallery, arrayRef, provider, imgRef, openGallery, keyMap: key, providerRef, productsArray, providerOrNot, setSliding}) => {
     const [activeProduct, setActiveProduct] = useState();
     const [active, setActive] = useState(0);
 
@@ -47,7 +47,7 @@ const ProductsTypeContainer = ({sliding, arrayRef, provider, imgRef, openGallery
                 {
                     productsArray[key].map((p, i) => (
                         <SwiperSlide className={'ProviderProducts__swiper'} key={i}>
-                            <ProviderProduct arrayRef={arrayRef} providerOrNot={providerOrNot} productTypesCount={Object.keys(productsArray).length} providerRef={providerRef} sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} />
+                            <ProviderProduct setGallery={setGallery} arrayRef={arrayRef} providerOrNot={providerOrNot} productTypesCount={Object.keys(productsArray).length} providerRef={providerRef} sliding={sliding} imgRef={imgRef} product={p} openGallery={openGallery} />
                         </SwiperSlide>
                     ))
                 }
