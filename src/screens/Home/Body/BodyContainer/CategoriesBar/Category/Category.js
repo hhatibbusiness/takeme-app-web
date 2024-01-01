@@ -7,6 +7,7 @@ import {logEvent} from "firebase/analytics";
 import {analytics} from "../../../../../../utls/firebase.auth";
 import {useNavigate} from "react-router-dom";
 import categoryAlt from '../../../../../../assets/images/categoryalt.jpg';
+import KeepAlive from "react-activation";
 const Category = ({
     cat,
     changeSearchCategoryId,
@@ -21,7 +22,8 @@ const Category = ({
     search,
     fetchSearchResults,
     term,
-    filter
+    filter,
+    curId
 }) => {
     // const imgRef = useRef();
     // useEffect(() => {
@@ -55,13 +57,14 @@ const Category = ({
                 document.querySelector('.Products').style.height = `${containerHeight}px`;
                 const res = await fetchCategoryProducts(cat?.id && cat.id, lan, 0, filter, navigate);
                 document.querySelector('.Products').style.height = 'auto';
+                console.log(cat?.id);
             }
             if(search) {
                 changeSearchCategoryId(cat?.id && cat.id);
                 // fetchSearchResults(lan, cat?.id && cat.id, 'All', term, 0)
             }
             logEvent(analytics, 'category_clicked', {CategoryId: cat?.id, CategoryName: cat?.name})
-        }}  draggable={false} className={`Category ${home && id === (cat?.id && cat.id) && 'Category__active'} ${search && searchId == (cat?.id && cat.id) && 'Category__active'}`}>
+        }}  draggable={false} className={`Category ${home && curId === (cat?.id && cat.id) && 'Category__active'} ${search && searchId == (cat?.id && cat.id) && 'Category__active'}`}>
             <div className="Category__container">
                 <img ref={imageRef} onError={e => {
                     if(imageRef?.current) {

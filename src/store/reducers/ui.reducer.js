@@ -4,7 +4,8 @@ import {getAnalytics, logEvent} from "firebase/analytics";
 const initialState = {
     currentProduct: null,
     openPopup: false,
-    rating: false
+    rating: false,
+    yPosition: 200
 }
 
 export default (state = initialState, action) => {
@@ -33,6 +34,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 rating: action.destination
+            }
+        case actionTypes.CHANGE_HOME_POSITION:
+            return {
+                ...state,
+                yPosition: action.pos
             }
         default:
             return state;

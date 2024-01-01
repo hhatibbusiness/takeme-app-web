@@ -6,13 +6,14 @@ import Navbar from "../../components/HOC/Navbar/Navbar";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
 import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
-
+import {KeepAlive} from "react-activation";
 
 const Contract = ({fetchContractPage, lan, fetchingContractPage, contractData}) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (contractData) return;
         fetchContractPage(lan, navigate);
     }, [lan]);
 
@@ -33,16 +34,18 @@ const Contract = ({fetchContractPage, lan, fetchingContractPage, contractData}) 
     }, []);
 
     return (
-        <div className={'ContractScreen'}>
-            <Navbar backBtn={true} midText={t('condition')} />
-            {
-                fetchingContractPage ? (
-                    <SpinnerComponent />
-                ) : (
-                    <div className={'ContractScreen__content'} dangerouslySetInnerHTML={{__html: contractData && contractData}}/>
-                )
-            }
-        </div>
+        <KeepAlive cacheKey={'Contract'}>
+            <div className={'ContractScreen'}>
+                <Navbar backBtn={true} midText={t('condition')} />
+                {
+                    fetchingContractPage ? (
+                        <SpinnerComponent />
+                    ) : (
+                        <div className={'ContractScreen__content'} dangerouslySetInnerHTML={{__html: contractData && contractData}}/>
+                    )
+                }
+            </div>
+        </KeepAlive>
     );
 };
 

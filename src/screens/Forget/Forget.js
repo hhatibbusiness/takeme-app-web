@@ -11,10 +11,12 @@ import {sendForgetPasswordVerificationCode, sendCodePasswordToServer} from "../.
 import {connect} from "react-redux";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
 import AuthenticationError from "../../components/AuthenticationError/AuthenticationError";
+import {KeepAlive} from "react-activation";
 
 const Forget = ({sendingCode, error, errorMessage, sendingCodeToServer, sendCodePasswordToServer, sendForgetPasswordVerificationCode, lan, validation}) => {
     const {t} = useTranslation();
     const [step, setStep] = useState(1);
+
     const [newPassword, setNewPassword] = useState({
         value: '',
         type: 'password',
@@ -64,24 +66,24 @@ const Forget = ({sendingCode, error, errorMessage, sendingCodeToServer, sendCode
     //     }
     // }, []);
 
-    useEffect(() => {
-        const home = document.querySelector('body');
-
-        const freezeStyles = () => {
-            // home && (home.style.height = '100vh')
-            home.classList.add('Home__hide')
-        }
-        const releaseStyles = () => {
-            home.classList.remove('Home__hide')
-        }
-
-        freezeStyles();
-
-        return () => {
-            releaseStyles();
-        }
-
-    }, []);
+    // useEffect(() => {
+    //     const home = document.querySelector('body');
+    //
+    //     const freezeStyles = () => {
+    //         // home && (home.style.height = '100vh')
+    //         home.classList.add('Home__hide')
+    //     }
+    //     const releaseStyles = () => {
+    //         home.classList.remove('Home__hide')
+    //     }
+    //
+    //     freezeStyles();
+    //
+    //     return () => {
+    //         releaseStyles();
+    //     }
+    //
+    // }, []);
 
     const renderForm = () => {
         switch (step) {
@@ -119,14 +121,15 @@ const Forget = ({sendingCode, error, errorMessage, sendingCodeToServer, sendCode
     }
 
     return (
-        <div className={'Forget'}>
-            <Navbar backBtn={true} midText={t('forget Header')} />
-            <Step
-                step={step}
-                setStep={setStep}
-                num={2}
-                validation={validation}
-                form={{
+        <KeepAlive cacheKey={'Forget'}>
+            <div className={'Forget'}>
+                <Navbar backBtn={true} midText={t('forget Header')} />
+                <Step
+                    step={step}
+                    setStep={setStep}
+                    num={2}
+                    validation={validation}
+                    form={{
                         email: {
                             value: params.email,
                             type: 'email',
@@ -139,21 +142,22 @@ const Forget = ({sendingCode, error, errorMessage, sendingCodeToServer, sendCode
                             name: 'email'
                         }
                     }}
-                type={1}
-                // isValid={isValid}
-            />
+                    type={1}
+                    // isValid={isValid}
+                />
 
-            <form action="" className={'Forget__form'}>
+                <form action="" className={'Forget__form'}>
+                    {
+                        renderForm()
+                    }
+                </form>
                 {
-                    renderForm()
+                    error && (
+                        <AuthenticationError errorMessage={errorMessage} />
+                    )
                 }
-            </form>
-            {
-                error && (
-                    <AuthenticationError errorMessage={errorMessage} />
-                )
-            }
-        </div>
+            </div>
+        </KeepAlive>
     );
 };
 

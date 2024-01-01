@@ -238,3 +238,21 @@
     opacity: 1;
   }
 }
+
+@media (max-width: 450px) {
+  .ProductPopup__product--container {
+    padding: 0 !important;
+    padding-top: 20px !important;
+    padding-right: 5px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .ProductPopup {
+    font-size: 14px !important;
+  }
+
+  .ProductPopup__details--rent-min {
+    display: none !important;
+  }
+}

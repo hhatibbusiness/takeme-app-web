@@ -10,13 +10,13 @@ const Cover = ({assets}) => {
     const [imgLoaded, setImgLoaded] = useState(true);
     const [imgUI, setImgUI] = useState(true);
     const [currentCategory, setCurrentCategory] = useState(null);
-    const imgRefDub = useRef(null);
     const [containerLoaded, setContainerLoaded] = useState(false);
     const [error, setError] = useState(false);
     const [loaded, setLoaded] = useState(false);
+    const [hidden, setHidden] = useState(true);
+    const imgRefDub = useRef(null);
     const failureRef= useRef(null);
     const imgContainerRef = useRef(null);
-    const [hidden, setHidden] = useState(true);
 
     // useEffect(() => {
     //     if(categories?.length == 0 || !curId) return;
@@ -63,20 +63,24 @@ const Cover = ({assets}) => {
     //     renderImage();
     // }, []);
 
+    useEffect(() => {
+        console.log(error, loaded);
+    }, []);
+
     return (
         <div className={'Cover'}>
             {/*<img src={assets?.coverPath && assets.coverPath} className={'Cover__img'} />*/}
-            {
-                imgUI && (
-                    <>
+            {/*{*/}
+            {/*    imgUI && (*/}
+            {/*        <>*/}
                         <div ref={imgContainerRef} className={`${imgLoaded ? 'Cover__visible' : 'Cover__hidden'}`}>
                             <Img setError={setError} setHidden={setHidden} setLoaded={setLoaded} setContainerLoaded={setContainerLoaded} imgRefDub={imgRefDub} setImgLoaded={setImgLoaded} imgUrl={assets?.coverPath && assets?.coverPath}/>
                             {loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} failureRef={failureRef} cover={true} elemRef={imgContainerRef} />}
                         </div>
                         {/*<LoadingProduct priceStartFrom={true} priceTitle={false} imgLoaded={imgLoaded} details={false} btn={false} />*/}
-                    </>
-                )
-            }
+            {/*        </>*/}
+            {/*    )*/}
+            {/*}*/}
             {(!loaded || (!loaded && hidden)) && <LoadingProduct priceStartFrom={true} priceTitle={false} imgLoaded={false} details={false} btn={false} />}
         </div>
     );

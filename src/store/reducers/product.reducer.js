@@ -4,10 +4,11 @@ const initialState = {
     product: {},
     providers: [],
     page: 0,
-    loadingProducts: true,
+    loadingProducts: false,
     openGallery: false,
     galleryProduct: {},
-    more: false
+    more: false,
+    currentProductTypeId: null
 };
 
 export default (state = initialState, action) => {
@@ -227,6 +228,14 @@ export default (state = initialState, action) => {
         case actionTypes.RESET_ALL_PRODUCT_DATA:
             return {
                 ...state,
+                product: {},
+                providers: [],
+                page: 0
+            }
+        case actionTypes.CHANGE_CURRENT_PRODUCT_TYPE_ID:
+            return {
+                ...state,
+                currentProductTypeId: action.id,
                 product: {},
                 providers: [],
                 page: 0

@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import './Img.scss';
 import {connect} from "react-redux";
 import {MapInteractionCSS} from 'react-map-interaction';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 const Img = ({value, imgUrl, gallery, setError, setHidden, setLoaded, setImgLoaded, imgRefDub: imgRef}) => {
     // const imgRef = useRef();
@@ -31,30 +32,38 @@ const Img = ({value, imgUrl, gallery, setError, setHidden, setLoaded, setImgLoad
     //         setContainerLoaded(true);
     //     });
     // }, [imgRef]);
-    useEffect(() => {
-        if(!imgUrl) {
-            setImgLoaded(true);
-            setError(true);
-            setLoaded(true);
-        }
-    }, [imgUrl]);
+    // useEffect(() => {
+    //     if(!imgUrl) {
+    //         setImgLoaded(true);
+    //         setError(true);
+    //         setLoaded(true);
+    //     }
+    // }, [imgUrl]);
     return (
         gallery ? (
             <div className={'Img__container'}>
-                <MapInteractionCSS>
-                    <img ref={imgRef} onLoad={e => {
-                        setImgLoaded(true);
-                        setError(false);
-                        setLoaded(true);
-                        setHidden(false);
-                    }} onError={e => {
-                        setImgLoaded(true);
-                        setError(true);
-                        setLoaded(true);
-                    }} className={`Img ${gallery && 'img__gallery'}`} style={{width: `${value < 100 && '100%'}`}} onClick={() => {
-                        // setGalleryOpen(true);
-                    }} src={imgUrl} alt=""/>
-                </MapInteractionCSS>
+                <TransformWrapper
+                    disablePadding={true}
+                    onPanningStop={() => console.log('Hello From here!')}
+                >
+                    {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+                        <TransformComponent>
+                            <img  ref={imgRef} onLoad={e => {
+                                setImgLoaded(true);
+                                setError(false);
+                                setLoaded(true);
+                                setHidden(false);
+                            }} onError={e => {
+                                setImgLoaded(true);
+                                setError(true);
+                                setLoaded(true);
+                            }} className={`Img ${gallery && 'img__gallery'}`} style={{width: `${value < 100 && '100%'}`}} onClick={() => {
+                                // setGalleryOpen(true);
+                            }} src={imgUrl} alt=""/>
+                        </TransformComponent>
+
+                    )}
+                </TransformWrapper>
             </div>
             ) : (
             <img ref={imgRef} onLoad={e => {

@@ -1,5 +1,5 @@
 import {
-    CHANGE_CURRENT_POPUP_PRODUCT, CHANGE_DESTINATION,
+    CHANGE_CURRENT_POPUP_PRODUCT, CHANGE_DESTINATION, CHANGE_HOME_POSITION,
     CLOSE_POPUP,
     OPEN_POPUP,
     TOGGLE_POPUP
@@ -25,4 +25,11 @@ export const closePopup = () => ({
 export const changeDestination = (destination) => ({
     type: CHANGE_DESTINATION,
     destination
-})
+});
+
+export const changeHomePosition = pos => {
+    return {
+        type: CHANGE_HOME_POSITION,
+        pos
+    }
+}

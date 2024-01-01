@@ -28,6 +28,7 @@ const Gallery = ({product, setGallery, closeGallery, gallery}) => {
     }, []);
 
     useEffect(() => {
+        console.log(setGallery, gallery);
 
         // window.addEventListener('popstate', e => history.go(1));
         if(gallery) {

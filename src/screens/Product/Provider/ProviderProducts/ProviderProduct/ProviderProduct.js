@@ -135,6 +135,10 @@ const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, array
         });
     }, []);
 
+    useEffect(() => {
+        console.log(provider);
+    }, []);
+
 
     return (
         <div onClick={e => {

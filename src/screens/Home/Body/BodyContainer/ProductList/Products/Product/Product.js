@@ -8,13 +8,14 @@ import Img from "./Img/Img";
 import Count from "./Count/Count";
 import SpinnerComponent from "../../../../../../../components/Spinner/Spinner.Component";
 import LoadingProduct from "../../../../../../../components/LoadingProduct/LoadingProduct";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {logEvent} from "firebase/analytics";
 import {analytics} from "../../../../../../../utls/firebase.auth";
 import {useTranslation} from "react-i18next";
+import {fetchProductTypeDetails, changeCurrentProductTypeId, startFetchingProvidersProducts, resetProductData, resetProvidersFetchingPage, fetchProductDetails} from "../../../../../../../store/actions/product.actions";
 // import {notFoundImg} from "../../../../assets";
 
-const Product = ({product, value, setCurrentProduct, setPopup}) => {
+const Product = ({product, filter, productType, changeCurrentProductTypeId, startFetchingProvidersProducts, resetProductData, resetProvidersFetchingPage, value, lan, fetchProductDetails, fetchProductTypeDetails, setCurrentProduct, setPopup}) => {
     const [error, setError] = useState(false);
     const [loaded, setLoaded] = useState(false);
     const [imgLoaded, setImgLoaded] = useState(true);
@@ -118,21 +119,26 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
         });
     }, []);
 
+    const params = useParams()
+
+    const handleProductClick =async e => {
+        if(value == 100) {
+            console.log(productType, product);
+            return navigate(`/product/${product.id}`);
+        }
+        setCurrentProduct(product);
+        setPopup(true);
+        logEvent(analytics, 'product_type_click', {
+            Product_type_id: product?.id,
+            Product_type_name: product?.title
+        });
+    }
+
     return (
-        <div ref={productRef} className={'Product'} onClick={() => {
-            logEvent(analytics, 'product_type_click', {
-                Product_type_id: product?.id,
-                Product_type_name: product?.title
-            })
-            if(value == 100) {
-                return navigate(`/product/${product.id}`);
-            }
-            setCurrentProduct(product);
-            setPopup(true);
-        }}>
+        <div ref={productRef} className={'Product'} onClick={handleProductClick}>
             <div className={`Product__body--container `}>
-                {
-                    imgUI && (
+                {/*{*/}
+                {/*    imgUI && (*/}
                         <div className={`${imgLoaded ? 'Product__visible' : 'Product__hidden'}`}>
                             <div ref={imgContainer} className={`Product__image--container ${value < 100 ? 'Product__image--container-center' : 'Product__image--container-min'}`}>
                                 <Img setError={setError} setHidden={setHidden} setLoaded={setLoaded} setContainerLoaded={setContainerLoaded} imgRefDub={imgRef} setImgUi={setImgUI} setImgLoaded={setImgLoaded} imgUrl={product?.imagePath && product.imagePath}/>
@@ -164,8 +170,8 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
                                 value === 100 && <Count count={product?.totalNumberOfProducts || 0} />
                             }
                         </div>
-                    )
-                }
+                {/*//     )*/}
+                {/*// }*/}
                 {(!loaded || (!loaded && hidden)) && <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={product?.saleDetails?.priceStartingFromMsg} priceTitle={product?.saleDetails?.title} imgLoaded={false} details={value === 100 } btn={false} />}
             </div>
         </div>
@@ -174,7 +180,9 @@ const Product = ({product, value, setCurrentProduct, setPopup}) => {
 
 const mapStateToProps = state => ({
     value: state.categories.value,
-    lan: state.categories.lan
+    lan: state.categories.lan,
+    filter: state.categories.filter,
+    productType: state.product.product
 });
 
-export default connect(mapStateToProps, {changeSliderValue}) (Product);
+export default connect(mapStateToProps, {changeSliderValue, startFetchingProvidersProducts, resetProductData, resetProvidersFetchingPage, fetchProductDetails, fetchProductTypeDetails, changeCurrentProductTypeId}) (Product);

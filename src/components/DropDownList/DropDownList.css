@@ -1,0 +1,62 @@
+.DropDownList {
+    position: absolute;
+    background: white;
+    width: 450px;
+    /*height: 500px;*/
+    top: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 20px;
+    padding: 20px;
+    z-index: 1;
+    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.4);
+    max-height: 500px;
+    overflow: auto;
+
+    /*&::-webkit-scrollbar {*/
+    /*    width: 5px;*/
+    /*    height: 90%;*/
+    /*}*/
+
+
+    /*&::-webkit-scrollbar-track {*/
+    /*    background: #f1f1f1;*/
+    /*}*/
+
+    /*!* Handle *!*/
+    /*&::-webkit-scrollbar-thumb {*/
+    /*    background: var(--sec-color-shades-4);*/
+    /*}*/
+
+    /*!* Handle on hover *!*/
+    /*&::-webkit-scrollbar-thumb:hover {*/
+    /*    background: #555;*/
+    /*}*/
+
+    .DropDownList__items {
+        display: flex;
+        flex-direction: column;
+        /*gap: 20px;*/
+        z-index: 1;
+        position: relative;
+    }
+
+}
+
+.DropDownList__backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--sec-color-shades-6);
+    opacity: 0.5;
+    z-index: -1;
+}
+
+@media (max-width: 450px) {
+    .DropDownList {
+        width: 100vw;
+        padding: 0;
+    }
+}

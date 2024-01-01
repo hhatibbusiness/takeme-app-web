@@ -1,0 +1,89 @@
+.DropDownListItem {
+    direction: rtl;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    gap: 20px;
+    padding: 15px;
+    padding-right: 30px;
+    border-bottom: 1px solid var(--sec-color-shades-4);
+    text-decoration: none;
+    cursor: pointer;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    .DropDownListItem__container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .DropDownListItem__header {
+            color: black;
+            .DropDownListItem__header--text {
+                font-size: 20px;
+                .DropDownListItem__header--text-text {
+                    .DropDownListItem__header--text-highlight {
+                        color: var(--main-color-green-dark-1);
+                    }
+                }
+            }
+        }
+        .DropDownListItem__prices {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+
+            .DropDownListItem__prices--sale {
+                .DropDownListItem__prices--sale-paragraph {
+                    font-size: 14px;
+
+                    .DropDownListItem__prices--sale-message {
+                        color: var(--sec-color-shades-6);
+                        font-weight: normal;
+                    }
+                }
+            }
+        }
+
+        .DropDownListItem__desc {
+            color: var(--sec-color-shades-6);
+        }
+    }
+
+    .DropDownListItem__images {
+        position: relative;
+
+        .DropDownListItem__images--product {
+            position: relative;
+            .DropDownListItem__images--product-img {
+                width: 50px;
+                height: 50px;
+                object-fit: cover;
+                border-radius: 50%;
+                box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+            }
+            .DropDownListItem__images--provider {
+                position: absolute;
+                top: 65%;
+                left: 65%;
+                .DropDownListItem__images--provider-img {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 450px) {
+    .DropDownListItem {
+        padding: 20px 0;
+    }
+    .DropDownListItem__images--provider {
+        left: -25% !important;
+    }
+}

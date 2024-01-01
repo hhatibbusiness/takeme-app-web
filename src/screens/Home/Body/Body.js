@@ -13,25 +13,30 @@ import {Outlet} from "react-router-dom";
 import BodySub from "./BodyContainer/BodySub/BodySub";
 import SearchScreen from "../../SearchScreen/SearchScreen";
 import {closePopup} from "../../../store/actions/ui.actions";
+import {KeepAlive} from "react-activation";
 
 const Body = ({ fetchCategories, loadingCategories, lan, page, openPopup, closePopup}) => {
     const [sidebar, setSidebar] = useState(false);
 
     return (
-        <div className={'Body'}>
-            {
-                loadingCategories ? (
-                    <SpinnerComponent />
-                ) : <CategoryError>
-                    <Navbar search setSidebar={setSidebar} />
-                    <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
-                    <Backdrop sidebar={sidebar} setSidebar={setSidebar} />
-                    <BodyContainerComponent />
-                    {/*<Footer />*/}
-                    <Outlet />
-                </CategoryError>
-            }
-        </div>
+            <div className={'Body'}>
+                {
+                    loadingCategories ? (
+                        <SpinnerComponent />
+                    ) : <CategoryError>
+                        {/*<KeepAlive cacheKey={'home-navbar'}>*/}
+                            <Navbar search={true} searchPage={false} setSidebar={setSidebar} />
+                        {/*</KeepAlive>*/}
+                        {/*<KeepAlive cacheKey={'sidebar'}>*/}
+                            <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
+                        {/*</KeepAlive>*/}
+                        <Backdrop sidebar={sidebar} setSidebar={setSidebar} />
+                        <BodyContainerComponent />
+                        {/*<Footer />*/}
+                        <Outlet />
+                    </CategoryError>
+                }
+            </div>
     );
 };
 

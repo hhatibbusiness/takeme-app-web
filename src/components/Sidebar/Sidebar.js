@@ -157,6 +157,28 @@ const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, ch
 
                         </form>
                     </Link>
+                    {/* <a onClick={async e => {
+                        detectWhatsapp('201008549612', 'test').then(has => {
+                            alert('You ' + (has? 'have whatsapp' : "don't have whatsapp"));
+                        })
+                    }} className="Sidebar__link">
+                        <div className="Sidebar__link--main">
+                            <i className="fa-solid fa-handshake"></i>
+                            <p>{t('join')}</p>
+                        </div>
+                    </a> */}
+                    <a href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=` : `http://web.whatsapp.com/send?phone=${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=`)} target='_blank' className="Sidebar__link">
+                        <div className="Sidebar__link--main">
+                            <i className="fa-solid fa-handshake"></i>
+                            <p>{t('join')}</p>
+                        </div>
+                    </a>
+                    <Link to={'/contract'} className="Sidebar__link">
+                        <div className="Sidebar__link--main">
+                            <i className="fa-regular fa-copyright"></i>
+                            <p>{t('condition')}</p>
+                        </div>
+                    </Link>
                     <div className={`Sidebar__link ${socialShow && 'Sidebar__link--active'}`}>
                         <div onClick={() => setSocialShow(!socialShow)} className="Sidebar__link--main">
                             <i className="fa-regular fa-images"></i>
@@ -181,28 +203,6 @@ const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, ch
                             </a>
                         </div>
                     </div>
-                    {/* <a onClick={async e => {
-                        detectWhatsapp('201008549612', 'test').then(has => {
-                            alert('You ' + (has? 'have whatsapp' : "don't have whatsapp"));
-                        })
-                    }} className="Sidebar__link">
-                        <div className="Sidebar__link--main">
-                            <i className="fa-solid fa-handshake"></i>
-                            <p>{t('join')}</p>
-                        </div>
-                    </a> */}
-                    <a href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=` : `http://web.whatsapp.com/send?phone=${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=`)} target='_blank' className="Sidebar__link">
-                        <div className="Sidebar__link--main">
-                            <i className="fa-solid fa-handshake"></i>
-                            <p>{t('join')}</p>
-                        </div>
-                    </a>
-                    <Link to={'/contract'} className="Sidebar__link">
-                        <div className="Sidebar__link--main">
-                            <i className="fa-regular fa-copyright"></i>
-                            <p>{t('condition')}</p>
-                        </div>
-                    </Link>
                     {
                         isAuthenticated ? (
                             <p onClick={e => logout()} className="Sidebar__link Sidebar__register Sidebar__logout">{t('logout')}</p>

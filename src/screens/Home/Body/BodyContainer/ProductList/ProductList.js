@@ -13,6 +13,7 @@ import Loader from "../../../../../components/Loader/Loader";
 // import {Swiper} from "swiper";
 import './ProductList.css';
 import {useNavigate} from "react-router-dom";
+import KeepAlive from "react-activation";
 
 const Category = ({products, id, lan, page, fetchCategoryProducts, increasePageNumber, more, filter}) => {
     const [moreLoading, setMoreLoading] = useState(true);

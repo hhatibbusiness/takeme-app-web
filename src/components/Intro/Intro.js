@@ -8,7 +8,7 @@ const Intro = ({assets}) => {
         <div className={'Intro'}>
             <div className="Intro__container">
                 <img className={'Intro__logo'} src={logoImage && logoImage} />
-                <p>for your needs</p>
+                {/*<p>for your needs</p>*/}
             </div>
         </div>
     );

@@ -243,6 +243,7 @@ import {sendEmailVerifyCodeToCustomer} from "../../store/actions/register.action
 import {sendCodeToServer} from "../../store/actions/register.actions";
 import {registerError} from "../../store/actions/register.actions";
 import {Outlet} from "react-router-dom";
+import {KeepAlive} from "react-activation";
 
 const Register = ({errorMessage, validation, registerError, sendingCodeToServer, sendCodeToServer, sendingCodeToCustomer, sendEmailVerifyCodeToCustomer, lan}) => {
     const {t} = useTranslation();
@@ -483,25 +484,27 @@ const Register = ({errorMessage, validation, registerError, sendingCodeToServer,
     }
 
     return (
-        <div className={'Register'}>
-            <Navbar step={step} setStep={setStep} backBtn={true} midText={t('register')} />
-            <Step
-                step={step}
-                setStep={setStep}
-                form={form}
-                isValid={isValid}
-                num={3}
-                validation={validation}
-                type={0}
-            />
-            <form onSubmit={formSbumitHandler} autoCorrect={'off'} autoComplete={'off'} className="Register__form">
-                {
-                    stepRenderer()
-                }
-            </form>
-            <AuthenticationError errorMessage={errorMessage} />
-            <Outlet />
-        </div>
+        <KeepAlive cacheKey={'Register'}>
+            <div className={'Register'}>
+                <Navbar step={step} setStep={setStep} backBtn={true} midText={t('register')} />
+                <Step
+                    step={step}
+                    setStep={setStep}
+                    form={form}
+                    isValid={isValid}
+                    num={3}
+                    validation={validation}
+                    type={0}
+                />
+                <form onSubmit={formSbumitHandler} autoCorrect={'off'} autoComplete={'off'} className="Register__form">
+                    {
+                        stepRenderer()
+                    }
+                </form>
+                <AuthenticationError errorMessage={errorMessage} />
+                <Outlet />
+            </div>
+        </KeepAlive>
     );
 };
 

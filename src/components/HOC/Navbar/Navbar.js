@@ -8,7 +8,7 @@ import BackBtn from "./BackBtn/BackBtn";
 import history from '../../../history/history';
 import {useNavigate} from "react-router-dom";
 
-const Navbar = ({assets, setSidebar, backBtn, step, setStep, backUrl, midText, search, focused}) => {
+const Navbar = ({assets, setSidebar, searchPage, loadingSearchResults, searchResults, term, backBtn, step, setStep, backUrl, midText, search, focused}) => {
     const navigate = useNavigate();
     return (
         <div className={'Navbar'}>
@@ -18,7 +18,7 @@ const Navbar = ({assets, setSidebar, backBtn, step, setStep, backUrl, midText, s
                     {/*<p>For Your Needs</p>*/}
                 </div>
                 {
-                    search && <Search />
+                    search && <Search loadingSearchResults={loadingSearchResults} searchResults={searchResults} term={term} search={search} searchPage={searchPage} />
                 }
                 {
                     midText && <Mid midText={midText} />

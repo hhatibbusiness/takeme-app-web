@@ -2,8 +2,7 @@ import * as actionTypes from '../actions/action.types';
 
 const initialState = {
     data: '',
-    fetchingContract: true,
-
+    fetchingContract: true
 }
 
 export default (state = initialState, action) => {

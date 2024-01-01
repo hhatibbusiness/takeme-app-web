@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import CategoryItem from './Category/Category';
 import {changeId} from "../../../../../store/actions/categories.action";
 
-const Categories = ({categories, loadingCategories, search, home}) => {
+const Categories = ({categories, curId, loadingCategories, search, home}) => {
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
     const [down, setDown] = useState(false);
@@ -43,7 +43,7 @@ const Categories = ({categories, loadingCategories, search, home}) => {
                 <div ref={containerRef} className="Categories__container">
                     {
                         !loadingCategories && categories.map((cat, i) => (
-                            <CategoryItem search={search} home={home} key={cat?.id && cat.id} cat={cat} />
+                            <CategoryItem curId={curId} search={search} home={home} key={cat?.id && cat.id} cat={cat} />
                         ))
                     }
                 </div>

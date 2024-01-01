@@ -4,6 +4,7 @@ import Img from "../../../../../../Home/Body/BodyContainer/ProductList/Products/
 import RenderImgError from "../../../../../../../components/RenderImgError/RenderImgError";
 import LoadingProduct from "../../../../../../../components/LoadingProduct/LoadingProduct";
 import './GalleryItem.scss';
+
 const GalleryItem = ({imgUrl}) => {
     const [imgLoaded, setImgLoaded] = useState(false);
     const [imgUI, setImgUI] = useState(true);

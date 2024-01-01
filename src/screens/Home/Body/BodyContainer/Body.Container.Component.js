@@ -8,13 +8,16 @@ import SpinnerComponent from "../../../../components/Spinner/Spinner.Component";
 import {fetchCategoryProducts, fetchCategories} from "../../../../store/actions/categories.action";
 import Failure from "../../../Product/Provider/ProviderProducts/Failure/Failure";
 import {useTranslation} from "react-i18next";
+import KeepAlive from "react-activation";
 
 const BodyContainerComponent = ({loadingCategories, page, lan, categories, id, fetchCategoryProducts, value, fetchCategories}) => {
     const {t} = useTranslation();
     return (
         <div className={'BodyContainer'}>
-            <Cover />
-            <Categories home />
+            {/*<KeepAlive cacheKey={'cover'}>*/}
+                <Cover />
+            {/*</KeepAlive>*/}
+            <Categories curId={id} home />
             {
                 categories?.length > 0 ? (
                     !loadingCategories ? (

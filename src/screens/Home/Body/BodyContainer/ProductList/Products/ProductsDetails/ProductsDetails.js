@@ -9,8 +9,10 @@ import RenderImgError from "../../../../../../../components/RenderImgError/Rende
 import LoadingProduct from "../../../../../../../components/LoadingProduct/LoadingProduct";
 import {useNavigate} from "react-router-dom";
 import history from "../../../../../../../history/history";
+import {fetchProductTypeDetails, startFetchingProvidersProducts, resetProductData, resetProvidersFetchingPage, fetchProductDetails} from "../../../../../../../store/actions/product.actions";
 
-const ProductsDetails = ({currentProduct, setPopup, popup, setCurrentProduct, value}) => {
+
+const ProductsDetails = ({currentProduct, productType, setPopup, popup, lan, filter, setCurrentProduct, value, fetchProductTypeDetails, startFetchingProvidersProducts, resetProductData, resetProvidersFetchingPage, fetchProductDetails}) => {
     const [imgUI, setImgUI] = useState(true);
     const [imgLoaded, setImgLoaded] = useState(false);
     const [error, setError] = useState(false);
@@ -116,7 +118,10 @@ const ProductsDetails = ({currentProduct, setPopup, popup, setCurrentProduct, va
 };
 
 const mapStateToProps = state => ({
-    value: state.categories.value
+    value: state.categories.value,
+    productType: state.product.product,
+    lan: state.categories.lan,
+    filter: state.categories.filter
 });
 
-export default connect(mapStateToProps) (ProductsDetails);
+export default connect(mapStateToProps, {fetchProductTypeDetails, startFetchingProvidersProducts, resetProductData, resetProvidersFetchingPage, fetchProductDetails}) (ProductsDetails);

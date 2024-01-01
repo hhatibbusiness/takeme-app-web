@@ -6,6 +6,7 @@ import SpinnerComponent from "../../components/Spinner/Spinner.Component";
 import Navbar from "../../components/HOC/Navbar/Navbar";
 import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
+import {KeepAlive} from "react-activation";
 
 const About = ({fetchAboutPage, fetchingAboutPage, aboutData, lan}) => {
     const {t} = useTranslation();
@@ -28,22 +29,24 @@ const About = ({fetchAboutPage, fetchingAboutPage, aboutData, lan}) => {
     }, []);
 
     useEffect(() => {
+        if(aboutData) return;
         fetchAboutPage(lan, navigate);
     }, [lan]);
 
-
     return (
-        <div className={'AboutScreen'}>
-            <Navbar backBtn={true} midText={t('who we are')} />
+        <KeepAlive cacheKey={'About'}>
+            <div className={'AboutScreen'}>
+                <Navbar backBtn={true} midText={t('who we are')} />
 
-            {
-                fetchingAboutPage ? (
-                    <SpinnerComponent />
-                ) : (
-                    <div className={'AboutScreen__content'} dangerouslySetInnerHTML={{__html: aboutData}}/>
-                )
-            }
-        </div>
+                {
+                    fetchingAboutPage ? (
+                        <SpinnerComponent />
+                    ) : (
+                        <div className={'AboutScreen__content'} dangerouslySetInnerHTML={{__html: aboutData}}/>
+                    )
+                }
+            </div>
+        </KeepAlive>
     );
 };
 

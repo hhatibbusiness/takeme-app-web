@@ -9,62 +9,86 @@
 .App {
   /*height: 10000px;*/
   //font-family: wotfard;
+  font-family: "Janna LT";
+  font-style: normal;
+  font-weight: bold;
 }
 
 :root {
-  --main-color-green-dark-1: #07AB83;
+  --main-color-green-dark-1: #07ab83;
   --main-color-green-dark-2: #009B78;
-  --main-color-green-dark-3: #00896A;
-  --main-color-green-dark-4: #01785C;
-  --main-color-green-dark-5: #01684F;
-  --main-color-green-dark-6: #035642;
-  --main-color-green-dark-7: #004535;
-  --main-color-green-dark-8: #023428;
-  --main-color-green-dark-9: #06231C;
-  --main-color-green-dark-10: #061411;
+  --main-color-green-dark-3: #44ab91;
+  --main-color-green-dark-4: #22ab89;
+  --main-color-green-dark-5: #009952;
+  --main-color-green-dark-6: #008044;
+  --main-color-green-dark-7: #00703c;
+  --main-color-green-dark-8: #004c29;
+  --main-color-green-dark-9: #00331b;
+  --main-color-green-dark-10: #001a0e;
   --main-color-green-dark-11: #000000;
   --main-color-green-light-1: #FFFFFF;
-  --main-color-green-light-2: #E7F4F1;
-  --main-color-green-light-3: #CEE9E3;
-  --main-color-green-light-4: #E7F4F1;
-  --main-color-green-light-5: #B4DFD7;
-  --main-color-green-light-6: #9ED6CA;
-  --main-color-green-light-7: #6DC6B1;
-  --main-color-green-light-8: #54BFA6;
-  --main-color-green-light-9: #3BBA9B;
-  --main-color-green-light-10: #18B38F;
-  --main-color-green-light-11: #07AB83;
+  --main-color-green-light-2: #e4edeg;
+  --main-color-green-light-3: #daede5;
+  --main-color-green-light-4: #caeddd;
+  --main-color-green-light-5: #beedd7;
+  --main-color-green-light-6: #a6edcc;
+  --main-color-green-light-7: #97edc5;
+  --main-color-green-light-8: #8ae5b8;
+  --main-color-green-light-9: #73e5ac;
+  --main-color-green-light-10: #5ce5a1;
+  --main-color-green-light-11: #45e695;
   --sec-color-shades-1: #FFFFFF;
-  --sec-color-shades-2: #EAEAEC;
-  --sec-color-shades-3: #D8D8DB;
-  --sec-color-shades-4: #C3C3C7;
-  --sec-color-shades-5: #C3C3C7;
-  --sec-color-shades-6: #9C9CA4;
-  --sec-color-shades-7: #888891;
-  --sec-color-shades-8: #757580;
-  --sec-color-shades-9: #61616D;
-  --sec-color-shades-10: #4F4E5B;
-  --sec-color-shades-11: #3A3A49;
-  --sec-color-blue-dark-1: #1E4998;
-  --sec-color-blue-dark-2: #1F4387;
-  --sec-color-blue-dark-3: #233C79;
-  --sec-color-blue-dark-4: #22356A;
-  --sec-color-blue-dark-5: #1D2D5B;
-  --sec-color-blue-dark-6: #16254D;
-  --sec-color-blue-dark-7: #0B1D3C;
-  --sec-color-blue-dark-8: #0A172E;
-  --sec-color-blue-dark-9: #0D1220;
+  --sec-color-shades-2: #dbdbdb;
+  --sec-color-shades-3: #cccccc;
+  --sec-color-shades-4: #b3b3b3;
+  --sec-color-shades-5: #999999;
+  --sec-color-shades-6: #808080;
+  --sec-color-shades-7: #666666;
+  --sec-color-shades-8: #4d4d4d;
+  --sec-color-shades-9: #333333;
+  --sec-color-shades-10: #1a1a1a;
+  --sec-color-shades-11: #000000;
+  --sec-color-blue-dark-1: #2e6be5;
+  --sec-color-blue-dark-2: #295fcc;
+  --sec-color-blue-dark-3: #2453b3;
+  --sec-color-blue-dark-4: #1e4899;
+  --sec-color-blue-dark-5: #183b80;
+  --sec-color-blue-dark-6: #132e66;
+  --sec-color-blue-dark-7: #0f234d;
+  --sec-color-blue-dark-8: #0a1733;
+  --sec-color-blue-dark-9: #050c1a;
   --sec-color-blue-dark-10: #080B10;
   --sec-color-blue-dark-11: #000000;
   --sec-color-blue-light-1: #FFFFFF;
-  --sec-color-blue-light-2: #E8ECF4;
-  --sec-color-blue-light-3: #E8ECF4;
-  --sec-color-blue-light-4: #BCC7DF;
-  --sec-color-blue-light-5: #A4B6D6;
-  --sec-color-blue-light-6: #8EA3CB;
-  --sec-color-blue-light-7: #7790C2;
-  --sec-color-blue-light-8: #627FB7;
-  --sec-color-blue-light-9: #4A6DAD;
-  --sec-color-blue-light-10: #365AA3;
-  --sec-color-blue-light-11: #1E4998;
+  --sec-color-blue-light-2: #f5f8ff;
+  --sec-color-blue-light-3: #e3ecff;
+  --sec-color-blue-light-4: #bfd4ff;
+  --sec-color-blue-light-5: #99bbff;
+  --sec-color-blue-light-6: #80aaff;
+  --sec-color-blue-light-7: #6699ff;
+  --sec-color-blue-light-8: #4d88ff;
+  --sec-color-blue-light-9: #3377ff;
+  --sec-color-blue-light-10: #1a66ff;
+  --sec-color-blue-light-11: #0055ff;
+  --main-takeme-font: Janna LT bold;
 }
+
+///* width */
+//::-webkit-scrollbar {
+//  width: 12px;
+//}
+//
+///* Track */
+//::-webkit-scrollbar-track {
+//  background: #f1f1f1;
+//}
+//
+///* Handle */
+//::-webkit-scrollbar-thumb {
+//  background: var(--sec-color-shades-4);
+//}
+//
+///* Handle on hover */
+//::-webkit-scrollbar-thumb:hover {
+//  background: #555;
+//}

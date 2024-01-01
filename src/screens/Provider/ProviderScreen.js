@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Navbar from "../../components/HOC/Navbar/Navbar";
 import './ProviderSceen.scss';
 import {connect} from "react-redux";
@@ -12,6 +12,7 @@ import Failure from "../Product/Provider/ProviderProducts/Failure/Failure";
 import {useTranslation} from "react-i18next";
 import {getAnalytics, logEvent} from "firebase/analytics";
 import {openPopup, changePopupProduct} from "../../store/actions/ui.actions";
+import {KeepAlive} from "react-activation";
 
 const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup}) => {
     const params = useParams();
@@ -19,6 +20,10 @@ const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provid
     const history = useLocation();
 
     useEffect(() => {
+        // if(provider.providerId == params.providerId) {
+        //     return;
+        // }
+        if(params.providerId == provider?.providerId) return;
         fetchProviderData(lan, params.providerId, filter, navigate);
     }, [params.providerId]);
 
@@ -58,26 +63,28 @@ const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provid
     }, []);
 
     return (
-        <div className={'ProviderScreen'}>
-            <Navbar backBtn={true} midText={provider.name} />
-            {
-                !loadingProvider ? (
-                    Object.keys(provider).length !== 0 ? (
-                        <div>
-                            <Provider provider={provider} providerOrNot={true} prov={true} socials={true} link={false} openGallery={openProviderGallery}/>
-                            {
-                                gallery && <Gallery product={galleryProduct} closeGallery={closeProviderGallery}/>
-                            }
-                            {/*<ProviderLinkCopy />*/}
-                        </div>
+        <KeepAlive cacheKey={'Provider'}>
+            <div className={'ProviderScreen'}>
+                <Navbar backBtn={true} midText={provider.name} />
+                {
+                    !loadingProvider ? (
+                        Object.keys(provider).length !== 0 ? (
+                            <div>
+                                <Provider closeGallery={closeProviderGallery} galleryProduct={galleryProduct} provider={provider} providerOrNot={true} prov={true} socials={true} link={false} openGallery={openProviderGallery}/>
+                                {/*{*/}
+                                {/*    gallery && <Gallery product={galleryProduct} closeGallery={closeProviderGallery}/>*/}
+                                {/*}*/}
+                                {/*<ProviderLinkCopy />*/}
+                            </div>
+                        ) : (
+                            <Failure text={t('fail to load providers')}/>
+                        )
                     ) : (
-                        <Failure text={t('fail to load providers')}/>
+                        <SpinnerComponent />
                     )
-                ) : (
-                    <SpinnerComponent />
-                )
-            }
-        </div>
+                }
+            </div>
+        </KeepAlive>
     );
 };
 

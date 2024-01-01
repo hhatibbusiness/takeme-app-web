@@ -11,7 +11,8 @@ import Failure from "../Product/Provider/ProviderProducts/Failure/Failure";
 import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../components/Loader/Loader";
 import {useTranslation} from "react-i18next";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import {KeepAlive} from "react-activation";
 
 const SearchScreen = ({
     fetchSearchResults,
@@ -30,12 +31,18 @@ const SearchScreen = ({
     resetAllSearchData,
     searchPage,
     more,
-    filter
+    filter,
+    curId
 }) => {
+
     const [moreLoading, setMoreLoading] = useState(true);
+    const [searchCount, setSearchCount] = useState(0);
 
     const {t} = useTranslation();
     const navigate = useNavigate();
+
+    const params = useParams();
+
     useEffect(() => {
         const home = document.querySelector('body');
         const freezeStyles = () => {
@@ -54,13 +61,18 @@ const SearchScreen = ({
     }, []);
 
     useEffect(() => {
-        if(!loadingCategories && categories.length > 0) {
+        if(!loadingCategories && categories.length > 0 && (searchCount == 0 && searchResults.length == 0)) {
             changeSearchCategoryId(categories[0]?.id && categories[0].id);
         }
     }, [categories]);
 
     useEffect(() => {
-        if(!loadingCategories && categoryId) {
+        setSearchCount(searchPage);
+    }, []);
+
+    useEffect(() => {
+        if((!loadingCategories && categoryId !== null) && ((searchCount == 0 && searchPage == 0) || (searchCount > 0 && searchPage > 0) )) {
+            setSearchCount(searchCount + 1);
             fetchSearchResults(lan, categoryId, filter, term, 0, navigate);
         }
 
@@ -68,7 +80,7 @@ const SearchScreen = ({
 
     useEffect(() => {
         return () => {
-            resetAllSearchData();
+            // resetAllSearchData();
         }
     }, []);
 
@@ -77,53 +89,56 @@ const SearchScreen = ({
     }, [more]);
 
     return (
-        <div className={'SearchScreen'}>
-            <Navbar backBtn={true} search/>
-            {
-                !loadingCategories ? (
-                    <>
-                        <Categories search />
-
-                        {
-                            !loadingSearchResults ? (
-                                searchResults.length > 0 ? (
-                                    <InfiniteScroll
-                                        dataLength={searchResults.length}
-                                        pageStart={searchPage}
-                                        loadMore={() => {
-                                            if(searchResults.length === 0 && searchPage === 0) return;
-                                            if(!moreLoading) return;
-                                            if(!more) return setMoreLoading(false);
-                                            fetchSearchResults(lan, categoryId, filter, term, searchPage)
-                                        }}
-                                        hasMore={moreLoading}
-                                        loader={<Loader />}
-                                        useWindow={false}
-                                    >
-                                        {
-                                            searchResults.map((p, i) => (
-                                                <>
-                                                    <Provider search={true} link provider={p} key={p.id} openGallery={openSearchGallery}/>
+        <KeepAlive>
+            <div className={'SearchScreen'}>
+                <Navbar searchResults={searchResults} loadingSearchResults={loadingSearchResults} term={term} backBtn={true} search={true} searchPage={true}/>
+                {
+                    !loadingCategories ? (
+                        <>
+                            <Categories curId={categoryId} search />
+                            {
+                                !loadingSearchResults ? (
+                                    searchResults.length > 0 ? (
+                                            <div className={'SearchScreen__container'}>
+                                                <InfiniteScroll
+                                                    dataLength={searchResults.length}
+                                                    pageStart={searchPage}
+                                                    loadMore={() => {
+                                                        if(searchResults.length === 0 && searchPage === 0) return;
+                                                        if(!moreLoading) return;
+                                                        if(!more) return setMoreLoading(false);
+                                                        fetchSearchResults(lan, categoryId, filter, term, searchPage)
+                                                    }}
+                                                    hasMore={moreLoading}
+                                                    loader={<Loader />}
+                                                    useWindow={false}
+                                                >
                                                     {
-                                                        gallery && <Gallery product={galleryProduct} closeGallery={closeSearchGallery} openGallery={openSearchGallery} />
+                                                        searchResults.map((p, i) => (
+                                                            <>
+                                                                <Provider search={true} link provider={p} key={p.id} openGallery={openSearchGallery}/>
+                                                                {
+                                                                    gallery && <Gallery product={galleryProduct} closeGallery={closeSearchGallery} openGallery={openSearchGallery} />
+                                                                }
+                                                            </>
+                                                        ))
                                                     }
-                                                </>
-                                            ))
-                                        }
-                                    </InfiniteScroll>
-                                ): (
-                                    <Failure text={t('there\'s no search results')} />
+                                                </InfiniteScroll>
+                                            </div>
+                                    ): (
+                                        <Failure text={t('there\'s no search results')} />
+                                    )
+                                ) : (
+                                    <SpinnerComponent />
                                 )
-                            ) : (
-                                <SpinnerComponent />
-                            )
-                        }
-                    </>
-                ):(
-                    <SpinnerComponent />
-                )
-            }
-        </div>
+                            }
+                        </>
+                    ):(
+                        <SpinnerComponent />
+                    )
+                }
+            </div>
+        </KeepAlive>
     );
 };
 
@@ -139,7 +154,8 @@ const mapStateToProps = state => ({
     galleryProduct: state.search.searchGalleryProduct,
     searchPage: state.search.searchPage,
     more: state.search.more,
-    filter: state.categories.filter
+    filter: state.categories.filter,
+
 });
 
 export default connect(mapStateToProps, {fetchSearchResults, closeSearchGallery, openSearchGallery, changeSearchCategoryId, resetAllSearchData}) (SearchScreen);
