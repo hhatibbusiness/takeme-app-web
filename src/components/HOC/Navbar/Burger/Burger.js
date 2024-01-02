@@ -3,7 +3,7 @@ import './Burger.scss';
 
 const Burger = ({setSidebar}) => {
     return (
-        <div role={'burger'} onClick={() => setSidebar(true)} className={'Burger'}>
+        <div id={'Burger'} role={'burger'} onClick={() => setSidebar(true)} className={'Burger'}>
             <div></div>
             <div></div>
             <div></div>
