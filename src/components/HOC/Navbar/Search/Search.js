@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {getAnalytics, logEvent} from "firebase/analytics";
 import DropDownList from "../../../DropDownList/DropDownList";
 import intro from "../../../Intro/Intro";
+import history from '../../../../history/history';
 
 const waitTime = 1000;
 
@@ -86,7 +87,10 @@ const Search = ({focused, searchResults, searchPage, loadingSearchResults, term,
                 )
             }
         </div>
-            {inputFocus && <div onClick={e => setInputFocus(false)} className="DropDownList__backdrop"></div>}
+            {inputFocus && <div onClick={e => {
+                history.back();
+                setInputFocus(false);
+            }} className="DropDownList__backdrop"></div>}
         </>
     );
 };

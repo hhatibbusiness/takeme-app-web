@@ -24,7 +24,6 @@ const Home = ({lan, yPosition, loadingCategoryProducts, changeHomePosition, fetc
                 setLogoStart(1);
                 localStorage.setItem("takemeFirstVisit", 1);
             }, 1000);
-
         }
         return () => {
             clearTimeout(timeOut);
