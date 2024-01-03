@@ -83,7 +83,7 @@ const Gallery = ({product, setGallery, closeGallery, gallery}) => {
                 {
                     product?.images?.length > 0 && product.images.map((img, i) => (
                         <SwiperSlide key={i}>
-                            <GalleryItem imgUrl={img} />
+                            <GalleryItem activeIndex={active} imgUrl={img} />
                         </SwiperSlide>
                     ))
                 }

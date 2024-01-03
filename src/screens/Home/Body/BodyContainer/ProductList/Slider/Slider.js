@@ -6,12 +6,12 @@ import {changeSliderValue} from "../../../../../../store/actions/categories.acti
 
 const SliderComponent = ({value, changeSliderValue}) => {
     const handleSliderChange = (e) => {
-        if(e.target.value === 0) {
+        if(e.target.value == 0) {
             return changeSliderValue(100);
-        } else if(e.target.value === 100) {
+        } else if(e.target.value == 100) {
             return changeSliderValue(0)
         }
-        return changeSliderValue(e.target.value);
+        return changeSliderValue(Number(e.target.value));
     }
 
     return (

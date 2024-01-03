@@ -10,7 +10,7 @@ import Loader from "../../../../../../components/Loader/Loader";
 import SpinnerComponent from '../../../../../../components/Spinner/Spinner.Component';
 import KeepAlive from "react-activation";
 
-const Products = ({products, setGalleryOpen, setIndex, value, loadingProducts, page}) => {
+const Products = ({products, id, setGalleryOpen, setIndex, value, loadingProducts, page}) => {
     const [popup, setPopoup] = useState(false);
     const [currentProduct, setCurrentProduct] = useState(null);
     const {t } = useTranslation();
@@ -35,9 +35,7 @@ const Products = ({products, setGalleryOpen, setIndex, value, loadingProducts, p
     }
 
     useEffect(() => {
-        if(loadingProducts) {
-
-        }
+        console.log(id);
     }, [loadingProducts]);
 
     return (

@@ -40,7 +40,7 @@ const Category = ({products, id, lan, page, fetchCategoryProducts, increasePageN
                 hasMore={moreLoading}
                 loader={<Loader />}
             >
-                <Products products={products} />
+                <Products id={`products_${id}`} products={products} />
             </InfiniteScroll>
         </div>
     );

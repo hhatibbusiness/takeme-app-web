@@ -102,7 +102,7 @@ const ProductsDetails = ({currentProduct, productType, setPopup, popup, lan, fil
                     )
                 }
 
-                {(!loaded || (hidden)) && <LoadingProduct priceStartFrom={currentProduct?.saleDetails?.priceStartingFromMsg} priceTitle={currentProduct?.saleDetails?.title} imgLoaded={false} details={true} btn={true} /> }
+                {(!loaded || (hidden)) && <LoadingProduct priceStartFrom={currentProduct?.saleDetails?.priceStartingFromMsg} priceTitle={currentProduct?.description} imgLoaded={false} details={true} btn={true} /> }
 
                 {
                     currentProduct && <Count count={currentProduct?.totalNumberOfProducts || 0} />

@@ -60,7 +60,7 @@
           font-size: 14px;
 
           .Login__form--element-eye-see {
-            color: green;
+            color: var(--main-color-green-dark-1);
           }
           .Login__form--element-eye-unsee {
             color: red;
@@ -90,13 +90,14 @@
         position: absolute;
         bottom: 6px;
         font-size: 14px;
-        color: var(--sec-color-shades-5);
+        color: var(--sec-color-shades-4);
         margin-right: 3px;
         transition: 0.3s;
       }
 
       .Login__form--element-label-active {
         bottom: 30px;
+        color: var(--main-color-green-dark-1);
       }
 
       .Login__form--button {

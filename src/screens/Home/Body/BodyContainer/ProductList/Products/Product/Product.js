@@ -135,7 +135,7 @@ const Product = ({product, filter, productType, changeCurrentProductTypeId, star
     }
 
     return (
-        <div ref={productRef} className={'Product'} onClick={handleProductClick}>
+        <div id={`Product__${product.id}`} ref={productRef} className={'Product'} onClick={handleProductClick}>
             <div className={`Product__body--container `}>
                 {/*{*/}
                 {/*    imgUI && (*/}
@@ -172,7 +172,7 @@ const Product = ({product, filter, productType, changeCurrentProductTypeId, star
                         </div>
                 {/*//     )*/}
                 {/*// }*/}
-                {(!loaded || (!loaded && hidden)) && <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={product?.saleDetails?.priceStartingFromMsg} priceTitle={product?.saleDetails?.title} imgLoaded={false} details={value === 100 } btn={false} />}
+                {(!loaded || (!loaded && hidden)) && <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={product?.saleDetails?.priceStartingFromMsg} priceTitle={product?.description} imgLoaded={false} details={value === 100 } btn={false} />}
             </div>
         </div>
     );

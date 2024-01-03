@@ -11,6 +11,7 @@ import {changeSearchCategoryId} from "./search.actions";
 import {BASE_URL} from "../../utls/assets";
 import tokenUnautharizedMiddleware from "../../utls/middlewares/token.unautharized.middleware";
 import {getAnalytics, logEvent} from "firebase/analytics";
+import removeAxiosHeaders from "../../utls/remove.axios.headers";
 
 // 'https://takeme-all.com/app/endpoints/categories/list?locale=ar';
 // https://takeme-all.com/app/endpoints/products-types?locale=ar&categoryId=${id}&page=0
@@ -179,6 +180,10 @@ export const fetchCategories = (lan, filter, navigate) => async dispatch => {
         dispatch(endFetchingCategories);
         if(err?.response?.status == 401) {
             tokenUnautharizedMiddleware(navigate, '/login');
+            localStorage.removeItem('takemetoken');
+            localStorage.removeItem('takemeuser');
+            removeAxiosHeaders();
+            navigate(0);
         }
         dispatch(errorActive);
     }

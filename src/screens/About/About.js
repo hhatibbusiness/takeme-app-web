@@ -35,9 +35,8 @@ const About = ({fetchAboutPage, fetchingAboutPage, aboutData, lan}) => {
 
     return (
         <KeepAlive cacheKey={'About'}>
-            <div className={'AboutScreen'}>
+            <div id={'AboutScreen'} className={'AboutScreen'}>
                 <Navbar backBtn={true} midText={t('who we are')} />
-
                 {
                     fetchingAboutPage ? (
                         <SpinnerComponent />

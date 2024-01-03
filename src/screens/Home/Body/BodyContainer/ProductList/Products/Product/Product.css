@@ -146,7 +146,7 @@
 
 @media (max-width: 340px) {
     .Product__details--prices {
-        flex-direction: column;
-        gap: 0;
+        /*flex-direction: column;*/
+        /*gap: 0;*/
     }
 }

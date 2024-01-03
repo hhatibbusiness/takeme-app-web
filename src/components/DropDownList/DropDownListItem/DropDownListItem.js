@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import './DropDownListItem.css';
 import {useTranslation} from "react-i18next";
 import {useLocation} from "react-router-dom";
-
+import history from '../../../history/history';
 import {Link} from 'react-scroll';
 
 const DropDownListItem = ({result, term, setInputFocus, inputRef}) => {
@@ -61,6 +61,8 @@ const DropDownListItem = ({result, term, setInputFocus, inputRef}) => {
                 }
             }
             setInputFocus(false);
+            history.back();
+
         }} className={'DropDownListItem'}>
             <div className="DropDownListItem__images">
                 <div className="DropDownListItem__images--product">

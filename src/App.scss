@@ -6,12 +6,21 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
 .App {
   /*height: 10000px;*/
   //font-family: wotfard;
   font-family: "Janna LT";
   font-style: normal;
   font-weight: bold;
+  height: 100%;
 }
 
 :root {

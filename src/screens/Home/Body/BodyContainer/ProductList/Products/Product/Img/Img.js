@@ -4,7 +4,15 @@ import {connect} from "react-redux";
 import {MapInteractionCSS} from 'react-map-interaction';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
-const Img = ({value, imgUrl, gallery, setError, setHidden, setLoaded, setImgLoaded, imgRefDub: imgRef}) => {
+const Img = ({value, imgUrl, gallery, setError, setHidden, setLoaded, setImgLoaded, imgRefDub: imgRef, activeIndex}) => {
+    const [transform, setTransform] = useState('');
+
+    const transformationRef = useRef();
+
+    useEffect(() => {
+        // console.log('changed')
+        setTransform(transform + 'closed');
+    }, [activeIndex]);
     // const imgRef = useRef();
     // useEffect(() => {
     //     if(!imgRef?.current) return;
@@ -39,16 +47,26 @@ const Img = ({value, imgUrl, gallery, setError, setHidden, setLoaded, setImgLoad
     //         setLoaded(true);
     //     }
     // }, [imgUrl]);
+
     return (
         gallery ? (
             <div className={'Img__container'}>
                 <TransformWrapper
+                    ref={transformationRef}
                     disablePadding={true}
                     onPanningStop={() => console.log('Hello From here!')}
+                    onZoomStop={e => {
+                        console.log('Transformation stopped!')
+                        transformationRef?.current?.resetTransform();
+                    }}
                 >
                     {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
                         <TransformComponent>
-                            <img  ref={imgRef} onLoad={e => {
+                            {/*<input onChange={e => {*/}
+                            {/*    console.log('Changed');*/}
+                            {/*    resetTransform()*/}
+                            {/*}}  value={transform} type="text"/>*/}
+                            <img ref={imgRef} onLoad={e => {
                                 setImgLoaded(true);
                                 setError(false);
                                 setLoaded(true);

@@ -13,9 +13,11 @@ import Loader from "../../components/Loader/Loader";
 import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from "react-router-dom";
 import {KeepAlive} from "react-activation";
+import {closeGallery} from "../../store/actions/product.actions";
 
 const SearchScreen = ({
     fetchSearchResults,
+    closeGallery,
     lan,
     loadingCategories,
     categories,
@@ -118,7 +120,7 @@ const SearchScreen = ({
                                                             <>
                                                                 <Provider search={true} link provider={p} key={p.id} openGallery={openSearchGallery}/>
                                                                 {
-                                                                    gallery && <Gallery product={galleryProduct} closeGallery={closeSearchGallery} openGallery={openSearchGallery} />
+                                                                    gallery && <Gallery product={galleryProduct} closeGallery={closeGallery} openGallery={openSearchGallery} />
                                                                 }
                                                             </>
                                                         ))
@@ -158,4 +160,4 @@ const mapStateToProps = state => ({
 
 });
 
-export default connect(mapStateToProps, {fetchSearchResults, closeSearchGallery, openSearchGallery, changeSearchCategoryId, resetAllSearchData}) (SearchScreen);
+export default connect(mapStateToProps, {fetchSearchResults, closeSearchGallery, openSearchGallery, changeSearchCategoryId, resetAllSearchData, closeGallery}) (SearchScreen);

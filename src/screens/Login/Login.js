@@ -30,11 +30,11 @@ const Login = ({lan, login, logging, data, sendingCode, registerError, error, se
 
     const {t} = useTranslation();
 
-    useEffect(() => {
-        localStorage.removeItem('takemetoken');
-        localStorage.removeItem('takemeuser');
-        removeAxiosHeaders();
-    }, []);
+    // useEffect(() => {
+    //     localStorage.removeItem('takemetoken');
+    //     localStorage.removeItem('takemeuser');
+    //     removeAxiosHeaders();
+    // }, []);
 
     useEffect(() => {
         if(localStorage.getItem('takemeLoginData')) {
@@ -102,21 +102,21 @@ const Login = ({lan, login, logging, data, sendingCode, registerError, error, se
     }
     return (
         <KeepAlive cacheKey={'Login'}>
-            <div className={'Login'}>
+            <div id={'Login'} className={'Login'}>
                 <Navbar backBtn={true} midText={t('login')} />
-                <form onSubmit={formSbumitHandler} autoCorrect={'off'} autoComplete={'off'} className="Login__form">
-                    <div className="Login__form--element">
-                        <div className="Login__form--element-wrapper">
-                            <label htmlFor="phone" className={`Login__form--element-label ${(phoneActive || phone.length > 0) && 'Login__form--element-label-active'}`}>{t('phoneoremail')}</label>
-                            <input autoComplete={'off'} value={phone} onChange={e => {
+                <form id={'Login__form'} onSubmit={formSbumitHandler} autoCorrect={'off'} autoComplete={'off'} className="Login__form">
+                    <div id={'Login__form--username'} className="Login__form--element">
+                        <div id={'Login__form--username-wrapper'} className="Login__form--element-wrapper">
+                            <label id={'Login__form--username-label'} htmlFor="phone" className={`Login__form--element-label ${(phoneActive || phone.length > 0) && 'Login__form--element-label-active'}`}>{t('phoneoremail')}</label>
+                            <input id={'Login__form--username-input'} autoComplete={'off'} value={phone} onChange={e => {
                                 setPhone(e.target.value)
                             }} ref={inputRef} onBlur={e => phone.length === 0 && setPhoneActive(false)} onFocus={e => setPhoneActive(true)} name={'phone'} type="text" className="Login__form--element-input" />
                         </div>
                     </div>
-                    <div className="Login__form--element">
-                        <div className="Login__form--element-wrapper">
-                            <label htmlFor="phone" className={`Login__form--element-label ${(passwordActive || password.length > 0) && 'Login__form--element-label-active'}`}>{t('password')}</label>
-                            <input autoComplete={'off'} value={password} onChange={e => {
+                    <div id={'Login__form--password'} className="Login__form--element">
+                        <div id={'Login__form--password-wrapper'} className="Login__form--element-wrapper">
+                            <label id={'Login__form--password-label'} htmlFor="phone" className={`Login__form--element-label ${(passwordActive || password.length > 0) && 'Login__form--element-label-active'}`}>{t('password')}</label>
+                            <input id={'Login__form--password-input'} autoComplete={'off'} value={password} onChange={e => {
                                 setPassword(e.target.value);
                             }} name={'password'} onBlur={e => password.length === 0 && setPasswordActive(false)} onFocus={e => setPasswordActive(true)} type={type ? 'password' : 'text'} className="Login__form--element-input Login__form--element-inputPhone"/>
                             <p onClick={e => setType(!type)} className={'Login__form--element-eye'}>
@@ -129,7 +129,7 @@ const Login = ({lan, login, logging, data, sendingCode, registerError, error, se
                                 }
                             </p>
                         </div>
-                        <div onClick={ async e => {
+                        <div id={'Login__form--forget'} onClick={ async e => {
                             registerError('');
                             if(!phone) {
                                 registerError(t("emailmessage"));
@@ -153,9 +153,9 @@ const Login = ({lan, login, logging, data, sendingCode, registerError, error, se
                             }
                             const res = await sendForgetPasswordVerificationCode(data);
                         }} className="Login__form--forgetPassword"><span>{sendingCode && <i className="fa-solid fa-circle-notch"></i>}</span>{t('forget')}</div>
-                        <div className="Login__form--remember">
-                            <div className='Register__form--element-input--wrapper'>
-                                <input value={remember} onChange={e => {
+                        <div id={'Login__form--remember'} className="Login__form--remember">
+                            <div id={'Login__form--remember-wrapper'} className='Register__form--element-input--wrapper'>
+                                <input id={'Login__form--remember-checkbox'} value={remember} onChange={e => {
                                     if(e.target.checked) {
                                         setRemember(true);
                                     } else {
@@ -165,18 +165,18 @@ const Login = ({lan, login, logging, data, sendingCode, registerError, error, se
                                 }}  name={'conditions'} type="checkbox" className="Register__form--element-input" />
                                 <span></span>
                             </div>
-                            <label htmlFor="conditions" className={''}><span>{t('rememberme')}</span></label>
+                            <label id={'Login__form--remember-label'} htmlFor="conditions" className={''}><span>{t('rememberme')}</span></label>
                         </div>
                     </div>
 
-                    <div className="Login__form--element">
-                        <button className="Login__form--button">{logging ? <i className="fa-solid fa-circle-notch"></i> : t('loginbtn')}</button>
-                        <p className="Login__form--register">{t('create')}?<NavLink className={'Login__form--register-link'} to={'/register'}>{t('loginregister')}</NavLink></p>
+                    <div id={'Login__form--submit'} className="Login__form--element">
+                        <button id={'Login__form--submit-button'} className="Login__form--button">{logging ? <i className="fa-solid fa-circle-notch"></i> : t('loginbtn')}</button>
+                        <p id={'Login__form--register'} className="Login__form--register">{t('create')}?<NavLink className={'Login__form--register-link'} to={'/register'}>{t('loginregister')}</NavLink></p>
                     </div>
-                    <div className="Login__from--element Login__form--browse">
-                        <span>{t('or')}</span>
-                        <span onClick={browseClickHandler}>{t('browse')}</span>
-                    </div>
+                    {/*<div className="Login__from--element Login__form--browse">*/}
+                    {/*    <span>{t('or')}</span>*/}
+                    {/*    <span onClick={browseClickHandler}>{t('browse')}</span>*/}
+                    {/*</div>*/}
                 </form>
                 {
                     error && (
