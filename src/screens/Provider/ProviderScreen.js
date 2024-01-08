@@ -11,10 +11,10 @@ import ProviderLinkCopy from "./ProviderLinkCopy/ProviderLinkCopy";
 import Failure from "../Product/Provider/ProviderProducts/Failure/Failure";
 import {useTranslation} from "react-i18next";
 import {getAnalytics, logEvent} from "firebase/analytics";
-import {openPopup, changePopupProduct} from "../../store/actions/ui.actions";
+import {openPopup, changePopupProduct, changeNavbarAssets} from "../../store/actions/ui.actions";
 import {KeepAlive} from "react-activation";
 
-const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup}) => {
+const ProviderScreen = ({fetchProviderData, changeNavbarAssets, loadingProvider, filter, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup}) => {
     const params = useParams();
     const navigate = useNavigate();
     const history = useLocation();
@@ -62,10 +62,40 @@ const ProviderScreen = ({fetchProviderData, loadingProvider, filter, lan, provid
         }
     }, []);
 
+    useEffect(() => {
+        const data = {
+            searchPage: false,
+            backBtn: true,
+            step: null,
+            setStep: null,
+            search: false,
+            midText: provider?.name,
+            logoLink: '/'
+        }
+        changeNavbarAssets(data);
+    }, [provider]);
+
+    useEffect(() => {
+        return () => {
+            const data = {
+                // assets: assets,
+                searchPage: false,
+                term: '',
+                backBtn: false,
+                step: null,
+                setStep: null,
+                search: true,
+                logoLink: '/'
+            };
+            console.log(data);
+            changeNavbarAssets(data);
+        }
+    }, []);
+
     return (
         <KeepAlive cacheKey={'Provider'}>
             <div className={'ProviderScreen'}>
-                <Navbar backBtn={true} midText={provider.name} />
+                {/*<Navbar backBtn={true} midText={provider.name} />*/}
                 {
                     !loadingProvider ? (
                         Object.keys(provider).length !== 0 ? (
@@ -97,4 +127,4 @@ const mapStateToProps = state => ({
     filter: state.categories.filter
 });
 
-export default connect(mapStateToProps, {fetchProviderData, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup}) (ProviderScreen);
+export default connect(mapStateToProps, {changeNavbarAssets, fetchProviderData, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup}) (ProviderScreen);

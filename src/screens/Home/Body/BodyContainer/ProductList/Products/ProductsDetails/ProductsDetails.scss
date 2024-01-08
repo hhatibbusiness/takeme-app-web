@@ -17,7 +17,7 @@
     //top: 50%;
     //left: 50%;
     //transform: translate(-50%, -50%) !important;
-    width: 80%;
+    width: 400px;
     background: white;
     border-radius: 3px;
     z-index: 302;
@@ -241,6 +241,10 @@
 @media (max-width: 410px) {
   .Product__details--sale-message {
     font-size: 10px !important;
+  }
+
+  .ProductsDetails__container {
+    width: 100%;
   }
 }
 

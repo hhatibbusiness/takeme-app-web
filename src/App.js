@@ -1,7 +1,7 @@
 import './App.scss';
 import {Routes, Route, useNavigate, useParams} from "react-router-dom";
 import Home from "./screens/Home/Home";
-import {useEffect} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {connect} from "react-redux";
 import {fetchAssets} from "./store/actions/assets.actions";
 import Product from "./screens/Product/Product";
@@ -24,10 +24,55 @@ import ProviderRatings from "./screens/Provider/ProviderRatings/ProviderRatings"
 import {openPopup} from "./store/actions/ui.actions";
 import KeepAlive, {withActivation} from "react-activation";
 import smoothscroll from 'smoothscroll-polyfill';
+import Intro from "./components/Intro/Intro";
+import i18n from './i18n';
+import Navbar from "./components/HOC/Navbar/Navbar";
 
 const App = (props) => {
-    const {t} = useTranslation();
+    const [sidebar, setSidebar] = useState(false);
+    const [logoStart, setLogoStart] = useState(performance.getEntriesByType('navigation')[0].type != 'reload' ? null : localStorage.getItem('takemeFirstVisit'));
     const navigate = useNavigate();
+
+    const homeRef = useRef();
+
+    useEffect(() => {
+        let timeOut;
+        console.log('Hello there!', logoStart, localStorage.getItem('takemeFirstVisit'));
+        if(logoStart != '1') {
+            // if(true){
+            console.log('Hello from intro');
+            timeOut = setTimeout(() => {
+                setLogoStart(1);
+                localStorage.setItem("takemeFirstVisit", 1);
+            }, 1000);
+        }
+        return () => {
+            clearTimeout(timeOut);
+        }
+    }, []);
+
+    // const resetHeight = () => {
+    //     document.querySelector('.App').style.height = window.innerHeight + "px";
+    // }
+
+    // useEffect(() => {
+    //     if(props.platform == 0) {
+    //         resetHeight();
+    //         window.addEventListener('resize', resetHeight);
+    //         return () => {
+    //             window.removeEventListener('resize', resetHeight);
+    //         }
+    //     }
+    // }, [props.platform]);
+
+    // useEffect(() => {
+    //     console.log(performance.getEntriesByType('navigation'));
+    //     return () => {
+    //         localStorage.setItem('navigation', JSON.stringify(performance.getEntriesByType('navigation')[0]))
+    //     }
+    // }, []);
+
+    const {t} = useTranslation();
     useEffect(() => {
         props.fetchAssets(navigate);
         props.loadUser();
@@ -42,6 +87,10 @@ const App = (props) => {
 
         if (isMobile()) {
             props.changePlatform(0);
+            const intro = document?.querySelector('.Intro img');
+            if(intro) {
+                intro.style.top = "370px";
+            }
         } else {
             props.changePlatform(1);
         }
@@ -49,25 +98,32 @@ const App = (props) => {
 
     const params = useParams();
 
-
-
     return (
         <div onClick={e => {
             // logEvent(analytics, 'web_clicked', {user: 'clicked'})
         }} className={'App'} >
-            <Routes history={history}>
-                <Route path={'/'} exact element={<Home />} >
-                    <Route path={'/product/:id'} exact element={<Product />} />
-                    <Route path={'/provider/:providerId'} exact element={<ProviderScreen />} />
-                    {/*<Route exact path={'/provider/:provider_id/ratings'} element={<KeepAlive cacheKey={'Ratings'}><ProviderRatings /></KeepAlive>} />*/}
-                    <Route path={'/search'} exact element={<SearchScreen />} />
-                    <Route path={'/about'} exact element={<About />} />
-                    <Route path={'/contract'} exact element={<Contract />} />
-                    <Route path={'/login'} exact element={<Login />} />
-                    <Route path={'/register'} element={<Register />} />
-                    <Route path={'/forget/:email'} exact element={<Forget />} />
-                </Route>
-            </Routes>
+            {
+                !logoStart ? (
+                    <Intro />
+                ) : (
+                    <>
+                        <Navbar sidebar={sidebar} setSidebar={setSidebar} data={props.navbarData}/>
+                        <Routes history={history}>
+                            <Route path={'/'} exact element={<Home sidebar={sidebar} setSidebar={setSidebar} />} >
+                                <Route path={'/product/:id'} exact element={<Product />} />
+                                <Route path={'/provider/:providerId'} exact element={<ProviderScreen />} />
+                                {/*<Route exact path={'/provider/:provider_id/ratings'} element={<KeepAlive cacheKey={'Ratings'}><ProviderRatings /></KeepAlive>} />*/}
+                                <Route path={'/search'} exact element={<SearchScreen />} />
+                                <Route path={'/about'} exact element={<About />} />
+                                <Route path={'/contract'} exact element={<Contract />} />
+                                <Route path={'/login'} exact element={<Login />} />
+                                <Route path={'/register'} element={<Register />} />
+                                <Route path={'/forget/:email'} exact element={<Forget />} />
+                            </Route>
+                        </Routes>
+                    </>
+                )
+            }
             {props.openPopup && <ProductPopup />}
         </div>
     )
@@ -75,7 +131,9 @@ const App = (props) => {
 
 const mapStateToProps = state => ({
     openPopup: state.ui.openPopup,
-    product: state.product.product
-})
+    product: state.product.product,
+    platform: state.assets.platform,
+    navbarData: state.ui.navbar
+});
 
 export default connect(mapStateToProps, {fetchAssets, createOrder, loadUser, changePlatform}) (App);

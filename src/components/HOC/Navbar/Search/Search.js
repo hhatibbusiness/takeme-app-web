@@ -29,6 +29,7 @@ const Search = ({focused, searchResults, searchPage, loadingSearchResults, term,
     }
 
     useEffect(() => {
+        console.log(t('search'));
         if(searchPage) {
             setSearchTerm(term)
         } else {
@@ -60,33 +61,35 @@ const Search = ({focused, searchResults, searchPage, loadingSearchResults, term,
 
     return (
         <>
-        <div  onClick={() => {
-            if(!window?.location?.href.includes('search')) {
-                navigate('/search');
-            }
-            const analytics = getAnalytics();
-            logEvent(analytics, 'search_bar', {});
-        }} className={`Search ${inputFocus && 'Search__input--focused'}`}>
-            <form onSubmit={e=> e.preventDefault()} className={`Search__form `}>
-                <input onBlur={e => {
-                    console.log('Hello from Input!');
-                    // setInputFocus(false);
-                }} onFocus={e => {
-                    console.log('Hello from input 2!')
-                    if(searchPage) {
-                        setInputFocus(true);
-                    }
-                }} value={searchTerm} onChange={inputChangeHandler} onKeyUp={inputKeyUpHandler} ref={inputRef} type="text" className={`Search__input `} placeholder={t('search')}/>
-                <button className="Search__btn">
-                    <i className="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </form>
-            {
-                inputFocus && searchResults?.length > 0 && (
-                    <DropDownList loadingSearchResults={loadingSearchResults} searchResults={searchResults} inputRef={inputRef} term={term} setInputFocus={setInputFocus} />
-                )
-            }
-        </div>
+            <div onClick={() => {
+                if(!window?.location?.href.includes('search')) {
+                    navigate('/search');
+                }
+                const analytics = getAnalytics();
+                logEvent(analytics, 'search_bar', {});
+            }} className={`Search ${inputFocus && 'Search__input--focused'}`}>
+                <form onSubmit={e=> e.preventDefault()} className={`Search__form `}>
+                    <input onBlur={e => {
+                        console.log('Hello from Input!');
+                        // setInputFocus(false);
+                    }} onFocus={e => {
+                        console.log(searchPage)
+                        if(searchPage) {
+                            setInputFocus(true);
+                        } else {
+                            inputRef?.current?.blur();
+                        }
+                    }} value={searchTerm} onChange={inputChangeHandler} onKeyUp={inputKeyUpHandler} ref={inputRef} type="text" className={`Search__input `} placeholder={t('search')}/>
+                    <button className="Search__btn">
+                        <i className="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+                {
+                    inputFocus && searchResults?.length > 0 && (
+                        <DropDownList loadingSearchResults={loadingSearchResults} searchResults={searchResults} inputRef={inputRef} term={term} setInputFocus={setInputFocus} />
+                    )
+                }
+            </div>
             {inputFocus && <div onClick={e => {
                 history.back();
                 setInputFocus(false);

@@ -14,8 +14,10 @@ import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from "react-router-dom";
 import {KeepAlive} from "react-activation";
 import {closeGallery} from "../../store/actions/product.actions";
+import {changeNavbarAssets} from "../../store/actions/ui.actions";
 
 const SearchScreen = ({
+    assets,
     fetchSearchResults,
     closeGallery,
     lan,
@@ -34,7 +36,8 @@ const SearchScreen = ({
     searchPage,
     more,
     filter,
-    curId
+    curId,
+    changeNavbarAssets
 }) => {
 
     const [moreLoading, setMoreLoading] = useState(true);
@@ -90,10 +93,44 @@ const SearchScreen = ({
         setMoreLoading(more);
     }, [more]);
 
+    useEffect(() => {
+        console.log(
+            assets
+        )
+        const data = {
+            searchPage: true,
+            loadingSearchResults,
+            searchResults,
+            term,
+            backBtn: true,
+            step: null,
+            setStep: null,
+            search: true
+        }
+        changeNavbarAssets(data);
+
+    }, [assets, searchResults, term, loadingSearchResults]);
+
+    useEffect(() => {
+        return () => {
+            const data = {
+                // assets: assets,
+                searchPage: false,
+                term: '',
+                backBtn: false,
+                step: null,
+                setStep: null,
+                search: true
+            };
+            console.log(data);
+            changeNavbarAssets(data);
+        }
+    }, []);
+
     return (
         <KeepAlive>
             <div className={'SearchScreen'}>
-                <Navbar searchResults={searchResults} loadingSearchResults={loadingSearchResults} term={term} backBtn={true} search={true} searchPage={true}/>
+                {/*<Navbar searchResults={searchResults} loadingSearchResults={loadingSearchResults} term={term} backBtn={true} search={true} searchPage={true}/>*/}
                 {
                     !loadingCategories ? (
                         <>
@@ -118,10 +155,10 @@ const SearchScreen = ({
                                                     {
                                                         searchResults.map((p, i) => (
                                                             <>
-                                                                <Provider search={true} link provider={p} key={p.id} openGallery={openSearchGallery}/>
-                                                                {
-                                                                    gallery && <Gallery product={galleryProduct} closeGallery={closeGallery} openGallery={openSearchGallery} />
-                                                                }
+                                                                <Provider search={true} link provider={p} key={p.id} openGallery={openSearchGallery} closeGallery={closeSearchGallery} galleryProduct={galleryProduct} />
+                                                                {/*{*/}
+                                                                {/*    gallery && <Gallery product={galleryProduct} closeGallery={closeSearchGallery} openGallery={openSearchGallery} />*/}
+                                                                {/*}*/}
                                                             </>
                                                         ))
                                                     }
@@ -157,7 +194,7 @@ const mapStateToProps = state => ({
     searchPage: state.search.searchPage,
     more: state.search.more,
     filter: state.categories.filter,
-
+    assets: state.assets,
 });
 
-export default connect(mapStateToProps, {fetchSearchResults, closeSearchGallery, openSearchGallery, changeSearchCategoryId, resetAllSearchData, closeGallery}) (SearchScreen);
+export default connect(mapStateToProps, {changeNavbarAssets, fetchSearchResults, closeSearchGallery, openSearchGallery, changeSearchCategoryId, resetAllSearchData, closeGallery}) (SearchScreen);

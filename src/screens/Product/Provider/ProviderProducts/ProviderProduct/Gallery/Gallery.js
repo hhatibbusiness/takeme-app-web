@@ -28,14 +28,14 @@ const Gallery = ({product, setGallery, closeGallery, gallery}) => {
     }, []);
 
     useEffect(() => {
-        console.log(setGallery, gallery);
+        console.log(setGallery, gallery, closeGallery);
 
         // window.addEventListener('popstate', e => history.go(1));
         if(gallery) {
             window.history.pushState(null, null, window.location.href);
             window.addEventListener('popstate', e => {
                 e.preventDefault();
-                closeGallery();
+                // closeGallery();
                 setGallery(false);
                 console.log(history);
             });
@@ -92,7 +92,7 @@ const Gallery = ({product, setGallery, closeGallery, gallery}) => {
                 product?.images?.length > 1 && <Dots color={'white'} products={product?.images && product?.images} activeIndex={active}  />
             }
             <div onClick={() => {
-                closeGallery();
+                // closeGallery();
                 history.back();
                 setGallery(false);
             }} className={'Gallery__close'}><i className="fa-solid fa-xmark"></i></div>

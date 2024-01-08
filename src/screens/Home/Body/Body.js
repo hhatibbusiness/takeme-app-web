@@ -15,8 +15,8 @@ import SearchScreen from "../../SearchScreen/SearchScreen";
 import {closePopup} from "../../../store/actions/ui.actions";
 import {KeepAlive} from "react-activation";
 
-const Body = ({ fetchCategories, loadingCategories, lan, page, openPopup, closePopup}) => {
-    const [sidebar, setSidebar] = useState(false);
+const Body = ({ fetchCategories, setSidebar, sidebar, loadingCategories, lan, page, openPopup, closePopup}) => {
+    // const [sidebar, setSidebar] = useState(false);
 
     return (
             <div className={'Body'}>
@@ -25,7 +25,7 @@ const Body = ({ fetchCategories, loadingCategories, lan, page, openPopup, closeP
                         <SpinnerComponent />
                     ) : <CategoryError>
                         {/*<KeepAlive cacheKey={'home-navbar'}>*/}
-                            <Navbar search={true} searchPage={false} setSidebar={setSidebar} />
+                        {/*    <Navbar search={true} searchPage={false} setSidebar={setSidebar} />*/}
                         {/*</KeepAlive>*/}
                         {/*<KeepAlive cacheKey={'sidebar'}>*/}
                             <Sidebar sidebar={sidebar} setSidebar={setSidebar} />

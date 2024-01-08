@@ -7,8 +7,9 @@ import SpinnerComponent from "../../components/Spinner/Spinner.Component";
 import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
 import {KeepAlive} from "react-activation";
+import {changeNavbarAssets} from "../../store/actions/ui.actions";
 
-const Contract = ({fetchContractPage, lan, fetchingContractPage, contractData}) => {
+const Contract = ({fetchContractPage, changeNavbarAssets, lan, fetchingContractPage, contractData}) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
 
@@ -19,11 +20,16 @@ const Contract = ({fetchContractPage, lan, fetchingContractPage, contractData}) 
 
     useEffect(() => {
         const home = document.querySelector('body');
+        const navbar = document.querySelector('.Navbar__container')
         const freezeStyles = () => {
-            home.classList.add('Home__hide')
+            home.classList.add('Home__hide');
+            navbar.classList.add('Home__direction');
+
         }
         const releaseStyles = () => {
-            home.classList.remove('Home__hide')
+            home.classList.remove('Home__hide');
+            navbar.classList.add('Home__direction');
+
         }
 
         freezeStyles();
@@ -33,10 +39,40 @@ const Contract = ({fetchContractPage, lan, fetchingContractPage, contractData}) 
         }
     }, []);
 
+    useEffect(() => {
+        const data = {
+            searchPage: false,
+            backBtn: true,
+            step: null,
+            setStep: null,
+            search: false,
+            midText: t('condition'),
+            logoLink: '/'
+        }
+        changeNavbarAssets(data);
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            const data = {
+                // assets: assets,
+                searchPage: false,
+                term: '',
+                backBtn: false,
+                step: null,
+                setStep: null,
+                search: true,
+                logoLink: '/'
+            };
+            console.log(data);
+            changeNavbarAssets(data);
+        }
+    }, []);
+
     return (
         <KeepAlive cacheKey={'Contract'}>
             <div className={'ContractScreen'}>
-                <Navbar backBtn={true} midText={t('condition')} />
+                {/*<Navbar backBtn={true} midText={t('condition')} />*/}
                 {
                     fetchingContractPage ? (
                         <SpinnerComponent />
@@ -55,4 +91,4 @@ const mapStateToProps = state => ({
     fetchingContractPage: state.contract.fetchingContract
 })
 
-export default connect(mapStateToProps, {fetchContractPage}) (Contract);
+export default connect(mapStateToProps, {changeNavbarAssets, fetchContractPage}) (Contract);

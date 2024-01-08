@@ -12,8 +12,9 @@ import {connect} from "react-redux";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
 import AuthenticationError from "../../components/AuthenticationError/AuthenticationError";
 import {KeepAlive} from "react-activation";
+import {changeNavbarAssets} from "../../store/actions/ui.actions";
 
-const Forget = ({sendingCode, error, errorMessage, sendingCodeToServer, sendCodePasswordToServer, sendForgetPasswordVerificationCode, lan, validation}) => {
+const Forget = ({sendingCode, changeNavbarAssets, error, errorMessage, sendingCodeToServer, sendCodePasswordToServer, sendForgetPasswordVerificationCode, lan, validation}) => {
     const {t} = useTranslation();
     const [step, setStep] = useState(1);
 
@@ -85,6 +86,36 @@ const Forget = ({sendingCode, error, errorMessage, sendingCodeToServer, sendCode
     //
     // }, []);
 
+    useEffect(() => {
+        const data = {
+            searchPage: false,
+            backBtn: true,
+            step: null,
+            setStep: null,
+            search: false,
+            midText: t('forget Header'),
+            logoLink: '/'
+        }
+        changeNavbarAssets(data);
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            const data = {
+                // assets: assets,
+                searchPage: false,
+                term: '',
+                backBtn: false,
+                step: null,
+                setStep: null,
+                search: true,
+                logoLink: '/'
+            };
+            console.log(data);
+            changeNavbarAssets(data);
+        }
+    }, []);
+
     const renderForm = () => {
         switch (step) {
             case 1:
@@ -123,7 +154,7 @@ const Forget = ({sendingCode, error, errorMessage, sendingCodeToServer, sendCode
     return (
         <KeepAlive cacheKey={'Forget'}>
             <div className={'Forget'}>
-                <Navbar backBtn={true} midText={t('forget Header')} />
+                {/*<Navbar backBtn={true} midText={t('forget Header')} />*/}
                 <Step
                     step={step}
                     setStep={setStep}
@@ -169,6 +200,6 @@ const mapStateToProps = state => ({
     errorMessage: state.login.errorMessage,
     error: state.login.error
     // code: state.forget.code
-})
+});
 
-export default connect(mapStateToProps, {sendForgetPasswordVerificationCode, sendCodePasswordToServer}) (Forget);
+export default connect(mapStateToProps, {changeNavbarAssets, sendForgetPasswordVerificationCode, sendCodePasswordToServer}) (Forget);

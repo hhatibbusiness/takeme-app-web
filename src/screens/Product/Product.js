@@ -12,12 +12,12 @@ import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../components/Loader/Loader";
 import {useTranslation} from "react-i18next";
 import ProductPopup from "../../components/ProductPopup/ProductPopup";
-import {openPopup, togglePopup, changePopupProduct} from "../../store/actions/ui.actions";
+import {openPopup, togglePopup, changePopupProduct, changeNavbarAssets} from "../../store/actions/ui.actions";
 import {KeepAlive, useAliveController , useActivate, useUnactivate} from 'react-activation';
 
 import {changeCurrentProductTypeId} from "../../store/actions/product.actions";
 
-const Product = ({galleryProduct, currentProductTypeId, changeCurrentProductTypeId, openPopup, togglePopup, changePopupProduct, filter, closeGallery, fetchProductDetails, more, page, lan, providers, resetProductData, fetchProductTypeDetails, productType, loadingProductsProviders, openGallery}) => {
+const Product = ({galleryProduct, changeNavbarAssets, currentProductTypeId, changeCurrentProductTypeId, openPopup, togglePopup, changePopupProduct, filter, closeGallery, fetchProductDetails, more, page, lan, providers, resetProductData, fetchProductTypeDetails, productType, loadingProductsProviders, openGallery}) => {
     const [moreLoading, setMoreLoading] = useState(true);
     const productRef = useRef();
     const params = useParams();
@@ -79,7 +79,35 @@ const Product = ({galleryProduct, currentProductTypeId, changeCurrentProductType
         }
     }, []);
 
+    useEffect(() => {
+        const data = {
+            searchPage: false,
+            backBtn: true,
+            step: null,
+            setStep: null,
+            search: false,
+            midText: productType?.title && productType.title,
+            logoLink: '/'
+        }
+        changeNavbarAssets(data);
+    }, [productType]);
 
+    useEffect(() => {
+        return () => {
+            const data = {
+                // assets: assets,
+                searchPage: false,
+                term: '',
+                backBtn: false,
+                step: null,
+                setStep: null,
+                search: true,
+                logoLink: '/'
+            };
+            console.log(data);
+            changeNavbarAssets(data);
+        }
+    }, []);
 
     useEffect(() => {
         const home = document.querySelector('body');
@@ -103,7 +131,7 @@ const Product = ({galleryProduct, currentProductTypeId, changeCurrentProductType
     return (
         <KeepAlive cacheKey={'Products'}>
             <div ref={productRef} className={'ProductScreen'}>
-                <Navbar backBtn={true} midText={productType?.title && productType.title} logoLink={'/'}/>
+                {/*<Navbar backBtn={true} midText={productType?.title && productType.title} logoLink={'/'}/>*/}
                 {
                     !loadingProductsProviders ? (
                         providers?.length > 0 ? (
@@ -159,4 +187,4 @@ const mapStateToProps = state => ({
     currentProductTypeId: state.product.currentProductTypeId
 });
 
-export default connect(mapStateToProps, {resetProductData, changeCurrentProductTypeId, fetchProductDetails, fetchProductTypeDetails, togglePopup, closeGallery, openGallery, openPopup, changePopupProduct}) (Product);
+export default connect(mapStateToProps, {changeNavbarAssets, resetProductData, changeCurrentProductTypeId, fetchProductDetails, fetchProductTypeDetails, togglePopup, closeGallery, openGallery, openPopup, changePopupProduct}) (Product);

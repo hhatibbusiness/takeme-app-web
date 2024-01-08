@@ -244,8 +244,9 @@ import {sendCodeToServer} from "../../store/actions/register.actions";
 import {registerError} from "../../store/actions/register.actions";
 import {Outlet} from "react-router-dom";
 import {KeepAlive} from "react-activation";
+import {changeNavbarAssets} from "../../store/actions/ui.actions";
 
-const Register = ({errorMessage, validation, registerError, sendingCodeToServer, sendCodeToServer, sendingCodeToCustomer, sendEmailVerifyCodeToCustomer, lan}) => {
+const Register = ({errorMessage, changeNavbarAssets, validation, registerError, sendingCodeToServer, sendCodeToServer, sendingCodeToCustomer, sendEmailVerifyCodeToCustomer, lan}) => {
     const {t} = useTranslation();
     const [form, setForm] = useState({
         username: {
@@ -422,6 +423,36 @@ const Register = ({errorMessage, validation, registerError, sendingCodeToServer,
         registerError('');
     }, []);
 
+    useEffect(() => {
+        const data = {
+            searchPage: false,
+            backBtn: true,
+            step: step,
+            setStep: setStep,
+            search: false,
+            midText: t('register'),
+            logoLink: '/'
+        }
+        changeNavbarAssets(data);
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            const data = {
+                // assets: assets,
+                searchPage: false,
+                term: '',
+                backBtn: false,
+                step: null,
+                setStep: null,
+                search: true,
+                logoLink: '/'
+            };
+            console.log(data);
+            changeNavbarAssets(data);
+        }
+    }, []);
+
     const stepRenderer = () => {
         switch (step) {
             case 1:
@@ -486,7 +517,7 @@ const Register = ({errorMessage, validation, registerError, sendingCodeToServer,
     return (
         <KeepAlive cacheKey={'Register'}>
             <div className={'Register'}>
-                <Navbar step={step} setStep={setStep} backBtn={true} midText={t('register')} />
+                {/*<Navbar step={step} setStep={setStep} backBtn={true} midText={t('register')} />*/}
                 <Step
                     step={step}
                     setStep={setStep}
@@ -516,4 +547,4 @@ const mapStateToProps = state => ({
     validation: state.register.validation
 })
 
-export default connect(mapStateToProps, {sendEmailVerifyCodeToCustomer, registerError, sendCodeToServer}) (Register);
+export default connect(mapStateToProps, {changeNavbarAssets, sendEmailVerifyCodeToCustomer, registerError, sendCodeToServer}) (Register);

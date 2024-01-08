@@ -102,7 +102,7 @@ const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, ch
                     <img src={assets?.logoPath && assets.logoPath} />
                 </div>
                 <div className="Sidebar__links">
-                    <Link to={'/about'} className="Sidebar__link">
+                    <Link onClick={e => setSidebar(false)} to={'/about'} className="Sidebar__link">
                         <div className="Sidebar__link--main">
                             <i className="fa-solid fa-circle-exclamation"></i>
                             <p>{t('who we are')}</p>
@@ -173,7 +173,7 @@ const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, ch
                             <p>{t('join')}</p>
                         </div>
                     </a>
-                    <Link to={'/contract'} className="Sidebar__link">
+                    <Link onClick={e => setSidebar(false)} to={'/contract'} className="Sidebar__link">
                         <div className="Sidebar__link--main">
                             <i className="fa-regular fa-copyright"></i>
                             <p>{t('condition')}</p>
@@ -207,7 +207,7 @@ const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, ch
                         isAuthenticated ? (
                             <p onClick={e => logout()} className="Sidebar__link Sidebar__register Sidebar__logout">{t('logout')}</p>
                         ) : (
-                            <Link className={'Sidebar__link Sidebar__register'} to={'/login'}>{t("login")}</Link>
+                            <Link onClick={e => setSidebar(false)} className={'Sidebar__link Sidebar__register'} to={'/login'}>{t("login")}</Link>
                         )
                     }
                 </div>

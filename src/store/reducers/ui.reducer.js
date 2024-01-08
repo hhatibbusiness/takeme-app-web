@@ -5,7 +5,20 @@ const initialState = {
     currentProduct: null,
     openPopup: false,
     rating: false,
-    yPosition: 200
+    yPosition: 200,
+    navbar: {
+        assets: {},
+        setSidebar: null,
+        searchPage: null,
+        loadingSearchResults: null,
+        searchResults: [],
+        term: null,
+        backBtn: false,
+        step: null,
+        setStep: null,
+        midText: null,
+        search: false,
+    }
 }
 
 export default (state = initialState, action) => {
@@ -39,6 +52,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 yPosition: action.pos
+            }
+        case actionTypes.CHANGE_NAVBAR_ASSETS:
+            return {
+                ...state,
+                navbar: action.data
             }
         default:
             return state;

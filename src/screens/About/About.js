@@ -5,10 +5,11 @@ import {connect} from "react-redux";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
 import Navbar from "../../components/HOC/Navbar/Navbar";
 import {useTranslation} from "react-i18next";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {KeepAlive} from "react-activation";
+import {changeNavbarAssets} from "../../store/actions/ui.actions";
 
-const About = ({fetchAboutPage, fetchingAboutPage, aboutData, lan}) => {
+const About = ({fetchAboutPage, changeNavbarAssets, fetchingAboutPage, aboutData, lan}) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
 
@@ -28,15 +29,68 @@ const About = ({fetchAboutPage, fetchingAboutPage, aboutData, lan}) => {
         }
     }, []);
 
+    const params = useParams();
+
     useEffect(() => {
         if(aboutData) return;
         fetchAboutPage(lan, navigate);
     }, [lan]);
 
+    useEffect(() => {
+        const home = document.querySelector('body');
+        const navbar = document.querySelector('.Navbar__container')
+        const freezeStyles = () => {
+            home.classList.add('Home__hide');
+            navbar.classList.add('Home__direction');
+
+        }
+        const releaseStyles = () => {
+            home.classList.remove('Home__hide');
+            navbar.classList.add('Home__direction');
+
+        }
+
+        freezeStyles();
+
+        return () => {
+            releaseStyles();
+        }
+    }, []);
+
+    useEffect(() => {
+        const data = {
+            searchPage: false,
+            backBtn: true,
+            step: null,
+            setStep: null,
+            search: false,
+            midText: t('who we are'),
+            logoLink: '/'
+        }
+        changeNavbarAssets(data);
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            const data = {
+                // assets: assets,
+                searchPage: false,
+                term: '',
+                backBtn: false,
+                step: null,
+                setStep: null,
+                search: true,
+                logoLink: '/'
+            };
+            console.log(data);
+            changeNavbarAssets(data);
+        }
+    }, []);
+
     return (
         <KeepAlive cacheKey={'About'}>
             <div id={'AboutScreen'} className={'AboutScreen'}>
-                <Navbar backBtn={true} midText={t('who we are')} />
+                {/*<Navbar backBtn={true} midText={t('who we are')} />*/}
                 {
                     fetchingAboutPage ? (
                         <SpinnerComponent />
@@ -55,4 +109,4 @@ const mapStateToProps = state => ({
     lan: state.categories.lan
 })
 
-export default connect(mapStateToProps, {fetchAboutPage}) (About);
+export default connect(mapStateToProps, {fetchAboutPage, changeNavbarAssets}) (About);

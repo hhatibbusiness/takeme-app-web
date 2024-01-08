@@ -1,5 +1,5 @@
 import {
-    CHANGE_CURRENT_POPUP_PRODUCT, CHANGE_DESTINATION, CHANGE_HOME_POSITION,
+    CHANGE_CURRENT_POPUP_PRODUCT, CHANGE_DESTINATION, CHANGE_HOME_POSITION, CHANGE_NAVBAR_ASSETS,
     CLOSE_POPUP,
     OPEN_POPUP,
     TOGGLE_POPUP
@@ -31,5 +31,12 @@ export const changeHomePosition = pos => {
     return {
         type: CHANGE_HOME_POSITION,
         pos
+    }
+}
+
+export const changeNavbarAssets = data => {
+    return {
+        type: CHANGE_NAVBAR_ASSETS,
+        data
     }
 }

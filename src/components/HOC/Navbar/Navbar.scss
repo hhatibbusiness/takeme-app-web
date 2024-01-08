@@ -6,7 +6,7 @@
   top: 0;
   left: 0;
   height: 50px;
-  z-index: 100;
+  z-index: 1100;
 
   .Navbar__container {
     width: 100%;
@@ -32,7 +32,6 @@
       justify-content: center;
       gap: 3px;
       height: 80%;
-
 
       p {
         font-size: 9px;

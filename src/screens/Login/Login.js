@@ -13,8 +13,9 @@ import {useLocation} from "react-router-dom";
 import LoginPopup from "./LoginPopup/LoginPopup";
 import {sendForgetPasswordVerificationCode, sendCodePasswordToServer} from "../../store/actions/forget.password.actions";
 import {KeepAlive} from "react-activation";
+import {changeNavbarAssets} from "../../store/actions/ui.actions";
 
-const Login = ({lan, login, logging, data, sendingCode, registerError, error, sendForgetPasswordVerificationCode, errorMessage}) => {
+const Login = ({lan, login, logging, changeNavbarAssets, data, sendingCode, registerError, error, sendForgetPasswordVerificationCode, errorMessage}) => {
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [phoneActive, setPhoneActive] = useState(false);
@@ -100,10 +101,40 @@ const Login = ({lan, login, logging, data, sendingCode, registerError, error, se
             localStorage.removeItem('takemeLoginData');
         }
     }
+
+    useEffect(() => {
+        const data = {
+            searchPage: false,
+            backBtn: true,
+            step: null,
+            setStep: null,
+            search: false,
+            midText: t('login'),
+            logoLink: '/'
+        }
+        changeNavbarAssets(data);
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            const data = {
+                // assets: assets,
+                searchPage: false,
+                term: '',
+                backBtn: false,
+                step: null,
+                setStep: null,
+                search: true,
+                logoLink: '/'
+            };
+            console.log(data);
+            changeNavbarAssets(data);
+        }
+    }, []);
     return (
         <KeepAlive cacheKey={'Login'}>
             <div id={'Login'} className={'Login'}>
-                <Navbar backBtn={true} midText={t('login')} />
+                {/*<Navbar backBtn={true} midText={t('login')} />*/}
                 <form id={'Login__form'} onSubmit={formSbumitHandler} autoCorrect={'off'} autoComplete={'off'} className="Login__form">
                     <div id={'Login__form--username'} className="Login__form--element">
                         <div id={'Login__form--username-wrapper'} className="Login__form--element-wrapper">
@@ -200,4 +231,4 @@ const mapStateToProps = (state) => ({
     sendingCode: state.forget.sendingCode
 })
 
-export default connect(mapStateToProps, {login, registerError, sendForgetPasswordVerificationCode}) (Login);
+export default connect(mapStateToProps, {changeNavbarAssets, login, registerError, sendForgetPasswordVerificationCode}) (Login);
