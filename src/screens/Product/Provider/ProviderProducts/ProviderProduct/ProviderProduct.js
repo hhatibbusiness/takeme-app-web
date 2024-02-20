@@ -15,6 +15,7 @@ import {togglePopup, changeDestination} from "../../../../../store/actions/ui.ac
 import {changePopupProduct} from "../../../../../store/actions/ui.actions";
 import {getAnalytics, logEvent} from "firebase/analytics";
 import {closeGallery} from "../../../../../store/actions/product.actions";
+import productDefault from '../../../../../assets/images/defaults/default-product-image.png'
 
 const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, arrayRef, providerOrNot, productTypesCount, search, providerRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
     //test
@@ -34,6 +35,9 @@ const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, array
     const failureRef = useRef(null);
     const imgContainerRef = useRef(null);
     const [hidden, setHidden] = useState(true);
+    const [more, setMore] = useState(false);
+    const productRef = useRef();
+    const [charCount, setCharCount] = useState(0);
 
 
     // const renderImage = async () => {
@@ -85,18 +89,52 @@ const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, array
         return {__html: product?.description && product.description};
     }
 
+    const getSubString = (string) => {
+        let lowercaseTitle = product?.name?.toLowerCase();
+        const lowercaseTerm = term?.toLowerCase();
+        // console.log(lowercaseTitle?.indexOf(lowercaseTerm), lowercaseTerm, lowercaseTitle);
+        // return lowercaseTitle?.indexOf(lowercaseTerm);
+        // const indexes = [];
+        // if(lowercaseTerm.length > 0) {
+        //     for (let i = 0; i < lowercaseTitle.length; i = i + lowercaseTerm.length) {
+        //         // console.log(i, lowercaseTitle);
+        //         const index = lowercaseTitle.indexOf(lowercaseTerm);
+        //         if(index !== -1) {
+        //             indexes.push(index + ((indexes[indexes.length - 1] + 1)  || 0));
+        //             lowercaseTitle = lowercaseTitle.slice(index, lowercaseTerm);
+        //         }
+        //     }
+        // }
+        // console.log(indexes);
+        return lowercaseTitle.indexOf(lowercaseTerm);
+    }
+
     const renderName = () => {
-        var innerHTML = product.name;
+        var innerHTML = product?.name;
         var index = innerHTML.indexOf(term);
-        if (index >= 0) {
+        // console.log(term);
+        if (getSubString(term) != -1) {
+            // console.log(true)
             // innerHTML = <p onClick={() => setDetailed(!detailed)} className={'ProviderProduct__title'}>{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
-            innerHTML = <p className={'ProviderProduct__title'}>{innerHTML.substring(0,index)}<span class='highlight'>{innerHTML.substring(index,index+term.length) }</span>{innerHTML.substring(index + term.length)}</p>;
+            innerHTML = <p className={'ProviderProduct__title'}>{innerHTML.substring(0,getSubString(term))}<span class='highlight'>{innerHTML.substring(getSubString(term),getSubString(term) + term.length)}</span>{innerHTML.substring(getSubString(term) + term.length)}{product?.saleDetails?.status && <span className={'ProviderProduct__title--status'}>({product?.saleDetails?.status})</span>}</p>;
             return innerHTML;
         } else {
             return innerHTML;
         }
-    }
 
+        // const span = document.createElement('span');
+        // span.className = 'highlight';
+        // span.innerHTML = term;
+        // const paragraph = document.createElement('p');
+        // paragraph.className = 'ProviderProduct__title';
+        // paragraph.innerHTML = product?.name?.toLowerCase().replace(term , span );
+        //
+        // // return <p className={'ProviderProduct__title'}>{product?.name?.toLowerCase().replace(term , span )}</p>;
+        //
+        // return paragraph;
+
+        // return <p className={'ProviderProduct__title'}>{product?.name?.toLowerCase().replace(term.toLowerCase(), <span className={'highlight'}>{term}</span>)}</p>
+    }
     //
     // useEffect(() => {
     //     if(!imgContainerRef?.current || !imgRef?.current) return;
@@ -115,13 +153,13 @@ const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, array
         const productContainer = arrayRef?.current;
         if(!imgElement) return;
         const containerHeight = productContainer?.getBoundingClientRect().width;
-        if(providerElem && !providerOrNot) providerElem.style.height = `${750 + (containerHeight - 400)}px`;
-        if(providerElem && providerOrNot) providerElem.style.height = `${250 + 400 * productTypesCount + productTypesCount * 200 + (containerHeight - 400) * productTypesCount}px`;
+        // if(providerElem && !providerOrNot) providerElem.style.height = `${750 + (containerHeight - 400)}px`;
+        // if(providerElem && providerOrNot) providerElem.style.height = `${250 + 400 * productTypesCount + productTypesCount * 200 + (containerHeight - 400) * productTypesCount}px`;
         if(imgLoader) imgLoader.style.height = `${containerHeight}px`;
         if(imgContainer) imgContainer.style.height = `${containerHeight}px`;
         if(failureEle) failureEle.style.height = `${containerHeight}px`;
         if(productContainer || failureEle || imgContainer || imgLoader || imgElement && containerHeight) {
-            productContainer.style.height = `${imgLoader?.getBoundingClientRect().height + 150}px`
+            // productContainer.style.height = `${imgLoader?.getBoundingClientRect().height + 150}px`
         }
     }
 
@@ -140,6 +178,41 @@ const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, array
     }, []);
 
 
+    const checkLineCount = (ele) => {
+        const productWidth = imgRef?.current?.getBoundingClientRect().width;
+        const lineHeight = 15;
+        const lines = 2.5;
+        const charWidth = 9;
+        console.log(lines, lineHeight);
+        const descLength = (productWidth * lines) / (charWidth);
+
+        console.log(Math.floor(descLength), product?.description?.text?.length);
+        if(descLength < product?.description?.text?.length) {
+            setMore(true);
+            setCharCount(Math.floor(descLength));
+        }else {
+            setMore(false);
+            setCharCount(product?.description?.text?.length);
+        }
+    }
+
+    useEffect(() => {
+        const ele = descRef?.current;
+        if(imgRef?.current) {
+            const resizeEvent = window.addEventListener('resize', (e) => {
+                checkLineCount(ele);
+            })
+        }
+    }, [imgRef]);
+
+    useEffect(() => {
+        const ele = descRef?.current;
+        if(imgRef?.current) {
+            console.log(imgRef)
+            checkLineCount(ele);
+        }
+    }, [imgRef]);
+
     return (
         <div onClick={e => {
             const analytics = getAnalytics();
@@ -156,7 +229,7 @@ const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, array
                                     setGallery(true);
                                 }} className={'ProviderProduct__body--container'}>
                                     <div ref={imgContainerRef} className="ProviderProduct__image--container">
-                                        <Img setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath}/>
+                                        <Img product={true} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath || productDefault}/>
                                         {loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} imgLoaderRef={imgLoaderRef} failureRef={failureRef} elemRef={imgContainerRef} /> }
                                     </div>
                                 </div>
@@ -220,7 +293,10 @@ const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, array
                                         product?.description && (
                                             <div className="ProviderProduct__details--desc">
                                                 {/*{product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}*/}
-                                                {<p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => {
+                                                {<p className="ProviderProduct__details--text">
+                                                    <span className={'ProviderProduct__details--text-ellipsis'}>{product?.description?.text && product?.description?.text.slice(0, charCount)}</span>
+
+                                                    <span onClick={e => {
                                                     changePopupProduct(product);
                                                     togglePopup();
                                                     changeDestination(false);
@@ -230,7 +306,7 @@ const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, array
                                                         productId: product.id,
                                                         screen: search && 'search' || 'provider'
                                                     });
-                                                }} className={'ProviderProduct__details--text-short'}>{(short ? `...${t('more')}` : t('less'))}</span></p>}
+                                                }} className={'ProviderProduct__details--text-short'}>{(more || (product?.description?.variables.length > 0 || product?.description?.tags?.length > 0 || product?.description?.list?.length > 0 || product?.description?.comments.length > 0) ? `...${t('more')}` : '')}</span></p>}
                                             </div>
                                         )
                                     }
@@ -238,7 +314,8 @@ const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, array
                             </div>
                     )
                 }
-                {(!loaded || hidden) && <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={true} priceTitle={true} imgLoaded={false} details={true} btn={false} />}
+                {/*{true && <LoadingProduct imgLoaderRef={imgLoaderRef} rentDetails={product?.rentDetails} priceStartFrom={true} priceTitle={true} imgLoaded={false} details={true} btn={false} />}*/}
+                {(!loaded || hidden) && <LoadingProduct rentDetails={product?.rentDetails} moreDetails={more} imgLoaderRef={imgLoaderRef} priceStartFrom={true} priceTitle={true} imgLoaded={false} details={true} btn={false} />}
             </div>
         </div>
     );

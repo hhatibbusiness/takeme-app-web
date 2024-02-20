@@ -36,7 +36,7 @@ export const sendForgetPasswordVerificationCode = data => async dispatch => {
                 type: LOGIN_ERROR,
                 message: errorMessage
             });
-            console.log(res.data.message);
+            // console.log(res.data.message);
             data.navigate('/login', {state : data.history.state});
         }
         dispatch(endSendingForgetPasswordVerificationCode);

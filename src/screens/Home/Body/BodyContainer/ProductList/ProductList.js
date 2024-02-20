@@ -26,19 +26,25 @@ const Category = ({products, id, lan, page, fetchCategoryProducts, increasePageN
 
     return (
         <div ref={containerRef} className={'CategoryComp'} >
-            <SliderComponent />
+            {/*<SliderComponent />*/}
             <InfiniteScroll
                 style={{position: 'relative', paddingBottom: '100px;'}}
                 dataLength={products.length}
                 pageStart={page}
                 loadMore={() => {
+                    // console.log('step1')
                     if(products.length === 0 && page === 0) return;
+                    // console.log('step2')
                     if(!moreLoading) return;
+                    // console.log('step3')
                     if(!more) return setMoreLoading(false);
+                    // console.log('step4')
                     fetchCategoryProducts(id, lan, page, filter, navigate);
+                    // console.log('step5')
                 }}
                 hasMore={moreLoading}
                 loader={<Loader />}
+                useWindow={true}
             >
                 <Products id={`products_${id}`} products={products} />
             </InfiniteScroll>

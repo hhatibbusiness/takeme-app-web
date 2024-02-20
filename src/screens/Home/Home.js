@@ -76,7 +76,7 @@ const Home = ({lan, yPosition, setSidebar, sidebar, loadingCategoryProducts, cha
             setStep: null,
             search: !(params?.providerId || params?.id || window?.location?.href?.includes('contract') || window?.location?.href?.includes('about') || window?.location?.href?.includes('login') || window?.location?.href?.includes('register') || window?.location?.href?.includes('forget'))
         };
-        console.log(data);
+        // console.log(data);
         changeNavbarAssets(data);
     }, []);
 

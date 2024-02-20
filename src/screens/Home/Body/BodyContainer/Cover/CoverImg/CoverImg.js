@@ -20,7 +20,7 @@ const CoverImg = ({image}) => {
             const response = await fetch(url);
             const contentType = response.headers.get('Content-Type');
             // Parse `contentType` to determine the file type
-            console.log(`The file type is: ${contentType}`);
+            // console.log(`The file type is: ${contentType}`);
             return contentType;
         } catch (error) {
             console.log(error.message);

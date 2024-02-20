@@ -11,7 +11,9 @@
   overflow-y: scroll;
   width: 100vw;
   height: 100vh;
-  padding-top: 50px;
+  padding-top: 52px;
+  //transform: scale(0.9);
+  //animation: product-grow 0.2s forwards linear;
 
   .ProductScreen__container {
     display: flex;
@@ -31,12 +33,10 @@
 
 @keyframes product-grow {
   from {
-    width: 80vw;
-    height: 80vh;
+    transform: scale(0.9);
   }
   to {
-    width: 100vw;
-    height: 100vh;
+    transform: scale(1);
   }
 }
 

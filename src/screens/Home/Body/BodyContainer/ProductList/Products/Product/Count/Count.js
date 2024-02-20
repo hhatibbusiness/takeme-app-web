@@ -4,7 +4,9 @@ import './Count.scss';
 const Count = ({count}) => {
     return (
         <div className={'Count'}>
-            {count}
+            <span>
+                {count}
+            </span>
         </div>
     );
 };

@@ -1,5 +1,10 @@
 import {
-    CHANGE_CURRENT_POPUP_PRODUCT, CHANGE_DESTINATION, CHANGE_HOME_POSITION, CHANGE_NAVBAR_ASSETS,
+    CHANGE_BACKBTN,
+    CHANGE_CURRENT_POPUP_PRODUCT,
+    CHANGE_CURRENT_PROVIDER,
+    CHANGE_DESTINATION,
+    CHANGE_HOME_POSITION,
+    CHANGE_NAVBAR_ASSETS,
     CLOSE_POPUP,
     OPEN_POPUP,
     TOGGLE_POPUP
@@ -40,3 +45,15 @@ export const changeNavbarAssets = data => {
         data
     }
 }
+
+export const changeBackBtn = back => {
+    return {
+        type: CHANGE_BACKBTN,
+        back
+    }
+}
+
+export const changeCurrentProvider = provider => ({
+    type: CHANGE_CURRENT_PROVIDER,
+    provider: provider
+});

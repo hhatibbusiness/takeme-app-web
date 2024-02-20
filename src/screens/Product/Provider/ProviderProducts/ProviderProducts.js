@@ -16,7 +16,7 @@ import {getAnalytics, logEvent} from "firebase/analytics";
 import ProductsTypeContainer from "./ProductsTypeContainer/ProductsTypeContainer";
 
 
-const ProviderProducts = ({products, setGallery, providerRef, search, openGallery, setActiveProduct, providerOrNot, provider}) => {
+const ProviderProducts = ({products, productTypes, setGallery, providerRef, search, openGallery, setActiveProduct, providerOrNot, provider}) => {
     const carouselRef = useRef();
     const imgRef = useRef();
     const [productsArray, setProductsArray] = useState([]);
@@ -28,7 +28,8 @@ const ProviderProducts = ({products, setGallery, providerRef, search, openGaller
 
     const groupProducts = products => {
         if(providerOrNot) {
-            setProductsArray(products);
+            // console.log(productTypes)
+            setProductsArray(productTypes);
         } else {
             const productsArray = [];
             Object.keys(products).map((p, i) => {
@@ -52,7 +53,7 @@ const ProviderProducts = ({products, setGallery, providerRef, search, openGaller
 
     useEffect(() => {
         groupProducts(products);
-    }, [products]);
+    }, [products, productTypes]);
 
     useEffect(() => {
 
@@ -61,7 +62,7 @@ const ProviderProducts = ({products, setGallery, providerRef, search, openGaller
     const {t} = useTranslation();
 
     return (
-        <div ref={carouselRef} className={'ProviderProducts ProviderProducts__carousel'}>
+        <div id={'ProviderProducts'} ref={carouselRef} className={'ProviderProducts ProviderProducts__carousel'}>
             {
                 // Object.keys(products).length > 0 ? (
                 //     <div className={'ProviderProducts__array'}>
@@ -122,9 +123,9 @@ const ProviderProducts = ({products, setGallery, providerRef, search, openGaller
                 // ) : (
                 //     <Failure text={t('fail to load providers')} />
                 // )
-                providerOrNot ? Object.keys(productsArray).map((key, i) => Object.keys(productsArray).length > 0 ? (
+                providerOrNot ? productsArray.map((productType, i) => productsArray.length > 0 ? (
                         <div ref={containerRef} className={'ProviderProducts__array'}>
-                            <ProductsTypeContainer setGallery={setGallery} arrayRef={containerRef} provider={provider} openGallery={openGallery} imgRef={imgRef} providerRef={providerRef} providerOrNot={providerOrNot} sliding={sliding} setSliding={setSliding} keyMap={key} productsArray={productsArray} />
+                            <ProductsTypeContainer setGallery={setGallery} arrayRef={containerRef} provider={provider} openGallery={openGallery} imgRef={imgRef} providerRef={providerRef} providerOrNot={providerOrNot} sliding={sliding} setSliding={setSliding} productsArray={productType} />
                         </div>
                     ) : (
                         <Failure text={t('fail to load providers')} />
@@ -151,12 +152,16 @@ const ProviderProducts = ({products, setGallery, providerRef, search, openGaller
                             pagination={true}
                             className="mySwiper"
                             onSlideChange={swiper => {
+                                // console.log('swipper works')
                                 setSliding(true);
                                 setActive(swiper.activeIndex);
                                 setTimeout(() => {
                                     setSliding(false);
                                 });
                                 setActiveProduct(productsArray.length > 0 && productsArray[swiper.activeIndex])
+                            }}
+                            onSwiper={swiper => {
+                                // console.log(swiper);
                             }}
                         >
                             {
@@ -167,9 +172,9 @@ const ProviderProducts = ({products, setGallery, providerRef, search, openGaller
                                 ))
                             }
                         </Swiper>
-                        {
-                            productsArray.length > 1 && <Dots color={'black'} products={productsArray} activeIndex={active}  />
-                        }
+                        {/*{*/}
+                        {/*    productsArray.length > 1 && <Dots color={'black'} products={productsArray} activeIndex={active}  />*/}
+                        {/*}*/}
                     </div>
                 ) : (
                     <Failure text={t('fail to load providers')} />

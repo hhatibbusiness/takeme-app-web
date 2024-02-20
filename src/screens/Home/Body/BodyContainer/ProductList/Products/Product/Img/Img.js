@@ -3,9 +3,16 @@ import './Img.scss';
 import {connect} from "react-redux";
 import {MapInteractionCSS} from 'react-map-interaction';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import provider from "../../../../../../../Product/Provider/Provider";
+import providerDefault from '../../../../../../../../assets/images/defaults/default-provider-image.png';
+import productDefault from '../../../../../../../../assets/images/defaults/default-product-image.png';
+import logoDefault from '../../../../../../../../assets/images/defaults/logo-default-image.svg'
+import categoryDefault from '../../../../../../../../assets/images/categoryalt.jpg'
+import ListItemDefault from '../../../../../../../../assets/images/defaults/listitemdefault.svg';
 
-const Img = ({value, imgUrl, gallery, setError, setHidden, setLoaded, setImgLoaded, imgRefDub: imgRef, activeIndex}) => {
+const Img = ({value, logo, popup, category, imgUrl, gallery, setError, setHidden, setLoaded, setImgLoaded, imgRefDub: imgRef, activeIndex, provider, product}) => {
     const [transform, setTransform] = useState('');
+    const [defaultImage, setDefaultImage] = useState(null);
 
     const transformationRef = useRef();
 
@@ -13,6 +20,10 @@ const Img = ({value, imgUrl, gallery, setError, setHidden, setLoaded, setImgLoad
         // console.log('changed')
         setTransform(transform + 'closed');
     }, [activeIndex]);
+
+    useEffect(() => {
+        setDefaultImage(imgUrl);
+    }, []);
     // const imgRef = useRef();
     // useEffect(() => {
     //     if(!imgRef?.current) return;
@@ -48,6 +59,10 @@ const Img = ({value, imgUrl, gallery, setError, setHidden, setLoaded, setImgLoad
     //     }
     // }, [imgUrl]);
 
+    useEffect(() => {
+        // console.log('Img container rendered!')
+    }, []);
+
     return (
         gallery ? (
             <div className={'Img__container'}>
@@ -72,30 +87,57 @@ const Img = ({value, imgUrl, gallery, setError, setHidden, setLoaded, setImgLoad
                                 setLoaded(true);
                                 setHidden(false);
                             }} onError={e => {
-                                setImgLoaded(true);
-                                setError(true);
-                                setLoaded(true);
+                                // setImgLoaded(true);
+                                // setError(true);
+                                // setLoaded(true);
+                                // console.log('Error!')
+                                if(provider) {
+                                    setDefaultImage(providerDefault)
+                                } else if(product) {
+                                    setDefaultImage(productDefault)
+                                } else if(logo) {
+                                    setDefaultImage(logoDefault)
+                                } else if(category) {
+                                    setDefaultImage(categoryDefault);
+                                } else if(popup){
+                                    setDefaultImage(ListItemDefault)
+                                }
                             }} className={`Img ${gallery && 'img__gallery'}`} style={{width: `${value < 100 && '100%'}`}} onClick={() => {
                                 // setGalleryOpen(true);
-                            }} src={imgUrl} alt=""/>
+                            }} src={defaultImage} alt=""/>
                         </TransformComponent>
 
                     )}
                 </TransformWrapper>
             </div>
             ) : (
-            <img ref={imgRef} onLoad={e => {
-                setImgLoaded(true);
-                setError(false);
-                setLoaded(true);
-                setHidden(false);
-            }} onError={e => {
-                setImgLoaded(true);
-                setError(true);
-                setLoaded(true);
-            }} className={'Img'} style={{width: `${value < 100 && '100%'}`}} onClick={() => {
-                // setGalleryOpen(true);
-            }} src={imgUrl} alt=""/>
+                defaultImage && (
+                    <img ref={imgRef} onLoad={e => {
+                        setImgLoaded(true);
+                        setError(false);
+                        setLoaded(true);
+                        setHidden(false);
+                    }} onError={e => {
+                        // setImgLoaded(true);
+                        // setError(true);
+                        // setLoaded(true);
+                        // console.log('Error!')
+                        if(provider) {
+                            setDefaultImage(providerDefault)
+                        } else if(product) {
+                            // console.log('Product case!')
+                            setDefaultImage(productDefault)
+                        } else if(logo) {
+                            setDefaultImage(logoDefault)
+                        } else if(category) {
+                            setDefaultImage(categoryDefault);
+                        } else if(popup){
+                            setDefaultImage(ListItemDefault)
+                        }
+                    }} className={'Img'} style={{width: `${value < 100 && '100%'}`}} onClick={() => {
+                        // setGalleryOpen(true);
+                    }} src={defaultImage} alt=""/>
+                )
         )
 
     );

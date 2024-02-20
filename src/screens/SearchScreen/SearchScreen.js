@@ -66,22 +66,24 @@ const SearchScreen = ({
     }, []);
 
     useEffect(() => {
+        // console.log(curId)
         if(!loadingCategories && categories.length > 0 && (searchCount == 0 && searchResults.length == 0)) {
-            changeSearchCategoryId(categories[0]?.id && categories[0].id);
+            changeSearchCategoryId(curId);
         }
     }, [categories]);
 
     useEffect(() => {
         setSearchCount(searchPage);
+
     }, []);
 
     useEffect(() => {
-        if((!loadingCategories && categoryId !== null) && ((searchCount == 0 && searchPage == 0) || (searchCount > 0 && searchPage > 0) )) {
+        if((!loadingCategories && curId !== null) && ((searchCount == 0 && searchPage == 0) || (searchCount > 0 && searchPage > 0) )) {
             setSearchCount(searchCount + 1);
-            fetchSearchResults(lan, categoryId, filter, term, 0, navigate);
+            fetchSearchResults(lan, curId, filter, term, 0, navigate);
         }
 
-    }, [term, categoryId]);
+    }, [term, curId]);
 
     useEffect(() => {
         return () => {
@@ -94,9 +96,9 @@ const SearchScreen = ({
     }, [more]);
 
     useEffect(() => {
-        console.log(
-            assets
-        )
+        // console.log(
+        //     assets
+        // )
         const data = {
             searchPage: true,
             loadingSearchResults,
@@ -122,9 +124,13 @@ const SearchScreen = ({
                 setStep: null,
                 search: true
             };
-            console.log(data);
+            // console.log(data);
             changeNavbarAssets(data);
         }
+    }, []);
+
+    useEffect(() => {
+
     }, []);
 
     return (
@@ -133,25 +139,25 @@ const SearchScreen = ({
                 {/*<Navbar searchResults={searchResults} loadingSearchResults={loadingSearchResults} term={term} backBtn={true} search={true} searchPage={true}/>*/}
                 {
                     !loadingCategories ? (
+                        <InfiniteScroll
+                            dataLength={searchResults.length}
+                            pageStart={searchPage}
+                            loadMore={() => {
+                                if(searchResults.length === 0 && searchPage === 0) return;
+                                if(!moreLoading) return;
+                                if(!more) return setMoreLoading(false);
+                                fetchSearchResults(lan, categoryId, filter, term, searchPage)
+                            }}
+                            hasMore={moreLoading}
+                            loader={<Loader />}
+                            useWindow={false}
+                        >
                         <>
-                            <Categories curId={categoryId} search />
+                            <Categories loadingCategories={loadingCategories} categories={categories} curId={curId} search />
                             {
                                 !loadingSearchResults ? (
                                     searchResults.length > 0 ? (
                                             <div className={'SearchScreen__container'}>
-                                                <InfiniteScroll
-                                                    dataLength={searchResults.length}
-                                                    pageStart={searchPage}
-                                                    loadMore={() => {
-                                                        if(searchResults.length === 0 && searchPage === 0) return;
-                                                        if(!moreLoading) return;
-                                                        if(!more) return setMoreLoading(false);
-                                                        fetchSearchResults(lan, categoryId, filter, term, searchPage)
-                                                    }}
-                                                    hasMore={moreLoading}
-                                                    loader={<Loader />}
-                                                    useWindow={false}
-                                                >
                                                     {
                                                         searchResults.map((p, i) => (
                                                             <>
@@ -162,7 +168,6 @@ const SearchScreen = ({
                                                             </>
                                                         ))
                                                     }
-                                                </InfiniteScroll>
                                             </div>
                                     ): (
                                         <Failure text={t('there\'s no search results')} />
@@ -172,6 +177,7 @@ const SearchScreen = ({
                                 )
                             }
                         </>
+                        </InfiniteScroll>
                     ):(
                         <SpinnerComponent />
                     )
@@ -195,6 +201,7 @@ const mapStateToProps = state => ({
     more: state.search.more,
     filter: state.categories.filter,
     assets: state.assets,
+    curId: state.categories.curId
 });
 
 export default connect(mapStateToProps, {changeNavbarAssets, fetchSearchResults, closeSearchGallery, openSearchGallery, changeSearchCategoryId, resetAllSearchData, closeGallery}) (SearchScreen);

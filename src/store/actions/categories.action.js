@@ -12,6 +12,7 @@ import {BASE_URL} from "../../utls/assets";
 import tokenUnautharizedMiddleware from "../../utls/middlewares/token.unautharized.middleware";
 import {getAnalytics, logEvent} from "firebase/analytics";
 import removeAxiosHeaders from "../../utls/remove.axios.headers";
+import allCategoryImage from "../../assets/images/all-icon.jpg";
 
 // 'https://takeme-all.com/app/endpoints/categories/list?locale=ar';
 // https://takeme-all.com/app/endpoints/products-types?locale=ar&categoryId=${id}&page=0
@@ -36,7 +37,8 @@ export const errorInactive = {
 export const changeId = id => ({
     type: CHANGE_CURRENT_ID,
     id
-})
+});
+
 
 // fetch the categories list
 // export const fetchCategories = (lan, filter, navigate) => async dispatch => {
@@ -163,21 +165,38 @@ export const changeId = id => ({
 export const fetchCategories = (lan, filter, navigate) => async dispatch => {
     try {
         dispatch(startFetchingCategories);
-        const res = await axios.get(`${BASE_URL}endpoints/categories/list?locale=${lan}`);
+        ///endpoints/categories/list-no-empty?locale=ar&page=0&itemsCount=0
+        const res = await axios.get(`${BASE_URL}endpoints/categories/list-no-empty?locale=${lan}`);
+        const allCategory =       {
+            id: 0,
+            name: 'الكل',
+            description: 'هذة الفئة تحتوي علي جميع انواع المنتجات',
+            imagePath: allCategoryImage,
+            sortIndex: 1,
+            createdDate: new Date(),
+            updatedDate: new Date(),
+            imageName: 'all.jpg'
+        }
+
+        const categories = [
+            allCategory,
+            ...res.data.output
+        ]
+
         dispatch({
             type: FETCH_CATEGORIES_SUCCESS,
-            categories: res.data.output
+            categories
         });
         dispatch(endFetchingCategories);
-        if(res?.data?.output?.length === 0) return;
-        const firstId = res.data.output[0].id;
+        if(categories?.length === 0) return;
+        const firstId = categories[0].id;
+        // console.log(firstId);
+        dispatch(errorInactive);
         await dispatch(changeId(firstId));
         await dispatch(fetchCategoryProducts(firstId, lan, 0, filter, navigate));
-        dispatch(errorInactive);
         return res;
     }catch (err) {
         console.error(err.message);
-        dispatch(endFetchingCategories);
         if(err?.response?.status == 401) {
             tokenUnautharizedMiddleware(navigate, '/login');
             localStorage.removeItem('takemetoken');
@@ -185,7 +204,36 @@ export const fetchCategories = (lan, filter, navigate) => async dispatch => {
             removeAxiosHeaders();
             navigate(0);
         }
-        dispatch(errorActive);
+        const allCategory =       {
+            id: 0,
+            name: 'الكل',
+            description: 'هذة الفئة تحتوي علي جميع انواع المنتجات',
+            imagePath: allCategoryImage,
+            sortIndex: 1,
+            createdDate: new Date(),
+            updatedDate: new Date(),
+            imageName: 'all.jpg'
+        }
+
+        const categories = [
+            allCategory,
+        ]
+
+        dispatch({
+            type: FETCH_CATEGORIES_SUCCESS,
+            categories: categories
+        });
+
+        const firstId = categories[0].id;
+
+
+        await dispatch(changeId(firstId));
+        await dispatch(fetchCategoryProducts(firstId, lan, 0, filter, navigate));
+
+
+
+        dispatch(endFetchingCategories);
+        // dispatch(errorActive);
     }
 }
 
@@ -308,7 +356,7 @@ const endFetchingProducts = {
 // }
 export const fetchCategoryProducts = (id, lan, page, filter, navigate) => async dispatch => {
     try {
-        console.log(filter);
+        // console.log(filter);
         if(page == 0) dispatch(startFetchingProducts);
         const res = await axios.get(`${BASE_URL}endpoints/products-types?locale=${lan}&categoryId=${id}&page=${page}&filterByAction=${filter}`)
         dispatch({

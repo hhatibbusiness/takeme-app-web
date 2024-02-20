@@ -1,32 +1,28 @@
-//@import "styles/index.scss";
+@font-face {
+  font-family: "DIN Next LT Arabic";
+  src: url("Din-regular.ttf");
+}
+
+@font-face {
+  font-family: "DIN NEXT LT ARABIC BOLD";
+  src: url("Din-bold.ttf");
+}
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-//
-//html {
-//  height: 100%;
-//}
-//
-//body {
-//  height: 100% !important;
-//}
-
-//#root {
-//  height: 100%;
-//}
 
 .App {
-  /*height: 10000px;*/
-  //font-family: wotfard;
-  font-family: "Janna LT";
+  font-family: var(--main-takeme-font);
   font-style: normal;
-  font-weight: bold;
-  height: 100vh;
-  width: 100vw;
+  //height: 100vh;
+  width: 100%;
   overflow-y: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 :root {
@@ -63,6 +59,7 @@
   --sec-color-shades-9: #333333;
   --sec-color-shades-10: #1a1a1a;
   --sec-color-shades-11: #000000;
+  --sec-color-shades-12: #E5E5E5;
   --sec-color-blue-dark-1: #2e6be5;
   --sec-color-blue-dark-2: #295fcc;
   --sec-color-blue-dark-3: #2453b3;
@@ -85,29 +82,38 @@
   --sec-color-blue-light-9: #3377ff;
   --sec-color-blue-light-10: #1a66ff;
   --sec-color-blue-light-11: #0055ff;
-  --main-takeme-font: Janna LT bold;
+  --product-types-background-color: #D9D9D9;
+  --product-types-more-color: #CCC;
+  --product--min-duration-color: #999;
+  --product--desc-color: #999;
+  --provider--avialable-products: #999;
+  --provider--city-name: #666;
+  --category--box-shadow-color: rgba(0, 0, 0, 0.1);
+  --popup--variables-property-item: #FFAD33;
+  --main-takeme-font: "DIN NEXT LT ARABIC";
+  --main-takeme-font-bold: "DIN NEXT LT ARABIC BOLD";
 }
-
-///* width */
-//::-webkit-scrollbar {
-//  width: 12px;
-//}
-//
-///* Track */
-//::-webkit-scrollbar-track {
-//  background: #f1f1f1;
-//}
-//
-///* Handle */
-//::-webkit-scrollbar-thumb {
-//  background: var(--sec-color-shades-4);
-//}
-//
-///* Handle on hover */
-//::-webkit-scrollbar-thumb:hover {
-//  background: #555;
-//}
 
 .Home__direction {
   direction: ltr !important;
+}
+
+.max-width {
+  width: 100%;
+}
+
+.text-overflow-ellipsis {
+  text-overflow: ellipsis;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+
+.rtl {
+  direction: rtl;
 }

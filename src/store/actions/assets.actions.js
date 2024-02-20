@@ -1,15 +1,26 @@
 import axios from 'axios';
-import {CHANGE_PLATFORM, FETCH_TAKE_ME_ASSETS} from "./action.types";
+import {CHANGE_PLATFORM, END_LOADING_ASSETS, FETCH_TAKE_ME_ASSETS, START_LOADING_ASSETS} from "./action.types";
 import {BASE_URL} from "../../utls/assets";
 import tokenUnautharizedMiddleware from "../../utls/middlewares/token.unautharized.middleware";
 
+
+export const startLoadingAssets = {
+    type: START_LOADING_ASSETS
+}
+
+export const endLoadingAssets = {
+    type: END_LOADING_ASSETS
+}
+
 export const fetchAssets = (navigate) => async dispatch => {
     try {
+        dispatch(startLoadingAssets)
         const res = await axios.get(`${BASE_URL}endpoints/details?locale=ar`);
         dispatch({
             type: FETCH_TAKE_ME_ASSETS,
             assets: res.data
         });
+        dispatch(endLoadingAssets)
     } catch (err) {
         if(err?.response?.status == 401) {
             tokenUnautharizedMiddleware(navigate, '/login')

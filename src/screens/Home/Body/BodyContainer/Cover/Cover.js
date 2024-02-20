@@ -11,21 +11,25 @@ import cover3 from '../../../../../assets/images/cover3.jpg';
 import {Swiper, SwiperSlide} from "swiper/react";
 import CoverImg from "./CoverImg/CoverImg";
 import Dots from "../../../../Product/Provider/ProviderProducts/Dots/Dots";
+import takemeCoverImage from '../../../../../assets/takeme-cover.jpg';
 
-import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper';
-import 'swiper/swiper-bundle.css';
+import SwiperCore, { Autoplay, Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+
+// import 'swiper/swiper-bundle.css';
 import 'swiper/css';
-import "swiper/css/navigation";
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 import CoverVideo from "./CoverVideo/CoverVideo";
 import MediaViewer from "./MediaViewer/MediaViewer";
 
-SwiperCore.use([Autoplay, Navigation, Pagination]);
 
 
 const images = [
-    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+    takemeCoverImage,
     "https://images.unsplash.com/photo-1504805572947-34fad45aed93?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y292ZXIlMjBwaG90b3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?q=80&w=876&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?q=80&w=876&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
 ];
 
 const Cover = ({assets}) => {
@@ -42,6 +46,7 @@ const Cover = ({assets}) => {
     const [sliding, setSliding] = useState(false);
     const [active, setActive] = useState(0);
 
+    SwiperCore.use([Autoplay, Navigation, Pagination]);
     // useEffect(() => {
     //     if(categories?.length == 0 || !curId) return;
     //     console.log(curId);
@@ -88,7 +93,7 @@ const Cover = ({assets}) => {
     // }, []);
 
     useEffect(() => {
-        console.log(error, loaded);
+        // console.log(assets?.coverPaths);
     }, []);
 
     return (
@@ -101,16 +106,22 @@ const Cover = ({assets}) => {
                             <Swiper
                                 grabCursor={true}
                                 centeredSlides={true}
-                                slidesPerView={1}
-                                coverflowEffect={{
-                                    rotate: 50,
-                                    stretch: 0,
-                                    depth: 100,
-                                    modifier: 3,
-                                    slideShadows: false,
-                                }}
-                                autoplay={{ delay: 5000 }}
-                                loop={true}
+                                // slidesPerView={1}
+                                // coverflowEffect={{
+                                //     rotate: 50,
+                                //     stretch: 0,
+                                //     depth: 100,
+                                //     modifier: 3,
+                                //     slideShadows: false,
+                                // }}
+                                // onSwiper={(swiper) => {
+                                //     console.log('Pagination!')
+                                //     swiper.on('paginationClick', () => {
+                                //         swiper.slideNext();
+                                //     });
+                                // }}
+
+
                                 // spaceBetween={30}
                                 // slidesPerView={3}
                                 // navigation={{
@@ -118,20 +129,29 @@ const Cover = ({assets}) => {
                                 //     prevEl: prevRef.current,
                                 //     disabledClass: "swiper-button-disabled"
                                 // }}
-                                modules={[Navigation]}
-                                pagination={true}
+                                modules={[Autoplay, Pagination]}
+                                // modules={[Navigation, Pagination, A11y]}
+                                // pagination={{clickable: true}}
                                 className="mySwiper"
-                                onSwiper={swiper => {
-                                    console.log(swiper.activeIndex);
-                                    setSliding(true);
-                                    setActive(swiper.activeIndex);
-                                    setTimeout(() => {
-                                        setSliding(false);
-                                    });
-                                }}
+                                // onSlideChange={swiper => {
+                                autoplay={{ delay: 5000 }}
+                                loop={true}
+                                //     console.log(swiper.activeIndex);
+                                //     setSliding(true);
+                                //     setActive(swiper.activeIndex);
+                                //     setTimeout(() => {
+                                //         setSliding(false);
+                                //     });
+                                // }}
+                                // spaceBetween={50}
+                                slidesPerView={1}
+                                pagination={{ clickable: true }}
+                                onSwiper={(swiper) => 1}
+                                // onSlideChange={() => console.log('slide change')}
+
                             >
                                 {
-                                    images.map((image, i) => (
+                                    assets?.coverPaths?.map((image, i) => (
                                         <SwiperSlide>
                                             <MediaViewer image={image}  />
                                         </SwiperSlide>
@@ -139,6 +159,7 @@ const Cover = ({assets}) => {
                                 }
                             </Swiper>
                         </div>
+                        {/*<div className="Cover__dots"></div>*/}
                         {/*{*/}
                         {/*    images.length > 1 && <Dots color={'white'} products={images} activeIndex={active} setActiveIndex={setActive}  />*/}
                         {/*}*/}

@@ -37,7 +37,7 @@ const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, ch
             return;
         alert('WA not installed')
         }, 1e3);
-      };
+    };
 
     const lanChangeHandler = e => {
         // const languageLabel = e.target.closest('input');
@@ -49,10 +49,11 @@ const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, ch
         // i18next.changeLanguage(languageLabel.value);
         const lanFormElement = e.target.closest('.Sidebar__sublinks--element');
         if(!lanFormElement) return alert('There\'s not language');
-        console.log(lanFormElement)
+        console.log(lanFormElement);
         const input = lanFormElement.querySelector('input');
         if(!input) return;
         console.log(input);
+        if(input.value == 'en' || input.value == 'he') return;
         const id = categories[0]?.id;
         console.log(id);
         // if(!id) return;
@@ -119,8 +120,12 @@ const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, ch
                                 <label htmlFor="{'language'}">العربية</label>
                             </div>
                             <div className="Sidebar__sublinks--element">
-                                <input checked={lan == 'he'} value={'he'} type="radio" name={'language'}/>
+                                <input checked={lan == 'he'} disabled={true} value={'he'} type="radio" name={'language'}/>
                                 <label htmlFor="{'language'}">עִברִית</label>
+                            </div>
+                            <div className="Sidebar__sublinks--element">
+                                <input checked={lan == 'en'} disabled={true} value={'en'} type="radio" name={'language'}/>
+                                <label htmlFor="{'language'}">English</label>
                             </div>
                         </form>
                     </div>
@@ -176,7 +181,7 @@ const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, ch
                     <Link onClick={e => setSidebar(false)} to={'/contract'} className="Sidebar__link">
                         <div className="Sidebar__link--main">
                             <i className="fa-regular fa-copyright"></i>
-                            <p>{t('condition')}</p>
+                            <p className={'overflow-hidden text-overflow-ellipsis whitespace-nowrap rtl'}>{t('condition')}</p>
                         </div>
                     </Link>
                     <div className={`Sidebar__link ${socialShow && 'Sidebar__link--active'}`}>

@@ -6,7 +6,7 @@ import DropDownListItem from "./DropDownListItem/DropDownListItem";
 
 const DropDownList = ({searchResults, loadingSearchResults, term, setInputFocus, inputRef}) => {
     useEffect(() => {
-        console.log(searchResults);
+        // console.log(searchResults);
     }, [searchResults]);
     return (
         <>

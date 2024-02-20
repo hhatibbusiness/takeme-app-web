@@ -8,8 +8,11 @@ import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from "react-router-dom";
 import {KeepAlive} from "react-activation";
 import {changeNavbarAssets} from "../../store/actions/ui.actions";
+import ReactHtmlParser from 'react-html-parser';
+import DOMPurify from 'dompurify';
 
 const About = ({fetchAboutPage, changeNavbarAssets, fetchingAboutPage, aboutData, lan}) => {
+
     const {t} = useTranslation();
     const navigate = useNavigate();
 
@@ -87,6 +90,18 @@ const About = ({fetchAboutPage, changeNavbarAssets, fetchingAboutPage, aboutData
         }
     }, []);
 
+    useEffect(() => {
+        const aboutContainer = document.querySelector('.AboutScreen__content');
+        if(aboutContainer) {
+            aboutContainer.classList.add('AboutScreen__addedClass');
+            setTimeout(() => {
+                aboutContainer.style.display = "block";
+            }, 150);
+        }
+    }, [fetchingAboutPage]);
+
+
+
     return (
         <KeepAlive cacheKey={'About'}>
             <div id={'AboutScreen'} className={'AboutScreen'}>
@@ -95,7 +110,8 @@ const About = ({fetchAboutPage, changeNavbarAssets, fetchingAboutPage, aboutData
                     fetchingAboutPage ? (
                         <SpinnerComponent />
                     ) : (
-                        <div className={'AboutScreen__content'} dangerouslySetInnerHTML={{__html: aboutData}}/>
+                        <div className={'AboutScreen__content'}>{ReactHtmlParser(DOMPurify.sanitize(aboutData))}</div>
+                        // <div className={'AboutScreen__content'} dangerouslySetInnerHTML={{__html: aboutData}}/>
                     )
                 }
             </div>

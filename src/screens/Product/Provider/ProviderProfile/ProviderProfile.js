@@ -8,7 +8,7 @@ const ProviderProfile = ({provider: p, activeProduct, prov, link, socials}) => {
     const navigate = useNavigate();
     return (
         <div onClick={() => link && navigate(`/provider/${p.providerId}`)} style={{cursor: `${link && 'pointer'}`}} className={'ProviderProfile'}>
-            <ProviderImage id={p.id} img={p?.imagePath && p.imagePath} />
+            <ProviderImage p={p} activeProduct={activeProduct} id={p.id} img={p?.imagePath && p.imagePath} />
             <ProviderBody activeProduct={activeProduct} prov={prov} socials={socials} provider={p} />
         </div>
     );

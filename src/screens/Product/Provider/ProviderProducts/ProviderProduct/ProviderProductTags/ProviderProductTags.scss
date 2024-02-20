@@ -3,20 +3,21 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  //justify-content: center;
   gap: 10px;
   margin-bottom: 30px;
+  justify-content: center;
 
   .ProviderProductTags__tag {
-    font-size: 16px;
-    //background-color: #03ac84;
-    //border-radius: 3px;
-    padding: 3px 0;
-    //color: white;
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    align-items: center;
+    color: #FFF;
+    background: var(--main-color-green-dark-1);
+    -webkit-text-stroke-width: 0.25px;
+    -webkit-text-stroke-color: #FFF;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 10px;
+    border-radius: 10px;
   }
 
   .ProviderProductTags__dot {

@@ -1,13 +1,25 @@
+.Socials__right {
+  display: flex;
+  flex-direction: row;
+  align-items: center !important;
+  justify-content: start !important;
+}
+
 .Socials {
   display: flex;
   flex-direction: row;
-  gap: 15px;
+  gap: 10px;
   align-items: center;
   justify-content: center;
   direction: rtl;
 
   .Socials__link--location {
     position: relative;
+
+    .Socials__link--location-image {
+      width: 21px;
+      height: 21px;
+    }
 
     &:hover {
       .Socials__location {
@@ -61,13 +73,18 @@
     padding: 12px;
     border-radius: 50%;
     cursor: pointer;
-    width: 50px;
-    height: 50px;
+    width: 30.6px;
+    height: 30.6px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     text-decoration: none;
+
+    .Socials__link--image {
+      width: 21px;
+      height: 21px;
+    }
 
     i {
       font-size: 20px;

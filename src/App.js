@@ -27,6 +27,7 @@ import smoothscroll from 'smoothscroll-polyfill';
 import Intro from "./components/Intro/Intro";
 import i18n from './i18n';
 import Navbar from "./components/HOC/Navbar/Navbar";
+import {changeBackBtn} from "./store/actions/ui.actions";
 
 const App = (props) => {
     const [sidebar, setSidebar] = useState(false);
@@ -37,10 +38,10 @@ const App = (props) => {
 
     useEffect(() => {
         let timeOut;
-        console.log('Hello there!', logoStart, localStorage.getItem('takemeFirstVisit'));
+        // console.log('Hello there!', logoStart, localStorage.getItem('takemeFirstVisit'));
         if(logoStart != '1') {
             // if(true){
-            console.log('Hello from intro');
+            // console.log('Hello from intro');
             timeOut = setTimeout(() => {
                 setLogoStart(1);
                 localStorage.setItem("takemeFirstVisit", 1);
@@ -75,7 +76,7 @@ const App = (props) => {
     const {t} = useTranslation();
     useEffect(() => {
         props.fetchAssets(navigate);
-        props.loadUser();
+        props.loadUser(navigate, props.lan);
         // props.createOrder();
     }, []);
 
@@ -96,32 +97,56 @@ const App = (props) => {
         }
     }, []);
 
-    const params = useParams();
+    useEffect(() => {
+        const navbar = document?.querySelector('.Navbar');
+        if(navbar) {
+            if(window?.location.hash.length > 2) {
+                // console.log(window.location.hash.includes('search'))
+                if(window?.location?.hash?.includes('search')) {
+                    props.changeBackBtn(true);
+                    navbar.style.height = "75px";
+                    navbar.style.display = "block";
+                } else {
+                    props.changeBackBtn(true);
+                    navbar.style.height = '52px';
+                    navbar.style.display = "block";
+                }
+            } else {
+                props.changeBackBtn(false);
+                navbar.style.height = "75px";
+                navbar.style.display = "block";
+            }
+        }
+
+    }, [window?.location.hash, logoStart, props.loadingAssets]);
 
     return (
         <div onClick={e => {
             // logEvent(analytics, 'web_clicked', {user: 'clicked'})
         }} className={'App'} >
             {
-                !logoStart ? (
-                    <Intro />
-                ) : (
-                    <>
-                        <Navbar sidebar={sidebar} setSidebar={setSidebar} data={props.navbarData}/>
-                        <Routes history={history}>
-                            <Route path={'/'} exact element={<Home sidebar={sidebar} setSidebar={setSidebar} />} >
-                                <Route path={'/product/:id'} exact element={<Product />} />
-                                <Route path={'/provider/:providerId'} exact element={<ProviderScreen />} />
-                                {/*<Route exact path={'/provider/:provider_id/ratings'} element={<KeepAlive cacheKey={'Ratings'}><ProviderRatings /></KeepAlive>} />*/}
-                                <Route path={'/search'} exact element={<SearchScreen />} />
-                                <Route path={'/about'} exact element={<About />} />
-                                <Route path={'/contract'} exact element={<Contract />} />
-                                <Route path={'/login'} exact element={<Login />} />
-                                <Route path={'/register'} element={<Register />} />
-                                <Route path={'/forget/:email'} exact element={<Forget />} />
-                            </Route>
-                        </Routes>
-                    </>
+                !props.loadingAssets && (
+                    !logoStart ? (
+                        <Intro />
+                    ) : (
+                        <>
+                            <Routes history={history}>
+                                <Route path={'/'} exact element={<Home sidebar={sidebar} setSidebar={setSidebar} />} >
+                                    <Route path={'/product/:id'} exact element={<Product />} />
+                                    <Route path={'/provider/:providerId'} exact element={<ProviderScreen />} />
+                                    {/*<Route exact path={'/provider/:provider_id/ratings'} element={<KeepAlive cacheKey={'Ratings'}><ProviderRatings /></KeepAlive>} />*/}
+                                    <Route path={'/search'} exact element={<SearchScreen />} />
+                                    <Route path={'/about'} exact element={<About />} />
+                                    <Route path={'/contract'} exact element={<Contract />} />
+                                    <Route path={'/login'} exact element={<Login />} />
+                                    <Route path={'/register'} element={<Register />} />
+                                    <Route path={'/forget/:email'} exact element={<Forget />} />
+                                </Route>
+                            </Routes>
+                            <Navbar sidebar={sidebar} setSidebar={setSidebar} data={props.navbarData}/>
+                        </>
+                    )
+
                 )
             }
             {props.openPopup && <ProductPopup />}
@@ -133,7 +158,9 @@ const mapStateToProps = state => ({
     openPopup: state.ui.openPopup,
     product: state.product.product,
     platform: state.assets.platform,
-    navbarData: state.ui.navbar
+    navbarData: state.ui.navbar,
+    loadingAssets: state.assets.loadingAssets,
+    lan: state.categories.lan
 });
 
-export default connect(mapStateToProps, {fetchAssets, createOrder, loadUser, changePlatform}) (App);
+export default connect(mapStateToProps, {fetchAssets, changeBackBtn, createOrder, loadUser, changePlatform}) (App);

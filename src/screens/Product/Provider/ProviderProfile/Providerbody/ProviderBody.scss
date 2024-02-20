@@ -4,6 +4,7 @@
   flex: 1;
   padding: 0 0 0 20px;
   //gap: 50px;
+  margin-right: 20px;
 
   .ProviderBody__left {
     display: flex;
@@ -44,23 +45,30 @@
       gap: 50px;
       justify-content: space-between;
       width: 100%;
+      position: relative;
+      align-items: end;
 
       .ProviderBody__location {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
-        gap: 5px;
+        //gap: 5px;
+
+        img {
+          width: 22px;
+          height: 22px;
+        }
 
         i {
-          color: gray;
-          font-size: 15px;
+          color: var(--sec-color-shades-3);
+          font-size: 22px;
           cursor: pointer;
         }
       }
 
       .ProviderBody__city {
-        color: #7F7F7F;
-        font-size: 14px;
+        color: var(--provider--city-name);
+        font-size: 11px;
       }
 
       .ProviderBody__reviews {
@@ -73,12 +81,15 @@
       }
     }
     .ProviderBody__name {
-      font-size: 20px;
+      font-size: 15px;
       cursor: pointer;
       display: flex;
       flex-direction: row;
       align-items: center;
       gap: 10px;
+      line-height: 14px;
+      color: #000;
+      margin-bottom: 5px;
 
       .ProviderLinkCopy__container {
         display: flex;
@@ -101,8 +112,12 @@
 
 
   .ProviderBody__msg {
-    font-size: 11px;
-    color: #7F7F7F;
+    font-size: 10px;
+    color: var(--provider--avialable-products);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
 
   }
 

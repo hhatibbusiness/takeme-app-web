@@ -6,14 +6,18 @@
   flex: 1;
   height: 100%;
 
-  .Socials
-  {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
+  .Socials {
+    margin-top: 10px;
   }
+
+  //.Socials
+  //{
+  //  position: absolute;
+  //  bottom: 0;
+  //  left: 50%;
+  //  transform: translateX(-50%);
+  //  z-index: 2;
+  //}
 
   .Dots {
     margin-bottom: 10px;

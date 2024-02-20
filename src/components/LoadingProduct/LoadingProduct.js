@@ -3,7 +3,7 @@ import './LoadingProduct.scss';
 import {useTranslation} from "react-i18next";
 
 
-const LoadingProduct = ({btn, imgLoaderRef, details, imgLoaded, priceTitle, priceStartFrom}) => {
+const LoadingProduct = ({btn, imgLoaderRef, moreDetails, moreAndMoreDetails, rentDetails, details, imgLoaded, priceTitle, priceStartFrom}) => {
     const {t} = useTranslation();
 
     return (
@@ -14,10 +14,19 @@ const LoadingProduct = ({btn, imgLoaderRef, details, imgLoaded, priceTitle, pric
                     <div className={'LoadingProduct__details'}>
                         <h3 className="LoadingProduct__header"></h3>
                         {
+                            priceStartFrom && <p className="LoadingProduct__price"></p>
+                        }
+                        {
+                            rentDetails && <p className="LoadingProduct__price"></p>
+                        }
+                        {
                             priceTitle && <h5 className="LoadingProduct__msg"></h5>
                         }
                         {
-                            priceStartFrom && <p className="LoadingProduct__price"></p>
+                            moreDetails && <h5 className="LoadingProduct__msg"></h5>
+                        }
+                        {
+                            moreAndMoreDetails && <h5 className="LoadingProduct__msg"></h5>
                         }
 
                     </div>

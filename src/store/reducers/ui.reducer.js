@@ -1,9 +1,11 @@
 import * as actionTypes from '../actions/action.types';
 import {getAnalytics, logEvent} from "firebase/analytics";
+import backBtn from "../../components/HOC/Navbar/BackBtn/BackBtn";
 
 const initialState = {
     currentProduct: null,
     openPopup: false,
+    currentProvider: null,
     rating: false,
     yPosition: 200,
     navbar: {
@@ -13,12 +15,12 @@ const initialState = {
         loadingSearchResults: null,
         searchResults: [],
         term: null,
-        backBtn: false,
         step: null,
         setStep: null,
         midText: null,
         search: false,
-    }
+    },
+    backBtn: false,
 }
 
 export default (state = initialState, action) => {
@@ -57,6 +59,16 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 navbar: action.data
+            }
+        case actionTypes.CHANGE_BACKBTN:
+            return {
+                ...state,
+                backBtn: action.back
+            }
+        case actionTypes.CHANGE_CURRENT_PROVIDER:
+            return {
+                ...state,
+                currentProvider: action.provider
             }
         default:
             return state;

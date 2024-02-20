@@ -1,20 +1,45 @@
 .Cover {
   width: 100%;
-  margin-top: 50px;
-  height: 30vh;
+  //margin-top: 50px;
+  //height: 189px;
   position: relative;
   //direction: rtl;
+  z-index: 6;
+  box-shadow: 1px 1px 0 var(--sec-color-shades-2);
+  direction: rtl;
+
+  .swiper-pagination {
+    position: relative !important;
+    top: 170% !important;
+    height: 23px !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    bottom: 0 !important;
+  }
+
+  .swiper-wrapper {
+    height: 189px;
+  }
 
   .swiper-pagination-bullet {
-    border: 1px solid black !important;
-    background: white !important;
-    width: 15px !important;
-    height: 7px !important;
-    border-radius: 30%;
+    //border: 1px solid black !important;
+    background: #BFD4FF !important;
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 50%;
+    opacity: 1 !important;
+  }
+
+  .Cover__dots {
+    height: 23px;
+    width: 100%;
+
   }
 
   .swiper-pagination-bullet-active {
-    background: var(--main-color-green-dark-1) !important;
+    background: #6699FF !important;
   }
 
   .Dots {

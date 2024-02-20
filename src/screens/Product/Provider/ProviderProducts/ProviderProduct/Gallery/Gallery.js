@@ -7,6 +7,8 @@ import GalleryItem from "./GalleryItem/GalleryItem";
 import Dots from "../../Dots/Dots";
 import {getAnalytics, logEvent} from "firebase/analytics";
 import history from "../../../../../../history/history";
+import navbar from "../../../../../../components/HOC/Navbar/Navbar";
+import productDefaultImage from '../../../../../../assets/images/defaults/default-product-image.png'
 
 const Gallery = ({product, setGallery, closeGallery, gallery}) => {
     const [active, setActive] = useState(0);
@@ -28,7 +30,7 @@ const Gallery = ({product, setGallery, closeGallery, gallery}) => {
     }, []);
 
     useEffect(() => {
-        console.log(setGallery, gallery, closeGallery);
+        // console.log(setGallery, gallery, closeGallery);
 
         // window.addEventListener('popstate', e => history.go(1));
         if(gallery) {
@@ -37,16 +39,27 @@ const Gallery = ({product, setGallery, closeGallery, gallery}) => {
                 e.preventDefault();
                 // closeGallery();
                 setGallery(false);
-                console.log(history);
+                // console.log(history);
             });
         }
 
         return () => {
             window.removeEventListener('popstate', () => {
-                console.log('Hello there!');
+                // console.log('Hello there!');
             });
         }
     }, [gallery]);
+
+    useEffect(() => {
+        const navbarEle = document?.querySelector('.Navbar');
+        if(navbarEle) {
+            navbarEle.style.visibility = "hidden";
+        }
+
+        return () => {
+            navbarEle.style.visibility = "visible";
+        }
+    }, []);
 
     return (
         <div className={'Gallery'}>
@@ -62,7 +75,7 @@ const Gallery = ({product, setGallery, closeGallery, gallery}) => {
                     modifier: 3,
                     slideShadows: false,
                 }}
-                pagination={true}
+                // pagination={true}
                 className="mySwiper"
                 onSlideChange={swiper => {
                     setActive(swiper.activeIndex);
@@ -81,11 +94,15 @@ const Gallery = ({product, setGallery, closeGallery, gallery}) => {
                 }}
             >
                 {
-                    product?.images?.length > 0 && product.images.map((img, i) => (
+                    product?.images?.length > 0 ? product.images.map((img, i) => (
                         <SwiperSlide key={i}>
-                            <GalleryItem activeIndex={active} imgUrl={img} />
+                            <GalleryItem activeIndex={active} imgUrl={img || productDefaultImage} />
                         </SwiperSlide>
-                    ))
+                    )): (
+                        <SwiperSlide >
+                            <GalleryItem activeIndex={active} imgUrl={productDefaultImage} />
+                        </SwiperSlide>
+                    )
                 }
             </Swiper>
             {

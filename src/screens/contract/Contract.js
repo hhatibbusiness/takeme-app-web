@@ -8,6 +8,8 @@ import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
 import {KeepAlive} from "react-activation";
 import {changeNavbarAssets} from "../../store/actions/ui.actions";
+import ReactHtmlParser from "react-html-parser";
+import DOMPurify from "dompurify";
 
 const Contract = ({fetchContractPage, changeNavbarAssets, lan, fetchingContractPage, contractData}) => {
     const {t} = useTranslation();
@@ -69,6 +71,17 @@ const Contract = ({fetchContractPage, changeNavbarAssets, lan, fetchingContractP
         }
     }, []);
 
+    useEffect(() => {
+        const contractContainer = document.querySelector('.ContractScreen__content');
+        if(contractContainer) {
+            contractContainer.classList.add('ContractScreen__addedClass');
+            setTimeout(() => {
+                contractContainer.style.display = "block";
+            }, 150);
+        }
+
+    }, [fetchingContractPage]);
+
     return (
         <KeepAlive cacheKey={'Contract'}>
             <div className={'ContractScreen'}>
@@ -77,7 +90,8 @@ const Contract = ({fetchContractPage, changeNavbarAssets, lan, fetchingContractP
                     fetchingContractPage ? (
                         <SpinnerComponent />
                     ) : (
-                        <div className={'ContractScreen__content'} dangerouslySetInnerHTML={{__html: contractData && contractData}}/>
+                        <div className={'ContractScreen__content'}>{ReactHtmlParser(DOMPurify.sanitize(contractData))}</div>
+                        // <div className={'ContractScreen__content'} dangerouslySetInnerHTML={{__html: contractData && contractData}}/>
                     )
                 }
             </div>

@@ -18,8 +18,7 @@ import {fetchProviderRatigs} from "../../store/actions/ratings.actions";
 import CreateRating from "../../screens/Provider/CreateRating/CreateRating";
 import sidebar from "../Sidebar/Sidebar";
 
-
-const ProductPopup = ({togglePopup, isRatings, currentProduct, lan, fetchProviderRatigs, openPopup, term, Opopup, closePopup}) => {
+const ProductPopup = ({togglePopup, currentProvider, isRatings, currentProduct, lan, fetchProviderRatigs, openPopup, term, Opopup, closePopup}) => {
     const [short, setShort] = useState(true);
 
     const {t} = useTranslation();
@@ -93,7 +92,6 @@ const ProductPopup = ({togglePopup, isRatings, currentProduct, lan, fetchProvide
     // }, [history]);
 
     useEffect(() => {
-
         // window.addEventListener('popstate', e => history.go(1));
         if(openPopup) {
             window.history.pushState(null, null, window.location.href);
@@ -119,6 +117,7 @@ const ProductPopup = ({togglePopup, isRatings, currentProduct, lan, fetchProvide
             }
             fetchProviderRatigs(data);
         }
+        console.log(currentProduct)
     }, [openPopup, lan]);
 
     // const currentProduct = {
@@ -231,25 +230,23 @@ const ProductPopup = ({togglePopup, isRatings, currentProduct, lan, fetchProvide
         if(ele.className.includes('ProductPopup__product--fullwidth')) {
             ele.className = ele.className.replace(' ProductPopup__product--fullwidth', '');
         }
-
     }
     return (
         <div className={`ProductPopup ${openPopup ? 'ProductPopup__open' : 'ProductPopup__close'}`}>
             <div ref={contRef} className={`ProductPopup__product ${openPopup && 'ProductPopup__product--open'}`}>
-
                 <div onScroll={e => {
                     fullHeight()
                 }} className="ProductPopup__product--container">
+                    <div onClick={e => {
+                        notFullHeight()
+                        togglePopup()
+                        history.back();
+                    }} className="ProductPopup__product--close">
+                        <span><i className="fa-solid fa-xmark"></i></span>
+                    </div>
                     {
                         !isRatings && (
                             <>
-                                <div onClick={e => {
-                                    notFullHeight()
-                                    togglePopup()
-                                    history.back();
-                                }} className="ProductPopup__product--close">
-                                    <span><i className="fa-solid fa-xmark"></i></span>
-                                </div>
                                 <div className="ProductPopup__product--title">
                                     {
                                         renderName()
@@ -344,15 +341,15 @@ const ProductPopup = ({togglePopup, isRatings, currentProduct, lan, fetchProvide
                         )
                     }
 
-                    {
-                        isRatings && (
-                            <>
-                                <ProviderRatings />
-                                <CreateRating currentProduct={currentProduct} />
-                            </>
+                    {/*{*/}
+                    {/*    isRatings && (*/}
+                    {/*        <>*/}
+                    {/*            <CreateRating currentProvider={currentProvider} currentProduct={currentProduct} />*/}
+                    {/*            <ProviderRatings currentProvider={currentProvider} />*/}
+                    {/*        </>*/}
 
-                        )
-                    }
+                    {/*    )*/}
+                    {/*}*/}
                 </div>
 
             </div>
@@ -376,7 +373,8 @@ const mapStateToProps = state => ({
     ratings: state.ratings.ratings,
     fetchingRatings: state.ratings.fetchingRatings,
     lan: state.categories.lan,
-    isRatings: state.ui.rating
+    isRatings: state.ui.rating,
+    currentProvider: state.ui.currentProvider
 });
 
 export default connect(mapStateToProps, {togglePopup, Opopup, closePopup, fetchProviderRatigs}) (ProductPopup);

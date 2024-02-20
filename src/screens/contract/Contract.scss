@@ -6,7 +6,7 @@
   left: 0;
   z-index: 1000;
   background: white;
-  padding-top: 50px;
+  padding-top: 52px;
   overflow-y: scroll;
   //direction: rtl;
 
@@ -14,12 +14,7 @@
     font-size: 18px !important;
   }
 
-
-  .ContractScreen__content {
-    //width: 90%;
-    padding: 10px;
-    //margin: auto;
-
+  .ContractScreen__addedClass {
     ul {
       width: 100%;
       margin: 0;
@@ -38,6 +33,16 @@
         display: none;
       }
     }
+
+  }
+
+  .ContractScreen__content {
+    //width: 90%;
+    padding: 10px;
+    //margin: auto;
+    display: none;
+
+
   }
 
   .Navbar {

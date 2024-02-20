@@ -54,7 +54,7 @@ export default (state = initialState, action) => {
                 ...state,
                 results: [],
                 searchPage: 0,
-                more: false
+                more: false,
             }
         case actionTypes.START_FETCHING_SEARCH_RESULTS:
             return {

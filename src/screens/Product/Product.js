@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import './Product.scss';
 import Navbar from "../../components/HOC/Navbar/Navbar";
 import {fetchProductDetails, fetchProductTypeDetails, resetProductData, closeGallery, openGallery} from "../../store/actions/product.actions";
@@ -16,6 +16,11 @@ import {openPopup, togglePopup, changePopupProduct, changeNavbarAssets} from "..
 import {KeepAlive, useAliveController , useActivate, useUnactivate} from 'react-activation';
 
 import {changeCurrentProductTypeId} from "../../store/actions/product.actions";
+import loadingProduct from "../../components/LoadingProduct/LoadingProduct";
+
+// const navbar = document?.querySelector('.Navbar');
+// navbar.style.height = '52px';
+
 
 const Product = ({galleryProduct, changeNavbarAssets, currentProductTypeId, changeCurrentProductTypeId, openPopup, togglePopup, changePopupProduct, filter, closeGallery, fetchProductDetails, more, page, lan, providers, resetProductData, fetchProductTypeDetails, productType, loadingProductsProviders, openGallery}) => {
     const [moreLoading, setMoreLoading] = useState(true);
@@ -64,7 +69,7 @@ const Product = ({galleryProduct, changeNavbarAssets, currentProductTypeId, chan
 
     useEffect(() => {
         if(productType.id == params.id) {
-            return console.log('Hello!');
+            return;
         }
         resetProductData();
         fetchProductTypeDetails(params.id, lan, navigate);
@@ -72,7 +77,7 @@ const Product = ({galleryProduct, changeNavbarAssets, currentProductTypeId, chan
     }, [params.id]);
 
     useEffect(() => {
-        console.log(params);
+        // console.log(params);
         if(!loadingProductsProviders && history?.state?.currentProduct) {
             changePopupProduct(history?.state?.currentProduct)
             openPopup();
@@ -104,7 +109,7 @@ const Product = ({galleryProduct, changeNavbarAssets, currentProductTypeId, chan
                 search: true,
                 logoLink: '/'
             };
-            console.log(data);
+            // console.log(data);
             changeNavbarAssets(data);
         }
     }, []);
@@ -128,6 +133,31 @@ const Product = ({galleryProduct, changeNavbarAssets, currentProductTypeId, chan
 
     }, []);
 
+    // useEffect(() => {
+    //     const navbar = document?.querySelector('.Navbar');
+    //     navbar.style.height = '52px';
+    //
+    //     return () => {
+    //         navbar.style.height = '75px';
+    //     }
+    // }, []);
+
+    // const navbar = document?.querySelector('.Navbar');
+    // navbar.style.height = '52px';
+
+    // return () => {
+    //     navbar.style.height = '75px';
+    // }
+
+    // useLayoutEffect(() => {
+    //     const navbar = document?.querySelector('.Navbar');
+    //     navbar.style.height = '52px';
+    //
+    //     return () => {
+    //         navbar.style.height = '75px';
+    //     }
+    // }, [])
+
     return (
         <KeepAlive cacheKey={'Products'}>
             <div ref={productRef} className={'ProductScreen'}>
@@ -147,6 +177,7 @@ const Product = ({galleryProduct, changeNavbarAssets, currentProductTypeId, chan
                                 hasMore={moreLoading}
                                 loader={<Loader />}
                                 className={'ProductScreen__container'}
+                                id={'ProductScreen__container'}
                                 useWindow={false}
                                 // getScrollParent={() => productRef}
                             >
@@ -184,7 +215,7 @@ const mapStateToProps = state => ({
     more: state.product.more,
     galleryProduct: state.product.galleryProduct,
     filter: state.categories.filter,
-    currentProductTypeId: state.product.currentProductTypeId
+    currentProductTypeId: state.product.currentProductTypeId,
 });
 
 export default connect(mapStateToProps, {changeNavbarAssets, resetProductData, changeCurrentProductTypeId, fetchProductDetails, fetchProductTypeDetails, togglePopup, closeGallery, openGallery, openPopup, changePopupProduct}) (Product);

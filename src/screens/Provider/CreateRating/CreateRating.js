@@ -8,7 +8,7 @@ import AuthenticationError from "../../../components/AuthenticationError/Authent
 import {registerError} from "../../../store/actions/register.actions";
 import {useTranslation} from "react-i18next";
 
-const CreateRating = ({addingRating, registerError, error, errorMessage, isAuthenticated, closePopup, addProviderRating, currentProduct, lan, user}) => {
+const CreateRating = ({addingRating, currentProvider, registerError, error, errorMessage, isAuthenticated, closePopup, addProviderRating, currentProduct, lan, user}) => {
     // const [ratingComment, setRatingComment] = useState('');
     const [array, setArray] = useState([]);
     const [ratingNumber, setRatingNumber] = useState(null);
@@ -66,10 +66,14 @@ const CreateRating = ({addingRating, registerError, error, errorMessage, isAuthe
     useEffect(() => {
         const inputElem = inputRef?.current;
         // if(inputElem) setRatingComment(inputElem.innerText);
+        console.log(currentProvider)
     }, [inputRef?.current?.innerText]);
 
     return (
         <div className={'CreateRating'}>
+            <div className="GroupPosts__header">
+                <h2>{t("ratingsHeader")}{currentProvider?.name && currentProvider?.name}</h2>
+            </div>
             <div className="GroupPosts__form">
                 {/*<div className="w-input-text-group">*/}
                 {/*    <div ref={inputRef} id="w-input-text" contentEditable></div>*/}

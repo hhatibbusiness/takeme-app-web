@@ -18,17 +18,28 @@ const initialState = {
     whatsappLink: null,
     waze_template: 'https://www.waze.com/ul?ll=%2C',
     maps_template: 'https://maps.google.com/?q=',
-    platform: null
+    platform: null,
+    loadingAssets: true
 };
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.START_LOADING_ASSETS:
+            return {
+                ...state,
+                loadingAssets: true
+            }
+        case actionTypes.END_LOADING_ASSETS:
+            return {
+                ...state,
+                loadingAssets: false
+            }
         case actionTypes.FETCH_TAKE_ME_ASSETS:
             return (() => {
                 return {
                     ...state,
                     copyRightYear: action.assets.copyRightYear,
-                    coverPath: action.assets.coverPath,
+                    coverPaths: action.assets.coverPaths,
                     email: action.assets.email,
                     facebookLink: action.assets.facebookLink,
                     footerText: action.assets.footerText,

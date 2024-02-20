@@ -1,28 +1,31 @@
 .Category {
-    width: 70px !important;
+    width: 60px !important;
     /*height: 120px;*/
+    height: 100%;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    color: var(--main-color-green-dark-10);
+    color: var(--sec-color-shades-5);
+
     /*border-radius: 50%;*/
-    opacity: 0.5;
+    /*opacity: 0.4;*/
 }
 
 .Category__active {
-    opacity: 1;
+    /*opacity: 1;*/
 }
 
 .Category__active .Category__container {
-    background: var(--main-color-green-dark-1);
+    /*background: var(--main-color-green-dark-1);*/
     border: none;
+    /*background: var(--main-color-green-dark-1);*/
 }
 
 .Category__active img {
-    border: 1px solid white;
+    /*border: 1px solid white;*/
 }
 
 .Category__active p {
@@ -30,17 +33,47 @@
 }
 
 .Category__container {
-    padding: 5px;
+    /*padding: 5px;*/
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
-    border: 1px solid var(--main-color-green-dark-10);
+    margin-bottom: 5px;
+    /*border: 1px solid var(--main-color-green-dark-10);*/
     display: flex;
+    /*box-shadow: 0 0 5px var(--category--box-shadow-color);*/
+    border: 2px solid var(--category--box-shadow-color);
     align-items: center;
     justify-content: center;
+    position: relative;
+    /*box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);*/
+
+}
+
+.Category__container .LoadingProduct {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background: white;
+}
+
+.Category__container .LoadingProduct .LoadingProduct__image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.Category__active .Category__container {
+    box-shadow: none;
+    border: 2px solid var(--main-color-green-dark-1);
 }
 
 .Category img {
-    width: 50px;
-    height: 50px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     overflow: hidden;
     object-fit: cover;
@@ -48,4 +81,9 @@
 
 .Category p {
     text-align: center;
+    overflow-wrap: break-word !important;
+    -ms-word-break: break-word !important;
+    width: 100%;
+    line-height: 15px;
+    font-size: 10px;
 }

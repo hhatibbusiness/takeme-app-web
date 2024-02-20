@@ -11,6 +11,7 @@ import providerRatingScore
     from "../../../../Provider/ProviderRatings/ProviderRating/ProviderRatingScore/ProviderRatingScore";
 import history from '../../../../../history/history';
 import {closePopup} from "../../../../../store/actions/ui.actions";
+import locationImage from '../../../../../assets/images/product/Location.jpg'
 
 const ProviderBody = ({provider: p, activeProduct, isAuthenticated, changeDestination, socials, prov, openPopup, closePopup, changePopupProduct}) => {
     const [array, setArray] = useState([]);
@@ -28,7 +29,7 @@ const ProviderBody = ({provider: p, activeProduct, isAuthenticated, changeDestin
     }, []);
 
     useEffect(() => {
-        console.log(location.pathname);
+        // console.log(location.pathname);
         setCurrentLocation(location.pathname);
     }, []);
 
@@ -36,11 +37,11 @@ const ProviderBody = ({provider: p, activeProduct, isAuthenticated, changeDestin
         const floorNumber = Math.floor(rating);
         const ceil = Math.ceil(rating);
         if(floorNumber == ceil) {
-            console.log(floorNumber, ceil);
-            console.log('star is empty')
+            // console.log(floorNumber, ceil);
+            // console.log('star is empty')
             return <i style={{color: `${i < p.ratingsScore && 'gold'}`}} className={`${i < ceil ? 'fa-solid' : 'fa-regular'} fa-star`}></i>
         } else {
-            console.log('star is solid')
+            // console.log('star is solid')
             return <i style={{color: `${i < ceil && 'gold'}`, transform: 'rotateY(180deg)'}} className={`${i <= ceil - 1 ? 'fa-solid' : 'fa-regular'} ${(i <= floorNumber - 1 || i > ceil - 1) ? 'fa-star' : 'fa-star-half-stroke'}`}></i>;
         }
     }
@@ -49,7 +50,7 @@ const ProviderBody = ({provider: p, activeProduct, isAuthenticated, changeDestin
         <div className={'ProviderBody'}>
             <div className="ProviderBody__details--container">
                 <div className="ProviderBody__details">
-                    <h2 onClick={e => {
+                    <p onClick={e => {
                         if(prov) {
                             copy(window?.location?.href && window.location.href);
                             setCopied(
@@ -67,9 +68,10 @@ const ProviderBody = ({provider: p, activeProduct, isAuthenticated, changeDestin
                                 providerId: p.id
                             })
                         }
-                    }} className={'ProviderBody__name'}>{p?.name && p.name} {copied}</h2>
+                    }} className={'ProviderBody__name'}>{p?.name && p.name} {copied}</p>
                     <div className="ProviderBody__location">
-                        <i className="fa-solid fa-location-dot"></i>
+                        <img src={locationImage}/>
+                        {/*<i className="fa-solid fa-location-dot"></i>*/}
                         <p className={'ProviderBody__city'}>{p?.city && p?.city}</p>
                     </div>
                 </div>
@@ -78,41 +80,42 @@ const ProviderBody = ({provider: p, activeProduct, isAuthenticated, changeDestin
                 {
                     p?.productsCountMsg && <p className={'ProviderBody__msg'}>{p.productsCountMsg}</p>
                 }
-                {
-                    p?.ratingsCount > 0 ? (
-                        <p onClick={e => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            if(!isAuthenticated) {
-                                closePopup();
-                                return navigate('/login', {state: {previousLocation: currentLocation}})
-                            };
-                            changePopupProduct(activeProduct);
-                            openPopup();
-                            changeDestination(true);
-                        }} className={'ProviderBody__score'}>
-                            {
-                                p?.ratingsScore && p?.ratingsScore > 0 && (
-                                    <p className={'ProviderBody__stars'}>
-                                        {
-                                            p?.ratingsScore && array.map((a, i) => (
-                                                renderStars(p?.ratingsScore, i)
-                                            ))
-                                        }
-                                    </p>
-                                )
-                            }<span>({p?.ratingsCount && p.ratingsCount})</span>
-                        </p>
-                    ) : (
-                        <p style={{color: `var(--main-color-green-dark-1)`, fontWeight: 'bold', columnGap: '3px', display: 'flex', alignItems: "center"}} onClick={e => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            changePopupProduct(activeProduct);
-                            openPopup();
-                            changeDestination(true);
-                        }}><i className="fa-solid fa-plus"></i>{t("add-rating")}</p>
-                    )
-                }
+                <Socials provider={p} right={true}/>
+                {/*{*/}
+                {/*    p?.ratingsCount > 0 ? (*/}
+                {/*        <p onClick={e => {*/}
+                {/*            e.stopPropagation();*/}
+                {/*            e.preventDefault();*/}
+                {/*            if(!isAuthenticated) {*/}
+                {/*                closePopup();*/}
+                {/*                return navigate('/login', {state: {previousLocation: currentLocation}})*/}
+                {/*            };*/}
+                {/*            changePopupProduct(activeProduct);*/}
+                {/*            openPopup();*/}
+                {/*            changeDestination(true);*/}
+                {/*        }} className={'ProviderBody__score'}>*/}
+                {/*            {*/}
+                {/*                p?.ratingsScore && p?.ratingsScore > 0 && (*/}
+                {/*                    <p className={'ProviderBody__stars'}>*/}
+                {/*                        {*/}
+                {/*                            p?.ratingsScore && array.map((a, i) => (*/}
+                {/*                                renderStars(p?.ratingsScore, i)*/}
+                {/*                            ))*/}
+                {/*                        }*/}
+                {/*                    </p>*/}
+                {/*                )*/}
+                {/*            }<span>({p?.ratingsCount && p.ratingsCount})</span>*/}
+                {/*        </p>*/}
+                {/*    ) : (*/}
+                {/*        <p style={{color: `var(--main-color-green-dark-1)`, fontWeight: 'bold', columnGap: '3px', display: 'flex', alignItems: "center"}} onClick={e => {*/}
+                {/*            e.preventDefault();*/}
+                {/*            e.stopPropagation();*/}
+                {/*            changePopupProduct(activeProduct);*/}
+                {/*            openPopup();*/}
+                {/*            changeDestination(true);*/}
+                {/*        }}><i className="fa-solid fa-plus"></i>{t("add-rating")}</p>*/}
+                {/*    )*/}
+                {/*}*/}
             </div>
 
         </div>

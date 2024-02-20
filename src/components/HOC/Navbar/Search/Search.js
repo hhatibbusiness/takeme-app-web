@@ -8,11 +8,14 @@ import {getAnalytics, logEvent} from "firebase/analytics";
 import DropDownList from "../../../DropDownList/DropDownList";
 import intro from "../../../Intro/Intro";
 import history from '../../../../history/history';
+import searchIcon from '../../../../assets/images/searchIcon.png';
 
 const waitTime = 1000;
 
 const Search = ({focused, searchResults, searchPage, loadingSearchResults, term, lan, changeSearchTerm, search}) => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [typing, setTyping] = useState(false);
+    const [clicking, setClicking] = useState(false);
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [inputFocus, setInputFocus] = useState(false);
@@ -29,7 +32,7 @@ const Search = ({focused, searchResults, searchPage, loadingSearchResults, term,
     }
 
     useEffect(() => {
-        console.log(t('search'));
+        // console.log(t('search'));
         if(searchPage) {
             setSearchTerm(term)
         } else {
@@ -37,14 +40,37 @@ const Search = ({focused, searchResults, searchPage, loadingSearchResults, term,
         }
     }, []);
 
-    const inputKeyUpHandler = e => {
-        let timer;
-        clearTimeout(timer);
-        e.preventDefault();
-        timer = setTimeout(() => {
-            changeSearchTerm(e.target.value);
-        }, waitTime);
-    }
+    useEffect(() => {
+        let typingTimer;
+        if (!clicking) {
+            clearTimeout(typingTimer);
+
+            typingTimer = setTimeout(() => {
+                if (!clicking) {
+                    setTyping(false);
+                    changeSearchTerm(searchTerm);
+                }
+            }, 500);
+        }
+        return () => {
+            clearTimeout(typingTimer);
+        }
+    }, [clicking]);
+
+    useEffect(() => {
+        if(searchPage) {
+            setInputFocus(true);
+        }
+    }, [searchPage]);
+
+    // const inputKeyUpHandler = e => {
+    //     let timer;
+    //     clearTimeout(timer);
+    //     e.preventDefault();
+    //     timer = setTimeout(() => {
+    //         changeSearchTerm(e.target.value);
+    //     }, waitTime);
+    // }
 
     useEffect(() => {
 
@@ -67,25 +93,35 @@ const Search = ({focused, searchResults, searchPage, loadingSearchResults, term,
                 }
                 const analytics = getAnalytics();
                 logEvent(analytics, 'search_bar', {});
-            }} className={`Search ${inputFocus && 'Search__input--focused'}`}>
+            }} className={`Search Search__input--focused ${inputFocus && 'Search__input--searching'}`}>
                 <form onSubmit={e=> e.preventDefault()} className={`Search__form `}>
-                    <input onBlur={e => {
-                        console.log('Hello from Input!');
+                    <input id={'Search__input'} onBlur={e => {
+                        // console.log('Hello from Input!');
                         // setInputFocus(false);
                     }} onFocus={e => {
-                        console.log(searchPage)
+                        // console.log(searchPage)
                         if(searchPage) {
                             setInputFocus(true);
                         } else {
                             inputRef?.current?.blur();
                         }
-                    }} value={searchTerm} onChange={inputChangeHandler} onKeyUp={inputKeyUpHandler} ref={inputRef} type="text" className={`Search__input `} placeholder={t('search')}/>
+                    }} value={searchPage ? searchTerm : ''} onChange={e => inputChangeHandler(e)} onKeyUp={e => setClicking(false)} onKeyDown={e => {
+                        setClicking(true);
+                        setTyping(true);
+                    }} ref={inputRef} type="text" className={`Search__input `} placeholder={t('search')}/>
                     <button className="Search__btn">
-                        <i className="fa-solid fa-magnifying-glass"></i>
+                        {/*<i className="fa-solid fa-magnifying-glass"></i>*/}
+                        {
+                            (typing || loadingSearchResults) ? (
+                                <span><i className="fa-solid fa-circle-notch"></i></span>
+                            ) : (
+                                <img src={searchIcon} alt=""/>
+                            )
+                        }
                     </button>
                 </form>
                 {
-                    inputFocus && searchResults?.length > 0 && (
+                    inputFocus && !typing && searchResults?.length > 0 && (
                         <DropDownList loadingSearchResults={loadingSearchResults} searchResults={searchResults} inputRef={inputRef} term={term} setInputFocus={setInputFocus} />
                     )
                 }

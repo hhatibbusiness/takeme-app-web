@@ -4,6 +4,7 @@ import Img from "../../../../../../Home/Body/BodyContainer/ProductList/Products/
 import RenderImgError from "../../../../../../../components/RenderImgError/RenderImgError";
 import LoadingProduct from "../../../../../../../components/LoadingProduct/LoadingProduct";
 import './GalleryItem.scss';
+import productDefaultImage from '../../../../../../../assets/images/defaults/default-product-image.png';
 
 const GalleryItem = ({imgUrl, activeIndex}) => {
     const [imgLoaded, setImgLoaded] = useState(false);
@@ -63,7 +64,7 @@ const GalleryItem = ({imgUrl, activeIndex}) => {
             {
                 imgUI && (
                     <>
-                        <Img activeIndex={activeIndex} gallery={true} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={imgUrl.imagePath && imgUrl.imagePath}/>
+                        <Img product={true} activeIndex={activeIndex} gallery={true} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={imgUrl.imagePath  || productDefaultImage} />
                         {loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} imgLoaderRef={imgLoaderRef} failureRef={failureRef} elemRef={imgContainerRef} /> }
                     </>
                 )

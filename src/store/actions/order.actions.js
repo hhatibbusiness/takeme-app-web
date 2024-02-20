@@ -1,6 +1,7 @@
 import axios from "axios";
 import { BASE_URL } from "../../utls/assets";
 import {logEvent, getAnalytics} from "firebase/analytics";
+import {loadUser} from "./login.action";
 
 export const createOrder = (orderData) => async dispatch => {
     try {
@@ -33,6 +34,14 @@ export const createOrder = (orderData) => async dispatch => {
             });
         }
     } catch (e) {
-        console.error(e.message);
+        console.error(e.response.status);
+        if(e?.response?.status == 400) {
+            localStorage.removeItem('takemeproviderdata');
+            localStorage.removeItem('takemeprovidertoken');
+            localStorage.removeItem('takemeuser');
+            localStorage.removeItem('takemetoken');
+
+            dispatch(loadUser(orderData.navigate, orderData.lan));
+        }
     }
 }

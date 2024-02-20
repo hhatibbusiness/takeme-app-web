@@ -6,7 +6,7 @@ const CoverVideo = ({video}) => {
     const [plays, setPlays] = useState(true);
 
     const handlePlay = e => {
-        console.log('After')
+        // console.log('After')
         const playPromise = videoRef.current.play();
 
         // Handle the promise to catch any potential errors
@@ -14,7 +14,7 @@ const CoverVideo = ({video}) => {
             playPromise
                 .then(_ => {
                     // Autoplay started successfully
-                    console.log('Autoplay started!');
+                    // console.log('Autoplay started!');
                 })
                 .catch(error => {
                     // Autoplay failed

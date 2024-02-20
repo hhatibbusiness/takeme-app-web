@@ -35,13 +35,13 @@ const Products = ({products, id, setGalleryOpen, setIndex, value, loadingProduct
     }
 
     useEffect(() => {
-        console.log(id);
+        // console.log(id);
     }, [loadingProducts]);
 
     return (
         // <KeepAlive saveScrollPosition={true} cacheKey={'Products-home'}>
             <div className={'Products'}>
-                <div style={{gridTemplateColumns: `${turnValueIntoCol(value).col}`, gap: `${turnValueIntoCol(value).gap}px`}} className={`Products__container ${value === 100 && 'Products__full'}`}>
+                <div id={'Products__container'} style={{gridTemplateColumns: `${turnValueIntoCol(value).col}`, gap: `${value == 100 ? '10px' : turnValueIntoCol(value).gap}px`, display: `${value == 100 ? 'block' : 'grid'}`}} className={`Products__container ${value === 100 && 'Products__full'}`}>
                     {
                         !loadingProducts ? (
                             products.length > 0 && !loadingProducts ? (
@@ -67,6 +67,7 @@ const Products = ({products, id, setGalleryOpen, setIndex, value, loadingProduct
                         popup && currentProduct && <ProductsDetails setCurrentProduct={setCurrentProduct} setPopup={setPopoup} currentProduct={currentProduct} popup={popup} />
                     }
                 </div>
+                {/*<p style={{wordBreak: 'break-all'}}>fjdklasjfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff</p>*/}
             </div>
         // </KeepAlive>
     );

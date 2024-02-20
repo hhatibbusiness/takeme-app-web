@@ -4,6 +4,8 @@ import Img from "../../../../../Home/Body/BodyContainer/ProductList/Products/Pro
 import axios from "axios";
 import RenderImgError from "../../../../../../components/RenderImgError/RenderImgError";
 import LoadingProduct from "../../../../../../components/LoadingProduct/LoadingProduct";
+import listItemDefault from '../../../../../../assets/images/defaults/listitemdefault.svg';
+
 
 const ProviderProductListItem = ({item}) => {
     const [imgUI, setImgUI] = useState(true);
@@ -42,12 +44,13 @@ const ProviderProductListItem = ({item}) => {
                 imgUI && (
                     <>
                         <div className="ProviderProductListItem__img">
-                            <Img setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={item?.imagePath && item?.imagePath}/>
-                            {loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} imgLoaderRef={imgLoaderRef} failureRef={failureRef} elemRef={imgContainerRef} /> }
+                            <Img popup={true} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={(item?.imagePath && item?.imagePath) || listItemDefault}/>
+                            {/*{loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} imgLoaderRef={imgLoaderRef} failureRef={failureRef} elemRef={imgContainerRef} /> }*/}
                         </div>
                     </>
                 )
             }
+            {/*{true && <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={false} priceTitle={false} imgLoaded={false} details={false} btn={false} />}*/}
             {(!loaded || hidden) && <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={false} priceTitle={false} imgLoaded={false} details={false} btn={false} />}
             <div className="ProviderProductListItem__text">
                 <span>{item?.item && item.item}</span>

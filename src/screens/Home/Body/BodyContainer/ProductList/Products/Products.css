@@ -8,8 +8,8 @@
     width: 100%;
     display: grid;
     margin: auto;
-    background: #EFF2F5;
-    padding-top: 10px;
+    background: var(--product-types-background-color);
+    /*padding-top: 10px;*/
     direction: rtl;
     scroll-behavior: smooth;
 }

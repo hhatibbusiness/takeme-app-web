@@ -4,20 +4,12 @@
   left: 0;
   width: 100%;
   height: 100%;
-  //background-color: red;
   z-index: 1000;
-  //transition: 0.4s;
   direction: rtl;
-
 
   .ProductPopup__product--fullwidth {
     height: calc(100% - 90px) !important;
-    //border-radius: 0 !important;
   }
-  //
-  //.ProductPopup__product--open {
-  //  bottom: 0 !important;
-  //}
 
   .ProductPopup__product {
     width: 100%;
@@ -27,17 +19,17 @@
     bottom: -100%;
     left: 0;
     z-index: 2;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
     outline: 1px solid var(--sec-color-shades-5);
     box-shadow: 0 -1px 10px rgba(0, 0, 0, .2);
     //padding: 20px;
-    padding-top: 100px;
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
     gap: 30px;
-    //transition: bottom 0.5s, height 0.5s;
     animation: from-bottom 0.5s forwards linear;
+    overflow-y: auto;
 
     .ProductPopup__product--container {
       width: 100%;
@@ -47,6 +39,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      padding-top: 70px;
 
       &::-webkit-scrollbar {
         display: none;
@@ -63,11 +56,12 @@
         //border: 3px solid white;  /* creates padding around scroll thumb */
       }
     }
+
     .ProviderProduct__details-dropdown {
       .ProviderProduct__details--list {
-        border-bottom: 1px solid var(--sec-color-shades-3);
-        padding: 30px 0;
-        margin-bottom: 30px;
+        //border-bottom: 1px solid var(--sec-color-shades-3);
+        padding: 0 15px 15px 0;
+        margin-bottom: 10px;
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -75,23 +69,26 @@
     }
 
     .ProviderProduct__details--desc {
-
+      margin-bottom: 15px;
       .ProviderProduct__details--text {
-        color: var(--sec-color-shades-9);
+        color: var(--product--min-duration-color);
+        text-align: right;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
       }
 
       .ProviderProduct__details--text-short {
         color: blue;
         cursor: pointer;
       }
-
     }
 
     .ProviderProduct__details--prices {
       display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 20px;
+      flex-direction: column;
+      align-items: start;
 
       .ProviderProduct__details--rent {
         display: flex;
@@ -102,7 +99,10 @@
 
         .ProductPopup__details--rent-min {
           font-size: 13px;
-          color: var(--sec-color-shades-6);
+          color: var(--product--min-duration-color);
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
         }
 
 
@@ -117,12 +117,16 @@
 
         .ProviderProduct__details--rent-pricenum {
           color: var(--main-color-green-dark-1);
-          font-size: 18px;
-          font-weight: bold;
+          font-size: 15px;
+          font-weight: 400;
+          -webkit-text-stroke-width: 0.25px;
+          -webkit-text-stroke-color: var(--main-color-green-dark-1);
         }
 
         .ProviderProduct__details--rent-shekel {
           color: var(--main-color-green-dark-1);
+          font-size: 16px;
+          font-weight: 600;
 
           i {
             font-size: 13px;
@@ -142,43 +146,49 @@
         }
 
         .ProviderProduct__details--sale-price {
-          font-size: 13px;
-          color: var(--sec-color-shades-7);
+          font-size: 15px;
+          color: var(--sec-color-shades-6);
         }
 
         .ProviderProduct__details--sale-pricenum {
           color: var(--main-color-green-dark-1);
-          font-size: 18px;
-          font-weight: bold;
+          font-size: 15px;
+          font-weight: 400;
+          -webkit-text-stroke-width: 0.25px;
+          -webkit-text-stroke-color: var(--main-color-green-dark-1);
         }
 
         .ProviderProduct__details--sale-shekel {
           color: var(--main-color-green-dark-1);
+          font-size: 16px;
+          font-weight: 600;
 
           i {
             font-size: 13px;
-
           }
         }
       }
     }
 
     .ProductPopup__product--title {
-      font-size: 20px;
-      font-weight: bold;
+      font-size: 25px;
+      color: var(--sec-color-shades-8);
+      font-weight: 400;
       position: absolute;
-      top: 65px;
+      top: 30px;
       padding: 10px 0;
       background-color: white;
       width: 90%;
+      text-align: center;
     }
 
     .ProductPopup__product--close {
       position: absolute;
       top: 20px;
-      right: 20px;
-      font-size: 20px;
+      right: 30px;
+      font-size: 25px;
       cursor: pointer;
+      z-index: 2;
     }
   }
 
@@ -203,8 +213,6 @@
 
 .ProductPopup__close {
   bottom: -100%;
-  //transition: 0.5s;
-  //transition-delay: 0.4s;
 }
 
 
@@ -241,9 +249,8 @@
 
 @media (max-width: 450px) {
   .ProductPopup__product--container {
-    padding: 0 !important;
-    padding-top: 20px !important;
-    padding-right: 5px !important;
+    //padding: 10px !important;
+    //padding-top: 20px !important;
   }
 }
 
@@ -253,6 +260,6 @@
   }
 
   .ProductPopup__details--rent-min {
-    display: none !important;
+    //display: none !important;
   }
 }

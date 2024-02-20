@@ -1,9 +1,9 @@
 .DropDownList {
-    position: absolute;
+    position: fixed;
     background: white;
     width: 450px;
     /*height: 500px;*/
-    top: calc(100% + 5px);
+    top: 60px;
     left: 50%;
     transform: translateX(-50%);
     border-radius: 20px;
@@ -57,6 +57,6 @@
 @media (max-width: 450px) {
     .DropDownList {
         width: 100vw;
-        padding: 0;
+        padding: 0 10px;
     }
 }

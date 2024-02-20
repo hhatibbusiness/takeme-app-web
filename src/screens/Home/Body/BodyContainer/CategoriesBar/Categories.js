@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import CategoryItem from './Category/Category';
 import {changeId} from "../../../../../store/actions/categories.action";
 
-const Categories = ({categories, curId, loadingCategories, search, home}) => {
+const Categories = ({categories, provider, curId, loadingCategories, search, home}) => {
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
     const [down, setDown] = useState(false);
@@ -40,10 +40,10 @@ const Categories = ({categories, curId, loadingCategories, search, home}) => {
     return (
         <div id={'categories'} className={'Categories'}>
             <div ref={categoriesRef} className="Categories__parent" onMouseDown={mouseDownHandler} onMouseLeave={mouseUpHandler} onMouseUp={mouseUpHandler} onMouseMove={mouseMoveHandler}>
-                <div ref={containerRef} className="Categories__container">
+                <div id={'Categories__container'} ref={containerRef} className="Categories__container">
                     {
                         !loadingCategories && categories.map((cat, i) => (
-                            <CategoryItem curId={curId} search={search} home={home} key={cat?.id && cat.id} cat={cat} />
+                            <CategoryItem provider={provider} curId={curId} search={search} home={home} key={cat?.id && cat.id} cat={cat} />
                         ))
                     }
                 </div>
@@ -53,9 +53,10 @@ const Categories = ({categories, curId, loadingCategories, search, home}) => {
 };
 
 const mapStateToProps = state => ({
-    categories: state.categories.categories,
-    loadingCategories: state.categories.loadingCategories,
-    id: state.categories.curId
+    // categories: state.categories.categories,
+    // loadingCategories: state.categories.loadingCategories,
+    // id: state.categories.curId,
+    // providerCategories: state.provider.categories
 });
 
 export default connect(mapStateToProps, {changeId}) (Categories);

@@ -4,13 +4,17 @@ import ProviderProductVariable from "./ProviderProductVariable/ProviderProductVa
 
 const ProviderProductVariables = ({variables}) => {
     return (
-        <div className={'ProviderProductVariables'}>
-            {
-                variables?.length > 0 && variables.map((v, i) => (
-                    <ProviderProductVariable variable={v} />
-                ))
-            }
-        </div>
+        <>
+            <hr style={{marginBottom: '15px'}} />
+
+            <div className={'ProviderProductVariables'}>
+                {
+                    variables?.length > 0 && variables.map((v, i) => (
+                        <ProviderProductVariable variable={v} />
+                    ))
+                }
+            </div>
+        </>
     );
 };
 
