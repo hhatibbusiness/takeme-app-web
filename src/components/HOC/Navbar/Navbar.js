@@ -13,7 +13,7 @@ import Img from "../../../screens/Home/Body/BodyContainer/ProductList/Products/P
 import LoadingProduct from "../../LoadingProduct/LoadingProduct";
 
 // const Navbar = ({assets, setSidebar, searchPage, loadingSearchResults, searchResults, term, backBtn, step, setStep, backUrl, midText, search, focused}) => {
-const Navbar = ({data, assets, ui, sidebar, setSidebar}) => {
+const Navbar = ({data, assets, ui, searching, setSearching, sidebar, setSidebar}) => {
     const [inputFocus, setInputFocus] = useState(false);
     const [backBtn, setBackBtn] = useState(true);
     const [error, setError] = useState(false);
@@ -27,7 +27,7 @@ const Navbar = ({data, assets, ui, sidebar, setSidebar}) => {
     const navigate = useNavigate();
     useEffect(() => {
         // console.log(assets)
-    })
+    });
 
     return (
         <div className={'Navbar'}>
@@ -40,7 +40,7 @@ const Navbar = ({data, assets, ui, sidebar, setSidebar}) => {
                     {/*{(!loaded || hidden) && <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={false} priceTitle={false} imgLoaded={false} details={false} btn={false} />}*/}
                 </div>
                 {
-                    data?.search && <Search inputFocus={inputFocus} setInputFocus={setInputFocus} loadingSearchResults={data?.loadingSearchResults} searchResults={data?.searchResults} term={data?.term} search={data?.search} searchPage={data?.searchPage} />
+                    data?.search && <Search searching={searching} setSearching={setSearching} inputFocus={inputFocus} setInputFocus={setInputFocus} loadingSearchResults={data?.loadingSearchResults} searchResults={data?.searchResults} term={data?.term} search={data?.search} searchPage={data?.searchPage} />
                 }
                 {
                     data?.midText && <Mid midText={data.midText} />

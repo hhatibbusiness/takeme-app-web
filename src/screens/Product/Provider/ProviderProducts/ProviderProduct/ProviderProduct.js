@@ -16,9 +16,10 @@ import {changePopupProduct} from "../../../../../store/actions/ui.actions";
 import {getAnalytics, logEvent} from "firebase/analytics";
 import {closeGallery} from "../../../../../store/actions/product.actions";
 import productDefault from '../../../../../assets/images/defaults/default-product-image.png'
+import {editProviderProduct} from "../../../../../store/actions/provider.actions";
+import SpinnerComponent from "../../../../../components/Spinner/Spinner.Component";
 
-const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, arrayRef, providerOrNot, productTypesCount, search, providerRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
-    //test
+const ProviderProduct = ({imgRef,searchPage, user, isSearch, editProviderProduct, provider, setGallery, lan, changeDestination, arrayRef, providerOrNot, productTypesCount, search, providerRef, togglePopup, product, changePopupProduct, sliding, openGallery, term}) => {
     const [error, setError] = useState(false);
     const [loaded, setLoaded] = useState(false);
     const [imgLoaded, setImgLoaded] = useState(true);
@@ -27,7 +28,7 @@ const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, array
     const [short, setShort] = useState(true);
     const [containerLoaded, setContainerLoaded] = useState(false);
     const navigate = useNavigate();
-    const descRef = useRef();
+    // const descRef = useRef();
     const {t} = useTranslation();
     const imgRefDub = useRef(null);
     const imgLoaderRef = useRef(null);
@@ -38,23 +39,153 @@ const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, array
     const [more, setMore] = useState(false);
     const productRef = useRef();
     const [charCount, setCharCount] = useState(0);
+    const [titleEdit, setTitleEdit] = useState(false);
+    const [title, setTitle] = useState('');
+    const [salePrice, setSalePrice] = useState('');
+    const [salePriceEdit, setSalePriceEdit] = useState(false);
+    const [rentPrice, setRentPrice] = useState('');
+    const [rentPriceEdit, setRentPriceEdit] = useState(false);
+    const [rentDuration, setRentDuration] = useState('');
+    const [rentUnit, setRentUnit] = useState('');
+    const [desEdit, setDescEdit] = useState(false);
+    const [desc, setDesc] = useState('');
+    const titleRef = useRef();
+    const priceRef = useRef();
+    const rentRef = useRef();
+    const descRef = useRef();
+    const [editing, setEditing] = useState(false);
+    const [status, setStatus] = useState(null);
 
+    useEffect(() => {
+        let timer;
+        let duration = 1500;
+        if(titleRef?.current) {
+            console.log('Hello title!')
+            titleRef?.current?.addEventListener('touchstart', e=> {
+                console.log('Hello starting!')
+                timer = setTimeout(() => {
+                    if (user?.uType == 'customer' || user?.providerId != product?.providerId) return;
+                    // console.log('proceed');
+                    console.log('Heello form holding!')
+                    console.log(user?.providerId, product?.providerId);
+                    setTitleEdit(true);
+                    setTitle(product?.name);
+                    setStatus(product?.saleDetails?.status);
+                    setRentPriceEdit(false);
+                    setSalePriceEdit(false);
+                    setDescEdit(false);
+                }, duration);
+            });
 
-    // const renderImage = async () => {
-    //     try{
-    //         const res = await axios.get(product?.images[0]?.imagePath);
-    //         if(res.status === 200) {
-    //             const img = <Img imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath}/>;
-    //             setImgUI(img);
-    //         }
-    //     }catch(e) {
-    //         console.error(e);
-    //         const imgUI =  <RenderImgError failureRef={failureRef} />;
-    //         setImgLoaded(true);
-    //         setImgUI(prevState => imgUI);
-    //         setContainerLoaded(true);
-    //     }
-    // }
+            titleRef?.current?.addEventListener('touchend', e => {
+                clearInterval(timer);
+                timer = null;
+            });
+        }
+
+        return () => {
+            clearInterval(timer);
+            timer = null;
+        }
+    }, [titleRef?.current]);
+
+    useEffect(() => {
+        let timer;
+        let duration = 2000;
+        if(descRef?.current) {
+            console.log('Hello title!')
+            descRef?.current?.addEventListener('touchstart', e=> {
+                console.log('Hello starting!')
+                timer = setTimeout(() => {
+                    if (user?.uType == 'customer' || user?.providerId != product?.providerId) return;
+                    // console.log('proceed');
+                    console.log('Heello form holding!')
+                    console.log(user?.providerId, product?.providerId);
+                    setDescEdit(true);
+                    setDesc(product?.description?.text);
+                    setTitleEdit(false);
+                    setSalePriceEdit(false);
+                    setRentPriceEdit(false);
+                }, duration);
+            });
+
+            descRef?.current?.addEventListener('touchend', e => {
+                clearInterval(timer);
+                timer = null;
+            });
+        }
+
+        return () => {
+            clearInterval(timer);
+            timer = null;
+        }
+    }, [descRef?.current]);
+
+    useEffect(() => {
+        let timer;
+        let duration = 2000;
+        if(priceRef?.current) {
+            console.log('Hello title!')
+            priceRef?.current?.addEventListener('touchstart', e=> {
+                console.log('Hello starting!')
+                timer = setTimeout(() => {
+                    if (user?.uType == 'customer' || user?.providerId != product?.providerId) return;
+                    // console.log('proceed');
+                    console.log('Heello form holding!')
+                    console.log(user?.providerId, product?.providerId);
+                    setSalePriceEdit(true);
+                    setSalePrice(product?.saleDetails?.price);
+                    setRentPriceEdit(false);
+                    setTitleEdit(false);
+                    setDescEdit(false);
+                }, duration);
+            });
+
+            priceRef?.current?.addEventListener('touchend', e => {
+                clearInterval(timer);
+                timer = null;
+            });
+        }
+
+        return () => {
+            clearInterval(timer);
+            timer = null;
+        }
+    }, [priceRef?.current]);
+
+    useEffect(() => {
+        let timer;
+        let duration = 2000;
+        if(rentRef?.current) {
+            console.log('Hello title!')
+            rentRef?.current?.addEventListener('touchstart', e=> {
+                console.log('Hello starting!')
+                timer = setTimeout(() => {
+                    if (user?.uType == 'customer' || user?.providerId != product?.providerId) return;
+                    // console.log('proceed');
+                    console.log('Heello form holding!')
+                    console.log(user?.providerId, product?.providerId);
+                    setRentPriceEdit(true);
+                    setRentPrice(product?.rentDetails?.price);
+                    setRentDuration(product?.rentDetails?.minTimForRent);
+                    setRentUnit(product?.rentDetails?.rentUnit);
+                    setTitleEdit(false);
+                    setDescEdit(false);
+                    setSalePriceEdit(false);
+                }, duration);
+            });
+
+            rentRef?.current?.addEventListener('touchend', e => {
+                clearInterval(timer);
+                timer = null;
+            });
+        }
+
+        return () => {
+            clearInterval(timer);
+            timer = null;
+        }
+    }, [rentRef?.current]);
 
     const formateMinDuration = (duration, unit) => {
         switch (unit) {
@@ -179,6 +310,11 @@ const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, array
 
 
     const checkLineCount = (ele) => {
+        if(isSearch) {
+            console.log('Searching!', product?.description?.text?.length)
+            setMore(false);
+            return setCharCount(product?.description?.text?.length);
+        }
         const productWidth = imgRef?.current?.getBoundingClientRect().width;
         const lineHeight = 15;
         const lines = 2.5;
@@ -229,88 +365,342 @@ const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, array
                                     setGallery(true);
                                 }} className={'ProviderProduct__body--container'}>
                                     <div ref={imgContainerRef} className="ProviderProduct__image--container">
-                                        <Img product={true} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={product?.images[0]?.imagePath || productDefault}/>
+                                        <Img product={true} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={product?.images.length !== 0 ? (product?.images[0]?.imagePath || productDefault) : productDefault}/>
                                         {loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} imgLoaderRef={imgLoaderRef} failureRef={failureRef} elemRef={imgContainerRef} /> }
                                     </div>
                                 </div>
-                                <div className={'ProviderProduct__details'}>
-                                    {
-                                        renderName()
-                                    }
-                                    <div className="ProviderProduct__details--prices">
-                                        {
-                                            product?.saleDetails && (
-                                                <div className={'ProviderProduct__details--sale'}>
-                                                    {
-                                                        product?.saleDetails?.comment && (
-                                                            <div className="ProviderProduct__details--sale-icon">
-                                                                <i className="fa-solid fa-circle-exclamation"></i>
+                                {
+                                    (
+                                        <div className={'ProviderProduct__details'}>
+                                            <div ref={titleRef} onDoubleClick={e => {
+                                                console.log(e);
+                                                if (user?.uType == 'customer' || user?.providerId != product?.providerId) return;
+                                                // console.log('proceed');
+                                                console.log(user?.providerId, product?.providerId);
+                                                setTitleEdit(true);
+                                                setTitle(product?.name);
+                                                setRentPriceEdit(false);
+                                                setDescEdit(false);
+                                                setSalePriceEdit(false);
+                                            }} className="ProviderProduct__details--title-container">
+                                                {
+                                                    titleEdit ? (
+                                                        <div className={'ProviderProduct__details--title-edit'}>
+                                                            <div className="ProviderProduct__details--title-form">
+                                                                <input onChange={e => setTitle(e.target.value)}
+                                                                       className="ProviderProduct__details--title-input"
+                                                                       type={'text'} value={title}/>
+                                                                <select
+                                                                    value={status}
+                                                                    onChange={e => {
+                                                                        setStatus(e.target.value);
+                                                                    }}
+                                                                    className="ProviderProduct__details--title-selector">
+                                                                    <option value={'جديد'}>(جديد)</option>
+                                                                    <option value={'مستعمل'}>(مستعمل)</option>
+                                                                    <option value={'غير متاح'}>(غير متاح)</option>
+                                                                </select>
                                                             </div>
-                                                        )
-                                                    }
-                                                    <div className="ProviderProduct__details--sale-price">
-                                                        {t('price')}
-                                                    </div>
-                                                    <div className="ProviderProduct__details--sale-pricenum">
-                                                        {
-                                                            product?.saleDetails?.price && <span>{product?.saleDetails?.price}</span>
-                                                        }
-                                                    </div>
-                                                    <div className="ProviderProduct__details--sale-shekel">
-                                                        <i className="fa-solid fa-shekel-sign"></i>
-                                                    </div>
-                                                </div>
-                                            )
-                                        }
-                                        {
-                                            product?.rentDetails && (
-                                                <div className={'ProviderProduct__details--rent'}>
-                                                    {
-                                                        product?.rentDetails?.comment && (
-                                                            <div className="ProviderProduct__details--sale-icon">
-                                                                <i className="fa-solid fa-circle-exclamation"></i>
+                                                            <div className="ProviderProduct__details--title-btns">
+                                                                <div onClick={async e => {
+                                                                    console.log('Hello There!');
+                                                                    setEditing(true);
+                                                                    const data = {
+                                                                        lan,
+                                                                        product: {
+                                                                            ...product,
+                                                                            name: title
+                                                                        },
+                                                                        productNameSeparated: null
+                                                                    };
+                                                                    await editProviderProduct(data);
+                                                                    setEditing(false);
+                                                                    setTitleEdit(false);
+                                                                }} className="ProviderProduct__details--title-check">
+                                                                    {
+                                                                        editing ? (
+                                                                            <SpinnerComponent />
+                                                                        ) : (
+                                                                            <i className="fa-solid fa-check"></i>
+                                                                        )
+                                                                    }
+                                                                </div>
+                                                                <div onClick={e => {
+                                                                    console.log('cancel clicked!');
+                                                                    setTitleEdit(false);
+                                                                }} className="ProviderProduct__details--title-cancel"><i
+                                                                    className="fa-solid fa-x"></i></div>
                                                             </div>
-                                                        )
-                                                    }
-
-                                                    <div className="ProviderProduct__details--rent-price">
-                                                        {t('rentPrice')}
-                                                    </div>
-                                                    <div className="ProviderProduct__details--rent-pricenum">
-                                                        {
-                                                            product?.rentDetails?.price && <span>{product?.rentDetails?.price}</span>
-                                                        }
-                                                    </div>
-                                                    <div className="ProviderProduct__details--rent-shekel">
-                                                        <i className="fa-solid fa-shekel-sign"></i>
-                                                    </div>
-                                                    {product?.rentDetails?.minTimForRent && <p className={'ProviderProduct__details--rent-min'}>({t("minRentTimeMessage")}{formateMinDuration(product?.rentDetails?.minTimForRent, product?.rentDetails?.rentUnit)})</p>}
-                                                </div>
-                                            )
-                                        }
-                                    </div>
-                                    {
-                                        product?.description && (
-                                            <div className="ProviderProduct__details--desc">
-                                                {/*{product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}*/}
-                                                {<p className="ProviderProduct__details--text">
-                                                    <span className={'ProviderProduct__details--text-ellipsis'}>{product?.description?.text && product?.description?.text.slice(0, charCount)}</span>
-
-                                                    <span onClick={e => {
-                                                    changePopupProduct(product);
-                                                    togglePopup();
-                                                    changeDestination(false);
-                                                    const analytics = getAnalytics();
-                                                    logEvent(analytics, 'expand', {
-                                                        productName: product.name,
-                                                        productId: product.id,
-                                                        screen: search && 'search' || 'provider'
-                                                    });
-                                                }} className={'ProviderProduct__details--text-short'}>{(more || (product?.description?.variables.length > 0 || product?.description?.tags?.length > 0 || product?.description?.list?.length > 0 || product?.description?.comments.length > 0) ? `...${t('more')}` : '')}</span></p>}
+                                                        </div>
+                                                    ) : renderName()
+                                                }
                                             </div>
-                                        )
-                                    }
-                                </div>
+                                            <div className="ProviderProduct__details--prices">
+                                                {
+                                                    (product?.saleDetails) && (
+                                                        <div className={'ProviderProduct__details--sale'}>
+                                                            {
+                                                                product?.saleDetails?.comment && (
+                                                                    <div className="ProviderProduct__details--sale-icon">
+                                                                        <i className="fa-solid fa-circle-exclamation"></i>
+                                                                    </div>
+                                                                )
+                                                            }
+                                                            <div className="ProviderProduct__details--sale-price">
+                                                                {t('price')}
+                                                            </div>
+                                                            <div ref={priceRef} onDoubleClick={e => {
+                                                                if (user?.uType == 'customer' || user?.providerId != product?.providerId) return;
+                                                                setSalePriceEdit(true);
+                                                                setSalePrice(product?.saleDetails?.price);
+                                                                setRentPriceEdit(false);
+                                                                setDescEdit(false);
+                                                                setTitleEdit(false);
+                                                            }} className="ProviderProduct__details--sale-pricenum">
+                                                                {
+                                                                    salePriceEdit ? (
+                                                                        <div
+                                                                            className={'ProviderProduct__details--sale-edit'}>
+                                                                            <div
+                                                                                className="ProviderProduct__details--sale-form">
+                                                                                <input
+                                                                                    onChange={e => setSalePrice(e.target.value)}
+                                                                                    className="ProviderProduct__details--title-input"
+                                                                                    type={'text'} value={salePrice}/>
+                                                                            </div>
+                                                                            <div
+                                                                                className="ProviderProduct__details--sale-btns">
+                                                                                <div onClick={async e => {
+                                                                                    console.log('Hello There!');
+                                                                                    setEditing(true);
+                                                                                    const data = {
+                                                                                        lan,
+                                                                                        product: {
+                                                                                            ...product,
+                                                                                            saleDetails: {
+                                                                                                ...product?.saleDetails,
+                                                                                                price: salePrice
+                                                                                            }
+                                                                                        }
+                                                                                    };
+                                                                                    await editProviderProduct(data);
+                                                                                    setEditing(false);
+                                                                                    setSalePriceEdit(false);
+                                                                                }}
+                                                                                     className="ProviderProduct__details--sale-check">
+                                                                                    {
+                                                                                        editing ? (
+                                                                                            <SpinnerComponent />
+                                                                                        ) : (
+                                                                                            <i className="fa-solid fa-check"></i>
+                                                                                        )
+                                                                                    }
+                                                                                </div>
+                                                                                <div onClick={e => {
+                                                                                    console.log('cancel clicked!');
+                                                                                    setSalePriceEdit(false);
+                                                                                }}
+                                                                                     className="ProviderProduct__details--sale-cancel">
+                                                                                    <i
+                                                                                        className="fa-solid fa-x"></i></div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    ) : product?.saleDetails?.price &&
+                                                                        <span>{product?.saleDetails?.price}</span>
+                                                                }
+                                                            </div>
+                                                            <div className="ProviderProduct__details--sale-shekel">
+                                                                <i className="fa-solid fa-shekel-sign"></i>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                }
+                                                {
+                                                    (product?.rentDetails) && (
+                                                        <div ref={rentRef} onDoubleClick={e => {
+                                                            if (user?.uType == 'customer' || user?.providerId != product?.providerId) return;
+                                                            setRentPriceEdit(true);
+                                                            setRentPrice(product?.rentDetails?.price);
+                                                            setRentDuration(product?.rentDetails?.minTimForRent);
+                                                            setTitleEdit(false);
+                                                            setSalePriceEdit(false);
+                                                            setDescEdit(false);
+                                                        }} className={'ProviderProduct__details--rent'}>
+                                                            {
+                                                                product?.rentDetails?.comment && (
+                                                                    <div className="ProviderProduct__details--sale-icon">
+                                                                        <i className="fa-solid fa-circle-exclamation"></i>
+                                                                    </div>
+                                                                )
+                                                            }
+
+                                                            <div className="ProviderProduct__details--rent-price">
+                                                                {t('rentPrice')}
+                                                            </div>
+                                                            {
+                                                                (rentPriceEdit) ? (
+                                                                    <div className={'ProviderProduct__details--rent-edit'}>
+                                                                        <input type="text"
+                                                                               className={'ProviderProduct__details--rent-input'}
+                                                                               value={rentPrice}
+                                                                               onChange={e => setRentPrice(e.target.value)}/>
+                                                                        <div
+                                                                            className="ProviderProduct__details--rent-shekel">
+                                                                            <i className="fa-solid fa-shekel-sign"></i>
+                                                                        </div>
+                                                                        <div
+                                                                            className={'ProviderProduct__details--rent-min'}>{t("minRentTimeMessage")}</div>
+                                                                        <input type="number" value={rentDuration}
+                                                                               onChange={e => setRentDuration(e.target.value)}
+                                                                               className={'ProviderProduct__details--rent-duration'}/>
+                                                                        <select name="" id="">
+                                                                            <option value="day">يوم</option>
+                                                                            <option value="hour">ساعة</option>
+                                                                        </select>
+                                                                        <div className="ProviderProduct__details--rent-btns">
+                                                                            <div onClick={async e => {
+                                                                                console.log('Hello There!');
+                                                                                setEditing(true);
+                                                                                const data = {
+                                                                                    lan,
+                                                                                    product: {
+                                                                                        ...product,
+                                                                                        rentDetails: {
+                                                                                            ...product?.rentDetails,
+                                                                                            price: rentPrice,
+                                                                                            rentUnit: rentUnit,
+                                                                                            minTimForRent: rentDuration
+                                                                                        }
+                                                                                    }
+                                                                                };
+                                                                                await editProviderProduct(data);
+                                                                                setEditing(false);
+                                                                                setRentPriceEdit(false);
+                                                                            }} className="ProviderProduct__details--rent-check">
+                                                                                {
+                                                                                    editing ? (
+                                                                                        <SpinnerComponent />
+                                                                                    ) : (
+                                                                                        <i className="fa-solid fa-check"></i>
+                                                                                    )
+                                                                                }
+                                                                            </div>
+                                                                            <div onClick={e => {
+                                                                                console.log('cancel clicked!');
+                                                                                setRentPriceEdit(false);
+                                                                            }}
+                                                                                 className="ProviderProduct__details--rent-cancel">
+                                                                                <i
+                                                                                    className="fa-solid fa-x"></i></div>
+                                                                        </div>
+                                                                    </div>
+                                                                ) : (
+                                                                    <>
+                                                                        <div
+                                                                            className="ProviderProduct__details--rent-pricenum">
+                                                                            {
+                                                                                product?.rentDetails?.price &&
+                                                                                <span>{product?.rentDetails?.price}</span>
+                                                                            }
+                                                                        </div>
+                                                                        <div
+                                                                            className="ProviderProduct__details--rent-shekel">
+                                                                            <i className="fa-solid fa-shekel-sign"></i>
+                                                                        </div>
+                                                                        {product?.rentDetails?.minTimForRent &&
+                                                                            <p className={'ProviderProduct__details--rent-min'}>({t("minRentTimeMessage")}{formateMinDuration(product?.rentDetails?.minTimForRent, product?.rentDetails?.rentUnit)})</p>}
+
+                                                                    </>
+                                                                )
+                                                            }
+                                                            {/*<div className="ProviderProduct__details--rent-pricenum">*/}
+                                                            {/*    {*/}
+                                                            {/*        product?.rentDetails?.price && <span>{product?.rentDetails?.price}</span>*/}
+                                                            {/*    }*/}
+                                                            {/*</div>*/}
+                                                            {/*<div className="ProviderProduct__details--rent-shekel">*/}
+                                                            {/*    <i className="fa-solid fa-shekel-sign"></i>*/}
+                                                            {/*</div>*/}
+                                                        </div>
+                                                    )
+                                                }
+                                            </div>
+                                            {
+                                                product?.description && (
+                                                    <div ref={descRef} onDoubleClick={e => {
+                                                        if (user?.uType == 'customer' || user?.providerId != product?.providerId) return;
+                                                        setDescEdit(true);
+                                                        setDesc(product?.description?.text);
+                                                        setRentDuration(product?.description?.text);
+                                                        setSalePriceEdit(false);
+                                                        setTitleEdit(false);
+                                                        setRentPriceEdit(false);
+                                                    }} className="ProviderProduct__details--desc">
+                                                        {/*{product?.description?.text && <p className="ProviderProduct__details--text">{product?.description?.text && ((short ? `${product?.description?.text.substr(0, 50)}` : product?.description?.text))}  <span onClick={e => setShort(!short)} className={'ProviderProduct__details--text-short'}>{product?.description?.text && (short ? `...${t('more')}` : t('less'))}</span></p>}*/}
+                                                        {
+                                                            desEdit ? (
+                                                                <div className={'ProviderProduct__details--desc-edit'}>
+                                                                    <textarea name="" id="" rows={3}
+                                                                              className={'ProviderProduct__details--desc-textarea'}
+                                                                              value={desc}
+                                                                              onChange={e => setDesc(e.target.value)}></textarea>
+                                                                    <div className="ProviderProduct__details--desc-btns">
+                                                                        <div onClick={async e => {
+                                                                            console.log('Hello There!');
+                                                                            setEditing(true);
+                                                                            const data = {
+                                                                                lan,
+                                                                                product: {
+                                                                                    ...product,
+                                                                                    description: {
+                                                                                        ...product?.description,
+                                                                                        text: desc
+                                                                                    }
+                                                                                }
+                                                                            };
+                                                                            await editProviderProduct(data);
+                                                                            setEditing(false);
+                                                                            setDescEdit(false);
+                                                                        }} className="ProviderProduct__details--desc-check">
+                                                                            <i className="fa-solid fa-check"></i></div>
+                                                                        <div onClick={e => {
+                                                                            console.log('cancel clicked!');
+                                                                            setDescEdit(false);
+                                                                        }}
+                                                                             className="ProviderProduct__details--desc-cancel">
+                                                                            <i
+                                                                                className="fa-solid fa-x"></i></div>
+                                                                    </div>
+                                                                </div>
+                                                            ) : (
+                                                                <>
+                                                                    <p className="ProviderProduct__details--text">
+                                                                        <span
+                                                                            className={'ProviderProduct__details--text-ellipsis'}>{product?.description?.text && product?.description?.text.slice(0, charCount)}</span>
+                                                                        {more && <span onClick={e => {
+                                                                            changePopupProduct(product);
+                                                                            togglePopup();
+                                                                            changeDestination(false);
+                                                                            const analytics = getAnalytics();
+                                                                            logEvent(analytics, 'expand', {
+                                                                                productName: product.name,
+                                                                                productId: product.id,
+                                                                                screen: search && 'search' || 'provider'
+                                                                            });
+                                                                        }}
+                                                                              className={'ProviderProduct__details--text-short'}>{(more || (product?.description?.variables.length > 0 || product?.description?.tags?.length > 0 || product?.description?.list?.length > 0 || product?.description?.comments.length > 0) ? `...${t('more')}` : '')}</span>}
+                                                                    </p>
+                                                                </>
+                                                            )
+                                                        }
+                                                    </div>
+                                                )
+                                            }
+                                        </div>
+                                    )
+                                }
+
                             </div>
                     )
                 }
@@ -322,7 +712,9 @@ const ProviderProduct = ({imgRef, provider, setGallery, changeDestination, array
 };
 
 const mapStateToProps = state => ({
-    term: state.search.term
+    term: state.search.term,
+    user: state.login.data,
+    lan: state.categories.lan
 })
 
-export default connect(mapStateToProps, {togglePopup, changeDestination, changePopupProduct}) (ProviderProduct);
+export default connect(mapStateToProps, {togglePopup, editProviderProduct, changeDestination, changePopupProduct}) (ProviderProduct);

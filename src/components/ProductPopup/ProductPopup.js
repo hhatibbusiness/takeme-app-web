@@ -17,11 +17,19 @@ import ProviderRatings from "../../screens/Provider/ProviderRatings/ProviderRati
 import {fetchProviderRatigs} from "../../store/actions/ratings.actions";
 import CreateRating from "../../screens/Provider/CreateRating/CreateRating";
 import sidebar from "../Sidebar/Sidebar";
+import ProviderProduct from "../../screens/Product/Provider/ProviderProducts/ProviderProduct/ProviderProduct";
+import ProviderProfile from "../../screens/Product/Provider/ProviderProfile/ProviderProfile";
+import Gallery from "../../screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery";
 
-const ProductPopup = ({togglePopup, currentProvider, isRatings, currentProduct, lan, fetchProviderRatigs, openPopup, term, Opopup, closePopup}) => {
+const ProductPopup = ({togglePopup, currentProvider, search, galleryProduct, isRatings, currentProduct, lan, fetchProviderRatigs, openPopup, term, Opopup, closePopup}) => {
     const [short, setShort] = useState(true);
+    const [gallery, setGallery] = useState(false);
 
     const {t} = useTranslation();
+    const containerRef = useRef();
+    const providerRef = useRef();
+    const imgRef = useRef();
+
 
     const formateMinDuration = (duration, unit) => {
         switch (unit) {
@@ -93,19 +101,20 @@ const ProductPopup = ({togglePopup, currentProvider, isRatings, currentProduct, 
 
     useEffect(() => {
         // window.addEventListener('popstate', e => history.go(1));
+        let popstate;
+        const closePopFun = (e) => {
+            e.preventDefault();
+            !gallery && closePopup();
+            console.log(gallery);
+            // history.back();
+        }
         if(openPopup) {
-            window.history.pushState(null, null, window.location.href);
-            window.addEventListener('popstate', e => {
-                e.preventDefault();
-                closePopup();
-                console.log(history);
-            });
+            window.history.pushState(null, null, `${window.location.href}/popup`);
+            window.addEventListener('popstate', closePopFun);
         }
 
         return () => {
-            window.removeEventListener('popstate', () => {
-                console.log('Hello there!');
-            });
+            window.removeEventListener('popstate', closePopFun, true);
         }
     }, [openPopup]);
 
@@ -245,16 +254,27 @@ const ProductPopup = ({togglePopup, currentProvider, isRatings, currentProduct, 
                         <span><i className="fa-solid fa-xmark"></i></span>
                     </div>
                     {
+                        search && (
+                            <>
+                                <ProviderProfile search={search} link provider={currentProvider} prov={false} socials={false} />
+                                <ProviderProduct setGallery={setGallery} arrayRef={containerRef} providerOrNot={false}  providerRef={providerRef} sliding={false} imgRef={imgRef} product={currentProduct} isSearch={true} openGallery={() => {}} provider={currentProvider} />
+                                {
+                                    gallery && <Gallery gallery={gallery} product={galleryProduct} setGallery={setGallery} />
+                                }
+                            </>
+                        )
+                    }
+                    {
                         !isRatings && (
                             <>
                                 <div className="ProductPopup__product--title">
                                     {
-                                        renderName()
+                                        !search && renderName()
                                     }
                                 </div>
                                 <div className="ProviderProduct__details--prices">
                                     {
-                                        currentProduct?.saleDetails && (
+                                        currentProduct?.saleDetails && !search && (
                                             <div className={'ProviderProduct__details--sale'}>
                                                 {
                                                     currentProduct?.saleDetails?.comment && (
@@ -278,7 +298,7 @@ const ProductPopup = ({togglePopup, currentProvider, isRatings, currentProduct, 
                                         )
                                     }
                                     {
-                                        currentProduct?.rentDetails && (
+                                        currentProduct?.rentDetails && !search && (
                                             <div className={'ProviderProduct__details--rent'}>
                                                 {
                                                     currentProduct?.rentDetails?.comment && (
@@ -304,7 +324,7 @@ const ProductPopup = ({togglePopup, currentProvider, isRatings, currentProduct, 
                                     }
                                 </div>
                                 {
-                                    currentProduct?.description && (
+                                    currentProduct?.description && !search &&  (
                                         <div className="ProviderProduct__details--desc">
                                             {
                                                 currentProduct?.description?.text && <p className={'ProviderProduct__details--text'}>{currentProduct?.description?.text}</p>
@@ -341,6 +361,8 @@ const ProductPopup = ({togglePopup, currentProvider, isRatings, currentProduct, 
                         )
                     }
 
+
+
                     {/*{*/}
                     {/*    isRatings && (*/}
                     {/*        <>*/}
@@ -374,7 +396,10 @@ const mapStateToProps = state => ({
     fetchingRatings: state.ratings.fetchingRatings,
     lan: state.categories.lan,
     isRatings: state.ui.rating,
-    currentProvider: state.ui.currentProvider
+    currentProvider: state.ui.currentProvider,
+    search: state.ui.search,
+    galleryProduct: state.product.galleryProduct,
+
 });
 
 export default connect(mapStateToProps, {togglePopup, Opopup, closePopup, fetchProviderRatigs}) (ProductPopup);

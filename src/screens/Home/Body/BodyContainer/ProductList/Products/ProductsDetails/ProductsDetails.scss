@@ -12,17 +12,24 @@
   .ProductsDetails__container {
     width: 430px;
     margin: auto;
-    height: 95%;
+    height: 80%;
     position: absolute;
-    //max-height: 550px;
+    max-height: 550px;
     z-index: 2;
     bottom: 0;
     left: 50%;
-    transform: translate(-50%);
+    transform: translateX(-50%);
     background: white;
     border-radius: 20px 20px 0 0 ;
     padding-top: 50px;
-    overflow-y: auto;
+    //overflow-y: auto;
+    padding-bottom: 30px;
+
+    .Product__details--sec-level {
+      height: 100% !important;
+      position: relative;
+      overflow: auto;
+    }
 
     .LoadingProduct {
       position: absolute;
@@ -39,6 +46,7 @@
       width: 100%;
       margin: auto;
       position: relative;
+      //overflow: auto;
 
       .Product__details {
         padding: 0;

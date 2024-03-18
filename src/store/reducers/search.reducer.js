@@ -44,6 +44,7 @@ export default (state = initialState, action) => {
                 categoryId: action.id
             }
         case actionTypes.FETCH_SEARCH_RESULTS:
+            console.log(action.results);
             return {
                 ...state,
                 results: [...state.results, ...action.results],

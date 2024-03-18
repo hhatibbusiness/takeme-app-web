@@ -15,6 +15,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {KeepAlive} from "react-activation";
 import {closeGallery} from "../../store/actions/product.actions";
 import {changeNavbarAssets} from "../../store/actions/ui.actions";
+import DropDownListItem from "../../components/DropDownList/DropDownListItem/DropDownListItem";
 
 const SearchScreen = ({
     assets,
@@ -37,7 +38,9 @@ const SearchScreen = ({
     more,
     filter,
     curId,
-    changeNavbarAssets
+    changeNavbarAssets,
+    searching,
+    setSearching
 }) => {
 
     const [moreLoading, setMoreLoading] = useState(true);
@@ -66,6 +69,10 @@ const SearchScreen = ({
     }, []);
 
     useEffect(() => {
+
+    }, []);
+
+    useEffect(() => {
         // console.log(curId)
         if(!loadingCategories && categories.length > 0 && (searchCount == 0 && searchResults.length == 0)) {
             changeSearchCategoryId(curId);
@@ -74,15 +81,17 @@ const SearchScreen = ({
 
     useEffect(() => {
         setSearchCount(searchPage);
-
     }, []);
 
     useEffect(() => {
-        if((!loadingCategories && curId !== null) && ((searchCount == 0 && searchPage == 0) || (searchCount > 0 && searchPage > 0) )) {
+        console.log('Begin!')
+        console.log(loadingCategories, curId, searchCount, searchPage);
+        // if((!loadingCategories && curId !== null) && ((searchCount == 0 && searchPage == 0) || (searchCount > 0 && searchPage > 0) )) {
+        if((!loadingCategories && curId !== null)) {
+            console.log('Searching!');
             setSearchCount(searchCount + 1);
             fetchSearchResults(lan, curId, filter, term, 0, navigate);
         }
-
     }, [term, curId]);
 
     useEffect(() => {
@@ -130,7 +139,11 @@ const SearchScreen = ({
     }, []);
 
     useEffect(() => {
-
+        setSearching(true);
+        console.log('Hello There!');
+        return () => {
+            setSearching(false);
+        }
     }, []);
 
     return (
@@ -161,10 +174,11 @@ const SearchScreen = ({
                                                     {
                                                         searchResults.map((p, i) => (
                                                             <>
-                                                                <Provider search={true} link provider={p} key={p.id} openGallery={openSearchGallery} closeGallery={closeSearchGallery} galleryProduct={galleryProduct} />
+                                                                {/*<Provider search={true} link provider={p} key={p.id} openGallery={openSearchGallery} closeGallery={closeSearchGallery} galleryProduct={galleryProduct} />*/}
                                                                 {/*{*/}
                                                                 {/*    gallery && <Gallery product={galleryProduct} closeGallery={closeSearchGallery} openGallery={openSearchGallery} />*/}
                                                                 {/*}*/}
+                                                                <DropDownListItem term={term} result={p} />
                                                             </>
                                                         ))
                                                     }

@@ -3,7 +3,7 @@ import './Login.scss';
 import Navbar from "../../components/HOC/Navbar/Navbar";
 import {useTranslation} from "react-i18next";
 import {Link, NavLink, useNavigate} from "react-router-dom";
-import {login} from "../../store/actions/login.action";
+import {loginProvider as login} from "../../store/actions/login.action";
 import {connect} from "react-redux";
 import {registerError} from "../../store/actions/register.actions";
 import AuthenticationError from '../../components/AuthenticationError/AuthenticationError';
@@ -91,7 +91,7 @@ const Login = ({lan, login, logging, changeNavbarAssets, data, sendingCode, regi
         };
 
         const res = await login(data, navigate, lan, history);
-        if(res.data.status == true && remember == true) {
+        if(res?.data?.status == true && remember == true) {
             const loginData = {
                 username: phone,
                 password: password

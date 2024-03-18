@@ -50,6 +50,28 @@
     max-width: 400px;
     width: 100%;
 
+    .swiper {
+      position: relative;
+      //z-index: 100;
+      padding-bottom: 40px;
+
+      .swiper-pagination {
+        position: absolute;
+
+        .swiper-pagination-bullet {
+          opacity: 1 !important;
+          width: 4px;
+          height: 4px;
+          background: var(--main-color-green-light-7);
+        }
+
+        .swiper-pagination-bullet-active {
+          background: var(--main-color-green-dark-1);
+          opacity: 1;
+        }
+      }
+    }
+
     &:first-child {
       //padding: 0 0 10px 0;
     }
@@ -72,7 +94,7 @@
 
 
   .image-swiper-button-next {
-    position: absolute;
+    //position: absolute;
     top: 50%;
     left: 20px;
     transform: translateY(-50%);

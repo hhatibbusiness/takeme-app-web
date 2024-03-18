@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import './ProductsTypeContainer.scss';
 import {Swiper, SwiperSlide} from "swiper/react";
 import ProviderProduct from "../ProviderProduct/ProviderProduct";
-import Dots from "../Dots/Dots";
 import Socials from "../../Socials/Socials";
 import {fetchProviderProductsTypes} from "../../../../../store/actions/provider.actions";
 
@@ -11,19 +10,26 @@ import 'swiper/css'; // Import Swiper styles
 import 'swiper/css/navigation'; // Import navigation styles
 import 'swiper/css/pagination';
 import {connect} from "react-redux";
-import {useNavigate, useParams} from "react-router-dom"; // Import pagination styles
-
-
+import {useNavigate, useParams} from "react-router-dom";
+// import ReactCarouselDots from "react-carousel-dots/src"; // Import pagination styles
+import Dots from 'react-carousel-dots';
+import SocialsNew from "../../SocialsNew/SocialsNew";
 
 const ProductsTypeContainer = ({sliding, lan, filter, curId, setGallery, fetchProviderProductsTypes, arrayRef, provider, imgRef, openGallery, keyMap: key, providerRef, productsArray, providerOrNot, setSliding}) => {
     const [activeProduct, setActiveProduct] = useState();
+    const [products, setProducts] = useState([]);
     const [active, setActive] = useState(0);
+    const [dots, setDots] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
         console.log(productsArray);
         if(!productsArray && productsArray.length == 0) return;
         setActiveProduct(productsArray[0]);
+    }, [productsArray]);
+
+    useEffect(() => {
+        setDots(productsArray?.products?.length);
     }, [productsArray]);
 
     const handleSwipeMove = (swiper) => {
@@ -37,6 +43,10 @@ const ProductsTypeContainer = ({sliding, lan, filter, curId, setGallery, fetchPr
     };
 
     const params = useParams();
+
+    // useEffect(() => {
+    //     console.log(productsArray?.products?.splice(1, 2));
+    // }, [productsArray]);
 
     return (
         <div className={'ProductsTypeContainer'}>
@@ -60,7 +70,7 @@ const ProductsTypeContainer = ({sliding, lan, filter, curId, setGallery, fetchPr
                 // }}
                 // modules={[Navigation]}
                 spaceBetween={20}
-                pagination={true}
+                // pagination={ true }
                 className="mySwiper"
                 modules={[Pagination, Navigation]}
                 onSlideChange={swiper => {
@@ -70,7 +80,8 @@ const ProductsTypeContainer = ({sliding, lan, filter, curId, setGallery, fetchPr
                     setTimeout(() => {
                         setSliding(false);
                     });
-                    setActiveProduct(productsArray.length > 0 && productsArray[swiper.activeIndex])
+                    console.log(productsArray);
+                    setActiveProduct(productsArray?.products.length > 0 && productsArray?.products[swiper.activeIndex])
                 }}
                 onSwiper={(swiper) => console.log(swiper)}
                 // onTouchStart={(swiper) => {
@@ -88,22 +99,23 @@ const ProductsTypeContainer = ({sliding, lan, filter, curId, setGallery, fetchPr
                 // onReachBeginning={swiper => {
                 //     console.log(swiper)
                 // }}
-                onReachEnd={swiper => {
-                    console.log(productsArray);
-                    if(productsArray.more) {
-                        const data = {
-                            providerId: params.providerId,
-                            categoryListIds: curId == 0 ? null : [curId],
-                            productTypeId: productsArray.id,
-                            page: productsArray.page,
-                            lan,
-                            filter,
-                            navigate
-                        };
 
-                        fetchProviderProductsTypes(data);
-                    }
-                }}
+                // onReachEnd={swiper => {
+                //     console.log(productsArray);
+                //     if(productsArray.more) {
+                //         const data = {
+                //             providerId: params.providerId,
+                //             categoryListIds: curId == 0 ? null : [curId],
+                //             productTypeId: productsArray.id,
+                //             page: productsArray.page,
+                //             lan,
+                //             filter,
+                //             navigate
+                //         };
+                //
+                //         fetchProviderProductsTypes(data);
+                //     }
+                // }}
             >
                 {
                     productsArray?.products?.map((p, i) => (
@@ -116,7 +128,12 @@ const ProductsTypeContainer = ({sliding, lan, filter, curId, setGallery, fetchPr
             {/*{*/}
             {/*    productsArray[key].length > 1 && <Dots color={'black'} products={productsArray[key]} activeIndex={active}  />*/}
             {/*}*/}
-            <Socials provider={provider} activeProduct={activeProduct} />
+            <div className="ProviderProduct__dots--container">
+                {
+                    productsArray?.products?.length > 1 && <Dots length={dots} active={active} className={`${dots <= 10 ? 'dots--center' : ''}`} visible={10}/>
+                }
+            </div>
+            <SocialsNew provider={provider} activeProduct={activeProduct} />
         </div>
 
     );

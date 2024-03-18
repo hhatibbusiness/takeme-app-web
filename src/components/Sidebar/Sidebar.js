@@ -8,14 +8,32 @@ import {useTranslation} from 'react-i18next';
 import {logout} from "../../store/actions/login.action";
 import history from "../../history/history";
 import {getAnalytics, logEvent} from "firebase/analytics";
+import enter from '../../assets/images/enter.png';
+import navigateImg from '../../assets/images/navigate.png';
+import conditions from '../../assets/images/conditions.png';
+import join from '../../assets/images/join.png';
+import filterImg from '../../assets/images/filter.png';
+import language from '../../assets/images/language.png';
+import aboutImg from '../../assets/images/about.png';
+import outImg from '../../assets/images/out.png';
+import Img from "../../screens/Home/Body/BodyContainer/ProductList/Products/Product/Img/Img";
+import logo from "../../assets/images/defaults/logo-default-image.svg";
+import ProviderPreview from "./ProviderPreview/ProviderPreview";
 
-const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, changeFilter, filter, lan, changeLan, categories}) => {
+const Sidebar = ({assets, setSidebar, user, sidebar, page, isAuthenticated, logout, changeFilter, filter, lan, changeLan, categories}) => {
     const [langShow, setLanShow] = useState(false);
     const [filterShow, setFilterShow] = useState(false);
     const [socialShow, setSocialShow] = useState(false);
     const [currFilter, setCurrFilter] = useState(filter && filter);
     const whatsappRef = useRef();
     const navigate = useNavigate();
+    const [error, setError] = useState(false);
+    const [hidden, setHidden] = useState(true);
+    const [loaded, setLoaded] = useState(false);
+    const imgRefDub = useRef(null);
+    const [containerLoaded, setContainerLoaded] = useState(false);
+    const [imgLoaded, setImgLoaded] = useState(true);
+    const imgLoaderRef = useRef(null);
 
     const {t} = useTranslation();
 
@@ -97,21 +115,31 @@ const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, ch
     }, [sidebar]);
 
     return (
-        <div className={`Sidebar ${sidebar && 'Sidebar__active'}`}>
-            <div className="Sidebar__container">
-                <div className="Sidebar__logo">
-                    <img src={assets?.logoPath && assets.logoPath} />
+        <div id={'Sidebar'} className={`Sidebar ${sidebar && 'Sidebar__active'}`}>
+            <div id={'Sidebar__container'} className="Sidebar__container">
+
+                <div id={'Sidebar__logo'} className="Sidebar__logo">
+                    {/*<img src={assets?.logoPath && assets.logoPath} />*/}
+                    <Img logo={true} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={(assets?.logoPath && assets.logoPath) || logo}/>
+
                 </div>
-                <div className="Sidebar__links">
-                    <Link onClick={e => setSidebar(false)} to={'/about'} className="Sidebar__link">
+                {
+                    user?.id && user?.uType == 'provider' && (
+                        <ProviderPreview setSidebar={setSidebar} provider={user} />
+                    )
+                }
+                <div id={'Sidebar__links'} className="Sidebar__links">
+                    <Link id={'Sidebar__about'} onClick={e => setSidebar(false)} to={'/about'} className="Sidebar__link">
                         <div className="Sidebar__link--main">
-                            <i className="fa-solid fa-circle-exclamation"></i>
+                            {/*<i className="fa-solid fa-circle-exclamation"></i>*/}
+                            <img src={aboutImg} />
                             <p>{t('who we are')}</p>
                         </div>
                     </Link>
-                    <div className="Sidebar__link">
+                    <div id={'Sidebar__language'} className="Sidebar__link">
                         <div onClick={() => setLanShow(!langShow)} className="Sidebar__link--main">
-                            <i className="fa-solid fa-globe"></i>
+                            {/*<i className="fa-solid fa-globe"></i>*/}
+                            <img src={language}/>
                             <p style={{direction: 'rtl'}}>اللغة-השפה</p>
                         </div>
                         <form onClick={lanChangeHandler} className={`Sidebar__sublinks Sidebar__lan--form ${langShow && 'Sidebar__sublinks--active'}`}>
@@ -121,17 +149,18 @@ const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, ch
                             </div>
                             <div className="Sidebar__sublinks--element">
                                 <input checked={lan == 'he'} disabled={true} value={'he'} type="radio" name={'language'}/>
-                                <label htmlFor="{'language'}">עִברִית</label>
+                                <label htmlFor="{'language'}">עִברִית</label><span style={{fontSize: '13px', color: "var(--main-color-green-dark-1)"}}> (בקרוב)</span>
                             </div>
                             <div className="Sidebar__sublinks--element">
                                 <input checked={lan == 'en'} disabled={true} value={'en'} type="radio" name={'language'}/>
-                                <label htmlFor="{'language'}">English</label>
+                                <label htmlFor="{'language'}">English <span style={{fontSize: '13px', color: "var(--main-color-green-dark-1)"}}>(coming soon)</span></label>
                             </div>
                         </form>
                     </div>
-                    <Link to={'#'} className="Sidebar__link">
+                    <Link id={'Sidebar__filter'} to={'#'} className="Sidebar__link">
                         <div onClick={() => setFilterShow(!filterShow)} className="Sidebar__link--main">
-                            <i className="fa-regular fa-images"></i>
+                            {/*<i className="fa-regular fa-images"></i>*/}
+                            <img src={filterImg} />
                             <p>{t('filter')}</p>
                         </div>
                         <form onClick={filterHandleChange} className={`Sidebar__sublinks ${filterShow && 'Sidebar__sublinks--active'}`}>
@@ -172,21 +201,29 @@ const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, ch
                             <p>{t('join')}</p>
                         </div>
                     </a> */}
-                    <a href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=` : `http://web.whatsapp.com/send?phone=${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=`)} target='_blank' className="Sidebar__link">
+                    {
+                        user?.uType !== 'provider' && (
+                            <a id={'Sidebar__join'} href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=` : `http://web.whatsapp.com/send?phone=${assets?.phoneCountryCode && assets?.phoneCountryCode}${assets?.phone && assets.phone}&text=`)} target='_blank' className="Sidebar__link">
+                                <div className="Sidebar__link--main">
+                                    <img src={join} />
+                                    {/*<i className="fa-solid fa-handshake"></i>*/}
+                                    <p>{t('join')}</p>
+                                </div>
+                            </a>
+
+                        )
+                    }
+                    <Link id={'Sidebar__conditions'} onClick={e => setSidebar(false)} to={'/contract'} className="Sidebar__link">
                         <div className="Sidebar__link--main">
-                            <i className="fa-solid fa-handshake"></i>
-                            <p>{t('join')}</p>
-                        </div>
-                    </a>
-                    <Link onClick={e => setSidebar(false)} to={'/contract'} className="Sidebar__link">
-                        <div className="Sidebar__link--main">
-                            <i className="fa-regular fa-copyright"></i>
+                            <img src={conditions} />
+                            {/*<i className="fa-regular fa-copyright"></i>*/}
                             <p className={'overflow-hidden text-overflow-ellipsis whitespace-nowrap rtl'}>{t('condition')}</p>
                         </div>
                     </Link>
-                    <div className={`Sidebar__link ${socialShow && 'Sidebar__link--active'}`}>
+                    <div id={'Sidebar__contact'} className={`Sidebar__link ${socialShow && 'Sidebar__link--active'}`}>
                         <div onClick={() => setSocialShow(!socialShow)} className="Sidebar__link--main">
-                            <i className="fa-regular fa-images"></i>
+                            {/*<i className="fa-regular fa-images"></i>*/}
+                            <img src={navigateImg} />
                             <p>{t('contactUs')}</p>
                         </div>
                         <div className={`Sidebar__sublinks ${socialShow && 'Sidebar__sublinks--active'}`}>
@@ -210,9 +247,17 @@ const Sidebar = ({assets, setSidebar, sidebar, page, isAuthenticated, logout, ch
                     </div>
                     {
                         isAuthenticated ? (
-                            <p onClick={e => logout()} className="Sidebar__link Sidebar__register Sidebar__logout">{t('logout')}</p>
+                            <p id={'Sidebar__logout'} onClick={e => logout(navigate, lan)} className="Sidebar__link Sidebar__register Sidebar__logout"><img src={outImg} />{t('logout')}</p>
                         ) : (
-                            <Link onClick={e => setSidebar(false)} className={'Sidebar__link Sidebar__register'} to={'/login'}>{t("login")}</Link>
+                            <Link id={'Sidebar__login'} onClick={e => setSidebar(false)} className={'Sidebar__link Sidebar__register'} to={'/login'}>
+                                <div className={'Sidebar__link--main'}>
+                                    <img src={enter} />
+                                    <span className={'Sidebar__register--container'}>
+                                        {t("login")}
+                                        <span className={'Sidebar__partners'}>({t("forparteners")})</span>
+                                    </span>
+                                </div>
+                            </Link>
                         )
                     }
                 </div>
@@ -229,7 +274,8 @@ const mapStateToProps = state => ({
     phoneNum: state.assets.phone,
     filter: state.categories.filter,
     isAuthenticated: state.login.isAuthenticated,
-    page: state.categories.page
+    page: state.categories.page,
+    user: state.login.data
 });
 
 export default connect(mapStateToProps, {changeLan, changeFilter, logout}) (Sidebar);

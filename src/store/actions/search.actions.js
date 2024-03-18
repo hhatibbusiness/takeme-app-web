@@ -2828,13 +2828,13 @@ export const fetchSearchResults = (lan, categoryId, filter, term, page, navigate
             dispatch(resetSearchData());
         }
         // const providers = providersArray.slice((page + 1) * 10 - 10, (page + 1) * 10);
-        // const res = await axios.post(`${BASE_URL}endpoints/products/search-web?locale=${lan}&categoryId=${categoryId}&filterByAction=${filter}&searchText=${term}&page=${page}`);
-        const res = await axios.get(`${BASE_URL}endpoints/search-products?locale=${lan}&categoryId=${categoryId}&filterByAction=${filter}&searchText=${term}&page=${page}`)
-        // console.log(res);
+        const res = await axios.post(`${BASE_URL}endpoints/products/search-web?locale=${lan}&categoryId=${categoryId}&filterByAction=${filter}&searchText=${term}&page=${page}`);
+        // const res = await axios.get(`${BASE_URL}endpoints/search-products?locale=${lan}&categoryId=${categoryId}&filterByAction=${filter}&searchText=${term}&page=${page}`)
+        console.log(res);
         dispatch({
             type: FETCH_SEARCH_RESULTS,
             // results: providers
-            results: res.data
+            results: res.data.output
         });
         if(page > 0 && res.data.length > 0) {
             const analytics = getAnalytics();

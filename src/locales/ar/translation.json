@@ -17,7 +17,7 @@
   "there's not products": "لا يوجد منتجات",
   "no reviews": "لا يوجد تقييمات",
   "font": "Janna",
-  "login": "تسجيل الدخول لأصحاب المنتجات",
+  "login": "تسجيل الدخول",
   "phoneoremailerror": "من فضلك ادخل رقم هاتفك او الايميل الالكتروني الخاص بك",
   "passworderror": "من فضل ادخل كلمة السر",
   "phoneandpassworderror": "من فضلك ادخل رقم الموبايل الخاص بك او البريد الالكتروني و كلمة المرور",
@@ -54,8 +54,8 @@
   "or": "أو",
   "notes": "ملاحظات",
   "ratingsHeader": "أضف تعليقك علي ",
-  "price": "السعر يبدأ من ",
-  "rentPrice": "سعر الاستأجار",
+  "price": "سعر البيع ",
+  "rentPrice": "سعر الاستأجار ",
   "phoneCountryCode": "كود الدولة",
   "phoneCountryCodeُError": "من فضلك ادخل كود الدولة",
   "requiredField": "من فضلك ادخل البيانات المطلوبة",
@@ -88,5 +88,7 @@
   "instagram": "انستجرام",
   "tiktok": "تيكتوك",
   "whatsapp": "واتساب",
-  "all": "الكل"
+  "all": "الكل",
+  "forparteners": "فقط للشركاء حاليا",
+  "enterProfile": "ادخل لصفحتك"
 }

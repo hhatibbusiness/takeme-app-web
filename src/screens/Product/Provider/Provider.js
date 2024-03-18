@@ -6,8 +6,9 @@ import ProviderProfile from "./ProviderProfile/ProviderProfile";
 import ProviderProducts from "./ProviderProducts/ProviderProducts";
 import Socials from "./Socials/Socials";
 import Gallery from "./ProviderProducts/ProviderProduct/Gallery/Gallery";
+import SocialsNew from "./SocialsNew/SocialsNew";
 
-const Provider = ({provider: p, prov, productTypes, search, closeGallery, galleryProduct, socials, link, openGallery, providerOrNot}) => {
+const Provider = ({provider: p, prov, products, searchPage, productTypes, search, closeGallery, galleryProduct, socials, link, openGallery, providerOrNot}) => {
     const [activeProduct, setActiveProduct] = useState(null);
     const navigator = useNavigate();
     const [gallery, setGallery] = useState(false);
@@ -16,6 +17,7 @@ const Provider = ({provider: p, prov, productTypes, search, closeGallery, galler
 
     useEffect(() => {
         if (!p) return;
+        console.log(p);
         setActiveProduct(p?.products[Object.keys(p?.products)[0]] && p?.products[Object.keys(p?.products)[0]][0]);
     }, [p]);
 
@@ -24,21 +26,21 @@ const Provider = ({provider: p, prov, productTypes, search, closeGallery, galler
     }, [productTypes]);
 
     return (
-        <div id={`${p?.id}`} ref={providerRef} className={'Provider'} style={{gap: `${providerOrNot ? 0 : 10}px`}}>
+        <div id={`${p?.id}`} ref={providerRef} className={'Provider'} style={{gap: `${providerOrNot ? 0 : 0}px`}}>
             <div style={{background: `${prov && '#EEF2F5'}`, marginLeft: 'auto', width: '100%', paddingBottom: '10px'}}>
                 {!providerOrNot && <ProviderProfile activeProduct={activeProduct} prov={prov} socials={socials} link={link} provider={p} />}
                 {/*{*/}
                 {/*    socials && <Socials activeProduct={activeProduct} provider={p} right />*/}
                 {/*}*/}
             </div>
-            <ProviderProducts productTypes={productTypes} setGallery={setGallery} provider={p} providerRef={providerRef} search={search} providerOrNot={providerOrNot} setActiveProduct={setActiveProduct} products={p?.products && p.products} openGallery={openGallery}/>
+            <ProviderProducts product={products} searchPage={searchPage} productTypes={productTypes} setGallery={setGallery} provider={p} providerRef={providerRef} search={search} providerOrNot={providerOrNot} setActiveProduct={setActiveProduct} products={p?.products && p.products} openGallery={openGallery}/>
             {
-                !providerOrNot && p?.products && (
-                    <Socials activeProduct={activeProduct} provider={p} />
+                !providerOrNot && p?.products && !searchPage &&  (
+                    <SocialsNew activeProduct={activeProduct} provider={p} />
                 )
             }
             {
-                gallery && <Gallery gallery={gallery} product={galleryProduct} closeGallery={closeGallery} setGallery={setGallery} />
+                gallery && !searchPage && <Gallery gallery={gallery} product={galleryProduct} closeGallery={closeGallery} setGallery={setGallery} />
             }
         </div>
     );

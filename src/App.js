@@ -33,6 +33,7 @@ const App = (props) => {
     const [sidebar, setSidebar] = useState(false);
     const [logoStart, setLogoStart] = useState(performance.getEntriesByType('navigation')[0].type != 'reload' ? null : localStorage.getItem('takemeFirstVisit'));
     const navigate = useNavigate();
+    const [searching, setSearching] = useState(false);
 
     const homeRef = useRef();
 
@@ -131,11 +132,11 @@ const App = (props) => {
                     ) : (
                         <>
                             <Routes history={history}>
-                                <Route path={'/'} exact element={<Home sidebar={sidebar} setSidebar={setSidebar} />} >
+                                <Route path={'/'} exact element={<Home searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />} >
                                     <Route path={'/product/:id'} exact element={<Product />} />
                                     <Route path={'/provider/:providerId'} exact element={<ProviderScreen />} />
                                     {/*<Route exact path={'/provider/:provider_id/ratings'} element={<KeepAlive cacheKey={'Ratings'}><ProviderRatings /></KeepAlive>} />*/}
-                                    <Route path={'/search'} exact element={<SearchScreen />} />
+                                    <Route path={'/search'} exact element={<SearchScreen searching={searching} setSearching={setSearching} />} />
                                     <Route path={'/about'} exact element={<About />} />
                                     <Route path={'/contract'} exact element={<Contract />} />
                                     <Route path={'/login'} exact element={<Login />} />
@@ -143,7 +144,7 @@ const App = (props) => {
                                     <Route path={'/forget/:email'} exact element={<Forget />} />
                                 </Route>
                             </Routes>
-                            <Navbar sidebar={sidebar} setSidebar={setSidebar} data={props.navbarData}/>
+                            <Navbar searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} data={props.navbarData}/>
                         </>
                     )
 

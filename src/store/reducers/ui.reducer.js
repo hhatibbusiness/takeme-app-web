@@ -7,6 +7,7 @@ const initialState = {
     openPopup: false,
     currentProvider: null,
     rating: false,
+    search: false,
     yPosition: 200,
     navbar: {
         assets: {},
@@ -31,6 +32,7 @@ export default (state = initialState, action) => {
                 currentProduct: action.product
             }
         case actionTypes.TOGGLE_POPUP:
+            console.log('Toggled!')
             return {
                 ...state,
                 openPopup: !state.openPopup
@@ -48,7 +50,8 @@ export default (state = initialState, action) => {
         case actionTypes.CHANGE_DESTINATION:
             return {
                 ...state,
-                rating: action.destination
+                rating: action.destination,
+                search: false
             }
         case actionTypes.CHANGE_HOME_POSITION:
             return {
@@ -64,6 +67,12 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 backBtn: action.back
+            }
+        case actionTypes.OPEN_SEARCH_POPUP:
+            return {
+                ...state,
+                search: true,
+                rating: false
             }
         case actionTypes.CHANGE_CURRENT_PROVIDER:
             return {

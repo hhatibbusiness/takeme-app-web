@@ -161,49 +161,52 @@ const ProductsDetails = ({currentProduct, productType, setPopup, popup, lan, fil
                     <i className="fa-solid fa-xmark"></i>
                 </div>
 
-                {
-                    imgUI && (
-                        <div ref={productRef}  className={`ProductDetails__body ${imgLoaded ? 'ProductsDetails__visible' : 'ProductsDetails__hidden'}`}>
-                            {
-                                currentProduct && <Count count={currentProduct?.totalNumberOfProducts || 0} />
-                            }
+                <div className="Product__details--sec-level">
+                    {
+                        imgUI && (
+                            <div ref={productRef}  className={`ProductDetails__body ${imgLoaded ? 'ProductsDetails__visible' : 'ProductsDetails__hidden'}`}>
+                                {
+                                    currentProduct && <Count count={currentProduct?.totalNumberOfProducts || 0} />
+                                }
 
-                            <div ref={imgContainer} className="ProductDetails__img--container">
-                                <Img product={true} setError={setError} setHidden={setHidden} setLoaded={setLoaded} setImgLoaded={setImgLoaded} imgUrl={(currentProduct?.imagePath && currentProduct.imagePath) || productDefaultImg}/>
-                                {loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} failureRef={failureRef} elemRef={imgContainer} />}
-                            </div>
-                            <div className={`Product__details`}>
-                                <p className={'Product__details--title'}>{currentProduct?.title && currentProduct.title}</p>
-                                {/*<p className={'Product__price--header'}>{product?.saleDetails?.title && product.saleDetails.title}</p>*/}
-                                {/*<p className={'Product__price'}>{product.saleDetails?.priceStartingFromMsg && product.saleDetails.priceStartingFromMsg}</p>*/}
-                                <div className="Product__details--prices">
-                                    {
-                                        currentProduct?.saleDetails && (
-                                            <p className={'Product__details--sale'}>
-                                                <span className={'Product__details--sale-message'}>{t("salestartsfrom")}</span><span className={'Product__details--sale-starts'}>{currentProduct?.saleDetails?.priceStartingFrom && currentProduct?.saleDetails?.priceStartingFrom}</span> <span className={'Product__details--icon'}><i className="fa-solid fa-shekel-sign"></i></span>
-                                            </p>
-                                        )
-                                    }
-                                    {
-                                        currentProduct?.rentDetails && (
-                                            <p className={'Product__details--sale'}>
-                                                <span className={'Product__details--sale-message'}>{t("rentstartsfrom")}</span><span className={'Product__details--sale-starts'}>{currentProduct?.rentDetails?.priceStartingFrom && currentProduct?.rentDetails?.priceStartingFrom}</span> <span className={'Product__details--icon'}><i className="fa-solid fa-shekel-sign"></i></span><span className={'Product__details--sale-minimum'} style={{fontSize: '12px', marginRight: '5px'}}>({t('minRentTimeMessage')}{formateMinDuration(currentProduct?.rentDetails?.minimumforRentStartingFrom, currentProduct?.rentDetails?.rentUnit)})</span>
-                                            </p>
-                                        )
-                                    }
+                                <div ref={imgContainer} className="ProductDetails__img--container">
+                                    <Img product={true} setError={setError} setHidden={setHidden} setLoaded={setLoaded} setImgLoaded={setImgLoaded} imgUrl={(currentProduct?.imagePath && currentProduct.imagePath) || productDefaultImg}/>
+                                    {loaded && error && <RenderImgError hidden={hidden} setHidden={setHidden} failureRef={failureRef} elemRef={imgContainer} />}
                                 </div>
-                                {currentProduct?.description && <p className={'Product__details--description'}>{currentProduct?.description}</p>}
+                                <div className={`Product__details`}>
+                                    <p className={'Product__details--title'}>{currentProduct?.title && currentProduct.title}</p>
+                                    {/*<p className={'Product__price--header'}>{product?.saleDetails?.title && product.saleDetails.title}</p>*/}
+                                    {/*<p className={'Product__price'}>{product.saleDetails?.priceStartingFromMsg && product.saleDetails.priceStartingFromMsg}</p>*/}
+                                    <div className="Product__details--prices">
+                                        {
+                                            currentProduct?.saleDetails && (
+                                                <p className={'Product__details--sale'}>
+                                                    <span className={'Product__details--sale-message'}>{t("salestartsfrom")}</span><span className={'Product__details--sale-starts'}>{currentProduct?.saleDetails?.priceStartingFrom && currentProduct?.saleDetails?.priceStartingFrom}</span> <span className={'Product__details--icon'}><i className="fa-solid fa-shekel-sign"></i></span>
+                                                </p>
+                                            )
+                                        }
+                                        {
+                                            currentProduct?.rentDetails && (
+                                                <p className={'Product__details--sale'}>
+                                                    <span className={'Product__details--sale-message'}>{t("rentstartsfrom")}</span><span className={'Product__details--sale-starts'}>{currentProduct?.rentDetails?.priceStartingFrom && currentProduct?.rentDetails?.priceStartingFrom}</span> <span className={'Product__details--icon'}><i className="fa-solid fa-shekel-sign"></i></span><span className={'Product__details--sale-minimum'} style={{fontSize: '12px', marginRight: '5px'}}>({t('minRentTimeMessage')}{formateMinDuration(currentProduct?.rentDetails?.minimumforRentStartingFrom, currentProduct?.rentDetails?.rentUnit)})</span>
+                                                </p>
+                                            )
+                                        }
+                                    </div>
+                                    {currentProduct?.description && <p className={'Product__details--description'}>{currentProduct?.description}</p>}
+                                </div>
+                                <button onClick={e => {
+                                    e.preventDefault();
+                                    setPopup(false);
+                                    // navigate(-1);
+                                    navigate(`/product/${currentProduct.id}`);
+                                    setCurrentProduct(null);
+                                }} className="ProductsDetails__btn">{t('show products')}</button>
                             </div>
-                            <button onClick={e => {
-                                e.preventDefault();
-                                setPopup(false);
-                                // navigate(-1);
-                                navigate(`/product/${currentProduct.id}`);
-                                setCurrentProduct(null);
-                            }} className="ProductsDetails__btn">{t('show products')}</button>
-                        </div>
-                    )
-                }
+                        )
+                    }
+                </div>
+
 
                 {/*{true && <LoadingProduct rentDetails={currentProduct?.rentDetails} imgLoaderRef={imgLoaderRef} priceStartFrom={currentProduct?.saleDetails?.priceStartingFromMsg} priceTitle={currentProduct?.description} imgLoaded={false} details={true} btn={true} /> }*/}
                 {(!loaded || (hidden)) && <LoadingProduct moreAndMoreDetails={currentProduct?.description?.length > 144} moreDetails={currentProduct?.description?.length > 80} rentDetails={currentProduct?.rentDetails} imgLoaderRef={imgLoaderRef} priceStartFrom={currentProduct?.saleDetails?.priceStartingFromMsg} priceTitle={currentProduct?.description} imgLoaded={false} details={true} btn={true} /> }

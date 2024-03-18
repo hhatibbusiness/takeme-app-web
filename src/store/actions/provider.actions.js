@@ -1,7 +1,7 @@
 import axios from "axios";
 import {
     CHANGE_CURRENT_PROVIDER_CATEGORY_ID,
-    CLOSE_PROVIDER_GALLERY,
+    CLOSE_PROVIDER_GALLERY, EDIT_PROVIDER_PRODUCT, END_EDITING_PROVIDER_PRODUCT,
     END_FETCHING_PROVIDER, END_FETCHING_PROVIDER_CATEGORIES,
     END_FETCHING_PROVIDER_PRODUCTS_TYPES,
     FETCH_PRODUCTS_TYPES_PRODUCTS, FETCH_PROVIDER_CATEGORIES,
@@ -9,7 +9,7 @@ import {
     FETCH_PROVIDER_PRODUCTS_TYPES,
     INCREASE_PROVIDER_PRODUCT_TYPES_PAGE,
     OPEN_PROVIDER_GALLERY,
-    RESET_PROVIDER_PRODUCT_TYPES_DATA,
+    RESET_PROVIDER_PRODUCT_TYPES_DATA, START_EDITING_PROVIDER_PRODUCT,
     START_FETCHING_PROVIDER,
     START_FETCHING_PROVIDER_CATEGORIES,
     START_FETCHING_PROVIDER_PRODUCTS_TYPES,
@@ -281,5 +281,31 @@ export const changeCurrentId = id => {
     return {
         type: CHANGE_CURRENT_PROVIDER_CATEGORY_ID,
         id
+    }
+}
+
+export const startEditingProviderProduct = {
+    type: START_EDITING_PROVIDER_PRODUCT
+}
+
+export const endEditingProviderProduct = {
+    type: END_EDITING_PROVIDER_PRODUCT
+}
+
+export const editProviderProduct = data => async dispatch => {
+    try {
+        dispatch(startEditingProviderProduct);
+        const formData = {
+            ...data.product
+        };
+        const res = await axios.put(`${BASE_URL}endpoints/products/update?locale=${data.lan}`, formData);
+        dispatch({
+            type: EDIT_PROVIDER_PRODUCT,
+            product: res.data.output
+        });
+        console.log(res);
+        dispatch(endEditingProviderProduct);
+    } catch (e) {
+        console.log(e.message);
     }
 }

@@ -18,6 +18,7 @@ const Img = ({value, logo, popup, category, imgUrl, gallery, setError, setHidden
 
     useEffect(() => {
         // console.log('changed')
+        // console.log(imgUrl, product);
         setTransform(transform + 'closed');
     }, [activeIndex]);
 

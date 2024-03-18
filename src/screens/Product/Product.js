@@ -185,7 +185,6 @@ const Product = ({galleryProduct, changeNavbarAssets, currentProductTypeId, chan
                                     providers.map((p, i) => (
                                         <>
                                             <Provider closeGallery={closeGallery} galleryProduct={galleryProduct} providerOrNot={false} link provider={p} key={p.id} openGallery={openGallery} />
-
                                         </>
                                     ))
                                 }

@@ -20,9 +20,11 @@ import category from "../Home/Body/BodyContainer/CategoriesBar/Category/Category
 import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../components/Loader/Loader";
 import {fetchProviderCategories} from "../../store/actions/provider.actions";
+import ProductsTypesLabel from "./ProductsTypesLabel/ProductsTypesLabel";
 
-const ProviderScreen = ({fetchProviderData, fetchProviderCategories, categories, loadingCategories, curId, page, more, loadingProductTypes, productTypes, changeNavbarAssets, loadingProvider, filter, resetProviderProductTypesData, fetchProviderProductsTypes, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup, catId}) => {
+const ProviderScreen = ({fetchProviderData, fetchingProductTypes, fetchProviderCategories, categories, loadingCategories, curId, page, more, loadingProductTypes, productTypes, changeNavbarAssets, loadingProvider, filter, resetProviderProductTypesData, fetchProviderProductsTypes, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup, catId}) => {
     const [moreLoading, setMoreLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const params = useParams();
     const navigate = useNavigate();
     const history = useLocation();
@@ -33,6 +35,7 @@ const ProviderScreen = ({fetchProviderData, fetchProviderCategories, categories,
         // }
         if(params.providerId == provider?.providerId) return;
         fetchProviderData(lan, params.providerId, filter, navigate);
+        console.log('Loading!');
     }, [params.providerId]);
 
     useEffect(() => {
@@ -45,7 +48,7 @@ const ProviderScreen = ({fetchProviderData, fetchProviderCategories, categories,
 
     const {t} = useTranslation();
 
-    useEffect(() => {
+    useEffect( () => {
         // if(Object.keys(provider).length == 0 && loadingProvider) return;
         const analytics = getAnalytics();
         logEvent(analytics, 'provider-screen', {
@@ -53,19 +56,32 @@ const ProviderScreen = ({fetchProviderData, fetchProviderCategories, categories,
             providerId: provider.id
         });
 
-        resetProviderProductTypesData();
+        (async () => {
+            setLoading(true);
 
-        const data = {
-            providerId: params.providerId,
-            categoryListIds: catId === 0 ?  null : [catId],
-            productTypeId: null,
-            navigate,
-            filter,
-            lan,
-            page: 0
-        };
+            if(loading) return;
 
-        fetchProviderProductsTypes(data);
+            // if (loadingProductTypes) return;
+
+            resetProviderProductTypesData();
+
+            const data = {
+                providerId: params.providerId,
+                categoryListIds: (curId === 0 || curId === null) ?  null : [curId],
+                productTypeId: null,
+                navigate,
+                filter,
+                lan,
+                page: 0
+            };
+    
+            console.log('Loading provider product Types!')
+
+            await fetchProviderProductsTypes(data);
+            setLoading(false);
+        })();
+
+
     }, [params.providerId, curId]);
 
     useEffect(() => {
@@ -142,6 +158,7 @@ const ProviderScreen = ({fetchProviderData, fetchProviderCategories, categories,
                                     if(!moreLoading) return;
                                     if(!more) return setMoreLoading(false);
                                     if(loadingProductTypes) return;
+                                    console.log('Another Loading!')
                                     const data = {
                                         providerId: params.providerId,
                                         categoryListIds: catId === 0 ?  null : [catId],
@@ -161,6 +178,7 @@ const ProviderScreen = ({fetchProviderData, fetchProviderCategories, categories,
                             >
                                 <ProviderProfile prov={true} socials={false} link={false} provider={provider} />
                                 <Categories loadingCategories={loadingCategories} categories={categories} provider={true} curId={curId} />
+                                {!loadingProductTypes && <ProductsTypesLabel />}
                                 {
                                     loadingProductTypes ? (
                                         <SpinnerComponent />
@@ -201,7 +219,7 @@ const mapStateToProps = state => ({
     more: state.provider.more,
     categories: state.provider.categories,
     curId: state.provider.curId,
-    loadingCategories: state.provider.loadingCategories
+    loadingCategories: state.provider.loadingCategories,
 });
 
 export default connect(mapStateToProps, {fetchProviderCategories, changeNavbarAssets, fetchProviderData, fetchProviderProductsTypes, closeProviderGallery, resetProviderProductTypesData, openProviderGallery, changePopupProduct, openPopup}) (ProviderScreen);

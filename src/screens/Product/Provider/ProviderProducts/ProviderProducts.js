@@ -4,7 +4,7 @@ import ProviderProduct from "./ProviderProduct/ProviderProduct";
 import Failure from "./Failure/Failure";
 import './ProviderProducts.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from "swiper";
+import { Navigation, Pagination } from 'swiper';
 
 import {useTranslation} from "react-i18next";
 
@@ -15,8 +15,7 @@ import Dots from "./Dots/Dots";
 import {getAnalytics, logEvent} from "firebase/analytics";
 import ProductsTypeContainer from "./ProductsTypeContainer/ProductsTypeContainer";
 
-
-const ProviderProducts = ({products, productTypes, setGallery, providerRef, search, openGallery, setActiveProduct, providerOrNot, provider}) => {
+const ProviderProducts = ({products, product, searchPage, productTypes, setGallery, providerRef, search, openGallery, setActiveProduct, providerOrNot, provider}) => {
     const carouselRef = useRef();
     const imgRef = useRef();
     const [productsArray, setProductsArray] = useState([]);
@@ -125,7 +124,7 @@ const ProviderProducts = ({products, productTypes, setGallery, providerRef, sear
                 // )
                 providerOrNot ? productsArray.map((productType, i) => productsArray.length > 0 ? (
                         <div ref={containerRef} className={'ProviderProducts__array'}>
-                            <ProductsTypeContainer setGallery={setGallery} arrayRef={containerRef} provider={provider} openGallery={openGallery} imgRef={imgRef} providerRef={providerRef} providerOrNot={providerOrNot} sliding={sliding} setSliding={setSliding} productsArray={productType} />
+                            <ProductsTypeContainer setGallery={setGallery} arrayRef={containerRef} provider={provider} openGallery={openGallery} imgRef={imgRef} providerRef={providerRef} providerOrNot={providerOrNot} sliding={sliding} setSliding={setSliding} productsArray={productType} setActiveProduct={setActiveProduct} />
                         </div>
                     ) : (
                         <Failure text={t('fail to load providers')} />
@@ -143,13 +142,17 @@ const ProviderProducts = ({products, productTypes, setGallery, providerRef, sear
                                 modifier: 3,
                                 slideShadows: false,
                             }}
+                            pagination={true}
+
                             // navigation={{
                             //     nextEl: nextRef.current,
                             //     prevEl: prevRef.current,
                             //     disabledClass: "swiper-button-disabled"
                             // }}
                             // modules={[Navigation]}
-                            pagination={true}
+                            spaceBetween={20}
+                            modules={[Pagination, Navigation]}
+
                             className="mySwiper"
                             onSlideChange={swiper => {
                                 // console.log('swipper works')
@@ -158,6 +161,7 @@ const ProviderProducts = ({products, productTypes, setGallery, providerRef, sear
                                 setTimeout(() => {
                                     setSliding(false);
                                 });
+                                console.log(productsArray)
                                 setActiveProduct(productsArray.length > 0 && productsArray[swiper.activeIndex])
                             }}
                             onSwiper={swiper => {

@@ -29,7 +29,7 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
     }, []);
 
     useEffect(() => {
-        // console.log(provider);
+        console.log(provider, activeProduct);
     }, []);
 
     return (
@@ -58,63 +58,68 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
                 createOrder(order);
             }
         }} className={`Socials ${right ? 'Socials__right' : ''}`} style={{display: 'flex', marginTop: `${right && '10px'}`}}>
-            <div onClick={e => {
-                if(isAuthenticated) {
+            {
+                provider?.providerLocations?.length !== 0 && provider?.providerLocations && (
+                    <div onClick={e => {
+                        if(isAuthenticated) {
 
-                }
-            }} target={'_blank'} href={provider.navigateLink}  className="Socials__link  Socials__link--location">
-                {/*<i className="fa-solid fa-location-arrow"></i>*/}
-                <img className={'Socials__link--image'} src={locationImage} alt=""/>
-                <div className="Socials__location">
-                    {
-                        provider?.providerLocations?.filter(l => l.includes('www.waze.com')).length > 0 && (
-                            <a onClick={e => {
-                                const analytics = getAnalytics();
-                                !isAuthenticated && e.preventDefault();
-                                if(isAuthenticated) {
-                                    logEvent(analytics, 'location-event', {
-                                        latitude: provider?.latitude,
-                                        longtude: provider?.longtude,
-                                        providerId: provider?.id,
-                                        providerName: provider?.name,
-                                        providerPhone: provider?.name,
-                                        method: 'waze'
-                                    })
-                                }
-                            }} target={"_blank"} href={provider?.providerLocations?.filter(l => l.includes('www.waze.com'))[0]}  className="Socials__location--link">
-                            {/*}} target={"_blank"} href={`${!provider.wazeMapLink ? formatWazeLink(provider.latitude, provider.longitude) : provider.wazeMapLink}`}  className="Socials__location--link">*/}
-                                <span><i className="fa-brands fa-waze"></i></span>
-                                <span>waze</span>
-                            </a>
-                        )
-                    }
+                        }
+                    }} target={'_blank'} href={provider.navigateLink}  className="Socials__link  Socials__link--location">
+                        {/*<i className="fa-solid fa-location-arrow"></i>*/}
+                        <img className={'Socials__link--image'} src={locationImage} alt=""/>
+                        <div className="Socials__location">
+                            {
+                                provider?.providerLocations?.filter(l => l.includes('waze')).length > 0 && (
+                                    <a onClick={e => {
+                                        const analytics = getAnalytics();
+                                        !isAuthenticated && e.preventDefault();
+                                        if(isAuthenticated) {
+                                            logEvent(analytics, 'location-event', {
+                                                latitude: provider?.latitude,
+                                                longtude: provider?.longtude,
+                                                providerId: provider?.id,
+                                                providerName: provider?.name,
+                                                providerPhone: provider?.name,
+                                                method: 'waze'
+                                            })
+                                        }
+                                    }} target={"_blank"} href={provider?.providerLocations?.filter(l => l.includes('www.waze.com'))[0]}  className="Socials__location--link">
+                                    {/*}} target={"_blank"} href={`${!provider.wazeMapLink ? formatWazeLink(provider.latitude, provider.longitude) : provider.wazeMapLink}`}  className="Socials__location--link">*/}
+                                        <span><i className="fa-brands fa-waze"></i></span>
+                                        <span>waze</span>
+                                    </a>
+                                )
+                            }
 
-                    {
-                        provider?.providerLocations?.filter(l => l.includes('maps')).length > 0 && (
-                            <a onClick={e => {
-                                !isAuthenticated && e.preventDefault();
-                                const analytics = getAnalytics();
-                                if(isAuthenticated) {
-                                    logEvent(analytics, 'location-event', {
-                                        latitude: provider?.latitude,
-                                        longtude: provider?.longtude,
-                                        providerId: provider?.id,
-                                        providerName: provider?.name,
-                                        providerPhone: provider?.name,
-                                        method: 'maps'
-                                    })
-                                }
-                            }} target={"_blank"} href={provider?.providerLocations?.filter(l => l.includes('maps'))[0]} className="Socials__location--link">
-                            {/*}} target={"_blank"} href={`${!provider.googleMapLink ? formateMapsLink() : provider.googleMapLink}`} className="Socials__location--link">*/}
-                                <span><i className="fa-solid fa-map-location-dot"></i></span>
-                                <span>maps</span>
-                            </a>
+                            {
+                                provider?.providerLocations?.filter(l => l.includes('maps')).length > 0 && (
+                                    <a onClick={e => {
+                                        !isAuthenticated && e.preventDefault();
+                                        const analytics = getAnalytics();
+                                        if(isAuthenticated) {
+                                            logEvent(analytics, 'location-event', {
+                                                latitude: provider?.latitude,
+                                                longtude: provider?.longtude,
+                                                providerId: provider?.id,
+                                                providerName: provider?.name,
+                                                providerPhone: provider?.name,
+                                                method: 'maps'
+                                            })
+                                        }
+                                    }} target={"_blank"} href={provider?.providerLocations?.filter(l => l.includes('maps'))[0]} className="Socials__location--link">
+                                    {/*}} target={"_blank"} href={`${!provider.googleMapLink ? formateMapsLink() : provider.googleMapLink}`} className="Socials__location--link">*/}
+                                        <span><i className="fa-solid fa-map-location-dot"></i></span>
+                                        <span>maps</span>
+                                    </a>
 
-                        )
-                    }
+                                )
+                            }
 
-                </div>
-            </div>
+                        </div>
+                    </div>
+
+                )
+            }
             <a onClick={e => {
                 !isAuthenticated && e.preventDefault();
                 const analytics = getAnalytics();
@@ -125,7 +130,7 @@ const Socials = ({right, assets, platform, isAuthenticated, provider, createOrde
                         ProviderPhone: provider?.phone
                     });
                 }
-            }} target={'_blank'} className="Socials__link" href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${provider?.phoneCountryCode && provider?.phoneCountryCode}${provider?.phone && provider.phone}&text=hello` : `http://web.whatsapp.com/send?phone=${provider?.phoneCountryCode && provider?.phoneCountryCode}${provider?.phone && provider.phone}`)}>
+            }} target={'_blank'} className="Socials__link" href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${provider?.phoneCountryCode && provider?.phoneCountryCode}${provider?.phone && provider.phone}&text=${!right ? `مرحبا ممكن تفاصيل اكتر عن ${activeProduct?.name}` : ''}` : `http://web.whatsapp.com/send?phone=${provider?.phoneCountryCode && provider?.phoneCountryCode}${provider?.phone && provider.phone}&text=${!right ? `مرحبا ممكن تفاصيل اكتر عن ${activeProduct?.name}` : ''}`)}>
                 <img src={whatsapp} alt=""/>
                 {/*<i className="fa-brands fa-whatsapp"></i>*/}
             </a>

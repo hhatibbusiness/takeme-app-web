@@ -318,11 +318,27 @@ export default (state = initialState, action ) => {
                     productTypes: productTypeIndex !== -1 ? JSON.parse(JSON.stringify(state.productTypes)) : [...state.productTypes]
                 }
             })();
-            case actionTypes.CHANGE_CURRENT_PROVIDER_CATEGORY_ID:
+        case actionTypes.CHANGE_CURRENT_PROVIDER_CATEGORY_ID:
+            return {
+                ...state,
+                curId: action.id
+            }
+        case actionTypes.EDIT_PROVIDER_PRODUCT:
+            return (() => {
+                const productTypeCopy = {
+                    ...state.productTypes?.filter(p => p.id == action.product?.productTypeId)[0]
+                };
+                const editedProductIndex = productTypeCopy?.products?.findIndex(p => p.id == action.product.id);
+                console.log(editedProductIndex);
+                console.log(productTypeCopy);
+                productTypeCopy.products[editedProductIndex] = action.product;
+
                 return {
                     ...state,
-                    curId: action.id
+                    productTypes: [JSON.parse(JSON.stringify(productTypeCopy))]
                 }
+            })();
+
         default:
             return state;
     }

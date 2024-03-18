@@ -12,7 +12,7 @@ import searchIcon from '../../../../assets/images/searchIcon.png';
 
 const waitTime = 1000;
 
-const Search = ({focused, searchResults, searchPage, loadingSearchResults, term, lan, changeSearchTerm, search}) => {
+const Search = ({focused, searchResults, searching, setSearching, searchPage, loadingSearchResults, term, lan, changeSearchTerm, search}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [typing, setTyping] = useState(false);
     const [clicking, setClicking] = useState(false);
@@ -59,7 +59,7 @@ const Search = ({focused, searchResults, searchPage, loadingSearchResults, term,
 
     useEffect(() => {
         if(searchPage) {
-            setInputFocus(true);
+            // setInputFocus(true);
         }
     }, [searchPage]);
 
@@ -84,6 +84,17 @@ const Search = ({focused, searchResults, searchPage, loadingSearchResults, term,
             });
         }
     }, [inputFocus]);
+
+    useEffect(() => {
+        if(searching && inputRef?.current) {
+            inputRef?.current?.focus();
+        }
+
+        // return () => {
+        //     setSearching(false);
+        //     inputRef?.current?.blur();
+        // }
+    }, [searching, inputRef?.current]);
 
     return (
         <>
@@ -120,16 +131,16 @@ const Search = ({focused, searchResults, searchPage, loadingSearchResults, term,
                         }
                     </button>
                 </form>
-                {
-                    inputFocus && !typing && searchResults?.length > 0 && (
-                        <DropDownList loadingSearchResults={loadingSearchResults} searchResults={searchResults} inputRef={inputRef} term={term} setInputFocus={setInputFocus} />
-                    )
-                }
+                {/*{*/}
+                {/*    inputFocus && !typing && searchResults?.length > 0 && (*/}
+                {/*        <DropDownList loadingSearchResults={loadingSearchResults} searchResults={searchResults} inputRef={inputRef} term={term} setInputFocus={setInputFocus} />*/}
+                {/*    )*/}
+                {/*}*/}
             </div>
-            {inputFocus && <div onClick={e => {
-                history.back();
-                setInputFocus(false);
-            }} className="DropDownList__backdrop"></div>}
+            {/*{inputFocus && <div onClick={e => {*/}
+            {/*    history.back();*/}
+            {/*    setInputFocus(false);*/}
+            {/*}} className="DropDownList__backdrop"></div>}*/}
         </>
     );
 };

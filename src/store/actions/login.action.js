@@ -19,10 +19,11 @@ export const login = (data, navigate, lan, history) => async dispatch => {
             type: LOGIN_ERROR,
             message: ''
         });
+        console.log(data);
         let res;
         if(data) {
             res = await axios.post(`${BASE_URL}endpoints/signin/customer?locale=${lan}`, data);
-            // res = await axios.post(`${BASE_URL}endpoints/signin/provider?locale=${lan}`, data);
+            // res = await axios.post(`${BASE_URL}endpoints/signin/provider?locale=${lan}&type=provider`, data);
         } else {
             // res = await axios.post(`${BASE_URL}endpoints/signin/provider?locale=${lan}`, {
             res = await axios.post(`${BASE_URL}endpoints/signin/customer?locale=${lan}`, {
@@ -30,6 +31,56 @@ export const login = (data, navigate, lan, history) => async dispatch => {
             });
         }
         if(res.status == 200 && res.data.status === true) {
+            dispatch({
+                type: LOGIN_USER_IN,
+                data: res.data,
+            });
+
+            // navigate('/');
+            // console.log(history.state);
+            if(history?.state?.previousLocation && history?.state?.previousLocation != 'register') {
+                navigate(`${history?.state?.previousLocation}`, {state: {currentProduct: history?.state?.currentProduct}});
+            } else {
+                navigate('/');
+            }
+            const analytics = getAnalytics();
+            logEvent(analytics, 'login_website', {UserId: res.data?.output?.id, Username: res.data?.output?.name, UserPhone: res.data?.output?.phone});
+        } else{
+            dispatch({
+                type: LOGIN_ERROR,
+                message: res.data.message
+            });
+        }
+        dispatch(endLogin);
+        return res;
+    } catch (err) {
+        console.error(err?.response?.data?.message);
+        dispatch({
+            type: LOGIN_ERROR,
+            message: err?.response?.data?.message
+        });
+        dispatch(endLogin);
+    }
+}
+
+export const loginProvider = (data, navigate, lan, history) => async dispatch => {
+    try {
+        dispatch(startLogin);
+        dispatch({
+            type: LOGIN_ERROR,
+            message: ''
+        });
+        let res;
+        if(data) {
+            // res = await axios.post(`${BASE_URL}endpoints/signin/customer?locale=${lan}`, data);
+            res = await axios.post(`${BASE_URL}endpoints/signin/provider?locale=${lan}&type=provider`, data);
+        } else {
+            res = await axios.post(`${BASE_URL}endpoints/signin/provider?locale=${lan}`, {
+                // res = await axios.post(`${BASE_URL}endpoints/signin/customer?locale=${lan}`, {
+
+            });
+        }
+        if(res.status == 200 && res?.data?.status === true) {
             dispatch({
                 type: LOGIN_USER_IN,
                 data: res.data,
@@ -80,9 +131,9 @@ export const loadUser = (navigate, lan) => async dispatch => {
             });
         } else {
             const data = {
-                phoneOrEmail: 'ahmedgomaaofficial97@gmail.com',
-                password: '123456'
-            }
+                phoneOrEmail:"anonymous@gmail.com",
+                password:"123456"
+            };
             await dispatch(login(data, navigate, lan));
         }
     }else {
@@ -97,15 +148,21 @@ export const loadUser = (navigate, lan) => async dispatch => {
 
 }
 
-export const logout = () => {
+export const logout = (navigate, lan) => async dispatch => {
     localStorage.removeItem('takemeuser');
     localStorage.removeItem('takemetoken');
-    return {
+    dispatch({
         type: LOG_USER_OUT
-    }
+    });
+
+    const data = {
+        phoneOrEmail: 'anonymous@email.com',
+        password: '12345678'
+    };
+    // await dispatch(login(data, navigate, lan));
 }
 
-export const startLogin = {
+export const startLogin =  {
     type: START_LOGGING_USER_IN
 }
 

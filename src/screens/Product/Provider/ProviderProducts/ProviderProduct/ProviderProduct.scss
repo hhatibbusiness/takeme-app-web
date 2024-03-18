@@ -45,6 +45,7 @@
     position: relative;
     justify-content: space-around;
     //height: 100%;
+    //direction: rtl;
 
     img {
       margin: auto;
@@ -63,9 +64,93 @@
       position: relative;
       //padding: 0 10px;
       //padding-bottom: 20px;
-      padding-right: 20px;
+      padding: 0 20px;
+
+      .ProviderProduct__details--title-container {
+        .ProviderProduct__details--title-edit {
+          padding: 5px;
+          border: 1px solid var(--main-color-green-dark-1);
+          width: fit-content;
+          position: relative;
+          max-width: 100%;
+
+          .ProviderProduct__details--title-btns {
+            position: absolute;
+            left: 0;
+            bottom: -100%;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            cursor: pointer;
+
+            .ProviderProduct__details--title-check {
+              color: var(--main-color-green-dark-1);
+              font-size: 14px;
+            }
+
+            .ProviderProduct__details--title-cancel {
+              color: red;
+              font-size: 14px;
+            }
+          }
+
+          .ProviderProduct__details--title-form {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+
+            .ProviderProduct__details--title-selector {
+              color: black;
+              background: #fae5c0;
+            }
+
+            .ProviderProduct__details--title-input {
+              min-height: 25px;
+              border: none;
+              outline: none;
+              font-size: 18px;
+              color: var(--sec-color-shades-3);
+              font-weight: bold;
+              width: 100%;display: inline-block;
+            }
+          }
+        }
+      }
 
       .ProviderProduct__details--desc {
+
+        .ProviderProduct__details--desc-edit {
+          border: 1px solid var(--main-color-green-dark-1);
+          padding: 5px;
+          position: relative;
+          max-width: 100%;
+
+          textarea {
+            width: 100%;
+            border: none;
+            outline: none;
+            height: fit-content;
+          }
+
+          .ProviderProduct__details--desc-btns {
+            position: absolute;
+            left: 0;
+            bottom: -20px;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            font-size: 14px;
+            cursor: pointer;
+
+            .ProviderProduct__details--desc-check {
+              color: var(--main-color-green-dark-1);
+            }
+
+            .ProviderProduct__details--desc-cancel {
+              color: red;
+            }
+          }
+        }
 
         .ProviderProduct__details--text-ellipsis {
           //overflow: hidden;
@@ -80,6 +165,7 @@
         .ProviderProduct__details--text {
           color: var(--product--desc-color);
           font-size: 16px;
+          padding-left: 10px;
           //display: flex;
           //flex-direction: row;
           //align-items: center;
@@ -98,6 +184,7 @@
       .ProviderProduct__details--prices {
         display: flex;
         flex-direction: column;
+        max-width: 100%;
         //align-items: center;
         //gap: 15px;
 
@@ -105,6 +192,7 @@
           display: flex;
           flex-direction: row;
           align-items: center;
+          max-width: 100%;
 
           .ProviderProduct__details--rent-price {
             font-size: 15px;
@@ -141,6 +229,7 @@
           display: flex;
           flex-direction: row;
           align-items: center;
+          max-width: 100%;
 
           .ProviderProduct__details--sale-price {
             font-size: 15px;
@@ -151,6 +240,43 @@
             color: var(--main-color-green-dark-1);
             font-size: 15px;
             font-weight: bold;
+            position: relative;
+
+            .ProviderProduct__details--sale-edit {
+              position: relative;
+              padding: 5px;
+              border: 1px solid var(--main-color-green-dark-1);
+              max-width: 100%;
+
+              input {
+                width: 50px;
+                height: 30px;
+                color: var(--sec-color-shades-2);
+                border: none;
+                outline: none;
+              }
+
+              .ProviderProduct__details--sale-btns {
+                position: absolute;
+                left: 0;
+                bottom: -70%;
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                background: white;
+
+                .ProviderProduct__details--sale-check {
+                  color: var(--main-color-green-dark-1);
+                  cursor: pointer;
+                }
+
+                .ProviderProduct__details--sale-cancel {
+                  color: red;
+                  cursor: pointer;
+                }
+              }
+
+            }
           }
 
           .ProviderProduct__details--sale-shekel {
@@ -174,6 +300,7 @@
         //border-bottom: 1px solid rgba(0, 255, 0, 0.3);
         padding-bottom: 10px;
         cursor: pointer;
+        max-width: 100%;
 
         .ProviderProduct__title--status {
           font-size: 14px;
@@ -189,6 +316,7 @@
         display: flex;
         flex-direction: column;
         gap: 7px;
+        max-width: 100%;
         //border-bottom: 1px solid rgba(0, 255, 0, 0.3);
         //padding-bottom: 10px;
 
@@ -259,6 +387,54 @@
         gap: 7px;
         //border-bottom: 1px solid rgba(0, 255, 0, 0.3);
         padding-bottom: 10px;
+        max-width: 100%;
+
+        .ProviderProduct__details--rent-edit {
+          max-width: 100%;
+          border: 1px solid var(--main-color-green-dark-1);
+          padding: 5px;
+          display: flex;
+          flex-direction: row;
+          gap: 5px;
+          position: relative;
+          border-radius: 5px;
+
+          .ProviderProduct__details--rent-btns {
+            position: absolute;
+            left: 0;
+            bottom: -70%;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            cursor: pointer;
+
+            .ProviderProduct__details--rent-check {
+              color: var(--main-color-green-dark-1);
+              font-size: 14px;
+            }
+
+            .ProviderProduct__details--rent-cancel {
+              color: red;
+              font-size: 14px;
+            }
+          }
+
+          .ProviderProduct__details--rent-duration {
+            color: var(--sec-color-shades-3);
+            margin-right: 5px;
+          }
+
+          .ProviderProduct__details--rent-input {
+            color: var(--sec-color-shades-3);
+          }
+
+          input {
+            max-width: 40px;
+            width: 100%;
+            border: none;
+            outline: none;
+          }
+        }
 
         .ProviderProduct__details--rent-msg {
           font-size: 12px;

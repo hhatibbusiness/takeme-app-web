@@ -17,6 +17,7 @@ import KeepAlive from "react-activation";
 
 const Category = ({products, id, lan, page, fetchCategoryProducts, increasePageNumber, more, filter}) => {
     const [moreLoading, setMoreLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const containerRef = useRef();
     const navigate = useNavigate();
 
@@ -31,16 +32,19 @@ const Category = ({products, id, lan, page, fetchCategoryProducts, increasePageN
                 style={{position: 'relative', paddingBottom: '100px;'}}
                 dataLength={products.length}
                 pageStart={page}
-                loadMore={() => {
+                loadMore={async () => {
                     // console.log('step1')
                     if(products.length === 0 && page === 0) return;
                     // console.log('step2')
                     if(!moreLoading) return;
                     // console.log('step3')
                     if(!more) return setMoreLoading(false);
-                    // console.log('step4')
-                    fetchCategoryProducts(id, lan, page, filter, navigate);
-                    // console.log('step5')
+                    setLoading(true);
+                    // console.log('step4');
+                    if(loading) return ;
+                    await fetchCategoryProducts(id, lan, page, filter, navigate);
+                    // console.log('step5');
+                    setLoading(false);
                 }}
                 hasMore={moreLoading}
                 loader={<Loader />}

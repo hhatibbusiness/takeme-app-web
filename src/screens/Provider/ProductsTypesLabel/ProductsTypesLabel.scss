@@ -1,0 +1,43 @@
+.ProductsTypesLabel {
+  direction: rtl;
+  background: #f2f2f2;
+  //position: relative;
+  padding-top: 10px;
+  /*top: 70px;*/
+  /*margin: auto;*/
+  width: 100%;
+  z-index: 5;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  position: sticky;
+  top: 100px;
+
+  .ProductsTypesLabel__parent {
+    width: fit-content;
+    overflow-x: scroll;
+    scroll-behavior: auto;
+    direction: rtl;
+    margin-left: auto;
+    padding: 0 !important;
+    margin-bottom: -10px;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
+    .ProductsTypesLabel__container {
+      display: flex;
+      flex-direction: row;
+      scroll-behavior: smooth;
+      gap: 10px;
+      width: fit-content;
+      cursor: grab;
+      user-select: none;
+      padding: 10px;
+      padding-bottom: 0;
+      padding-top: 0;
+
+    }
+  }
+}

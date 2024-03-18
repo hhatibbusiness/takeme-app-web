@@ -4,11 +4,15 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1000;
+  z-index: 1101;
   direction: rtl;
 
   .ProductPopup__product--fullwidth {
     height: calc(100% - 90px) !important;
+  }
+
+  .ProviderProduct {
+    flex: unset;
   }
 
   .ProductPopup__product {
@@ -175,7 +179,7 @@
       color: var(--sec-color-shades-8);
       font-weight: 400;
       position: absolute;
-      top: 30px;
+      top: 0px;
       padding: 10px 0;
       background-color: white;
       width: 90%;

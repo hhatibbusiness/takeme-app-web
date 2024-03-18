@@ -34,13 +34,13 @@ const Gallery = ({product, setGallery, closeGallery, gallery}) => {
 
         // window.addEventListener('popstate', e => history.go(1));
         if(gallery) {
-            window.history.pushState(null, null, window.location.href);
-            window.addEventListener('popstate', e => {
-                e.preventDefault();
-                // closeGallery();
-                setGallery(false);
-                // console.log(history);
-            });
+            window.history.pushState(null, null, `${window.location.href}/gallery`);
+            // window.addEventListener('popstate', e => {
+            //     e.preventDefault();
+            //     // closeGallery();
+            //     setGallery(false);
+            //     // console.log(history);
+            // });
         }
 
         return () => {

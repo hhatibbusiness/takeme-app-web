@@ -9,6 +9,7 @@
     border-bottom: 1px solid var(--sec-color-shades-4);
     text-decoration: none;
     cursor: pointer;
+    /*padding-right: 10px;*/
 
     &:last-child {
         border-bottom: none;
@@ -132,7 +133,7 @@
 
 @media (max-width: 450px) {
     .DropDownListItem {
-        padding: 20px 0;
+        padding: 20px 12px;
     }
     .DropDownListItem__images--provider {
         left: -25% !important;

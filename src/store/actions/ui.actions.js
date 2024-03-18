@@ -6,7 +6,7 @@ import {
     CHANGE_HOME_POSITION,
     CHANGE_NAVBAR_ASSETS,
     CLOSE_POPUP,
-    OPEN_POPUP,
+    OPEN_POPUP, OPEN_SEARCH_POPUP,
     TOGGLE_POPUP
 } from "./action.types";
 
@@ -57,3 +57,7 @@ export const changeCurrentProvider = provider => ({
     type: CHANGE_CURRENT_PROVIDER,
     provider: provider
 });
+
+export const openSearchPopup = () => ({
+    type: OPEN_SEARCH_POPUP
+})

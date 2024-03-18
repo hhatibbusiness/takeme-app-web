@@ -218,7 +218,7 @@ const Product = ({product, filter, productType, changeCurrentProductTypeId, star
     }
 
     return (
-        <div style={{marginBottom: `${value == 100 ? '8px' : 'auto'}`}} id={`Product__${product.id}`}  className={'Product'} onClick={handleProductClick}>
+        <div style={{marginBottom: `${value == 100 ? '8px' : 'auto'}`, paddingBottom: `${value == 100 ? '10px' : '0px'}`}} id={`Product__${product.id}`}  className={'Product'} onClick={handleProductClick}>
             <div ref={productRef} className={`Product__body--container `}>
                 {/*{*/}
                 {/*    imgUI && (*/}

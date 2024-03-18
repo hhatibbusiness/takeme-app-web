@@ -7,8 +7,7 @@ import {getAnalytics, logEvent} from "firebase/analytics";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {openPopup, changePopupProduct, changeDestination} from "../../../../../store/actions/ui.actions";
 import {connect} from "react-redux";
-import providerRatingScore
-    from "../../../../Provider/ProviderRatings/ProviderRating/ProviderRatingScore/ProviderRatingScore";
+import providerRatingScore from "../../../../Provider/ProviderRatings/ProviderRating/ProviderRatingScore/ProviderRatingScore";
 import history from '../../../../../history/history';
 import {closePopup} from "../../../../../store/actions/ui.actions";
 import locationImage from '../../../../../assets/images/product/Location.jpg'
@@ -29,7 +28,6 @@ const ProviderBody = ({provider: p, activeProduct, isAuthenticated, changeDestin
     }, []);
 
     useEffect(() => {
-        // console.log(location.pathname);
         setCurrentLocation(location.pathname);
     }, []);
 
@@ -37,11 +35,8 @@ const ProviderBody = ({provider: p, activeProduct, isAuthenticated, changeDestin
         const floorNumber = Math.floor(rating);
         const ceil = Math.ceil(rating);
         if(floorNumber == ceil) {
-            // console.log(floorNumber, ceil);
-            // console.log('star is empty')
             return <i style={{color: `${i < p.ratingsScore && 'gold'}`}} className={`${i < ceil ? 'fa-solid' : 'fa-regular'} fa-star`}></i>
         } else {
-            // console.log('star is solid')
             return <i style={{color: `${i < ceil && 'gold'}`, transform: 'rotateY(180deg)'}} className={`${i <= ceil - 1 ? 'fa-solid' : 'fa-regular'} ${(i <= floorNumber - 1 || i > ceil - 1) ? 'fa-star' : 'fa-star-half-stroke'}`}></i>;
         }
     }
@@ -70,8 +65,8 @@ const ProviderBody = ({provider: p, activeProduct, isAuthenticated, changeDestin
                         }
                     }} className={'ProviderBody__name'}>{p?.name && p.name} {copied}</p>
                     <div className="ProviderBody__location">
-                        <img src={locationImage}/>
-                        {/*<i className="fa-solid fa-location-dot"></i>*/}
+                        {/*<img src={locationImage}/>*/}
+                        <i className="fa-solid fa-location-dot"></i>
                         <p className={'ProviderBody__city'}>{p?.city && p?.city}</p>
                     </div>
                 </div>
@@ -117,14 +112,12 @@ const ProviderBody = ({provider: p, activeProduct, isAuthenticated, changeDestin
                 {/*    )*/}
                 {/*}*/}
             </div>
-
         </div>
     );
 };
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.login.isAuthenticated,
-
-})
+    isAuthenticated: state.login.isAuthenticated
+});
 
 export default connect(mapStateToProps, {openPopup, changeDestination, changePopupProduct, closePopup}) (ProviderBody);

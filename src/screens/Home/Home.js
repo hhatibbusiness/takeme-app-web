@@ -8,7 +8,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {changeHomePosition, changeNavbarAssets} from "../../store/actions/ui.actions";
 import smoothscroll from "smoothscroll-polyfill";
 
-const Home = ({lan, yPosition, setSidebar, sidebar, loadingCategoryProducts, changeNavbarAssets, changeHomePosition, fetchCategories, filter, categories}) => {
+const Home = ({lan, yPosition, setSidebar, searching, setSearching, sidebar, loadingCategoryProducts, changeNavbarAssets, changeHomePosition, fetchCategories, filter, categories}) => {
     const [logoStart, setLogoStart] = useState(performance.getEntriesByType('navigation')[0].type != 'reload' ? null : localStorage.getItem('takemeFirstVisit'));
     const navigate = useNavigate();
 
@@ -82,7 +82,7 @@ const Home = ({lan, yPosition, setSidebar, sidebar, loadingCategoryProducts, cha
 
     return (
         <div ref={homeRef} className={'Home'}>
-            <Body sidebar={sidebar} setSidebar={setSidebar} />
+            <Body searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />
         </div>
     );
 };
