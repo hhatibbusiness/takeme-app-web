@@ -1,0 +1,83 @@
+@import "../../../styles/index.scss";
+
+.Navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  //height: 75px;
+  z-index: 1100;
+  //transition: 0.3s;
+  display: none;
+
+  .Navbar__container {
+    width: 100%;
+    height: 100%;
+    background: var(--main-color-green-dark-1);
+    flex-direction: row-reverse;
+    @include center-h();
+    justify-content: space-between;
+    margin: auto;
+    padding: 0 10px;
+    gap: 7px;
+
+    .Navbar__logo {
+      //width: 100px;
+      //height: 14px;
+      max-height: 100%;
+      //max-width: 50px;
+      //min-height: 80%;
+      //width: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      height: 65%;
+      //min-width: 80px;
+      //width: 99px;
+      height: 100%;
+      position: relative;
+
+      .LoadingProduct {
+        height: 100%;
+        width: 100%;
+        //border-radius: 50%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: white;
+
+        .LoadingProduct__image {
+          width: 100%;
+          height: 100%;
+          //border-radius: 50%;
+          z-index: 1;
+          position: relative;
+        }
+      }
+
+
+
+      p {
+        font-size: 9px;
+        margin-left: auto;
+        color: black;
+        font-family: var(--fa-font-brands);
+      }
+
+      img {
+        width: 100%;
+        //max-height: 100%;
+        //height: 40px;
+        //height: 100%;
+        object-fit: contain;
+        min-width: 99px;
+        max-width: 99px;
+        height: 100%;
+        max-height: 52px;
+        background: transparent;
+      }
+    }
+  }
+}

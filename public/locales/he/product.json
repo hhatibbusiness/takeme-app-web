@@ -1,0 +1,12 @@
+{
+  "rentDurationDay": "יום",
+  "twoDays": "יומיים",
+  "rentDurationHour": "ساعة",
+  "twoHours": "שעתיים",
+  "multipleHours": "שעה (ות",
+  "multipleDays": "ימים",
+  "fail to load providers": "הורדת הבעלים של המוצרים או השירותים נכשלה",
+  "rentPrice": "מחיר השכרה",
+  "minRentTimeMessage": "תקופת שכירות מינימלית ",
+  "rentstartsfrom": "מחיר ההשכרה מתחיל מ "
+}

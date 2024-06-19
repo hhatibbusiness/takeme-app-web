@@ -1,0 +1,27 @@
+.Mid {
+  color: var(--main-color-green-light-1);
+  //position: absolute;
+  //left: 50%;
+  //top: 50%;
+  //transform: translate(-50%, -50%);
+  padding-bottom: 0 !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  white-space: nowrap;
+  direction: rtl;
+  text-align: center;
+
+
+  h3 {
+    padding-bottom: 0;
+    margin: 0 !important;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 360px) {
+  .Mid h3 {
+    font-size: 16px;
+  }
+}

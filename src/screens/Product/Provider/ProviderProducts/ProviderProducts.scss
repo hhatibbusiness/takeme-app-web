@@ -1,0 +1,191 @@
+  .swiper-button-disabled {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    z-index: 700;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: lightgray;
+    opacity: 0.2;
+  }
+
+.ProviderProducts {
+  position: relative;
+  //height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  background: #eff2f5;
+
+  .swiper {
+    .swiper-pagination {
+      position: static;
+
+      .swiper-pagination-bullet {
+        opacity: 1 !important;
+        width: 4px;
+        height: 4px;
+        background: var(--main-color-green-light-7);
+      }
+
+      .swiper-pagination-bullet-active {
+        background: var(--main-color-green-dark-1);
+        opacity: 1;
+      }
+    }
+  }
+
+  .ProviderProducts__array {
+    position: relative;
+    background: white;
+    //padding: 10px 0;
+    padding-bottom: 10px;
+    flex: 1;
+    margin: auto;
+    max-width: 400px;
+    width: 100%;
+
+    .ProviderProduct__dots--container {
+      //direction: ltr;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      transform: rotateY(180deg);
+
+      .react-carousel-dots-holder {
+        direction: ltr;
+        //width: fit-content !important;
+        //margin: auto;
+        //width: fit-content !important;
+        //max-width: 90px;
+
+        .react-carousel-dots-dot {
+          width: 5px;
+          height: 5px;
+          border: none;
+          background: var(--main-color-green-light-4);
+
+          //background: white;
+        }
+
+        .active {
+          background: var(--main-color-green-dark-1);
+        }
+
+      }
+    }
+
+    .swiper {
+      position: relative;
+      //z-index: 100;
+      padding-bottom: 40px;
+
+      .swiper-pagination {
+        position: absolute;
+
+        .swiper-pagination-bullet {
+          opacity: 1 !important;
+          width: 4px;
+          height: 4px;
+          background: var(--main-color-green-light-7);
+        }
+
+        .swiper-pagination-bullet-active {
+          background: var(--main-color-green-dark-1);
+          opacity: 1;
+        }
+      }
+    }
+
+    &:first-child {
+      //padding: 0 0 10px 0;
+    }
+    //&::after {
+    //  content: '';
+    //  width: 100%;
+    //  height: 1px;
+    //  background-color: lightgrey;
+    //  position: absolute;
+    //  bottom: -20px;
+    //  //z-index: 100000;
+    //}
+
+    &:last-of-type {
+      &::after {
+        height: 0;
+      }
+    }
+  }
+
+
+  .image-swiper-button-next {
+    //position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    z-index: 700;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    background: lightgray;
+    transition: 0.3s;
+
+    &:hover {
+      background: gray;
+      color: white;
+    }
+  }
+
+  .image-swiper-button-prev {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 700;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    background: lightgray;
+    transition: 0.3s;
+
+    &:hover {
+      background: gray;
+      color: white;
+    }
+  }
+}
+
+.ProviderProduct__dragging {
+  cursor: grab;
+  scroll-behavior: auto;
+
+  .ProviderProduct {
+    pointer-events: none;
+  }
+}
+
+.ProviderProducts__swiper {
+  height: 100%;
+}
+
+.mySwiper {
+  flex: 1;
+  height: 100%;
+}

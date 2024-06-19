@@ -1,0 +1,15 @@
+.ProductTypeLabel {
+  padding: 5px;
+  border-radius: 5px;
+  //background: #97EDC5;
+  //width: fit-content;
+  color: #666666;
+  font-weight: 700;
+  font-size: 12px;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+.ProductTypeLabel__active {
+  background: #97EDC5;
+}

@@ -1,0 +1,9 @@
+.ProviderRatingScore {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.ProviderRatingScore__status {
+    color: goldenrod;
+}

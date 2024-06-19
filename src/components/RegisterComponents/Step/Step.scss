@@ -1,0 +1,42 @@
+.Step {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 60px;
+  direction: rtl;
+
+  .Step__s {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--sec-color-shades-6);
+    color: white;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .step__lin {
+    &:before {
+      content: '';
+      width: 60px;
+      height: 5px;
+      background: var(--sec-color-shades-6);
+      position: absolute;
+      top: 50%;
+      left: 100%;
+      transform: translateY(-50%);
+      transition: 0.3s;
+    }
+  }
+
+  .Step__active {
+    background: var(--main-color-green-dark-1);
+
+    &:before {
+      background: var(--main-color-green-dark-1);
+    }
+  }
+}

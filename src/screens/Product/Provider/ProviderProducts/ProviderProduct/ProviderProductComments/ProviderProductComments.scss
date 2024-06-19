@@ -1,0 +1,40 @@
+.ProviderProductComments {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  //border-bottom: 1px solid var(--sec-color-shades-5);
+  //margin-bottom: 15px;
+  padding-bottom: 20px;
+
+  .ProviderProductComments__title {
+    color: #07AB83;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-right: 20px;
+  }
+
+  span {
+    border-radius: 10px;
+    border-bottom-right-radius: 0;
+    font-size: 14px;
+  }
+
+  .ProviderProductComments__stars {
+    color: var(--sec-color-shades-2);
+    margin-left: 5px;
+    font-size: 11px;
+  }
+
+  .ProviderProductComments__comment {
+    color: #999;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}

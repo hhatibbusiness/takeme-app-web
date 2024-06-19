@@ -1,0 +1,38 @@
+.Slider {
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+    align-items: center;
+    margin: auto;
+    /*margin-top: 50px;*/
+    width: 80%;
+    max-width: 350px;
+    transform: rotateY(180deg);
+    height: 35px;
+}
+
+.css-1diafny-MuiSlider-root {
+    height: 3px !important;
+    /*padding: 15px !important;*/
+    /*padding: 10px 10px !important;*/
+}
+
+.css-frv3qg-MuiSlider-thumb {
+    width: 15px !important;
+    height: 15px !important;
+}
+
+.Slider__icon {
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 10px;
+    transition: 0.3s;
+}
+
+.Slider__icon:hover {
+    background: #d4e5ed;
+}
+
+.Slider__bar {
+    color: var(--main-color-green-dark-1) !important;
+}

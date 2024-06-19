@@ -1,0 +1,18 @@
+.ProviderRatingProfile {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.ProviderRatingProfile__avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.ProviderRatingProfile__avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}

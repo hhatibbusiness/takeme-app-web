@@ -1,0 +1,112 @@
+.UserDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  min-width: 300px;
+  direction: rtl;
+
+  .Register__form--element {
+    position: relative;
+
+    .Register__form--element-rules {
+      margin-top: 10px;
+    }
+
+    .Register__form--eye {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      z-index: 700;
+
+      .Register__form--element-eye-see {
+        color: var(--main-color-green-dark-1);
+      }
+
+      .Register__form--element-eye-unsee {
+        color: red;
+      }
+    }
+
+    .Register__form--element-wrapper {
+      position: relative;
+    }
+
+    .Register__form--forgetPassword {
+      text-align: left;
+      display: block;
+      font-size: 13px;
+      text-decoration: none;
+      color: var(--main-color-green-dark-1);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .Register__form--element-label{
+      position: absolute;
+      bottom: 6px;
+      font-size: 14px;
+      color: var(--sec-color-shades-8);
+      margin-right: 3px;
+      transition: 0.3s;
+    }
+
+    .Register__form--element-label-active {
+      bottom: 30px;
+    }
+
+    .Register__form--button {
+      width: 100%;
+      height: 32px;
+      border: none;
+      outline: none;
+      background: var(--main-color-green-dark-1);
+      color: white;
+      font-size: 18px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 2px var(--main-color-green-light-5);
+      cursor: pointer;
+
+      i {
+        transform: rotate(0);
+        animation: spin-button 0.5s infinite linear;
+      }
+    }
+
+    .Register__form--register {
+      text-align: center;
+      margin-top: 20px;
+
+      .Register__form--register-link {
+        color: var(--main-color-green-dark-1);
+        text-decoration: none;
+        margin-right: 5px;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .Register__form--element-input {
+      width: 100%;
+      border: none;
+      height: 30px;
+      border-bottom: 1px solid var(--sec-color-shades-8);
+      outline: none;
+      transition: 0.3s;
+      z-index: 601;
+      display: block;
+      position: relative;
+      background: transparent;
+
+
+      &:focus-within {
+        border-bottom: 1px solid var(--main-color-green-dark-3);
+      }
+    }
+  }
+}

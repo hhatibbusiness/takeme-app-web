@@ -1,0 +1,24 @@
+@import "../../../../styles/index";
+
+.ProviderProfile {
+  @include center-h();
+  flex-direction: row;
+  //padding: 15px 25px 0 0 ;
+  //margin-bottom: 10px;
+  margin-top: 10px;
+  padding-bottom: 10px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+}
+
+.ProviderProfile__provider {
+  background: #F2F2F2;
+  margin-top: 0 !important;
+}
+

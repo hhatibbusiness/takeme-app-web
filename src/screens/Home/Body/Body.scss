@@ -1,0 +1,18 @@
+.Body {
+  padding-bottom: 20px;
+  //height: 100vh;
+  //overflow-y: auto;
+  padding-top: 70px;
+
+  .Body__hidden {
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: var(--main-color-green-light-1);
+  }
+
+
+}

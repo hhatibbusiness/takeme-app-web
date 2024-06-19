@@ -1,0 +1,38 @@
+.BodyContainer {
+  //max-width: 1000px;
+  margin: auto;
+  position: relative;
+
+  .BodyContainer__hidden {
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: var(--main-color-green-light-1);
+  }
+
+  .BodyContainer__container {
+    position: relative;
+    z-index: 5;
+    background: white;
+    //box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    transition: 0.3s;
+    width: 100%;
+    //min-height: 90px;
+
+    .BodyContainer__wrapper {
+      position: relative;
+      //position: sticky;
+      //top: 70px;
+      z-index: 5;
+      background: white;
+      //box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+      //transition: 0.3s;
+      width: 100%;
+      margin-top: -7px;
+
+    }
+  }
+}

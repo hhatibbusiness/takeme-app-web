@@ -1,0 +1,30 @@
+.ProviderProductTags {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  justify-content: center;
+
+  .ProviderProductTags__tag {
+    color: #FFF;
+    background: var(--main-color-green-dark-1);
+    -webkit-text-stroke-width: 0.25px;
+    -webkit-text-stroke-color: #FFF;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .ProviderProductTags__dot {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-color: var(--sec-color-shades-8);
+    border-radius: 50%;
+  }
+}

@@ -1,0 +1,39 @@
+.ProviderLinkCopy {
+  position: absolute;
+  z-index: 99;
+  top: 80px;
+  left: 20px;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+
+  .ProviderLinkCopy__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 7px;
+
+    p {
+      font-size: 13px;
+      padding: 3px 5px;
+      background: var(--main-color-green-dark-10);
+      border-radius: 3px;
+      color: var(--main-color-green-light-1);
+      position: relative;
+
+      span {
+        position: absolute;
+        left: -6px;
+
+        i {
+          color: var(--main-color-green-dark-10);
+        }
+      }
+    }
+  }
+
+  i{
+    color: var(--main-color-green-dark-1);
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,122 @@
+.LoadingProduct {
+  width: 100%;
+  //height: 100%;
+  display: block;
+  //min-height: 350px;
+  //padding: 10px;
+  //padding-top: 50px;
+  //border: 1px solid #d1c6c6;
+
+
+  .LoadingProduct__image {
+    //min-height: 200px;
+    width: 100%;
+    margin: auto;
+    margin-bottom: 10px;
+    animation-duration: 6s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background-color: var(--sec-color-shades-2);
+    background: linear-gradient(to right, var(--sec-color-shades-5) 8%, var(--sec-color-shades-2) 30%, var(--sec-color-shades-2) 70%, var(--sec-color-shades-5)100%);
+    opacity: 0.2;
+    background-size: 200px 104px;
+    height: 350px;
+    position: relative;
+  }
+
+  .LoadingProduct__details {
+    //padding: 20px;
+    //margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-right: 20px;
+
+
+    .LoadingProduct__header {
+      height: 20px;
+      width: 100px;
+      animation-duration: 2s;
+      animation-fill-mode: forwards;
+      animation-iteration-count: infinite;
+      animation-name: placeHolderShimmerHeader;
+      animation-timing-function: linear;
+      background-color: var(--sec-color-shades-2);
+      background: linear-gradient(to right, var(--sec-color-shades-5) 8%, var(--sec-color-shades-2) 30%, var(--sec-color-shades-2) 70%, var(--sec-color-shades-5)100%);
+      background-size: 300px 104px;
+      position: relative;
+      //margin-bottom: 20px;
+    }
+
+    .LoadingProduct__msg {
+      height: 15px;
+      width: 200px;
+      animation-duration: 2s;
+      animation-fill-mode: forwards;
+      animation-iteration-count: infinite;
+      animation-name: placeHolderShimmerHeader;
+      animation-timing-function: linear;
+      background-color: var(--sec-color-shades-2);
+      background: linear-gradient(to right, var(--sec-color-shades-5) 8%, var(--sec-color-shades-2) 30%, var(--sec-color-shades-2) 70%, var(--sec-color-shades-5)100%);
+      background-size: 300px 104px;
+      position: relative;
+      //margin-bottom: 10px;
+    }
+
+    .LoadingProduct__price {
+      height: 15px;
+      width: 150px;
+      animation-duration: 2s;
+      animation-fill-mode: forwards;
+      animation-iteration-count: infinite;
+      animation-name: placeHolderShimmerHeader;
+      animation-timing-function: linear;
+      background-color: var(--sec-color-shades-2);
+      background: linear-gradient(to right, var(--sec-color-shades-5) 8%, var(--sec-color-shades-2) 30%, var(--sec-color-shades-2) 70%, var(--sec-color-shades-5)100%);
+      background-size: 200px 50px;
+      position: relative;
+      //margin-bottom: 20px;
+    }
+  }
+
+  .ProductsDetails__btn {
+    width: 169px;
+    height: 35px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: var(--main-color-green-dark-1);
+    color: white;
+    font-size: 15px;
+    line-height: 22.05px;
+    margin: auto;
+    display: block;
+    cursor: pointer;
+  }
+}
+
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -300px 0
+  }
+  100% {
+    background-position: 300px 0
+  }
+}
+@keyframes placeHolderShimmerHeader {
+  0% {
+    background-position: -100px 0
+  }
+  100% {
+    background-position: 100px 0
+  }
+}
+
+@media (max-width: 500px) {
+  .LoadingProduct {
+    max-width: 500px !important;
+  }
+}

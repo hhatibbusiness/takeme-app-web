@@ -1,0 +1,28 @@
+.SearchScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: white;
+  width: 100%;
+  height: 100vh;
+  z-index: 600;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  //gap: 50px;
+  //scroll-behavior: smooth;
+  overflow-x: hidden;
+
+  .Categories {
+    position: sticky;
+    margin-top: 75px;
+    top: 75px;
+    padding-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  }
+
+  .SearchScreen__container {
+    width: 100%;
+    //height: 100%;
+  }
+}

@@ -1,0 +1,119 @@
+@font-face {
+  font-family: "DIN Next LT Arabic";
+  src: url("Din-regular.ttf");
+}
+
+body {
+  background: #d9d9d9;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  font-family: var(--main-takeme-font);
+  font-style: normal;
+  //height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+  //position: absolute;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+}
+
+:root {
+  --main-color-green-dark-1: #07ab83;
+  --main-color-green-dark-2: #009B78;
+  --main-color-green-dark-3: #44ab91;
+  --main-color-green-dark-4: #22ab89;
+  --main-color-green-dark-5: #009952;
+  --main-color-green-dark-6: #008044;
+  --main-color-green-dark-7: #00703c;
+  --main-color-green-dark-8: #004c29;
+  --main-color-green-dark-9: #00331b;
+  --main-color-green-dark-10: #001a0e;
+  --main-color-green-dark-11: #000000;
+  --main-color-green-light-1: #FFFFFF;
+  --main-color-green-light-2: #e4edeg;
+  --main-color-green-light-3: #daede5;
+  --main-color-green-light-4: #caeddd;
+  --main-color-green-light-5: #beedd7;
+  --main-color-green-light-6: #a6edcc;
+  --main-color-green-light-7: #97edc5;
+  --main-color-green-light-8: #8ae5b8;
+  --main-color-green-light-9: #73e5ac;
+  --main-color-green-light-10: #5ce5a1;
+  --main-color-green-light-11: #45e695;
+  --sec-color-shades-1: #FFFFFF;
+  --sec-color-shades-2: #dbdbdb;
+  --sec-color-shades-3: #cccccc;
+  --sec-color-shades-4: #b3b3b3;
+  --sec-color-shades-5: #999999;
+  --sec-color-shades-6: #808080;
+  --sec-color-shades-7: #666666;
+  --sec-color-shades-8: #4d4d4d;
+  --sec-color-shades-9: #333333;
+  --sec-color-shades-10: #1a1a1a;
+  --sec-color-shades-11: #000000;
+  --sec-color-shades-12: #E5E5E5;
+  --sec-color-blue-dark-1: #2e6be5;
+  --sec-color-blue-dark-2: #295fcc;
+  --sec-color-blue-dark-3: #2453b3;
+  --sec-color-blue-dark-4: #1e4899;
+  --sec-color-blue-dark-5: #183b80;
+  --sec-color-blue-dark-6: #132e66;
+  --sec-color-blue-dark-7: #0f234d;
+  --sec-color-blue-dark-8: #0a1733;
+  --sec-color-blue-dark-9: #050c1a;
+  --sec-color-blue-dark-10: #080B10;
+  --sec-color-blue-dark-11: #000000;
+  --sec-color-blue-light-1: #FFFFFF;
+  --sec-color-blue-light-2: #f5f8ff;
+  --sec-color-blue-light-3: #e3ecff;
+  --sec-color-blue-light-4: #bfd4ff;
+  --sec-color-blue-light-5: #99bbff;
+  --sec-color-blue-light-6: #80aaff;
+  --sec-color-blue-light-7: #6699ff;
+  --sec-color-blue-light-8: #4d88ff;
+  --sec-color-blue-light-9: #3377ff;
+  --sec-color-blue-light-10: #1a66ff;
+  --sec-color-blue-light-11: #0055ff;
+  --product-types-background-color: #D9D9D9;
+  --product-types-more-color: #CCC;
+  --product--min-duration-color: #9f9e9e;
+  --product--desc-color: #999;
+  --provider--avialable-products: #999;
+  --provider--city-name: #666;
+  --category--box-shadow-color: rgba(0, 0, 0, 0.1);
+  --popup--variables-property-item: #FFAD33;
+  --main-takeme-font: "DIN NEXT LT ARABIC";
+  --main-takeme-font-bold: "DIN NEXT LT ARABIC BOLD";
+}
+
+.Home__direction {
+  direction: ltr !important;
+}
+
+.max-width {
+  width: 100%;
+}
+
+.text-overflow-ellipsis {
+  text-overflow: ellipsis;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+
+.rtl {
+  direction: rtl;
+}
