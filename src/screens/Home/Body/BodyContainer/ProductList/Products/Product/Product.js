@@ -207,6 +207,7 @@ const Product = ({product,  value, setCurrentProduct}) => {
                     }
                 </div>
                 {(!loaded || (!loaded && hidden)) && <LoadingProduct moreAndMoreDetails={false} moreDetails={false} rentDetails={false} imgLoaderRef={imgLoaderRef} priceStartFrom={false} priceTitle={false} imgLoaded={false} details={false } btn={false} />}
+                {/*{(true) && <LoadingProduct moreAndMoreDetails={false} moreDetails={false} rentDetails={false} imgLoaderRef={imgLoaderRef} priceStartFrom={false} priceTitle={false} imgLoaded={false} details={false } btn={false} />}*/}
             </div>
         </div>
     );

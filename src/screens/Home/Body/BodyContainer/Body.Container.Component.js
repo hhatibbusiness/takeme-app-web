@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Cover from "./Cover/Cover";
 import './Body.Container.Styles.scss';
 import {connect} from "react-redux";
@@ -51,23 +51,52 @@ const BodyContainerComponent = ({loadingCategories, coverLoaded, setCoverLoaded,
                 observer.unobserve(spacer);
             }
         }
-    }, [bodyContainerRef, spacerRef, containerRef, coverLoaded]);
+    }, [bodyContainerRef, spacerRef, containerRef, coverLoaded]);    //
+    const [isSticky, setIsSticky] = useState(false);
+    //
+    // const handleScroll = () => {
+    //     const bodyContainer = bodyContainerRef?.current;
+    //     const productsContainer = document.querySelector('.CategoryComp');
+    //     if (spacerRef.current && bodyContainer && productsContainer) {
+    //         const offsetTop = spacerRef.current.getBoundingClientRect().top;
+    //         if (offsetTop < 75) {
+    //             console.log('dljafldkjsalfkdja', offsetTop);
+    //             setIsSticky(true);
+    //             productsContainer.style.paddingTop = `${bodyContainer.getBoundingClientRect().height + 70}px`;
+    //             // spacerRef.current.style.marginBottom = `${bodyContainer.getBoundingClientRect().height}px`;
+    //         } else {
+    //             setIsSticky(false);
+    //             console.log('back now!', offsetTop);
+    //             // spacerRef.current.style.marginBottom = 0;
+    //             productsContainer.style.paddingTop = 0;
+    //
+    //         }
+    //     }
+    // };
+    //
+    // useEffect(() => {
+    //     window.addEventListener('scroll', handleScroll);
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll);
+    //     };
+    // }, []);
+
 
     return (
         <div className={'BodyContainer'}>
             <Cover loaded={coverLoaded} setLoaded={setCoverLoaded} />
             {
-                coverLoaded ? (
+                true ? (
                     <>
                         <div ref={containerRef} className="BodyContainer__container">
-                            <div ref={spacerRef} className="spacer"></div>
-                            { coverLoaded && <div ref={bodyContainerRef} className="BodyContainer__wrapper">
+                            <div ref={spacerRef} className={`spacer`}></div>
+                            { true && <div ref={bodyContainerRef} className={`BodyContainer__wrapper ${isSticky ? 'sticky' : ''}`}>
                                 <Categories loadingCategories={loadingCategories} categories={categories} curId={id} home />
                                 <SliderComponent />
                             </div> }
                         </div>
                         {
-                            (categories?.length > 0 && coverLoaded) ? (
+                            (categories?.length > 0 ) ? (
                                 !loadingCategories && (
                                     <ProductList currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} />
                                 )

@@ -3,10 +3,12 @@ import React, {lazy, Suspense, useEffect, useRef} from 'react';
 import {connect} from "react-redux";
 import {fetchCategories} from '../../store/actions/categories.action';
 import './Home.scss';
-import {useNavigate, useParams} from "react-router-dom";
+import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {changeHomePosition, changeNavbarAssets} from "../../store/actions/ui.actions";
 import {KeepAlive} from "react-activation";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
+import FallBack from "../../components/FallBack/FallBack";
+import Intro from "../../components/Intro/Intro";
 
 const Body = lazy(() => import('./Body/Body'));
 
@@ -17,7 +19,7 @@ const Home = ({lan, match, currentProduct, coverLoaded, setCoverLoaded, setCurre
 
     useEffect(() => {
         if(categories.length > 0) return;
-        fetchCategories(lan, filter, navigate);
+        fetchCategories(lan, filter, navigate, 0);
     }, []);
     const params = useParams();
 
@@ -38,13 +40,16 @@ const Home = ({lan, match, currentProduct, coverLoaded, setCoverLoaded, setCurre
     }, []);
 
     return (
-        <KeepAlive name={'home'}>
-            <div ref={homeRef} className={'Home'}>
-                <Suspense fallback={<SpinnerComponent />}>
-                    <Body coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />
-                </Suspense>
-            </div>
-        </KeepAlive>
+        <>
+            {/*<KeepAlive name={'home'}>*/}
+                <div ref={homeRef} className={'Home'}>
+                    <Suspense fallback={<FallBack full={true} />}>
+                        <Body coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />
+                    </Suspense>
+                </div>
+            {/*</KeepAlive>*/}
+            <Outlet />
+        </>
     );
 };
 

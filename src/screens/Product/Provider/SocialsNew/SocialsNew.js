@@ -8,6 +8,9 @@ import whatsapp from "../../../../assets/images/socials/whatsapp.png";
 import {createOrder} from "../../../../store/actions/order.actions";
 import callImg from '../../../../assets/images/socials/call.png';
 
+const first= 'مرحبا ممكن تفاصيل اكتر عن';
+const second = 'الموجودة بمتجرك بتيكمي';
+
 const SocialsNew = ({right, assets, isAuthenticated, takemeUserToken, lan, currentUser, activeProduct, createOrder, provider}) => {
     const [currentLocation, setCurrentLocation] = useState('');
     const navigate = useNavigate();
@@ -113,7 +116,7 @@ const SocialsNew = ({right, assets, isAuthenticated, takemeUserToken, lan, curre
                         ProviderPhone: provider?.phone
                     });
                 }
-            }} target={'_blank'}  className="SocialsNew__link" href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${provider?.phoneCountryCode && provider?.phoneCountryCode}${provider?.phone && provider.phone}&text=${!right ? `مرحبا ممكن تفاصيل اكتر عن ${activeProduct?.name}` : ''}` : `http://web.whatsapp.com/send?phone=${provider?.phoneCountryCode && provider?.phoneCountryCode}${provider?.phone && provider.phone}&text=${!right ? `مرحبا ممكن تفاصيل اكتر عن ${activeProduct?.name}` : ''}`)}>
+            }} target={'_blank'}  className="SocialsNew__link" href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${provider?.phoneCountryCode && provider?.phoneCountryCode}${provider?.phone && provider.phone}&text=${!right ? encodeURIComponent(`مرحبا, ممكن تفاصيل اكتر عن ${activeProduct?.name} الموجودة بمتجرك بتيكمي`) : ''}` : `http://web.whatsapp.com/send?phone=${provider?.phoneCountryCode && provider?.phoneCountryCode}${provider?.phone && provider.phone}&text=${!right ? encodeURIComponent(`مرحبا, ممكن تفاصيل اكتر عن ${activeProduct?.name} الموجودة بمتجرك بتيكمي`) : ''}`)}>
                 <img className={'SocialsNew__link--image'} src={whatsapp} alt=""/>
                 <p>واتساب</p>
                 {/*<i className="fa-brands fa-whatsapp"></i>*/}

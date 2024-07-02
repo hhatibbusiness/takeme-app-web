@@ -20,7 +20,6 @@ const Body = ({ coverLoaded, setCoverLoaded, currentProduct, setCurrentProduct, 
                         <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
                         <Backdrop sidebar={sidebar} setSidebar={setSidebar} />
                         <BodyContainerComponent coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} />
-                        <Outlet />
                     </CategoryError>
                 }
                 {/*{*/}
@@ -28,6 +27,7 @@ const Body = ({ coverLoaded, setCoverLoaded, currentProduct, setCurrentProduct, 
                 {/*        <SpinnerComponent />*/}
                 {/*    </div>*/}
                 {/*}*/}
+                {/*<Outlet />*/}
             </div>
     );
 };

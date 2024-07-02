@@ -10,7 +10,7 @@ import {
     ERROR_ACTIVE,
     ERROR_INACTIVE,
     FETCH_CATEGORIES_SUCCESS,
-    FETCH_CATEGORY_PRODUCTS,
+    FETCH_CATEGORY_PRODUCTS, INCREASE_CATEGORIES_PAGE_NUMBER,
     INCREASE_PAGE_NUMBER,
     RESET_PAGE_NUMBER,
     START_FETCHING_CATEGORIES,
@@ -44,38 +44,51 @@ export const changeId = id => ({
     id
 });
 
+export const increaseCategoriesPageNumber= {
+    type: INCREASE_CATEGORIES_PAGE_NUMBER
+}
 
-export const fetchCategories = (lan, filter, navigate) => async dispatch => {
+
+export const fetchCategories = (lan, filter, navigate, page) => async dispatch => {
     try {
-        dispatch(startFetchingCategories);
-        const res = await axios.get(`${BASE_URL}endpoints/categories/list-no-empty?locale=${lan}`);
-        const allCategory =       {
-            id: 0,
-            name: 'الكل',
-            description: 'هذة الفئة تحتوي علي جميع انواع المنتجات',
-            imagePath: allCategoryImage,
-            sortIndex: 1,
-            createdDate: new Date(),
-            updatedDate: new Date(),
-            imageName: 'all.jpg'
-        }
+        if(page == 0) dispatch(startFetchingProducts);
+        const res = await axios.get(`${BASE_URL}endpoints/categories/list-no-empty?locale=${lan}&&page=${page}`);
+        let categories;
+        if(page == 0) {
+            const allCategory =       {
+                id: 0,
+                name: 'الكل',
+                description: 'هذة الفئة تحتوي علي جميع انواع المنتجات',
+                imagePath: allCategoryImage,
+                sortIndex: 1,
+                createdDate: new Date(),
+                updatedDate: new Date(),
+                imageName: 'all.jpg'
+            }
 
-        const categories = [
-            allCategory,
-            ...res.data.output
-        ]
+            categories = [
+                allCategory,
+                ...res.data.output
+            ]
+
+        }else {
+            categories = [...res.data.output]
+        }
 
         dispatch({
             type: FETCH_CATEGORIES_SUCCESS,
             categories
         });
+        dispatch(increaseCategoriesPageNumber);
+
         dispatch(endFetchingCategories);
+
         if(categories?.length === 0) return;
         const firstId = categories[0].id;
         // dispatch(errorActive);
         dispatch(errorInactive);
-        await dispatch(changeId(firstId));
-        await dispatch(fetchCategoryProducts(firstId, lan, 0, filter, navigate));
+        if(page == 0) await dispatch(changeId(firstId));
+        if(page == 0) await dispatch(fetchCategoryProducts(firstId, lan, 0, filter, navigate));
         return res;
     }catch (err) {
         if(err?.response?.status == 401) {
@@ -145,7 +158,7 @@ export const fetchCategoryProducts = (id, lan, page, filter, navigate) => async 
         }
         dispatch(endFetchingProducts);
 
-        dispatch(errorActive);
+        // dispatch(errorActive);
     }
 }
 
@@ -165,7 +178,7 @@ export const changeLan = (lan, id) => async dispatch => {
         // dispatch(errorActive);
         dispatch(errorInactive);
     } catch (e) {
-        dispatch(errorActive);
+        // dispatch(errorActive);
         console.error(e);
     }
 };

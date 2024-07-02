@@ -91,6 +91,13 @@ const Product = ({galleryProduct, takemeUserToken, currentUser, changeNavbarAsse
 
     const location = useLocation();
 
+    useEffect(() => {
+        return () => {
+            console.log('Product Unmount!')
+        }
+    }, [])
+
+
     return (
         <>
             <KeepAlive cacheKey={'Products'}>

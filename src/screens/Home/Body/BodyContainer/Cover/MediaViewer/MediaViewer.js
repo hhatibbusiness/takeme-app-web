@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import CoverVideo from "../CoverVideo/CoverVideo";
-import coverImg from "../../../../../../assets/images/defaults/take_me_cover_gif.webm";
+import coverImg from "../../../../../../assets/images/defaults/take_me_cover_gif.mp4";
 import CoverImg from "../CoverImg/CoverImg";
 
 const MediaViewer = ({image, loaded, setLoaded}) => {
@@ -31,7 +31,7 @@ const MediaViewer = ({image, loaded, setLoaded}) => {
         switch (imgType) {
             case 0:
                 // setLoaded(true);
-                return <CoverVideo video={"https://takeme-all.com/app/resources/images/profile/take_me_cover_gif.webm"} loaded={loaded} setLoaded={setLoaded} />
+                return <CoverVideo video={image} loaded={loaded} setLoaded={setLoaded} />
             case 1:
                 return <CoverImg loaded={loaded} setLoaded={setLoaded} image={image} />
             case 2:

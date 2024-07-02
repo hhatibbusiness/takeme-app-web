@@ -23,7 +23,7 @@ const Cover = ({assets, loaded, setLoaded}) => {
     };
 
     return (
-        <div className={'Cover'}>
+        <div className={'Cover'} style={{height: `${loaded ? 'auto' : '189px'}`}}>
             <div className={'Cover__Swiper--wrapper'}>
                 {/*<Swiper*/}
                 {/*    grabCursor={true}*/}

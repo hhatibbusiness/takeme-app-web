@@ -1,9 +1,9 @@
 import React from 'react';
 import './Spinner.Styles.scss';
 
-const SpinnerComponent = () => {
+const SpinnerComponent = ({full}) => {
     return (
-        <div role={'Spinner'} className={'Spinner'}>
+        <div role={'Spinner'} className={`Spinner ${full ? 'Spinner__full' : ''}`}>
             <div className={'Spinner__spinner'}></div>
         </div>
     );

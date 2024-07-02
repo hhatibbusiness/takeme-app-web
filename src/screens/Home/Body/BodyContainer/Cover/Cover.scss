@@ -7,6 +7,7 @@
   z-index: 6;
   //box-shadow: 1px 1px 0 var(--sec-color-shades-2);
   direction: rtl;
+  //min-height: 190px;
 
   .swiper-pagination {
     position: relative !important;
@@ -19,10 +20,10 @@
     bottom: 0 !important;
     background: white;
   }
-
-  .swiper-wrapper {
-    height: 189px;
-  }
+  //
+  //.swiper-wrapper {
+  //  height: 189px;
+  //}
 
   .swiper-pagination-bullet {
     //border: 1px solid black !important;
@@ -81,8 +82,10 @@
     top: 0;
     left: 0;
     z-index: 3;
-    height: 30vh;
+    //height: 30vh;
     background: white;
+    //min-height: 190px;
+    height: 100%;
 
     .LoadingProduct__image {
       height: 100%;

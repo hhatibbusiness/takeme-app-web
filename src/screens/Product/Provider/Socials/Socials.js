@@ -8,6 +8,10 @@ import phone from '../../../../assets/images/Phone.svg';
 import whatsapp from '../../../../assets/images/whatsapp.svg';
 import locationImage from '../../../../assets/images/location.svg';
 
+const first= 'مرحبا ممكن تفاصيل اكتر عن';
+const second = 'الموجودة بمتجرك بتيكمي';
+
+
 const Socials = ({right, assets, token, takemeUserToken, isAuthenticated, provider, createOrder, currentUser, activeProduct, lan}) => {
     const navigate = useNavigate();
 
@@ -102,7 +106,7 @@ const Socials = ({right, assets, token, takemeUserToken, isAuthenticated, provid
                         ProviderPhone: provider?.phone
                     });
                 }
-            }} target={'_blank'} className="Socials__link" href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${provider?.phoneCountryCode && provider?.phoneCountryCode}${provider?.phone && provider?.phone}&text=${!right ? `مرحبا ممكن تفاصيل اكتر عن ${activeProduct?.name}` : ''}` : `http://web.whatsapp.com/send?phone=${provider?.phoneCountryCode && provider?.phoneCountryCode}${provider?.phone && provider?.phone}&text=${!right ? `مرحبا ممكن تفاصيل اكتر عن ${activeProduct?.name}` : ''}`)}>
+            }} target={'_blank'} className="Socials__link" href={assets?.platform != null && (assets?.platform == 0 ? `whatsapp://send?phone=+${provider?.phoneCountryCode && provider?.phoneCountryCode}${provider?.phone && provider.phone}&text=${!right ? encodeURIComponent(`مرحبا ممكن تفاصيل اكتر عن ${activeProduct?.name} الموجودة بمتجرك بتيكمي`) : ''}` : `http://web.whatsapp.com/send?phone=${provider?.phoneCountryCode && provider?.phoneCountryCode}${provider?.phone && provider.phone}&text=${!right ? encodeURIComponent(`مرحبا ممكن تفاصيل اكتر عن ${activeProduct?.name} الموجودة بمتجرك بتيكمي`) : ''}`)}>
                 <img src={whatsapp} alt=""/>
             </a>
             <a onClick={e => {

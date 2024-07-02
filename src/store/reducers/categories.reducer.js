@@ -13,7 +13,9 @@ const initialState = {
     loadingMore: false,
     more: false,
     filter: 'NONE',
-    containerHeight: 'auto'
+    containerHeight: 'auto',
+    categoriesPage: 0,
+    moreCategories: false
 };
 
 export default (state = initialState, action) => {
@@ -37,8 +39,10 @@ export default (state = initialState, action) => {
             return (() => {
                 return {
                     ...state,
-                    categories: action.categories,
-                    products: []
+                    categories: [...state.categories, ...action.categories],
+                    // products: []
+                    moreCategories: action.categories.length >= 10
+
                 }
             })();
         case actionTypes.CHANGE_CURRENT_ID:
@@ -98,6 +102,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 page: state.page + 1
+            }
+        case actionTypes.INCREASE_CATEGORIES_PAGE_NUMBER:
+            return {
+                ...state,
+                categoriesPage: state.categoriesPage + 1
             }
         case actionTypes.RESET_PAGE_NUMBER:
             return {

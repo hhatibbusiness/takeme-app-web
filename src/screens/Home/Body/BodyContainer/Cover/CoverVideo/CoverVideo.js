@@ -1,9 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './CoverVideo.css';
-import coverDefault from '../../../../../../assets/images/defaults/take_me_cover_gif.webm';
+import coverDefault from '../../../../../../assets/images/defaults/take_me_cover_gif.mp4';
 import coverImg from "../CoverImg/CoverImg";
+import LoadingProduct from "../../../../../../components/LoadingProduct/LoadingProduct";
 
 // const coverDefault = ' https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4';
+
+// const coverDefault = "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4";
 
 const CoverVideo = ({video, loaded, setLoaded}) => {
     const videoRef = useRef();
@@ -54,10 +57,10 @@ const CoverVideo = ({video, loaded, setLoaded}) => {
                 onClick={handleVideoClicked}
                 onLoadedData={e => {
                     console.log('video is loaded successfully!');
+                    console.log(videoData)
                     setLoaded(true);
                 }}
                 onError={e => {
-                    setLoaded(true);
                     setVideoData(coverDefault);
                     console.log(e);
                     setKey(prevKey => prevKey + 1);
@@ -69,12 +72,21 @@ const CoverVideo = ({video, loaded, setLoaded}) => {
                 width="100%"
                 height="100%"
                 crossOrigin="anonymous"
+                autoPlay={true}
+                loop={true}
+                className={'CoverVideo__video'}
             >
                 <source
                     src={videoData}
                     type="video/webm"
                 />
             </video>
+
+            {
+                // (true) && <LoadingProduct moreAndMoreDetails={false} moreDetails={false} rentDetails={false} priceStartFrom={false} priceTitle={false} imgLoaded={false} details={false } btn={false} />
+                (!loaded) && <LoadingProduct moreAndMoreDetails={false} moreDetails={false} rentDetails={false} priceStartFrom={false} priceTitle={false} imgLoaded={false} details={false } btn={false} />
+
+            }
         </div>
     );
 };

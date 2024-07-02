@@ -2,7 +2,7 @@
     position: relative;
     /*top: 70px;*/
     /*margin: auto;*/
-    width: 100%;
+    /*width: 100%;*/
     z-index: 5;
     background: white;
     padding: 0;
@@ -30,6 +30,19 @@
 
 .Categories__parent::-webkit-scrollbar {
     width: 0;
+}
+
+.Categories__infinite {
+    /*width: fit-content;*/
+    direction: rtl;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.Categories__parent--parent {
+    display: flex;
+    /*overflow-x: auto;*/
+    white-space: nowrap;
 }
 
 .Categories__container {

@@ -15,7 +15,10 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import ProviderProductType from "./ProviderProductType/ProviderProductType";
 import {openGallery} from "../../store/actions/product.actions";
 
-import 'swiper/css'; // Import Swiper styles
+// import 'swiper/css'; // Import Swiper styles
+
+import 'swiper/swiper-bundle.css';
+
 
 const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takemeProviderToken, takemeProviderData, changeCurrentId, fetchingProductTypes, fetchProviderCategories, categories, loadingCategories, curId, page, more, loadingProductTypes, productTypes, changeNavbarAssets, loadingProvider, filter, resetProviderProductTypesData, fetchProviderProductsTypes, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup, catId, openGallery}) => {
     const [moreLoading, setMoreLoading] = useState(false);
@@ -32,6 +35,34 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
     const [categoryBarPosition, setCategoryBarPosition] = useState(null);
     const [containerScroll, setContainerScroll] = useState(false);
     const [currentProductType, setCurrentProductType] = useState(0);
+    const swiperRef=useRef();
+
+
+    useEffect(() => {
+        const swiperContainer = swiperRef?.current?.swiper;
+        let removeInlineStyles;
+        if(swiperContainer) {
+            removeInlineStyles = () => {
+                const slides = swiperContainer.slides;
+                slides.forEach((slide) => {
+                    slide.style.height = ''; // Remove inline height
+                    slide.style.marginBottom = ''; // Remove inline margin-bottom
+                });
+            };
+
+            console.log(swiperContainer)
+            removeInlineStyles();
+            swiperContainer.on('slideChange', removeInlineStyles);
+
+        }
+
+        return () => {
+            if (swiperContainer) {
+                swiperInstance.off('slideChange', removeInlineStyles);
+            }
+        };
+    }, [swiperRef.current]);
+
 
 
     useEffect(() => {
@@ -45,6 +76,7 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
             openPopup();
         }
     }, []);
+
 
     useEffect(() => {
         if(swiperInstance) {
@@ -157,6 +189,19 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
         }
     }, [providerProductTypeContainerRef?.current, categoriesContainerRef?.current]);
 
+    useEffect(() => {
+        const providerContainer = providerProductTypeContainerRef?.current;
+        if(providerContainer) {
+            const slides = providerContainer.querySelectorAll('.swiper-slide');
+            slides.forEach((slide) => {
+                console.log(slide);
+                slide.style.height = 'auto'; // Override the default height
+                slide.style.marginBottom = '0'; // Override the default margin
+            });
+        }
+    }, [providerProductTypeContainerRef?.current]);
+
+
     return (
         <>
             <KeepAlive cacheKey={'Provider'}>
@@ -206,8 +251,14 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
                                         >
                                             <Swiper
                                                 onSwiper={swiper => {
+                                                    swiperRef.current = swiper.el;
                                                     setSwiperInstance(swiper);
+                                                    console.log(swiper.slides);
+                                                    swiper.slides.map((slide) => {
+                                                        slide.style.height = 'auto';
+                                                    });
                                                 }}
+                                                // virtual={true}
                                                 direction={'vertical'}
                                                 spaceBetween={20}
                                                 className={'mySwiper'}
@@ -215,7 +266,6 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
                                                 coverflowEffect={{
                                                     rotate: 50,
                                                     stretch: 0,
-                                                    depth: 100,
                                                     modifier: 3,
                                                     slideShadows: false,
                                                 }}
@@ -226,24 +276,25 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
                                                     setTScroll(false);
                                                     setBScroll(false);
                                                 }}
-                                                onReachEnd={swiper => {
-                                                    if(more) {
-                                                        const data = {
-                                                            providerId: params.providerId,
-                                                            categoryListIds: (curId === 0 || curId === null) ?  null : [curId],
-                                                            productTypeId: null,
-                                                            navigate,
-                                                            filter,
-                                                            lan,
-                                                            page
-                                                        };
-                                                        fetchProviderProductsTypes(data);
-                                                    }
-                                                }}
+                                                // onReachEnd={swiper => {
+                                                //     if(more) {
+                                                //         const data = {
+                                                //             providerId: params.providerId,
+                                                //             categoryListIds: (curId === 0 || curId === null) ?  null : [curId],
+                                                //             productTypeId: null,
+                                                //             navigate,
+                                                //             filter,
+                                                //             lan,
+                                                //             page
+                                                //         };
+                                                //         fetchProviderProductsTypes(data);
+                                                //     }
+                                                // }}
+                                                // autoHeight={false}
                                             >
                                                 {
                                                     productTypes?.map((productType, i) => (
-                                                        <SwiperSlide className={`ProviderScreen__swiper`} key={productType?.id}>
+                                                        <SwiperSlide className={`ProviderScreen__swiper`} style={{height: '700px !important'}} key={productType?.id}>
                                                             <ProviderProductType
                                                                 currentUser={currentUser}
                                                                 takemeUserToken={takemeUserToken}
@@ -280,7 +331,7 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
                                 }
 
                             </div>
-                        ):(
+                        ) : (
                             <SpinnerComponent />
                         )
                     }
@@ -310,8 +361,6 @@ const mapStateToProps = state => ({
     takemeProviderToken: state.login.takemeProviderToken,
     currentUser: state.login.takemeUserData,
     takemeUserToken: state.login.takemeUserToken,
-
-
 });
 
 export default connect(mapStateToProps, {fetchProviderCategories, openGallery, changeCurrentId, changeNavbarAssets, fetchProviderData, fetchProviderProductsTypes, closeProviderGallery, resetProviderProductTypesData, openProviderGallery, changePopupProduct, openPopup}) (React.memo(ProviderScreen));

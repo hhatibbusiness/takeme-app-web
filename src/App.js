@@ -2,7 +2,7 @@ import './App.scss';
 import {Routes, Route, useNavigate, useLocation} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
 import {connect} from "react-redux";
-import {fetchAssets} from "./store/actions/assets.actions";
+import {endLoadingAssets, fetchAssets} from "./store/actions/assets.actions";
 import history from "./history/history";
 import About from "./screens/About/About";
 import Contract from "./screens/contract/Contract";
@@ -20,13 +20,15 @@ import ProductsDetails from "./screens/Home/Body/BodyContainer/ProductList/Produ
 import NotMobile from "./components/NotMobile/NotMobile";
 import {Suspense, lazy} from "react";
 import SpinnerComponent from "./components/Spinner/Spinner.Component";
-// import Home from './screens/Home/Home';
+import {KeepAlive} from "react-activation";
+import FallBack from "./components/FallBack/FallBack";
+import Home from './screens/Home/Home';
 // import Product from './screens/Product/Product';
 // import ProviderScreen from './screens/Provider/ProviderScreen';
 // import SearchScreen from "./screens/SearchScreen/SearchScreen";
 // import Intro from './components/Intro/Intro';
 
-const Home = lazy(() => import(/* webpackChunkName: "Home" */ './screens/Home/Home'));
+// const Home = lazy(() => import(/* webpackChunkName: "Home" */ './screens/Home/Home'));
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
 // const Home = lazy(() => import('./screens/Home/Home'));
 const Product = lazy(() => import(/* webpackChunkName: "Product" */ "./screens/Product/Product"));
@@ -36,7 +38,10 @@ const Intro = lazy(() => import(/* webpackChunkName: "Intro" */ "./components/In
 
 const App = (props) => {
     const [sidebar, setSidebar] = useState(false);
-    const [logoStart, setLogoStart] = useState(performance.getEntriesByType('navigation')[0].type != 'reload' ? null : localStorage.getItem('takemeFirstVisit'));
+    const [logoStart, setLogoStart] = useState({
+        firstTime: performance.getEntriesByType('navigation')[0].type != 'reload' ? null : localStorage.getItem('takemeFirstVisit'),
+        isFirstTime: performance.getEntriesByType('navigation')[0].type != 'reload' ? true : false
+    });
     const navigate = useNavigate();
     const [searching, setSearching] = useState(false);
     const location = useLocation();
@@ -49,13 +54,35 @@ const App = (props) => {
     const homeRef = useRef();
 
 
+    // useEffect(() => {
+    //     console.log(location.pathname);
+    //     if(logoStart != '1' && coverLoaded) {
+    //         setLogoStart(1);
+    //         localStorage.setItem("takemeFirstVisit", 1);
+    //     }
+    // }, [coverLoaded, logoStart]);
+
     useEffect(() => {
-        console.log(location.pathname);
-        if(logoStart != '1' && coverLoaded) {
-            setLogoStart(1);
-            localStorage.setItem("takemeFirstVisit", 1);
+        let timeOut;
+        // console.log('Hello there!', logoStart, localStorage.getItem('takemeFirstVisit'));
+        if(logoStart != '1') {
+            // if(true){
+            // console.log('Hello from intro');
+            timeOut = setTimeout(() => {
+                setLogoStart(prev => {
+                    return {
+                        ...prev,
+                        firstTime: 1
+                    }
+                });
+                localStorage.setItem("takemeFirstVisit", 1);
+            }, 1000);
         }
-    }, [coverLoaded, logoStart]);
+        return () => {
+            clearTimeout(timeOut);
+        }
+    }, [props.loadingAssets]);
+
 
     useEffect(async () => {
         await props.loadUser(navigate, props.lan);
@@ -122,27 +149,31 @@ const App = (props) => {
         <div className={'App'} style={{overflowY: `${(!logoStart && !coverLoaded) ? 'hidden' : 'auto'}`}} >
             {
                 // true  && <Suspense fallback={<SpinnerComponent />}><Intro /></Suspense>
-                (!logoStart && !coverLoaded && isMobile)  && <Suspense fallback={<SpinnerComponent />}><Intro /></Suspense>
+                (!logoStart.firstTime)  && <Suspense fallback={<FallBack full={true} />}><Intro /></Suspense>
             }
             {
-                !props.loadingAssets ? (
+                !props.loadingAssets && (
                     isMobile ? (
                         <>
-                            <Suspense fallback={<SpinnerComponent />}>
+                            <Suspense fallback={logoStart.isFirstTime ? <Intro /> : <SpinnerComponent full={true} />}>
                                 <Routes history={history}>
-                                    <Route path={'/'} element={<Suspense fallback={<SpinnerComponent />}> <Home coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} /></Suspense>} >
-                                        <Route path={'/product/:productId'} exact element={<Product />} >
-                                            <Route path={'popup/:id'} exact element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
-                                            <Route path={'gallery'} exact={true} element={<Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} />} />
+                                    <Route path={'/'} element={<Home coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />} >
+                                        {/*<Route path={'/product/:productId'} exact element={<Product />} >*/}
+                                        {/*    <Route path={'popup/:id'} exact element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />*/}
+                                        {/*    <Route path={'gallery'} exact={true} element={<Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} />} />*/}
+                                        {/*</Route>*/}
+                                        <Route path={'/product/:productId'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><Product /></Suspense>} >
+                                            <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
+                                            <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
                                         </Route>
-                                        <Route path={'/provider/:providerId'} exact element={<ProviderScreen />} >
-                                            <Route path={'gallery'} element={<Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} />} />
+                                        <Route path={'/provider/:providerId'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><ProviderScreen /></Suspense>} >
+                                            <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                             <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
                                         </Route>
                                         {/*<Route exact path={'/provider/:provider_id/ratings'} element={<KeepAlive cacheKey={'Ratings'}><ProviderRatings /></KeepAlive>} />*/}
-                                        <Route path={'/search'} exact element={<SearchScreen gallery={gallery} setGallery={setGallery} searching={searching} setSearching={setSearching} />} >
+                                        <Route path={'/search'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><SearchScreen gallery={gallery} setGallery={setGallery} searching={searching} setSearching={setSearching} /></Suspense>} >
                                             <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} >
-                                                <Route path={'gallery'} element={<Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} />} />
+                                                <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                             </Route>
                                         </Route>
                                         <Route path={'popup/:id'} exact element={<ProductsDetails currentProduct={currentProduct} popup={popup} setPopup={setPopup} setCurrentProduct={setCurrentProduct} />} />
@@ -159,7 +190,7 @@ const App = (props) => {
                     ) : (
                         <NotMobile />
                     )
-                ) : <SpinnerComponent />
+                )
             }
         </div>
     )
@@ -174,7 +205,8 @@ const mapStateToProps = state => ({
     lan: state.categories.lan,
     closeGallery: state.ui.closeGallery,
     galleryProduct: state.product.galleryProduct,
-    token: state.login.takemeUserToken
+    token: state.login.takemeUserToken,
+    assets: state.assets
 });
 
 export default connect(mapStateToProps, {fetchAssets, loadProvider, changeBackBtn, createOrder, loadUser, changePlatform}) (React.memo(App));

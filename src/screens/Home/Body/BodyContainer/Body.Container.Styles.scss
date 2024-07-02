@@ -34,5 +34,12 @@
       margin-top: -7px;
 
     }
+
+    .sticky {
+      position: fixed;
+      top: 70px;
+      margin-top: 0;
+      //transition: 0.3s;
+    }
   }
 }

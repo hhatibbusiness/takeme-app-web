@@ -1,0 +1,16 @@
+.FallBack {
+    width: 100%;
+    height: 100vh;
+    /*height: calc(100vh - 70px);*/
+    background: var(--main-color-green-light-1);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: white;
+    z-index: 1000;
+}
+
+.FallBack__full {
+    height: 100vh;
+    z-index: 1200;
+}

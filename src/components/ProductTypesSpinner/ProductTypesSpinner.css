@@ -1,13 +1,14 @@
 .ProductTypesSpinner {
     width: 100%;
     height: calc(100% - 70px - 130px);
-    background: var(--main-color-green-light-1);
+    /*background: var(--main-color-green-light-1);*/
     position: fixed;
     left: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.05);
     z-index: 1000;
     display: block;
+    background: transparent;
 }
 
 .PRoductTypesSpinner__spinner {

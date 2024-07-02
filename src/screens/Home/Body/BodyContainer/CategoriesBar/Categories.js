@@ -1,16 +1,28 @@
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import './Categories.css';
 import {connect} from "react-redux";
 import CategoryItem from './Category/Category';
-import {changeId} from "../../../../../store/actions/categories.action";
+import {changeId, fetchCategories} from "../../../../../store/actions/categories.action";
+import InfiniteScroll from "react-infinite-scroller";
+import {useNavigate} from "react-router-dom";
 
-const Categories = ({categories, provider, curId, loadingCategories, search, home}) => {
+const Categories = ({categories, provider, fetchCategories, filter, lan, curId, loadingCategories, search, home, page, more}) => {
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
     const [down, setDown] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [moreLoading, setMoreLoading] = useState(false);
 
     const categoriesRef = useRef();
     const containerRef = useRef();
+    const navigate = useNavigate();
+    const scrollParent = useRef();
+    const previousScrollLeft = useRef(0);
+
+
+    useEffect(() => {
+        setMoreLoading(more);
+    }, [more]);
 
     const mouseDownHandler = e => {
         const ele = categoriesRef.current;
@@ -34,19 +46,107 @@ const Categories = ({categories, provider, curId, loadingCategories, search, hom
         setDown(false);
     }
 
+    const loadMore = async () => {
+        if(categories?.length === 0 && page === 0) return;
+        if(!moreLoading) return;
+        if(!more) return setMoreLoading(false);
+        setLoading(true);
+        if(loading) return;
+        await fetchCategories(lan, filter, navigate, page);
+        setLoading(false);
+    }
+
+    const handleScroll = useCallback(() => {
+        const scrollParent = categoriesRef.current;
+        if (!scrollParent) return;
+        console.log(scrollParent.scrollRight)
+        const { scrollLeft, scrollWidth, clientWidth } = scrollParent;
+
+        const scrollDirectionX = scrollLeft > previousScrollLeft.current ? 'right' : 'left';
+
+        console.log(`Scrolling ${scrollDirectionX} horizontally `);
+
+        if(scrollDirectionX == 'left') {
+            if (Math.abs(scrollLeft) + clientWidth >= scrollWidth - 10 && moreLoading) {
+                console.log('Seriously scrolling!')
+                loadMore();
+            }
+        }
+
+        previousScrollLeft.current = scrollLeft;
+
+
+        console.log(Math.abs(scrollLeft) + clientWidth , scrollWidth - 10 , moreLoading)
+    }, [loadMore, moreLoading]);
+
+    useEffect(() => {
+        const scrollParent = categoriesRef.current;
+        if (scrollParent) {
+            scrollParent.addEventListener('scroll', handleScroll);
+            return () => {
+                scrollParent.removeEventListener('scroll', handleScroll);
+            };
+        }
+    }, [handleScroll, categoriesRef.current]);
+
+
+
     return (
         <div id={'categories'} className={`Categories ${provider ? 'Categories__shadow' : ''}`}>
             <div ref={categoriesRef} className="Categories__parent" onMouseDown={mouseDownHandler} onMouseLeave={mouseUpHandler} onMouseUp={mouseUpHandler} onMouseMove={mouseMoveHandler}>
+                {/*<div ref={scrollParent} className={'Categories__infinite'}>*/}
+                {/*    <InfiniteScroll*/}
+                {/*        pageStart={page}*/}
+                {/*        useWindow={false}*/}
+                {/*        // isReverse={false}*/}
+                {/*        horizontal={true}*/}
+                {/*        dataLength={categories.length}*/}
+                {/*        hasMore={moreLoading}*/}
+                {/*        initialLoad={false}*/}
+                {/*        loadMore={async () => {*/}
+                {/*            if(categories?.length === 0 && page === 0) return;*/}
+                {/*            if(!moreLoading) return;*/}
+                {/*            if(!more) return setMoreLoading(false);*/}
+                {/*            setLoading(true);*/}
+                {/*            if(loading) return;*/}
+                {/*            await fetchCategories(lan, filter, navigate, page);*/}
+                {/*            setLoading(false);*/}
+                {/*        }}*/}
+                {/*        threshold={50}*/}
+                {/*        getScrollParent={() => scrollParent.current}*/}
+                {/*    >*/}
+                {/*        <div className={'Categories__parent--parent'}>*/}
+                {/*        /!*    <div id={'Categories__container'} ref={containerRef} className="Categories__container">*!/*/}
+                {/*                    {*/}
+                {/*                        !loadingCategories && categories.map((cat, i) => (*/}
+                {/*                            <CategoryItem provider={provider} curId={curId} search={search} home={home} key={cat?.id && cat.id} cat={cat} />*/}
+                {/*                        ))*/}
+                {/*                    }*/}
+
+                {/*        /!*    </div>*!/*/}
+
+                {/*        </div>*/}
+                {/*    </InfiniteScroll>*/}
+
+                {/*</div>*/}
                 <div id={'Categories__container'} ref={containerRef} className="Categories__container">
                     {
                         !loadingCategories && categories.map((cat, i) => (
                             <CategoryItem provider={provider} curId={curId} search={search} home={home} key={cat?.id && cat.id} cat={cat} />
                         ))
                     }
+
                 </div>
             </div>
         </div>
     );
 };
 
-export default connect(null, {changeId}) (React.memo(Categories));
+const mapStateToProps = state => ({
+    more: state.categories.moreCategories,
+    page: state.categories.categoriesPage,
+    lan: state.categories.lan,
+    filter: state.categories.filter
+})
+
+export default connect(mapStateToProps, {changeId, fetchCategories}) (React.memo(Categories));
