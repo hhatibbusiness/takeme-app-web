@@ -544,8 +544,12 @@ import {connect} from "react-redux";
 import InfiniteScroll from "react-infinite-scroller";
 import {useNavigate, useParams} from "react-router-dom";
 import {fetchProviderProductsTypes} from '../../../store/actions/provider.actions';
+import SpinnerComponent from "../../../components/Spinner/Spinner.Component";
 
 const ProviderProductType = ({
+    setActive,
+    array,
+     containerHeight,
      productType,
      curId,
      openGallery,
@@ -562,7 +566,12 @@ const ProviderProductType = ({
      takemeProviderToken,
      currentUser,
      swiperInstance,
-     hidden
+     hidden,
+     index,
+    transformValue,
+    setTransformValue,
+    scrollValue,
+    setScrollValue
  }) => {
     const [moreLoading, setMoreLoading] = useState(false);
     const [gallery, setGallery] = useState(false);
@@ -571,6 +580,7 @@ const ProviderProductType = ({
     const [isScrollingDown, setIsScrollingDown] = useState(false);
     const [isAtBottom, setIsAtBottom] = useState(false);
     const [pageY, setPageY] = useState(null);
+    const [startY, setStartY] = useState(0);
 
     const providerRef = useRef();
     const imgRef = useRef();
@@ -579,9 +589,11 @@ const ProviderProductType = ({
 
     const params = useParams();
     const navigate = useNavigate();
+    const [transformed, setTransformed] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        console.log(isScrollingUp, isScrollingDown, swiperInstance);
+        // console.log(isScrollingUp, isScrollingDown, swiperInstance);
         if(pageY && active == productType?.id) {
             if(productType?.products?.length == 1) return setEnableSwiping(true);
 
@@ -592,44 +604,95 @@ const ProviderProductType = ({
         }
     }, [pageY, containerRef.current, hidden]);
 
+    const productTypeScrollHandler = async e => {
+        const element = imgContainer.current;
+        if(element) {
+            const { scrollTop, scrollHeight, clientHeight } = element;
+            console.log(Math.ceil(scrollTop + clientHeight), scrollHeight);
+            if(Math.ceil(scrollTop + clientHeight) == scrollHeight) {
+                console.log('User Scrolled to the bottom!', productType?.products?.length === 0 && productType?.page === 0, !moreLoading);
+                if(productType?.products?.length === 0 && productType?.page === 0) return;
+                if(!moreLoading) return;
+                if(!productType?.more) return setMoreLoading(false);
+                if(loadingProductTypes) return;
+                if(loading) return;
+                const data = {
+                    providerId: params.providerId,
+                    categoryListIds: !curId ? null : [curId],
+                    productTypeId: productType.id,
+                    page: productType.page,
+                    lan,
+                    filter,
+                    navigate
+                };
+
+                setLoading(true);
+
+                await fetchProviderProductsTypes(data);
+                setLoading(false);
+            }
+        }
+    }
+
+    useEffect(() => {
+        setMoreLoading(productType?.more);
+    }, [productType?.more]);
+
     return (
         <div
-            style={{ overflowY: `${!hidden ? 'hidden' : 'auto'}`}}
+            style={{ overflowY: `${!hidden ? 'hidden' : 'auto'}`, height: `${containerHeight}px`}}
              ref={imgContainer}
              className={'ProviderProductType'} id={'ProviderProductType'}
-             onScroll={e => {
-                 const content = imgContainer.current;
-                 setPageY(e.target.scrollTop);
+             // onScroll={e => {
+             //     const content = imgContainer.current;
+             //     setPageY(e.target.scrollTop);
+             //
+             //     if (isAtTop) {
+             //         setTransformValue(transformValue - containerHeight)
+             //     }
+             //
+             //     if(e.target.scrollTop > pageY) {
+             //         setIsScrollingDown(true);
+             //         setIsScrollingUP(false);
+             //
+             //         const content = imgContainer.current;
+             //
+             //         if(content) {
+             //             const currentScrollTop = Math.ceil(content.scrollTop);
+             //             setIsAtTop(currentScrollTop == 0);
+             //             setIsAtBottom(content.scrollHeight - currentScrollTop === content.clientHeight || Math.abs((content.scrollHeight - currentScrollTop) -  (content.clientHeight)) == 1 );
+             //             lastScrollTop.current = currentScrollTop;
+             //             if (content.scrollHeight - currentScrollTop === content.clientHeight || Math.abs((content.scrollHeight - currentScrollTop) -  (content.clientHeight)) == 1 ) {
+             //                setTransformValue(transformValue - containerHeight);
+             //             }
+             //         }
+             //     } else {
+             //         setIsScrollingDown(false);
+             //         setIsScrollingUP(true);
+             //         if(content) {
+             //             const currentScrollTop = Math.ceil(content.scrollTop);
+             //             console.log(currentScrollTop == 0);
+             //             setIsAtTop(currentScrollTop == 0);
+             //             setIsAtBottom(content.scrollHeight - currentScrollTop === content.clientHeight || Math.abs((content.scrollHeight - currentScrollTop) -  (content.clientHeight)) == 1 );
+             //             lastScrollTop.current = currentScrollTop;
+             //         }
+             //     }
+             // }}
 
-                 if(e.target.scrollTop > pageY) {
-                     setIsScrollingDown(true);
-                     setIsScrollingUP(false);
-
-                     const content = imgContainer.current;
-                     if(content) {
-                         const currentScrollTop = Math.ceil(content.scrollTop);
-                         setIsAtTop(currentScrollTop == 0);
-                         setIsAtBottom(content.scrollHeight - currentScrollTop === content.clientHeight || Math.abs((content.scrollHeight - currentScrollTop) -  (content.clientHeight)) == 1 );
-                         lastScrollTop.current = currentScrollTop;
-                     }
-                 }else {
-                     setIsScrollingDown(false);
-                     setIsScrollingUP(true);
-                 }
-             }}
+            onScroll={productTypeScrollHandler}
              onTouchStart={e => {
-                 console.log(productType.id, active)
                  setPageY(e.targetTouches[0].clientY);
                  setEnableSwiping(false);
+                 setStartY(e.targetTouches[0].clientY);
              }}
              onTouchMove={e => {
                  const content = imgContainer.current;
                  setPageY(e.targetTouches[0].clientY);
-                 console.log(e.targetTouches[0].clientY, pageY);
+                 // console.log(e.targetTouches[0].clientY, pageY);
 
-                 if(productType?.products?.length == 1) {
-                     return setEnableSwiping(true);
-                 }
+                 // if(productType?.products?.length == 1) {
+                 //     return setEnableSwiping(true);
+                 // }
 
                  if(content) {
                      const currentScrollTop = Math.ceil(content.scrollTop);
@@ -637,42 +700,75 @@ const ProviderProductType = ({
                      setIsAtBottom(content.scrollHeight - currentScrollTop === content.clientHeight || Math.abs((content.scrollHeight - currentScrollTop) -  (content.clientHeight)) == 1 );
                      lastScrollTop.current = currentScrollTop;
                      if(e.targetTouches[0].clientY < pageY) {
+
+                         if (content.scrollHeight - currentScrollTop === content.clientHeight || Math.abs((content.scrollHeight - currentScrollTop) -  (content.clientHeight)) == 1 ) {
+                             setScrollValue(e.targetTouches[0].clientY);
+                             if(Math.abs(e.targetTouches[0].clientY - startY) > containerHeight / 3 && !transformed && array.length != index + 1) {
+                                 setTransformValue(transformValue - containerHeight);
+                                 setTransformed(true);
+                                 // e.preventDefault();
+                                 setActive(array[index + 1].id);
+                             } else {
+                                // setTransformValue(e.targetTouches[0].clientY - startY);
+                                containerRef.current.style.transform = `translateY(${e.targetTouches[0].clientY - startY + transformValue}px)`
+                             }
+                         }
+
                          setIsScrollingDown(true);
                          setIsScrollingUP(false);
                      } else {
+                         if (currentScrollTop == 0) {
+                             if(Math.abs(e.targetTouches[0].clientY - startY) > containerHeight / 3 && !transformed && index != 0) {
+                                setTransformValue(transformValue + containerHeight);
+                                setTransformed(true);
+                                setActive(array[index -1 ].id);
+                             } else {
+                                 containerRef.current.style.transform = `translateY(${transformValue + (e.targetTouches[0].clientY - startY)}px)`
+                             }
+                             // setTransformValue(transformValue + containerHeight > 0 ? 0 : transformValue + containerHeight)
+                         }
+
                          setIsScrollingDown(false);
                          setIsScrollingUP(true);
                      }
-
                  }
                  setPageY(e.targetTouches[0].clientY);
              }}
+            onTouchEnd={e => {
+                setTransformed(false);
+                containerRef.current.style.transform = `translateY(${transformValue}px)`;
+            }}
         >
-            <InfiniteScroll
-                dataLength={productType?.products?.length}
-                pageStart={productType?.page}
-                loadMore={() => {
-                    if(productType?.products?.length === 0 && productType?.page === 0) return;
-                    if(!moreLoading) return;
-                    if(!productType?.more) return setMoreLoading(false);
-                    if(loadingProductTypes) return;
-                    const data = {
-                        providerId: params.providerId,
-                        categoryListIds: !curId ? null : [curId],
-                        productTypeId: productType.id,
-                        page: productType.page,
-                        lan,
-                        filter,
-                        navigate
-                    };
+            {/*<InfiniteScroll*/}
+            {/*    dataLength={productType?.products?.length}*/}
+            {/*    pageStart={productType?.page}*/}
+            {/*    getScrollParent={() => imgContainer.current}*/}
+            {/*    loadMore={() => {*/}
+            {/*        console.log('Triggered!', productType?.products?.length === 0 && productType?.page === 0);*/}
+            {/*        if(productType?.products?.length === 0 && productType?.page === 0) return;*/}
+            {/*        if(!moreLoading) return;*/}
+            {/*        if(!productType?.more) return setMoreLoading(false);*/}
+            {/*        if(loadingProductTypes) return;*/}
+            {/*        const data = {*/}
+            {/*            providerId: params.providerId,*/}
+            {/*            categoryListIds: !curId ? null : [curId],*/}
+            {/*            productTypeId: productType.id,*/}
+            {/*            page: productType.page,*/}
+            {/*            lan,*/}
+            {/*            filter,*/}
+            {/*            navigate*/}
+            {/*        };*/}
 
-                    fetchProviderProductsTypes(data);
-                }}
-                hasMore={moreLoading}
-                loader={<Loader />}
-                useWindow={false}
-            >
-                <div className={'ProviderProductType__container'}>
+            {/*        fetchProviderProductsTypes(data);*/}
+            {/*    }}*/}
+            {/*    hasMore={moreLoading}*/}
+            {/*    loader={<Loader />}*/}
+            {/*    useWindow={false}*/}
+
+            {/*>*/}
+                <div onScroll={e => {
+                    console.log('Hello')
+                }} className={'ProviderProductType__container'} style={{paddingBottom: '50px'}}>
                     {
                         productType?.products?.map((product, i) => (
                             <div className={'ProviderProductType__container--product'}>
@@ -683,9 +779,14 @@ const ProviderProductType = ({
                             </div>
                         ))
                     }
+                    {
+                        loading && <div className={'ProductType__spinner'}>
+                            <i className="fa-solid fa-circle-notch"></i>
+                        </div>
+                    }
 
                 </div>
-            </InfiniteScroll>
+            {/*</InfiniteScroll>*/}
         </div>
     );
 };

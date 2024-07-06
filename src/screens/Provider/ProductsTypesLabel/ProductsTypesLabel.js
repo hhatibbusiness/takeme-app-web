@@ -3,7 +3,7 @@ import './ProductsTypesLabel.scss';
 import {connect} from "react-redux";
 import ProductTypeLabel from "./ProductTypeLabel/ProductTypeLabel";
 
-const ProductsTypesLabel = ({loadingProductTypes, productTypes, swiper, active, setActive}) => {
+const ProductsTypesLabel = ({containerHeight, setTransformValue, transFormValue, loadingProductTypes, productTypes, swiper, active, setActive}) => {
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
     const [down, setDown] = useState(false);
@@ -45,7 +45,7 @@ const ProductsTypesLabel = ({loadingProductTypes, productTypes, swiper, active, 
                 <div className="ProductsTypesLabel__container">
                     {
                         !loadingProductTypes && productTypes?.map((productType, i) => (
-                            <ProductTypeLabel labelContainer={labelContainer} swiper={swiper} productTypes={productTypes} setActive={setActive} active={active} productType={productType} key={productType.id} />
+                            <ProductTypeLabel containerHeight={containerHeight} transformValue={transFormValue} setTransformValue={setTransformValue} labelContainer={labelContainer} index={i} swiper={swiper} productTypes={productTypes} setActive={setActive} active={active} productType={productType} key={productType.id} />
                         ))
                     }
                 </div>

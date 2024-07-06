@@ -154,7 +154,6 @@ const Product = ({product,  value, setCurrentProduct}) => {
         if(value == 100) {
             return navigate(`/product/${product.id}`);
         }
-        console.log(product);
         setCurrentProduct(product);
         navigate(`popup/${product?.id}`);
         logEvent(analytics, 'product_type_click', {

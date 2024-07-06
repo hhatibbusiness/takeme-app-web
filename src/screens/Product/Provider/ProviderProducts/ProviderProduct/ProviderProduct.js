@@ -73,7 +73,7 @@ const ProviderProduct = ({imgRef,searchPage, takemeProviderToken, openPopup, ser
                 clearInterval(timer);
                 timer = null;
                 titleRef?.current?.removeEventListener('touchstart', e => {
-                    console.log(e.target);
+                    // console.log(e.target);
                 })
             });
         }
@@ -83,7 +83,7 @@ const ProviderProduct = ({imgRef,searchPage, takemeProviderToken, openPopup, ser
             timer = null;
             if(titleRef?.current) {
                 titleRef.current.removeEventListener('touchstart', e => {
-                    console.log('Hello There!')
+                    // console.log('Hello There!')
                 });
             }
         }
@@ -283,7 +283,7 @@ const ProviderProduct = ({imgRef,searchPage, takemeProviderToken, openPopup, ser
     const params = useParams();
 
     useEffect(() => {
-        console.log(window?.location);
+        // console.log(window?.location);
     }, []);
 
     return (
@@ -366,7 +366,7 @@ const ProviderProduct = ({imgRef,searchPage, takemeProviderToken, openPopup, ser
                                                                         token: takemeProviderToken,
                                                                         navigate
                                                                     };
-                                                                    console.log(status, data);
+                                                                    // console.log(status, data);
                                                                     await editProviderProduct(data);
                                                                     setEditing(false);
                                                                     setTitleEdit(false);

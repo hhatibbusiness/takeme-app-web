@@ -36,7 +36,27 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
     const [containerScroll, setContainerScroll] = useState(false);
     const [currentProductType, setCurrentProductType] = useState(0);
     const swiperRef=useRef();
+    const [productTypeHeight, setProductTypeHeight] = useState(0);
+    const location = useLocation();
+    const providerScreenRef = useRef();
+    const [transformValue, setTransformValue] = useState(0);
+    const [scrollValue, setScrollValue] = useState(0);
 
+    const categoriesContainerRef = useRef();
+    const providerProductTypeContainerRef = useRef();
+
+    useEffect(() => {
+        const barsContainer = categoriesContainerRef.current;
+
+        if(barsContainer) {
+            // console.log(window.innerHeight, barsContainer.offsetHeight)
+            const barsHeight = barsContainer.getBoundingClientRect().height;
+            // console.log(barsHeight);
+            const remainsHeight = window.innerHeight - barsHeight - 52;
+            // console.log(remainsHeight);
+            setProductTypeHeight(remainsHeight);
+        }
+    }, [categoriesContainerRef.current?.offsetHeight]);
 
     useEffect(() => {
         const swiperContainer = swiperRef?.current?.swiper;
@@ -44,13 +64,13 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
         if(swiperContainer) {
             removeInlineStyles = () => {
                 const slides = swiperContainer.slides;
-                slides.forEach((slide) => {
-                    slide.style.height = ''; // Remove inline height
-                    slide.style.marginBottom = ''; // Remove inline margin-bottom
-                });
+                // slides.forEach((slide) => {
+                //     slide.style.height = ''; // Remove inline height
+                //     slide.style.marginBottom = ''; // Remove inline margin-bottom
+                // });
             };
 
-            console.log(swiperContainer)
+            // console.log(swiperContainer)
             removeInlineStyles();
             swiperContainer.on('slideChange', removeInlineStyles);
 
@@ -108,7 +128,7 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
                 page: 0
             };
 
-            console.log('Loading ProductTypes!')
+            // console.log('Loading ProductTypes!')
             await fetchProviderProductsTypes(data);
         })();
     }, [params.providerId, curId]);
@@ -157,7 +177,7 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
                 search: true,
                 logoLink: '/'
             };
-            console.log(data);
+            // console.log(data);
             changeNavbarAssets(data);
         }
     }, []);
@@ -175,17 +195,16 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
         fetchProviderCategories(data);
     }, []);
 
-    const location = useLocation();
-    const providerScreenRef = useRef();
+    useEffect(() => {
+        setTransformValue(0);
+    }, [curId]);
 
-    const categoriesContainerRef = useRef();
-    const providerProductTypeContainerRef = useRef();
 
     useEffect(() => {
         const productTypesContainer = providerProductTypeContainerRef?.current;
         const categoriesContainer = categoriesContainerRef?.current;
         if(productTypesContainer && categoriesContainer) {
-            productTypesContainer.style.height = `${window?.innerHeight - categoriesContainer.getBoundingClientRect().height - 50}px`;
+            // productTypesContainer.style.height = `${window?.innerHeight - categoriesContainer.getBoundingClientRect().height - 50}px`;
         }
     }, [providerProductTypeContainerRef?.current, categoriesContainerRef?.current]);
 
@@ -193,25 +212,33 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
         const providerContainer = providerProductTypeContainerRef?.current;
         if(providerContainer) {
             const slides = providerContainer.querySelectorAll('.swiper-slide');
-            slides.forEach((slide) => {
-                console.log(slide);
-                slide.style.height = 'auto'; // Override the default height
-                slide.style.marginBottom = '0'; // Override the default margin
-            });
+            // slides.forEach((slide) => {
+            //     console.log(slide);
+            //     slide.style.height = 'auto'; // Override the default height
+            //     slide.style.marginBottom = '0'; // Override the default margin
+            // });
         }
     }, [providerProductTypeContainerRef?.current]);
 
+    useEffect(() => {
+        const providerProducttypeContainer = providerProductTypeContainerRef.current;
+        if(providerProducttypeContainer) {
+            // console.log('transform changed!')
+            providerProducttypeContainer.style.transform = `translateY(${transformValue}px)`
+        }
+
+    }, [providerProductTypeContainerRef.current, transformValue]);
 
     return (
         <>
             <KeepAlive cacheKey={'Provider'}>
                 <div
-                    style={{overflowY: `${hideCover ? 'auto' : 'hidden'}`}}
+                    style={{overflowY: `hidden`}}
                     onTouchStart={e => {
                         setProviderPosition(e.targetTouches[0].clientY);
                     }}
                     onTouchMove={e => {
-                        if(e.targetTouches[0].clientY < providerPosition) {
+                        if(e.targetTouches[0].clientY < providerPosition + 150) {
                             setHideCover(true);
                         }
 
@@ -230,7 +257,7 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
                                         setCategoryBarPosition(e.targetTouches[0].clientY);
                                     }}
                                     onTouchMove={e => {
-                                        if(e.targetTouches[0].clientY > categoryBarPosition) {
+                                        if(e.targetTouches[0].clientY + 100 > categoryBarPosition) {
                                             setHideCover(false);
                                             setCategoryBarPosition(e.targetTouches[0].clientY);
                                         }
@@ -239,69 +266,69 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
                                     ref={categoriesContainerRef}
                                 >
                                     <Categories loadingCategories={loadingCategories} categories={categories} provider={true} curId={curId} />
-                                    {!loadingProductTypes && productTypes?.length > 0 && <ProductsTypesLabel swiper={swiperInstance} active={active} setActive={setActive} />}
+                                    {!loadingProductTypes && productTypes?.length > 0 && <ProductsTypesLabel transFormValue={transformValue} containerHeight={productTypeHeight} setTransformValue={setTransformValue} swiper={swiperInstance} active={active} setActive={setActive} />}
                                 </div>
                                 {
                                     loadingProductTypes ? (
                                         <SpinnerComponent />
                                     ) : (
                                         <div
-                                            ref={providerProductTypeContainerRef} className={`ProviderScreen__productTypes--container`}
-                                            style={{overflowY: `${!hideCover ? 'hidden': 'auto'}`}}
+                                            ref={providerProductTypeContainerRef}
+                                            className={`ProviderScreen__productTypes--container`}
                                         >
-                                            <Swiper
-                                                onSwiper={swiper => {
-                                                    swiperRef.current = swiper.el;
-                                                    setSwiperInstance(swiper);
-                                                    console.log(swiper.slides);
-                                                    swiper.slides.map((slide) => {
-                                                        slide.style.height = 'auto';
-                                                    });
-                                                }}
-                                                // virtual={true}
-                                                direction={'vertical'}
-                                                spaceBetween={20}
-                                                className={'mySwiper'}
-                                                slidesPerView={1}
-                                                coverflowEffect={{
-                                                    rotate: 50,
-                                                    stretch: 0,
-                                                    modifier: 3,
-                                                    slideShadows: false,
-                                                }}
-                                                grabCursor={true}
-                                                onSlideChange={slider => {
-                                                    console.log(slider.activeIndex);
-                                                    setActive(productTypes[slider.activeIndex]?.id);
-                                                    setTScroll(false);
-                                                    setBScroll(false);
-                                                }}
-                                                // onReachEnd={swiper => {
-                                                //     if(more) {
-                                                //         const data = {
-                                                //             providerId: params.providerId,
-                                                //             categoryListIds: (curId === 0 || curId === null) ?  null : [curId],
-                                                //             productTypeId: null,
-                                                //             navigate,
-                                                //             filter,
-                                                //             lan,
-                                                //             page
-                                                //         };
-                                                //         fetchProviderProductsTypes(data);
-                                                //     }
-                                                // }}
-                                                // autoHeight={false}
-                                            >
+                                            {/*<Swiper*/}
+                                            {/*    onSwiper={swiper => {*/}
+                                            {/*        swiperRef.current = swiper.el;*/}
+                                            {/*        setSwiperInstance(swiper);*/}
+                                            {/*        console.log(swiper.slides);*/}
+                                            {/*        // swiper.slides.forEach(slide => { slide.style.height = '500px'; })*/}
+                                            {/*    }}*/}
+                                            {/*    // virtual={true}*/}
+                                            {/*    direction={'vertical'}*/}
+                                            {/*    spaceBetween={20}*/}
+                                            {/*    className={'mySwiper'}*/}
+                                            {/*    slidesPerView={1}*/}
+                                            {/*    coverflowEffect={{*/}
+                                            {/*        rotate: 50,*/}
+                                            {/*        stretch: 0,*/}
+                                            {/*        modifier: 3,*/}
+                                            {/*        slideShadows: false,*/}
+                                            {/*    }}*/}
+                                            {/*    grabCursor={true}*/}
+                                            {/*    onSlideChange={slider => {*/}
+                                            {/*        console.log(slider.activeIndex);*/}
+                                            {/*        setActive(productTypes[slider.activeIndex]?.id);*/}
+                                            {/*        setTScroll(false);*/}
+                                            {/*        setBScroll(false);*/}
+                                            {/*    }}*/}
+                                            {/*    // onReachEnd={swiper => {*/}
+                                            {/*    //     if(more) {*/}
+                                            {/*    //         const data = {*/}
+                                            {/*    //             providerId: params.providerId,*/}
+                                            {/*    //             categoryListIds: (curId === 0 || curId === null) ?  null : [curId],*/}
+                                            {/*    //             productTypeId: null,*/}
+                                            {/*    //             navigate,*/}
+                                            {/*    //             filter,*/}
+                                            {/*    //             lan,*/}
+                                            {/*    //             page*/}
+                                            {/*    //         };*/}
+                                            {/*    //         fetchProviderProductsTypes(data);*/}
+                                            {/*    //     }*/}
+                                            {/*    // }}*/}
+                                            {/*    autoHeight={true}*/}
+                                            {/*>*/}
                                                 {
-                                                    productTypes?.map((productType, i) => (
-                                                        <SwiperSlide className={`ProviderScreen__swiper`} style={{height: '700px !important'}} key={productType?.id}>
+                                                    productTypes?.map((productType, i, array) => (
+                                                        // <SwiperSlide className={`ProviderScreen__swiper`} key={productType?.id}>
                                                             <ProviderProductType
+                                                                setActive={setActive}
+                                                                array={array}
                                                                 currentUser={currentUser}
                                                                 takemeUserToken={takemeUserToken}
                                                                 takemeProviderData={takemeProviderData}
                                                                 takemeProviderToken={takemeProviderToken}
                                                                 productTypes={productTypes}
-                                                                containerRef={providerScreenRef}
+                                                                containerRef={providerProductTypeContainerRef}
                                                                 index={i}
                                                                 tScroll={tScroll}
                                                                 setTScroll={setTScroll}
@@ -321,11 +348,16 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
                                                                 currentProductType={currentProductType}
                                                                 setCurrentProductType={setCurrentProductType}
                                                                 productTypeContainer={providerProductTypeContainerRef}
+                                                                containerHeight={productTypeHeight}
+                                                                transformValue={transformValue}
+                                                                setTransformValue={setTransformValue}
+                                                                scrollValue={scrollValue}
+                                                                setScrollValue={setScrollValue}
                                                             />
-                                                        </SwiperSlide>
+                                                        // </SwiperSlide>
                                                     ))
                                                 }
-                                            </Swiper>
+                                            {/*</Swiper>*/}
                                         </div>
                                     )
                                 }

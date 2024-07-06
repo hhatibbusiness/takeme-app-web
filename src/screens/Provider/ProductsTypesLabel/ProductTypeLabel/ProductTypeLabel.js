@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import './ProductTypeLabel.scss';
 
-const ProductTypeLabel = ({ productType, labelContainer, active, setActive, swiper, productTypes }) => {
+const ProductTypeLabel = ({ productType, index, containerHeight, transformValue, setTransformValue, labelContainer, active, setActive, swiper, productTypes }) => {
     const labelRef = useRef();
 
     useEffect(() => {
@@ -9,9 +9,9 @@ const ProductTypeLabel = ({ productType, labelContainer, active, setActive, swip
         const container = labelContainer?.current;
         if(label && container) {
             const elemDistance = window.pageXOffset + label.getBoundingClientRect().right;
-            console.log(elemDistance);
+            // console.log(elemDistance);
             if(elemDistance < 0 && productType.id == active) {
-                console.log(elemDistance, );
+                // console.log(elemDistance, );
                 container.scrollLeft -= (Math.abs(elemDistance) + label.getBoundingClientRect().width + 10);
             } else if(elemDistance > container.getBoundingClientRect().width) {
                 container.scrollLeft += (elemDistance - container.getBoundingClientRect().width);
@@ -19,11 +19,17 @@ const ProductTypeLabel = ({ productType, labelContainer, active, setActive, swip
         }
     }, [active, labelRef?.current, labelContainer?.current]);
 
+    const productTypeClickHandler = () => {
+        const productTypeTransformValue = index * containerHeight;
+        setTransformValue(-productTypeTransformValue);
+    }
+
     return (
         <div ref={labelRef} onClick={e => {
             setActive(productType?.id);
-            swiper.enable();
-            swiper.slideTo(productTypes?.findIndex(p => p.id == productType?.id), 1500);
+            // swiper.enable();
+            // swiper.slideTo(productTypes?.findIndex(p => p.id == productType?.id), 1500);
+            productTypeClickHandler();
         }} className={`ProductTypeLabel ${active == productType?.id && 'ProductTypeLabel__active'}`}>
             {productType?.name}
         </div>

@@ -13,14 +13,13 @@
   height: calc(100vh + 10px);
   padding-top: 50px;
 
-  .ProviderScreen__productTypes--container {
-    .mySwiper {
-      //height: 600px;
+  .ProviderScreen__profile--container {
+    position: relative;
+    z-index: 100;
+  }
 
-      .swiper-wrapper {
-        //height: 600px;
-      }
-    }
+  .ProviderScreen__productTypes--container {
+    transition: transform 0.2s;
   }
 
   .Provider__categories {
@@ -43,7 +42,6 @@
     min-height: unset;
   }
 
-
   .ProviderProfile {
     display: flex;
     flex-direction: column;
@@ -57,6 +55,7 @@
       align-items: center;
       padding-top: 15px;
       text-align: center;
+
       .ProviderBody__location {
         position: absolute;
         left: 20px;
@@ -109,9 +108,9 @@
 }
 
 .swiper-slide {
-  max-height: 100vh !important;
-  //height: 700px !important;
-  height: calc(100vh - 150px) !important;
+  //max-height: 100vh !important;
+  height: auto !important;
+  //height: calc(100vh - 150px) !important;
 }
 
 @keyframes display-an {

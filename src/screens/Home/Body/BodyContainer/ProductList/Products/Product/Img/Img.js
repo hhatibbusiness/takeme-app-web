@@ -50,9 +50,9 @@ const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gall
                 ref={transformContainerRef}
                 className={'Img__container'}
                 onTouchStart={e => {
-                    console.log('touch start!', e.touches);
+                    // console.log('touch start!', e.touches);
                     if(e.touches.length === 2) {
-                        console.log('touch double!')
+                        // console.log('touch double!')
                         setStartDistance(getDistance(e.touches));
                     }
                 }}
@@ -93,9 +93,9 @@ const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gall
                             if(isDefaultWorking) {
                                 setDefaultImage(productDefault);
                             } else {
-                                console.log(defaultImage);
+                                // console.log(defaultImage);
                                 const imgUrlArray = defaultImage?.split('.');
-                                console.log(imgUrlArray);
+                                // console.log(imgUrlArray);
                                 imgUrlArray[imgUrlArray.length - 2] = `${imgUrlArray[imgUrlArray?.length - 2]}`.replace('_original', '');
                                 setDefaultImage(imgUrlArray.join('.'));
                                 setIsDefaultWorking(true);
@@ -125,10 +125,10 @@ const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gall
                     setError(false);
                     setLoaded(true);
                     setHidden(false);
-                    console.log('Image Loaded!', imgUrl)
+                    // console.log('Image Loaded!', imgUrl)
 
                 }} onError={e => {
-                    console.log('Image Error!', imgUrl);
+                    // console.log('Image Error!', imgUrl);
                     setLoaded(true);
                     setImgLoaded(true);
                     if(provider) {
