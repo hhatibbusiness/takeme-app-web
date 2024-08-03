@@ -8,7 +8,7 @@ import {getAnalytics, logEvent} from "firebase/analytics";
 import searchIcon from '../../../../assets/images/searchIcon.png';
 
 
-const Search = ({searching, searchPage, loadingSearchResults, term, changeSearchTerm}) => {
+const Search = ({searching, store, searchPage, loadingSearchResults, term, changeSearchTerm}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [typing, setTyping] = useState(false);
     const [clicking, setClicking] = useState(false);
@@ -68,12 +68,13 @@ const Search = ({searching, searchPage, loadingSearchResults, term, changeSearch
     return (
         <>
             <div onClick={() => {
+                if(store) return;
                 if(!window?.location?.href.includes('search')) {
                     navigate('/search');
                 }
                 const analytics = getAnalytics();
                 logEvent(analytics, 'search_bar', {});
-            }} className={`Search Search__input--focused ${inputFocus && 'Search__input--searching'}`}>
+            }} className={`Search Search__input--focused ${inputFocus && 'Search__input--searching'} ${store && 'Search__invisible'}`}>
                 <form onSubmit={e=> e.preventDefault()} className={`Search__form `}>
                     <input id={'Search__input'} onFocus={e => {
                         if(searchPage) {
@@ -102,6 +103,7 @@ const Search = ({searching, searchPage, loadingSearchResults, term, changeSearch
 
 const mapStateToProps = state => ({
     lan: state.categories.lan,
+    store: state.categories.store
 });
 
 export default connect(mapStateToProps, {fetchSearchResults, changeSearchTerm}) (memo(Search));

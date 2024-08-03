@@ -57,6 +57,7 @@ const Categories = ({categories, provider, fetchCategories, filter, lan, curId, 
     }
 
     const handleScroll = useCallback(() => {
+        console.log('Scrolling!');
         const scrollParent = categoriesRef.current;
         if (!scrollParent) return;
         console.log(scrollParent.scrollRight)
@@ -74,9 +75,6 @@ const Categories = ({categories, provider, fetchCategories, filter, lan, curId, 
         }
 
         previousScrollLeft.current = scrollLeft;
-
-
-        console.log(Math.abs(scrollLeft) + clientWidth , scrollWidth - 10 , moreLoading)
     }, [loadMore, moreLoading]);
 
     useEffect(() => {

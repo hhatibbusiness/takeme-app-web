@@ -4,18 +4,18 @@ import {
     CHANGE_FILTER,
     CHANGE_LAN_SUCCESS,
     CHANGE_SLIDER_VALUE,
-    END_FETCHING_CATEGORIES,
+    END_FETCHING_CATEGORIES, END_FETCHING_MARKET_STORES,
     END_FETCHING_PRODUCTS,
     END_LOADING_MORE_PRODUCT_TYPES,
     ERROR_ACTIVE,
     ERROR_INACTIVE,
     FETCH_CATEGORIES_SUCCESS,
-    FETCH_CATEGORY_PRODUCTS, INCREASE_CATEGORIES_PAGE_NUMBER,
-    INCREASE_PAGE_NUMBER,
+    FETCH_CATEGORY_PRODUCTS, FETCH_MARKET_STORES, INCREASE_CATEGORIES_PAGE_NUMBER,
+    INCREASE_PAGE_NUMBER, RESET_CATEGORIES_PAGE, RESET_MARKET_STORE_DATA,
     RESET_PAGE_NUMBER,
-    START_FETCHING_CATEGORIES,
+    START_FETCHING_CATEGORIES, START_FETCHING_MARKET_STORES,
     START_FETCHING_PRODUCTS,
-    START_LOADING_MORE_PRODUCT_TYPES
+    START_LOADING_MORE_PRODUCT_TYPES, SWITCH_MARKET_STORE
 } from "./action.types";
 import {BASE_URL} from "../../utls/assets";
 import {getAnalytics, logEvent} from "firebase/analytics";
@@ -49,10 +49,10 @@ export const increaseCategoriesPageNumber= {
 }
 
 
-export const fetchCategories = (lan, filter, navigate, page) => async dispatch => {
+export const fetchCategories = (lan, filter, navigate, page, storePage, store) => async dispatch => {
     try {
         if(page == 0) dispatch(startFetchingProducts);
-        const res = await axios.get(`${BASE_URL}endpoints/categories/list-no-empty?locale=${lan}&&page=${page}`);
+        const res = await axios.get(`${BASE_URL}endpoints/categories/list-no-empty?locale=${lan}&&page=${page}&&filterByAction=${filter}`);
         let categories;
         if(page == 0) {
             const allCategory =       {
@@ -88,7 +88,20 @@ export const fetchCategories = (lan, filter, navigate, page) => async dispatch =
         // dispatch(errorActive);
         dispatch(errorInactive);
         if(page == 0) await dispatch(changeId(firstId));
-        if(page == 0) await dispatch(fetchCategoryProducts(firstId, lan, 0, filter, navigate));
+        console.log(store);
+        if(store) {
+            if(storePage == 0) {
+                const data = {
+                    lan,
+                    page,
+                    filter,
+                    categoryId: 0
+                }
+                await dispatch(fetchMarketStores(data));
+            }
+        }else {
+            if(page == 0) await dispatch(fetchCategoryProducts(firstId, lan, 0, filter, navigate));
+        }
         return res;
     }catch (err) {
         if(err?.response?.status == 401) {
@@ -167,13 +180,13 @@ export const changeSliderValue = value => ({
     value
 });
 
-export const changeLan = (lan, id) => async dispatch => {
+export const changeLan = (lan, id, filter) => async dispatch => {
     try {
         dispatch({
             type: CHANGE_LAN_SUCCESS,
             lan
         });
-        await dispatch(fetchCategories(lan));
+        await dispatch(fetchCategories(lan, filter));
         await dispatch(fetchCategoryProducts(id, lan, 0));
         // dispatch(errorActive);
         dispatch(errorInactive);
@@ -192,17 +205,56 @@ export const increasePageNumber = () => ({
 export const resetPageNumber = () => ({
     type: RESET_PAGE_NUMBER
 });
+export const resetCategoriesPage = {
+    type: RESET_CATEGORIES_PAGE
+}
 
-export const changeFilter = (id, lan, page, navigate, filter) => async dispatch => {
+export const changeFilter = (id, lan, page, navigate, filter, store) => async dispatch => {
     try {
+        console.log(store)
         dispatch({
             type: CHANGE_FILTER,
             filter: filter
         });
+        dispatch(resetCategoriesPage);
         dispatch(resetPageNumber());
-        const res = await dispatch(fetchCategoryProducts(id, lan, page, filter, navigate));
-        return res;
+        dispatch(resetMarketStoreData());
+        await dispatch(fetchCategories(lan, filter, navigate, 0, 0, store));
+        // const res = await dispatch(fetchCategoryProducts(id, lan, page, filter, navigate));
+        // return res;
     } catch (e) {
         console.log(e.message);
     }
 };
+
+export const startFetchingMarketStores = {
+    type: START_FETCHING_MARKET_STORES
+}
+
+export const endFetchingMarketStores = {
+    type: END_FETCHING_MARKET_STORES
+}
+
+export const fetchMarketStores = data => async dispatch => {
+    try {
+        // if(data.page == 0) dispatch(startFetchingMarketStores);
+        const res = await axios.get(`${BASE_URL}endpoints/stores-list?locale=${data.lan}&page=${data.page}&filterByAction=${data.filter}&categoryId=${data.categoryId}&itemsCount=10`);
+        console.log(res);
+        dispatch({
+            type: FETCH_MARKET_STORES,
+            stores: res.data.output
+        });
+        dispatch(endFetchingMarketStores);
+    } catch (e) {
+        console.error(e.message);
+    }
+}
+
+export const switchMarketStore = value => ({
+    type: SWITCH_MARKET_STORE,
+    value
+});
+
+export const resetMarketStoreData = () => ({
+    type: RESET_MARKET_STORE_DATA
+})

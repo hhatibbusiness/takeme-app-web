@@ -15,7 +15,12 @@ const initialState = {
     filter: 'NONE',
     containerHeight: 'auto',
     categoriesPage: 0,
-    moreCategories: false
+    moreCategories: false,
+    storePage: 0,
+    stores: [],
+    moreStores: false,
+    fetchingStores: false,
+    store: false
 };
 
 export default (state = initialState, action) => {
@@ -113,6 +118,41 @@ export default (state = initialState, action) => {
                 ...state,
                 page: 0,
                 products: [],
+            }
+        case actionTypes.RESET_CATEGORIES_PAGE:
+            return {
+                ...state,
+                categoriesPage: 0,
+                categories: []
+            }
+        case actionTypes.START_FETCHING_MARKET_STORES:
+            return {
+                ...state,
+                fetchingStores: true
+            }
+        case actionTypes.END_FETCHING_MARKET_STORES:
+            return {
+                ...state,
+                fetchingStores: false
+            }
+        case actionTypes.FETCH_MARKET_STORES:
+            return {
+                ...state,
+                stores: [...state.stores, ...action.stores],
+                storePage: state.storePage + 1,
+                moreStores: action.stores.length == 10
+            }
+        case actionTypes.SWITCH_MARKET_STORE:
+            return {
+                ...state,
+                store: action.value
+            }
+        case actionTypes.RESET_MARKET_STORE_DATA:
+            return {
+                ...state,
+                stores: [],
+                storePage: 0,
+                moreStores: false
             }
         default:
             return state;

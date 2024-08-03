@@ -66,7 +66,7 @@ export default (state = initialState, action ) => {
                     page: 1
                 }
             });
-            // console.log(productTypes)
+            console.log(productTypes)
             return {
                 ...state,
                 productTypes: [...state.productTypes, ...productTypes],

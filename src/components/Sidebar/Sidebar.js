@@ -20,7 +20,7 @@ import Img from "../../screens/Home/Body/BodyContainer/ProductList/Products/Prod
 import logo from "../../assets/images/defaults/logo-default-image.svg";
 import ProviderPreview from "./ProviderPreview/ProviderPreview";
 
-const Sidebar = ({assets, setSidebar, user, takemeProviderData, sidebar, isAuthenticated, logout, changeFilter, filter, lan, changeLan, categories}) => {
+const Sidebar = ({assets, setSidebar, store, user, takemeProviderData, sidebar, isAuthenticated, logout, changeFilter, filter, lan, changeLan, categories}) => {
     const [langShow, setLanShow] = useState(false);
     const [filterShow, setFilterShow] = useState(false);
     const [socialShow, setSocialShow] = useState(false);
@@ -71,14 +71,15 @@ const Sidebar = ({assets, setSidebar, user, takemeProviderData, sidebar, isAuthe
     }
 
     const filterHandleChange = async e => {
+        console.log(store);
         const filterElement = e.target.closest('.Sidebar__sublinks--element');
         if(!filterElement) return;
         const input = filterElement.querySelector('input');
         if(!input) return;
         const id = categories[0]?.id;
-        const containerDiv = document.querySelector('.Products');
+        const containerDiv = !store ? document.querySelector('.Products') : document.querySelector('.Store');
         containerDiv.style.height = `${containerDiv.offsetHeight}px`;
-        const res = await changeFilter(id, lan, 0, navigate, input.value);
+        const res = await changeFilter(id, lan, 0, navigate, input.value, store);
         containerDiv.style.height = 'auto';
     }
 
@@ -258,7 +259,8 @@ const mapStateToProps = state => ({
     page: state.categories.page,
     user: state.login.data,
     takemeProviderData: state.login.takemeProviderData,
-    takemeProviderToken: state.login.takemeProviderToken
+    takemeProviderToken: state.login.takemeProviderToken,
+    store: state.categories.store
 });
 
 export default connect(mapStateToProps, {changeLan, changeFilter, logout}) (Sidebar);

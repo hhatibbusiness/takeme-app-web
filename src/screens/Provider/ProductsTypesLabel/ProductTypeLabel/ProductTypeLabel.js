@@ -8,14 +8,29 @@ const ProductTypeLabel = ({ productType, index, containerHeight, transformValue,
         const label = labelRef?.current;
         const container = labelContainer?.current;
         if(label && container) {
+            // console.log(container.scrollLeft);
             const elemDistance = window.pageXOffset + label.getBoundingClientRect().right;
-            // console.log(elemDistance);
-            if(elemDistance < 0 && productType.id == active) {
-                // console.log(elemDistance, );
-                container.scrollLeft -= (Math.abs(elemDistance) + label.getBoundingClientRect().width + 10);
-            } else if(elemDistance > container.getBoundingClientRect().width) {
-                container.scrollLeft += (elemDistance - container.getBoundingClientRect().width);
+            const labelWidth = label.getBoundingClientRect().width;
+            if (productType.id == active) {
+                console.log(label.getBoundingClientRect().left, container.getBoundingClientRect().left, container.scrollLeft, container.clientWidth / 2, label.clientWidth / 2);
+
+                const offset = label.getBoundingClientRect().left - container.getBoundingClientRect().left + container.scrollLeft - (container.clientWidth / 2) + (label.clientWidth / 2);
+                console.log(offset)
+                container.scrollTo({
+                    left: offset,
+                    behavior: 'smooth' // Smooth scrolling
+                });
             }
+
+
+            // if((elemDistance < 0 || elemDistance < labelWidth * 2) && productType.id == active ) {
+                // console.log(elemDistance);
+
+                // container.scrollLeft = -container.getBoundingClientRect().width / 2;
+                // container.scrollLeft -= (Math.abs(elemDistance) + labelWidth / 2);
+            // } else if(elemDistance > container.getBoundingClientRect().width) {
+                // container.scrollLeft += (elemDistance - container.getBoundingClientRect().width + 150);
+            // }
         }
     }, [active, labelRef?.current, labelContainer?.current]);
 

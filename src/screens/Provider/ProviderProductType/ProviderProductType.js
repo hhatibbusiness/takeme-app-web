@@ -545,6 +545,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import {useNavigate, useParams} from "react-router-dom";
 import {fetchProviderProductsTypes} from '../../../store/actions/provider.actions';
 import SpinnerComponent from "../../../components/Spinner/Spinner.Component";
+import ChangeIndication from "./ChangeIndication/ChangeIndication";
 
 const ProviderProductType = ({
     setActive,
@@ -571,7 +572,13 @@ const ProviderProductType = ({
     transformValue,
     setTransformValue,
     scrollValue,
-    setScrollValue
+    setScrollValue,
+    indicationBottom,
+    setIndicationBottom,
+    next,
+    prev,
+    indicationTop,
+    setIndicationTop
  }) => {
     const [moreLoading, setMoreLoading] = useState(false);
     const [gallery, setGallery] = useState(false);
@@ -701,7 +708,9 @@ const ProviderProductType = ({
                      lastScrollTop.current = currentScrollTop;
                      if(e.targetTouches[0].clientY < pageY) {
 
-                         if (content.scrollHeight - currentScrollTop === content.clientHeight || Math.abs((content.scrollHeight - currentScrollTop) -  (content.clientHeight)) == 1 ) {
+                         if (content.scrollHeight - currentScrollTop === content.clientHeight || Math.abs((content.scrollHeight - currentScrollTop) -  (content.clientHeight)) == 1 && !productType?.more) {
+                            setIndicationBottom(true);
+                            // setIndicationTop(false);
                              setScrollValue(e.targetTouches[0].clientY);
                              if(Math.abs(e.targetTouches[0].clientY - startY) > containerHeight / 3 && !transformed && array.length != index + 1) {
                                  setTransformValue(transformValue - containerHeight);
@@ -718,6 +727,8 @@ const ProviderProductType = ({
                          setIsScrollingUP(false);
                      } else {
                          if (currentScrollTop == 0) {
+                             // setIndicationBottom(false);
+                             setIndicationTop(true);
                              if(Math.abs(e.targetTouches[0].clientY - startY) > containerHeight / 3 && !transformed && index != 0) {
                                 setTransformValue(transformValue + containerHeight);
                                 setTransformed(true);
@@ -735,58 +746,31 @@ const ProviderProductType = ({
                  setPageY(e.targetTouches[0].clientY);
              }}
             onTouchEnd={e => {
+                setIndicationBottom(false);
+                setIndicationTop(false);
                 setTransformed(false);
                 containerRef.current.style.transform = `translateY(${transformValue}px)`;
             }}
         >
-            {/*<InfiniteScroll*/}
-            {/*    dataLength={productType?.products?.length}*/}
-            {/*    pageStart={productType?.page}*/}
-            {/*    getScrollParent={() => imgContainer.current}*/}
-            {/*    loadMore={() => {*/}
-            {/*        console.log('Triggered!', productType?.products?.length === 0 && productType?.page === 0);*/}
-            {/*        if(productType?.products?.length === 0 && productType?.page === 0) return;*/}
-            {/*        if(!moreLoading) return;*/}
-            {/*        if(!productType?.more) return setMoreLoading(false);*/}
-            {/*        if(loadingProductTypes) return;*/}
-            {/*        const data = {*/}
-            {/*            providerId: params.providerId,*/}
-            {/*            categoryListIds: !curId ? null : [curId],*/}
-            {/*            productTypeId: productType.id,*/}
-            {/*            page: productType.page,*/}
-            {/*            lan,*/}
-            {/*            filter,*/}
-            {/*            navigate*/}
-            {/*        };*/}
-
-            {/*        fetchProviderProductsTypes(data);*/}
-            {/*    }}*/}
-            {/*    hasMore={moreLoading}*/}
-            {/*    loader={<Loader />}*/}
-            {/*    useWindow={false}*/}
-
-            {/*>*/}
-                <div onScroll={e => {
-                    console.log('Hello')
-                }} className={'ProviderProductType__container'} style={{paddingBottom: '50px'}}>
-                    {
-                        productType?.products?.map((product, i) => (
-                            <div className={'ProviderProductType__container--product'}>
-                                <ProviderProduct takemeProviderToken={takemeProviderToken}  url={url} arrayRef={imgContainer} setGallery={setGallery}  providerOrNot={true} providerRef={providerRef} imgRef={imgRef} product={product} openGallery={openGallery} />
-                                <hr />
-                                <SocialsNew currentUser={currentUser} takemeUserToken={takemeUserToken} provider={provider} activeProduct={product} />
-                                <hr className={'ProviderProductType__hr'} id={'ProviderProductType__hr'}/>
-                            </div>
-                        ))
-                    }
-                    {
-                        loading && <div className={'ProductType__spinner'}>
-                            <i className="fa-solid fa-circle-notch"></i>
+            <div onScroll={e => {
+                console.log('Hello')
+            }} className={'ProviderProductType__container'} style={{paddingBottom: '50px'}}>
+                {
+                    productType?.products?.map((product, i) => (
+                        <div className={'ProviderProductType__container--product'}>
+                            <ProviderProduct takemeProviderToken={takemeProviderToken}  url={url} arrayRef={imgContainer} setGallery={setGallery}  providerOrNot={true} providerRef={providerRef} imgRef={imgRef} product={product} openGallery={openGallery} />
+                            <hr />
+                            <SocialsNew currentUser={currentUser} takemeUserToken={takemeUserToken} provider={provider} activeProduct={product} />
+                            <hr className={'ProviderProductType__hr'} id={'ProviderProductType__hr'}/>
                         </div>
-                    }
-
-                </div>
-            {/*</InfiniteScroll>*/}
+                    ))
+                }
+                {
+                    loading && <div className={'ProductType__spinner'}>
+                        <i className="fa-solid fa-circle-notch"></i>
+                    </div>
+                }
+            </div>
         </div>
     );
 };

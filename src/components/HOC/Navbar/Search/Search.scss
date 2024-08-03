@@ -117,6 +117,10 @@
 
 }
 
+.Search__invisible {
+  opacity: 0;
+}
+
 
 @media (max-width: 380px) {
   .Search__input--searching {

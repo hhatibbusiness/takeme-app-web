@@ -8,8 +8,11 @@
   font-size: 12px;
   word-break: keep-all;
   white-space: nowrap;
+  //transition: 0.5s all;
+  color: var(--sec-color-shades-6);
 }
 
 .ProductTypeLabel__active {
   background: #97EDC5;
+  color: black;
 }

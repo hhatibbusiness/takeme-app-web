@@ -23,6 +23,7 @@ import SpinnerComponent from "./components/Spinner/Spinner.Component";
 import {KeepAlive} from "react-activation";
 import FallBack from "./components/FallBack/FallBack";
 import Home from './screens/Home/Home';
+import {fetchMarketStores} from "./store/actions/categories.action";
 // import Product from './screens/Product/Product';
 // import ProviderScreen from './screens/Provider/ProviderScreen';
 // import SearchScreen from "./screens/SearchScreen/SearchScreen";
@@ -89,6 +90,17 @@ const App = (props) => {
         props.fetchAssets(navigate);
         props.loadProvider()
     }, []);
+
+    // useEffect(() => {
+    //     const data = {
+    //         lan: 'ar',
+    //         page: 0,
+    //         filter: 'ALL',
+    //         categoryId: 0
+    //     };
+    //
+    //     props.fetchMarketStores(data);
+    // }, []);
 
     useEffect(() => {
         function isMobile() {
@@ -209,4 +221,4 @@ const mapStateToProps = state => ({
     assets: state.assets
 });
 
-export default connect(mapStateToProps, {fetchAssets, loadProvider, changeBackBtn, createOrder, loadUser, changePlatform}) (React.memo(App));
+export default connect(mapStateToProps, {fetchAssets, fetchMarketStores, loadProvider, changeBackBtn, createOrder, loadUser, changePlatform}) (React.memo(App));

@@ -20,6 +20,10 @@
 
   .ProviderScreen__productTypes--container {
     transition: transform 0.2s;
+
+    .ProviderScreen__productType--container {
+      position: relative;
+    }
   }
 
   .Provider__categories {

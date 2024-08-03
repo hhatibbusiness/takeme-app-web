@@ -12,6 +12,7 @@
     /*padding-bottom: 50px;*/
     /*background: #D9D9D9;*/
     /*max-height: calc(100vh - 150px);*/
+    position: relative;
 }
 
 .ProviderProductType .ProviderProduct {

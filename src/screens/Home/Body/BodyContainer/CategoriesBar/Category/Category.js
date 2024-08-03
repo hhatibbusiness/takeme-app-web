@@ -66,9 +66,13 @@ const Category = ({
                         document.querySelector('.Products').style.height = `${containerHeight}px`;
                         const res = await fetchCategoryProducts(cat?.id && cat.id, lan, 0, filter, navigate);
                         document.querySelector('.Products') && (document.querySelector('.Products').style.height = 'auto');
+                    } else {
+                        const res = await fetchCategoryProducts(cat?.id && cat.id, lan, 0, filter, navigate);
+
                     }
                 }
-            logEvent(analytics, 'category_clicked', {CategoryId: cat?.id, CategoryName: cat?.name})
+            logEvent(analytics, 'category_clicked', {CategoryId: cat?.id, CategoryName: cat?.name});
+            logEvent(analytics, `category_clicked_${cat?.name}`);
         }} draggable={false} className={`Category ${ curId === (cat?.id && cat.id) && 'Category__active'}`} >
             <div className="Category__container">
                 <Img category={true} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={(cat?.imagePath && cat?.imagePath) || categoryAlt}/>

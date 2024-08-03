@@ -1,0 +1,19 @@
+.StoreItem {
+    width: 100%;
+    background: white;
+    display: flex;
+    flex-direction: row;
+    /*align-items: center;*/
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.StoreItem__backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    z-index: 2000;
+}

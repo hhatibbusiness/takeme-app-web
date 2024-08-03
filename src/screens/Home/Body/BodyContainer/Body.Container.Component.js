@@ -9,9 +9,10 @@ import {fetchCategoryProducts, fetchCategories} from "../../../../store/actions/
 import Failure from "../../../Product/Provider/ProviderProducts/Failure/Failure";
 import {useTranslation} from "react-i18next";
 import SliderComponent from "./ProductList/Slider/Slider";
+import Store from "./Store/Store";
 
 
-const BodyContainerComponent = ({loadingCategories, coverLoaded, setCoverLoaded, currentProduct, setCurrentProduct, categories, id}) => {
+const BodyContainerComponent = ({loadingCategories, coverLoaded, fetchingStores, store, setCoverLoaded, currentProduct, setCurrentProduct, categories, id}) => {
     const bodyContainerRef = useRef();
     const spacerRef = useRef();
     const {t} = useTranslation();
@@ -28,7 +29,12 @@ const BodyContainerComponent = ({loadingCategories, coverLoaded, setCoverLoaded,
             const stickyElement = bodyContainerRef?.current;
             const spacer = spacerRef?.current;
 
-            container.style.height = `${container.getBoundingClientRect().height}px`
+            if(store) {
+                container.style.height = 'auto';
+            } else {
+                container.style.height = `${container.getBoundingClientRect().height}px`
+            }
+
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
@@ -51,7 +57,7 @@ const BodyContainerComponent = ({loadingCategories, coverLoaded, setCoverLoaded,
                 observer.unobserve(spacer);
             }
         }
-    }, [bodyContainerRef, spacerRef, containerRef, coverLoaded]);    //
+    }, [bodyContainerRef, spacerRef, containerRef, coverLoaded, store]);    //
     const [isSticky, setIsSticky] = useState(false);
     //
     // const handleScroll = () => {
@@ -81,6 +87,11 @@ const BodyContainerComponent = ({loadingCategories, coverLoaded, setCoverLoaded,
     //     };
     // }, []);
 
+    // useEffect(() => {
+    //     if(id == 0) {
+    //         return;
+    //     }
+    // }, []);
 
     return (
         <div className={'BodyContainer'}>
@@ -92,16 +103,39 @@ const BodyContainerComponent = ({loadingCategories, coverLoaded, setCoverLoaded,
                             <div ref={spacerRef} className={`spacer`}></div>
                             { true && <div ref={bodyContainerRef} className={`BodyContainer__wrapper ${isSticky ? 'sticky' : ''}`}>
                                 <Categories loadingCategories={loadingCategories} categories={categories} curId={id} home />
-                                <SliderComponent />
+                                {
+                                    !store && (
+                                        <SliderComponent />
+                                    )
+                                }
                             </div> }
                         </div>
+                        {/*{*/}
+                        {/*    (categories?.length > 0 ) ? (*/}
+                        {/*        !loadingCategories && (*/}
+                        {/*            store ? (*/}
+                        {/*                <Store />*/}
+                        {/*            ) : (*/}
+                        {/*                <ProductList currentProduct={currentProduct} setCurrentProduct={setCurrentProduct}/>*/}
+                        {/*            )*/}
+                        {/*        )*/}
+                        {/*    ) : (*/}
+                        {/*        <Failure text={t('there\'s not products')} />*/}
+                        {/*    )*/}
+                        {/*}*/}
                         {
-                            (categories?.length > 0 ) ? (
-                                !loadingCategories && (
-                                    <ProductList currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} />
+                            store ? (
+                                fetchingStores ? (
+                                    <SpinnerComponent />
+                                ) : (
+                                    <Store />
                                 )
                             ) : (
-                                <Failure text={t('there\'s not products')} />
+                                loadingCategories ? (
+                                    <SpinnerComponent />
+                                ) : (
+                                    <ProductList currentProduct={currentProduct} setCurrentProduct={setCurrentProduct}/>
+                                )
                             )
                         }
                     </>
@@ -120,7 +154,9 @@ const mapStateToProps = state => ({
     value: state.categories.value,
     page: state.categories.page,
     categories: state.categories.categories,
-    lan: state.categories.lan
+    lan: state.categories.lan,
+    store: state.categories.store,
+    fetchingStores: state.categories.fetchingStores
 });
 
 export default connect(mapStateToProps, {fetchCategoryProducts, fetchCategories}) (React.memo(BodyContainerComponent));

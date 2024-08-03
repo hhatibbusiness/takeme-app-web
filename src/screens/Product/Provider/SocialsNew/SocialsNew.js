@@ -62,7 +62,7 @@ const SocialsNew = ({right, assets, isAuthenticated, takemeUserToken, lan, curre
                                         const analytics = getAnalytics();
                                         !isAuthenticated && e.preventDefault();
                                         if(isAuthenticated) {
-                                            logEvent(analytics, 'location-event', {
+                                            logEvent(analytics, 'create_order_location', {
                                                 latitude: provider?.latitude,
                                                 longtude: provider?.longtude,
                                                 providerId: provider?.id,
@@ -84,7 +84,7 @@ const SocialsNew = ({right, assets, isAuthenticated, takemeUserToken, lan, curre
                                         !isAuthenticated && e.preventDefault();
                                         const analytics = getAnalytics();
                                         if(isAuthenticated) {
-                                            logEvent(analytics, 'location-event', {
+                                            logEvent(analytics, 'create_order_location', {
                                                 latitude: provider?.latitude,
                                                 longtude: provider?.longtude,
                                                 providerId: provider?.id,
@@ -110,7 +110,7 @@ const SocialsNew = ({right, assets, isAuthenticated, takemeUserToken, lan, curre
                 !isAuthenticated && e.preventDefault();
                 const analytics = getAnalytics();
                 if(isAuthenticated) {
-                    logEvent(analytics, 'WhatsApp', {
+                    logEvent(analytics, 'create_order_WhatsApp', {
                         ProviderId: provider?.id,
                         ProviderName: provider?.name,
                         ProviderPhone: provider?.phone
@@ -125,7 +125,7 @@ const SocialsNew = ({right, assets, isAuthenticated, takemeUserToken, lan, curre
                 !isAuthenticated && e.preventDefault();
                 const analytics = getAnalytics();
                 if(isAuthenticated) {
-                    logEvent(analytics, 'call_button', {
+                    logEvent(analytics, 'create_order_call_button', {
                         PhoneNumber: provider?.phone,
                         ProviderName: provider?.name
                     })

@@ -18,6 +18,7 @@ import {openGallery} from "../../store/actions/product.actions";
 // import 'swiper/css'; // Import Swiper styles
 
 import 'swiper/swiper-bundle.css';
+import ChangeIndication from "./ProviderProductType/ChangeIndication/ChangeIndication";
 
 
 const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takemeProviderToken, takemeProviderData, changeCurrentId, fetchingProductTypes, fetchProviderCategories, categories, loadingCategories, curId, page, more, loadingProductTypes, productTypes, changeNavbarAssets, loadingProvider, filter, resetProviderProductTypesData, fetchProviderProductsTypes, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup, catId, openGallery}) => {
@@ -41,6 +42,8 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
     const providerScreenRef = useRef();
     const [transformValue, setTransformValue] = useState(0);
     const [scrollValue, setScrollValue] = useState(0);
+    const [indicationBottom, setIndicationBottom] = useState(false);
+    const [indicationTop, setIndicationTop] = useState(false);
 
     const categoriesContainerRef = useRef();
     const providerProductTypeContainerRef = useRef();
@@ -73,7 +76,6 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
             // console.log(swiperContainer)
             removeInlineStyles();
             swiperContainer.on('slideChange', removeInlineStyles);
-
         }
 
         return () => {
@@ -114,6 +116,9 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
             providerName: provider.name,
             providerId: provider.id
         });
+        if(params.providerId == 9) {
+            logEvent(analytics, 'Ameen_visit');
+        }
 
         (async () => {
             resetProviderProductTypesData();
@@ -320,6 +325,10 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
                                                 {
                                                     productTypes?.map((productType, i, array) => (
                                                         // <SwiperSlide className={`ProviderScreen__swiper`} key={productType?.id}>
+                                                        <div className={'ProviderScreen__productType--container'}>
+                                                            {
+                                                                indicationTop && i != 0 && productType?.id == active && <ChangeIndication bottom={false} prev={ productTypes[i - 1]?.name} />
+                                                            }
                                                             <ProviderProductType
                                                                 setActive={setActive}
                                                                 array={array}
@@ -353,7 +362,18 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
                                                                 setTransformValue={setTransformValue}
                                                                 scrollValue={scrollValue}
                                                                 setScrollValue={setScrollValue}
+                                                                indicationBottom={indicationBottom}
+                                                                setIndicationBottom={setIndicationBottom}
+                                                                indicationTop={indicationTop}
+                                                                setIndicationTop={setIndicationTop}
+                                                                next={productTypes[i + 1]}
+                                                                prev={productTypes[i - 1]}
                                                             />
+                                                            {
+                                                                indicationBottom && productType?.id == active && i + 1 != productTypes?.length && <ChangeIndication bottom={true} next={productTypes[i + 1]?.name} />
+                                                            }
+
+                                                        </div>
                                                         // </SwiperSlide>
                                                     ))
                                                 }

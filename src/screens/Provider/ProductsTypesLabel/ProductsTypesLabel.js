@@ -1,15 +1,23 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import './ProductsTypesLabel.scss';
 import {connect} from "react-redux";
 import ProductTypeLabel from "./ProductTypeLabel/ProductTypeLabel";
+import {fetchProviderProductsTypes} from '../../../store/actions/provider.actions';
+import {useParams} from "react-router-dom";
 
-const ProductsTypesLabel = ({containerHeight, setTransformValue, transFormValue, loadingProductTypes, productTypes, swiper, active, setActive}) => {
+const ProductsTypesLabel = ({containerHeight, curId, fetchProviderProductsTypes, page, more, setTransformValue, transFormValue, loadingProductTypes, productTypes, swiper, active, setActive}) => {
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
     const [down, setDown] = useState(false);
+    const previousScrollLeft = useRef(0);
+    const [loading, setLoading] = useState(false);
+    const [moreLoading, setMoreLoading] = useState(false);
+
     const labelContainer = useRef();
 
     const categoriesRef = useRef();
+
+    const params = useParams();
 
     useEffect(() => {
         console.log(productTypes)
@@ -23,6 +31,11 @@ const ProductsTypesLabel = ({containerHeight, setTransformValue, transFormValue,
         setStartX(prevState => e.pageX - ele.offsetLeft);
         setScrollLeft(prevState => ele.scrollLeft);
     }
+
+    useEffect(() => {
+        setMoreLoading(more);
+    }, [more]);
+
 
     const mouseMoveHandler = e => {
         if(!down) return;
@@ -38,6 +51,55 @@ const ProductsTypesLabel = ({containerHeight, setTransformValue, transFormValue,
     const mouseUpHandler = e => {
         setDown(false);
     }
+
+    const loadMore = async () => {
+        console.log('Loading More!')
+        if(productTypes?.length === 0 && page === 0) return;
+        if(!moreLoading) return;
+        if(!more) return setMoreLoading(false);
+        setLoading(true);
+        if(loading) return;
+        const data = {
+            providerId: params.providerId,
+            categoryListIds: null,
+            productTypeId: null,
+            page
+        }
+        await fetchProviderProductsTypes(data);
+        setLoading(false);
+    }
+
+    const handleScroll = useCallback(() => {
+        const scrollParent = labelContainer.current;
+        if (!scrollParent) return;
+        const { scrollLeft, scrollWidth, clientWidth } = scrollParent;
+
+        const scrollDirectionX = scrollLeft > previousScrollLeft.current ? 'right' : 'left';
+
+
+        if(scrollDirectionX == 'left') {
+            console.log(Math.abs(scrollLeft) + clientWidth, scrollWidth - 50)
+            if (Math.abs(scrollLeft) + clientWidth >= scrollWidth - 50 && moreLoading) {
+                console.log('Seriously scrolling!');
+                loadMore();
+            }
+        }
+
+        previousScrollLeft.current = scrollLeft;
+
+
+    }, [loadMore, moreLoading]);
+
+    useEffect(() => {
+        const scrollParent = labelContainer.current;
+        if (scrollParent) {
+            scrollParent.addEventListener('scroll', handleScroll);
+            return () => {
+                scrollParent.removeEventListener('scroll', handleScroll);
+            };
+        }
+    }, [handleScroll, categoriesRef.current]);
+
 
     return (
         <div className={'ProductsTypesLabel'}>
@@ -56,7 +118,10 @@ const ProductsTypesLabel = ({containerHeight, setTransformValue, transFormValue,
 
 const mapStateToProps = state => ({
     loadingProductTypes: state.provider.loadingProductTypes,
-    productTypes: state.provider.productTypes
+    productTypes: state.provider.productTypes,
+    page: state.provider.page,
+    more: state.provider.more,
+    curId: state.provider.curId
 });
 
-export default connect(mapStateToProps) (React.memo(ProductsTypesLabel));
+export default connect(mapStateToProps, {fetchProviderProductsTypes}) (React.memo(ProductsTypesLabel));

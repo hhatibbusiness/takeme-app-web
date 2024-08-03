@@ -18,6 +18,7 @@ const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gall
     const [scale, setScale] = useState(1);
     const [startDistance, setStartDistance] = useState(0);
     const [isDefaultWorking, setIsDefaultWorking] = useState(false);
+    const [midPoint, setMidPoint] = useState({ x: 0, y: 0 });
 
     const getDistance = touches => {
         const [touch1, touch2] = touches;
@@ -44,6 +45,26 @@ const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gall
         }
     };
 
+    const getMidpoint = (touches) => {
+        const transformContainer = transformContainerRef?.current;
+        if(transformContainer) {
+            const [touch1, touch2] = touches;
+            console.log(touch1, touch2);
+            const distanceFromTop = transformContainer.getBoundingClientRect().top;
+            console.log(distanceFromTop);
+            const x = (touch1.clientX + touch2.clientX) / 2;
+            const y = ((touch1.clientY + touch2.clientY) - distanceFromTop) / 2;
+            transformContainer.style.transformOrigin = `${x}px ${y}px`;
+
+            // transformContainer.style.transformOrigin = `${(touch1.clientX + touch2.clientX) / 2}px ${(touch1.clientY + touch2.clientY) / 3}px`;
+            // return {
+            //     x: (touch1.clientX + touch2.clientX) / 2,
+            //     y: ((touch1.clientY + touch2.clientY) - distanceFromTop) / 2,
+            // };
+        }
+    };
+
+
     return (
         gallery ? (
             <div
@@ -51,18 +72,30 @@ const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gall
                 className={'Img__container'}
                 onTouchStart={e => {
                     // console.log('touch start!', e.touches);
+                    console.log(e.touches);
+                    getMidpoint(e.touches)
                     if(e.touches.length === 2) {
                         // console.log('touch double!')
                         setStartDistance(getDistance(e.touches));
+                        getMidpoint(e.touches);
+                        // const midpoint = getMidpoint(e.touches);
+                        // setMidPoint(midpoint);
                     }
                 }}
                 onTouchMove={e => {
                     const transformContainer = transformContainerRef?.current;
                     if(e.touches.length === 2 && transformContainer) {
                         const currentDistance = getDistance(e.touches);
-                        setScale(scale * (currentDistance/startDistance));
+
+                        const newScale = scale * (currentDistance / startDistance);
+                        setScale(newScale);
                         setStartDistance(currentDistance);
-                        transformContainer.style.transform = `scale(${scale})`;
+                        // setMidPoint(getMidpoint(e.touches));
+                        // if(midPoint) {
+                        //     transformContainer.style.transformOrigin = `${midPoint.x}px ${midPoint.y}px`;
+                            // transformContainer.style.transform = `scale(${newScale})`;
+                            transformContainer.style.transform = `scale(${newScale})`;
+                        // }
                     }
                 }}
                 onTouchEnd={e => {
@@ -70,6 +103,7 @@ const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gall
                     if(transformContainer) {
                         transformContainer.style.transform = 'scale(1)';
                         setStartDistance(0);
+                        setMidPoint({x: 0, y: 0})
                         setScale(1);
                     }
                 }}
