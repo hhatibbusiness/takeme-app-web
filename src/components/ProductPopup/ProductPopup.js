@@ -108,12 +108,13 @@ const ProductPopup = ({togglePopup, openSearchPopup, results, changeCurrentProvi
                     {
                         search && (
                             <>
-                                <ProviderProfile search={search} link provider={currentProvider} prov={false} socials={false} />
+                                <ProviderProfile search={search} link provider={currentProvider || currentProduct?.storeDetails} prov={false} socials={false} />
                                 <ProviderProduct url={location?.pathname} openGallery={openGallery} setGallery={setGallery} arrayRef={containerRef} providerOrNot={false}  providerRef={providerRef} sliding={false} imgRef={imgRef} product={currentProduct} isSearch={true} provider={currentProvider} />
                                 <Outlet />
                             </>
                         )
                     }
+
                     {
                         !isRatings && (
                             <>

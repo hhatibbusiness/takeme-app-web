@@ -1,21 +1,35 @@
 import axios from "axios";
 import {
+    CHANGE_CUR_ITEM_TYPE_ID,
     CHANGE_CURRENT_ID,
     CHANGE_FILTER,
     CHANGE_LAN_SUCCESS,
     CHANGE_SLIDER_VALUE,
-    END_FETCHING_CATEGORIES, END_FETCHING_MARKET_STORES,
+    END_FETCHING_CATEGORIES,
+    END_FETCHING_ITEM_TYPES,
+    END_FETCHING_MARKET_STORES,
     END_FETCHING_PRODUCTS,
+    END_FETCHING_PRODUCTS_MARKET,
     END_LOADING_MORE_PRODUCT_TYPES,
     ERROR_ACTIVE,
     ERROR_INACTIVE,
     FETCH_CATEGORIES_SUCCESS,
-    FETCH_CATEGORY_PRODUCTS, FETCH_MARKET_STORES, INCREASE_CATEGORIES_PAGE_NUMBER,
-    INCREASE_PAGE_NUMBER, RESET_CATEGORIES_PAGE, RESET_MARKET_STORE_DATA,
+    FETCH_CATEGORY_PRODUCTS,
+    FETCH_ITEM_TYPES,
+    FETCH_MARKET_STORES,
+    FETCH_PRODUCTS_MARKET,
+    INCREASE_CATEGORIES_PAGE_NUMBER,
+    INCREASE_PAGE_NUMBER,
+    RESET_CATEGORIES_PAGE,
+    RESET_MARKET_STORE_DATA,
     RESET_PAGE_NUMBER,
-    START_FETCHING_CATEGORIES, START_FETCHING_MARKET_STORES,
+    START_FETCHING_CATEGORIES,
+    START_FETCHING_ITEM_TYPES,
+    START_FETCHING_MARKET_STORES,
     START_FETCHING_PRODUCTS,
-    START_LOADING_MORE_PRODUCT_TYPES, SWITCH_MARKET_STORE
+    START_FETCHING_PRODUCTS_MARKET,
+    START_LOADING_MORE_PRODUCT_TYPES,
+    SWITCH_MARKET_STORE
 } from "./action.types";
 import {BASE_URL} from "../../utls/assets";
 import {getAnalytics, logEvent} from "firebase/analytics";
@@ -100,7 +114,18 @@ export const fetchCategories = (lan, filter, navigate, page, storePage, store) =
                 await dispatch(fetchMarketStores(data));
             }
         }else {
-            if(page == 0) await dispatch(fetchCategoryProducts(firstId, lan, 0, filter, navigate));
+            console.log('Hello from the productTypes!')
+            const data = {
+                page: 0,
+                lan,
+                filter,
+                navigate,
+                categoryIds: [null],
+                storeId: [null]
+            }
+            if(page == 0) {
+                await dispatch(fetchItemTypes(data))
+            };
         }
         return res;
     }catch (err) {
@@ -131,7 +156,16 @@ export const fetchCategories = (lan, filter, navigate, page, storePage, store) =
         const firstId = categories[0].id;
 
         await dispatch(changeId(firstId));
-        await dispatch(fetchCategoryProducts(firstId, lan, 0, filter, navigate));
+
+        const data = {
+            page: 0,
+            lan,
+            filter,
+            navigate,
+            id: null
+        }
+
+        await dispatch(fetchCategoryProducts(data, firstId, lan, 0, filter, navigate));
 
         dispatch(endFetchingCategories);
     }
@@ -145,29 +179,53 @@ const endFetchingProducts = {
     type: END_FETCHING_PRODUCTS
 }
 
-export const fetchCategoryProducts = (id, lan, page, filter, navigate) => async dispatch => {
+export const fetchCategoryProducts = (data, id, lan, page, filter, navigate) => async dispatch => {
     try {
-        if(page == 0) dispatch(startFetchingProducts);
-        const res = await axios.get(`${BASE_URL}endpoints/products-types?locale=${lan}&categoryId=${id}&page=${page}&filterByAction=${filter}`)
+        if(data.page == 0) dispatch(startFetchingProducts);
+        const res = await axios.get(`${BASE_URL}endpoints/products-types?locale=${data.lan}&categoryId=${data.id}&page=${data.page}&filterByAction=${data.filter}`)
+        console.log('Hello from the Products!');
+        const allProductType = {
+            id: null,
+            title: 'الكل'
+        };
+        let products;
+        if(page == 0) {
+            products = [
+                allProductType,
+                ...res.data
+            ]
+        }else {
+            products = [
+                ...res.data
+            ]
+        }
         dispatch({
             type: FETCH_CATEGORY_PRODUCTS,
-            products: res.data
+            products
         });
 
         dispatch(increasePageNumber());
         const analytics = getAnalytics();
-        if(page > 0 && res.status == 200 && res?.data?.length > 0) {
+        if(data.page > 0 && res.status == 200 && res?.data?.length > 0) {
             logEvent(analytics, 'pagination', {
                 paginationName: 'procutType'
             })
         }
+        const marketData = {
+            id: null,
+            page: 0,
+            filter,
+            navigate,
+            lan
+        };
+        // await dispatch(fetchProductsMarket(marketData));
         dispatch(errorInactive)
-        if(page == 0) dispatch(endFetchingProducts);
+        if(data.page == 0) dispatch(endFetchingProducts);
         return res;
     } catch (e) {
         console.log(e);
         if(e?.response?.status == 401) {
-            dispatch(loadUser(navigate, lan));
+            dispatch(loadUser(data.navigate, data.lan));
         }
         dispatch(endFetchingProducts);
 
@@ -187,7 +245,7 @@ export const changeLan = (lan, id, filter) => async dispatch => {
             lan
         });
         await dispatch(fetchCategories(lan, filter));
-        await dispatch(fetchCategoryProducts(id, lan, 0));
+        // await dispatch(fetchCategoryProducts(id, lan, 0));
         // dispatch(errorActive);
         dispatch(errorInactive);
     } catch (e) {
@@ -258,3 +316,88 @@ export const switchMarketStore = value => ({
 export const resetMarketStoreData = () => ({
     type: RESET_MARKET_STORE_DATA
 })
+
+export const startFetchingProductsMarket = () => {
+    console.log('Start Fetching Items!')
+    return {
+        type: START_FETCHING_PRODUCTS_MARKET
+    }
+}
+
+export const endFetchingProductsMarket = () =>  {
+    console.log('End Fetching Item!')
+    return {
+        type: END_FETCHING_PRODUCTS_MARKET
+    }
+}
+
+
+export const startFetchingItemTypes = {
+    type: START_FETCHING_ITEM_TYPES
+}
+
+export const endFetchingItemTypes = {
+    type: END_FETCHING_ITEM_TYPES
+}
+
+export const fetchItemTypes = data => async dispatch => {
+    try {
+        if(data.page == 0) dispatch(startFetchingItemTypes);
+        const res = await axios.get(`${BASE_URL}endpoints/products-types/list-by-category-ids?locale=${data.lan}&page=${data.page}&categoryIds=${data.categoryIds}&storeId=${data.storeId}`);
+        console.log(res);
+
+        const allItemType = {
+            id: null,
+            name: 'الكل'
+        }
+
+        dispatch({
+            type: FETCH_ITEM_TYPES,
+            itemTypes: data.page == 0 ?  [allItemType, ...res.data.output] : res.data.output
+        });
+
+        if(data.page == 0) {
+            dispatch(changeCurItemTypeId(null));
+            const itemData = {
+                page: 0,
+                lan: data.lan,
+                itemTypeIds: [null],
+                storeIds: [null]
+            };
+            await dispatch(fetchProductsMarket(itemData));
+        }
+
+        dispatch(endFetchingItemTypes);
+    } catch (e) {
+        console.error(e.message);
+    }
+}
+
+export const fetchProductsMarket = data => async dispatch => {
+    try {
+        if(data.page == 0) dispatch(startFetchingProductsMarket());
+
+        const res = await axios.get(`${BASE_URL}endpoints/items/list/by-item-types-ids?locale=${data.lan}&page=${data.page}&itemTypeIds=${data.itemTypeIds}&storeIds=${data.storeIds}`);
+
+        console.log(res);
+
+        dispatch({
+            type: FETCH_PRODUCTS_MARKET,
+            items: res.data.output,
+        });
+
+        dispatch(endFetchingProductsMarket());
+
+        return res;
+
+    } catch (e) {
+        console.error(e.message);
+    }
+}
+
+export const changeCurItemTypeId = (id) => ({
+    type: CHANGE_CUR_ITEM_TYPE_ID,
+    id
+})
+
+

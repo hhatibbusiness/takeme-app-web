@@ -2,23 +2,48 @@
 
 .Navbar {
   width: 100%;
-  position: fixed;
+  position: fixed !important;
   top: 0;
   left: 0;
-  //height: 75px;
   z-index: 1100;
-  //transition: 0.3s;
-  display: none;
+  display: flex;
+  flex-direction: column;
+  //transition: .2s ease-in;
+
+  .Navbar__view--contianer {
+    position: relative;
+  }
+
+  .IconsBar__container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+  }
+
+  .BodyContainer__wrapper {
+    width: 100%;
+    background: white;
+  }
+
+  .BodyContainer__wrapper--active {
+    height: auto;
+    overflow: auto;
+  }
+
+  .BodyContainer__wrapper--hidden {
+    height: 0;
+    overflow: hidden;
+  }
 
   .Navbar__container {
     width: 100%;
-    height: 100%;
-    background: var(--main-color-green-dark-1);
+    background: white;
     flex-direction: row-reverse;
     @include center-h();
     justify-content: space-between;
     margin: auto;
-    padding: 0 10px;
+    padding: 10px 20px;
     gap: 7px;
     position: relative;
 
@@ -40,27 +65,25 @@
     }
 
     .Navbar__logo {
-      //width: 100px;
-      //height: 14px;
       max-height: 100%;
-      //max-width: 50px;
-      //min-height: 80%;
-      //width: 100px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 3px;
-      height: 65%;
-      //min-width: 80px;
-      //width: 99px;
       height: 100%;
       position: relative;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
 
       .LoadingProduct {
         height: 100%;
         width: 100%;
-        //border-radius: 50%;
         position: absolute;
         top: 0;
         left: 0;
@@ -69,13 +92,10 @@
         .LoadingProduct__image {
           width: 100%;
           height: 100%;
-          //border-radius: 50%;
           z-index: 1;
           position: relative;
         }
       }
-
-
 
       p {
         font-size: 9px;
@@ -86,71 +106,106 @@
 
       img {
         width: 100%;
-        //max-height: 100%;
-        //height: 40px;
-        //height: 100%;
         object-fit: contain;
         min-width: 99px;
         max-width: 99px;
         height: 100%;
         max-height: 52px;
         background: transparent;
-      }
-    }
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
 
-    .Navbar__view {
-      position: absolute;
-      background: white;
-      left: -20px;
-      top: 40px;
-      border-radius: 10px;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      border: 1px solid rgba(0, 0, 0, 0.4);
-      direction: rtl;
-      padding: 10px;
-      gap: 5px;
-      z-index: 2001;
-      //border-top: none;
-
-      .Navbar__view--triangle {
-        position: absolute;
-        top: -8px;
-        left: 20px;
-        width: 0;
-        height: 0;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-bottom: 10px solid white;
-      }
-
-      .Navbar__view--ver {
-        width: 1px;
-        height: 45px;
-        background: #97EDC5;
-      }
-
-      .Navbar__view--house {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-size: 10px;
-
-        p {
-          white-space: nowrap;
-          word-break: keep-all;
-          width: fit-content;
-          color: #D0D0D0;
-        }
-
-        img {
-          width: 50px;
-          height: 50px;
-        }
       }
     }
   }
+}
+
+.Navbar__view {
+  position: absolute;
+  background: white;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #c7c4c4;;
+  direction: rtl;
+  z-index: 2001;
+
+  .Navbar__view--container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    gap: 5px;
+    z-index: 2;
+    background: white;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+
+  }
+
+  .Navbar__view--triangle {
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: 1px solid #c7c4c4;;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) rotateZ(45deg);
+    z-index: -2000;
+  }
+
+  .Navbar__view--ver {
+    width: 1px;
+    height: 45px;
+    background: #97EDC5;
+  }
+
+  .Navbar__view--house {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+
+    p {
+      white-space: nowrap;
+      word-break: keep-all;
+      width: fit-content;
+      color: #D0D0D0;
+    }
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+}
+
+
+.Navbar__active {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.Navbar__hidden {
+  position: relative;
+}
+
+.Navbar__fixed {
+  position: fixed !important;
+  transition: none;
 }

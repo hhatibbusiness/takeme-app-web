@@ -21,7 +21,7 @@
         gap: 10px;
 
         .DropDownListItem__header {
-            color: black;
+            color: #2B2B2B;
             .DropDownListItem__header--text {
                 font-size: 20px;
                 .DropDownListItem__header--text-text {

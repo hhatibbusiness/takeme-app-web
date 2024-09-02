@@ -12,7 +12,7 @@ import Intro from "../../components/Intro/Intro";
 
 const Body = lazy(() => import('./Body/Body'));
 
-const Home = ({lan, match, currentProduct, coverLoaded, setCoverLoaded, setCurrentProduct, yPosition, setSidebar, searching, setSearching, sidebar, loadingCategoryProducts, changeNavbarAssets, changeHomePosition, fetchCategories, filter, categories}) => {
+const Home = ({lan, match, setY, y, fixedNav, setFixedNav, topValue, setTopValue, setNavHeight, bodyContainerRef, considerNav, setConsiderNav, navHeight, navShow, setNavShow, setFiltersActive, filtersActive, currentProduct, coverLoaded, setCoverLoaded, setCurrentProduct, yPosition, setSidebar, searching, setSearching, sidebar, loadingCategoryProducts, changeNavbarAssets, changeHomePosition, fetchCategories, filter, categories}) => {
     const navigate = useNavigate();
 
     const homeRef = useRef();
@@ -23,28 +23,28 @@ const Home = ({lan, match, currentProduct, coverLoaded, setCoverLoaded, setCurre
     }, []);
     const params = useParams();
 
-    useEffect(() => {
-        const data = {
-            // assets: assets,
-            setSidebar: null,
-            searchPage: false,
-            loadingSearchResults: null,
-            searchResults: null,
-            term: '',
-            backBtn: false,
-            step: null,
-            setStep: null,
-            search: !(params?.providerId || params?.id || window?.location?.href?.includes('contract') || window?.location?.href?.includes('about') || window?.location?.href?.includes('login') || window?.location?.href?.includes('register') || window?.location?.href?.includes('forget'))
-        };
-        changeNavbarAssets(data);
-    }, []);
+    // useEffect(() => {
+    //     const data = {
+    //         // assets: assets,
+    //         setSidebar: null,
+    //         searchPage: false,
+    //         loadingSearchResults: null,
+    //         searchResults: null,
+    //         term: '',
+    //         backBtn: false,
+    //         step: null,
+    //         setStep: null,
+    //         search: !(params?.providerId || params?.id || window?.location?.href?.includes('contract') || window?.location?.href?.includes('about') || window?.location?.href?.includes('login') || window?.location?.href?.includes('register') || window?.location?.href?.includes('forget'))
+    //     };
+    //     changeNavbarAssets(data);
+    // }, []);
 
     return (
         <>
             {/*<KeepAlive name={'home'}>*/}
                 <div ref={homeRef} className={'Home'}>
                     <Suspense fallback={<FallBack full={true} />}>
-                        <Body coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />
+                        <Body y={y} setY={setY} fixedNav={fixedNav} topValue={topValue} setTopValue={setTopValue} setFixedNav={setFixedNav} bodyContainerRef={bodyContainerRef} considerNav={considerNav} setConsiderNav={setConsiderNav} setNavHeight={setNavHeight} navShow={navShow} setNavShow={setNavShow} filtersActive={filtersActive} setFiltersActive={setFiltersActive} navHeight={navHeight} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />
                     </Suspense>
                 </div>
             {/*</KeepAlive>*/}

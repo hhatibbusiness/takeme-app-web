@@ -24,6 +24,7 @@ import {KeepAlive} from "react-activation";
 import FallBack from "./components/FallBack/FallBack";
 import Home from './screens/Home/Home';
 import {fetchMarketStores} from "./store/actions/categories.action";
+import StorePageShimmer from "./components/StorePageShimmer/StorePageShimmer";
 // import Product from './screens/Product/Product';
 // import ProviderScreen from './screens/Provider/ProviderScreen';
 // import SearchScreen from "./screens/SearchScreen/SearchScreen";
@@ -51,9 +52,22 @@ const App = (props) => {
     const [popup, setPopup] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [coverLoaded, setCoverLoaded] = useState(false);
-
+    const [navHeight, setNavHeight] = useState(0);
+    const [filtersAcitve, setFiltersActive] = useState(false);
+    const [navShow, setNavShow] = useState(false);
+    const [showIcons, setShowIcons] = useState(true);
+    const [showEye, setShowEye] = useState(true);
+    const [backBtn, setBackBtn] = useState(false);
+    const [searchShow, setSearchShow] = useState(false);
+    const [showMidText, setShowMidText] = useState(false);
+    const [considerNav, setConsiderNav] = useState(true);
+    const [showSlider, setShowSlider] = useState(true);
+    const [fixedNav, setFixedNav] = useState(false);
+    const [topValue, setTopValue] = useState(0);
     const homeRef = useRef();
-
+    const bodyContainerRef = useRef();
+    const [y, setY] = useState(null);
+    const [backupFilters, setBackupFilters] = useState(false);
 
     // useEffect(() => {
     //     console.log(location.pathname);
@@ -135,27 +149,27 @@ const App = (props) => {
         }
     }, []);
 
-    useEffect(() => {
-        const navbar = document?.querySelector('.Navbar');
-        if(navbar) {
-            if(window?.location.hash.length > 2) {
-                if(window?.location?.hash?.includes('search')) {
-                    props.changeBackBtn(true);
-                    navbar.style.height = "75px";
-                    navbar.style.display = "block";
-                } else {
-                    props.changeBackBtn(true);
-                    navbar.style.height = '52px';
-                    navbar.style.display = "block";
-                }
-            } else {
-                props.changeBackBtn(false);
-                navbar.style.height = "75px";
-                navbar.style.display = "block";
-            }
-        }
-
-    }, [window?.location.hash, logoStart, props.loadingAssets]);
+    // useEffect(() => {
+    //     const navbar = document?.querySelector('.Navbar');
+    //     if(navbar) {
+    //         if(window?.location.hash.length > 2) {
+    //             if(window?.location?.hash?.includes('search')) {
+    //                 props.changeBackBtn(true);
+    //                 navbar.style.height = "75px";
+    //                 navbar.style.display = "block";
+    //             } else {
+    //                 props.changeBackBtn(true);
+    //                 navbar.style.height = '52px';
+    //                 navbar.style.display = "block";
+    //             }
+    //         } else {
+    //             props.changeBackBtn(false);
+    //             navbar.style.height = "75px";
+    //             navbar.style.display = "block";
+    //         }
+    //     }
+    //
+    // }, [window?.location.hash, logoStart, props.loadingAssets]);
 
     return (
         <div className={'App'} style={{overflowY: `${(!logoStart && !coverLoaded) ? 'hidden' : 'auto'}`}} >
@@ -167,37 +181,42 @@ const App = (props) => {
                 !props.loadingAssets && (
                     isMobile ? (
                         <>
+                            <Navbar backupFilters={backupFilters} setBackupFilters={setBackupFilters} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} showSlider={showSlider} setShowSlider={setShowSlider} bodyContainerRef={bodyContainerRef} considerNav={considerNav} showMidText={showMidText} backBtn={backBtn} searchShow={searchShow} showIcons={showIcons} showEye={showEye} navShow={navShow} setNavShow={setNavShow} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} navHeight={navHeight} setNavHeight={setNavHeight} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />
                             <Suspense fallback={logoStart.isFirstTime ? <Intro /> : <SpinnerComponent full={true} />}>
                                 <Routes history={history}>
-                                    <Route path={'/'} element={<Home coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />} >
+                                    <Route path={'/'} element={<Home y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} navShow={navShow} considerNav={considerNav} setConsiderNav={setConsiderNav} bodyContainerRef={bodyContainerRef} setNavShow={setNavShow} navHeight={navHeight} setNavHeight={setNavHeight} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />} >
                                         {/*<Route path={'/product/:productId'} exact element={<Product />} >*/}
                                         {/*    <Route path={'popup/:id'} exact element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />*/}
                                         {/*    <Route path={'gallery'} exact={true} element={<Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} />} />*/}
                                         {/*</Route>*/}
-                                        <Route path={'/product/:productId'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><Product /></Suspense>} >
+                                        <Route path={'/product/:productId'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><Product setBackBtn={setBackBtn} /></Suspense>} >
                                             <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                             <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
                                         </Route>
-                                        <Route path={'/provider/:providerId'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><ProviderScreen /></Suspense>} >
+                                        <Route path={'/provider/:providerId'} exact element={<Suspense fallback={<StorePageShimmer />}><ProviderScreen setshowMidText={setShowMidText} setBackBtn={setBackBtn} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} /></Suspense>} >
                                             <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                             <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
                                         </Route>
                                         {/*<Route exact path={'/provider/:provider_id/ratings'} element={<KeepAlive cacheKey={'Ratings'}><ProviderRatings /></KeepAlive>} />*/}
-                                        <Route path={'/search'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><SearchScreen gallery={gallery} setGallery={setGallery} searching={searching} setSearching={setSearching} /></Suspense>} >
+                                        <Route path={'/search'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><SearchScreen backupFilters={backupFilters} setBackupFilters={setBackupFilters} bodyContainerRef={bodyContainerRef} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} topValue={topValue} setTopValue={setTopValue} y={y} setY={setY} showSlider={showSlider} setShowSlider={setShowSlider} setshowMidText={setShowMidText} setIconsShow={setShowIcons} setSearchShow={setSearchShow} setBackBtn={setBackBtn} navHeight={navHeight} setShowEye={setShowEye} gallery={gallery} setGallery={setGallery} searching={searching} setSearching={setSearching} /></Suspense>} >
                                             <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} >
                                                 <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                             </Route>
                                         </Route>
+                                        <Route path={`main/popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} >
+                                            <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
+                                        </Route>
+                                        <Route path={`product/popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
+                                        <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                         <Route path={'popup/:id'} exact element={<ProductsDetails currentProduct={currentProduct} popup={popup} setPopup={setPopup} setCurrentProduct={setCurrentProduct} />} />
-                                        <Route path={'/about'} exact element={<About />} />
-                                        <Route path={'/contract'} exact element={<Contract />} />
-                                        <Route path={'/login'} exact element={<Login />} />
-                                        <Route path={'/register'} element={<Register />} />
-                                        <Route path={'/forget/:email'} exact element={<Forget />} />
+                                        <Route path={'/about'} exact element={<About setBackBtn={setBackBtn} setShowIcons={setShowIcons} setshowMidText={setShowMidText} />} />
+                                        <Route path={'/contract'} exact element={<Contract setShowIcons={setShowIcons} setBackBtn={setBackBtn} setshowMidText={setShowMidText} />} />
+                                        <Route path={'/login'} exact element={<Login setBackBtn={setBackBtn} setShowIcons={setShowIcons} />} setshowMidText={setShowMidText} />
+                                        <Route path={'/register'} element={<Register setBackBtn={setBackBtn} />} setshowMidText={setShowMidText} />
+                                        <Route path={'/forget/:email'} exact element={<Forget setBackBtn={setBackBtn} />} setshowMidText={setShowMidText} />
                                     </Route>
                                 </Routes>
                             </Suspense>
-                            <Navbar searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} data={props.navbarData}/>
                         </>
                     ) : (
                         <NotMobile />

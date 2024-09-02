@@ -197,7 +197,7 @@
     bottom: -5px;
     transform: translateX(-50%) rotate(45deg);
     z-index: -100;
-    border: 1px solid #c7c4c4;
+    border: 1px solid #c7c4c4;;
 }
 
 .StoreRightView__contact--container {

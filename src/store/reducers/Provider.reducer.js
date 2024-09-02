@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/action.types';
+import {CHANGE_STORE_CURRENT_ITEM_TYPE} from "../actions/action.types";
 
 const initialState = {
     provider: {},
@@ -12,7 +13,16 @@ const initialState = {
     curId: null,
     categories: [],
     fetchingCategories: true,
-    productType: null
+    productType: null,
+    itemTypes: [],
+    fetchingItemTypes: false,
+    itemTypesPage: 0,
+    itemTypesMore: true,
+    items: [],
+    fetchingItems: false,
+    itemsPage: 0,
+    itemsMore: false,
+    currentItemTypeId: null
 }
 
 export default (state = initialState, action ) => {
@@ -161,6 +171,47 @@ export default (state = initialState, action ) => {
                     productTypes: [JSON.parse(JSON.stringify(productTypeCopy))]
                 }
             })();
+        case actionTypes.START_FETCHING_STORE_ITEM_TYPES:
+            return {
+                ...state,
+                fetchingItemTypes: true
+            }
+        case actionTypes.END_FETCHING_STORE_ITEM_TYPES:
+            return {
+                ...state,
+                fetchingItemTypes: false
+            }
+        case actionTypes.FETCH_STORE_ITEM_TYPES:
+            return {
+                ...state,
+                itemTypes: action.page == 0 ? action.itemTypes : [...state.itemTypes, ...action.itemTypes],
+                itemTypesMore: action.itemTypes.length >= 10,
+                itemTypesPage: state.itemTypesPage + 1
+            }
+        case actionTypes.START_FETCHING_STORE_ITEMS:
+            return {
+                ...state,
+                fetchingItems: true
+            }
+        case actionTypes.END_FETCHING_STORE_ITEMS:
+            return {
+                ...state,
+                fetchingItems: false
+            }
+        case actionTypes.FETCH_STORE_ITEMS:
+            return {
+                ...state,
+                items: action.page == 0 ? action.items : [...state.items, ...action.items],
+                itemsMore: action.items.length >= 10,
+                itemsPage: state.itemsPage + 1
+            }
+        case actionTypes.CHANGE_STORE_CURRENT_ITEM_TYPE:
+            return {
+                ...state,
+                items: [],
+                currentItemTypeId: action.id,
+                itemsPage: 0
+            }
         default:
             return state;
     }

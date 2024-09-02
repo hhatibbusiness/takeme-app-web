@@ -1,18 +1,28 @@
 import axios from "axios";
 import {
-    CHANGE_CURRENT_PROVIDER_CATEGORY_ID,
-    CLOSE_PROVIDER_GALLERY, EDIT_PROVIDER_PRODUCT, END_EDITING_PROVIDER_PRODUCT,
-    END_FETCHING_PROVIDER, END_FETCHING_PROVIDER_CATEGORIES,
+    CHANGE_CURRENT_PROVIDER_CATEGORY_ID, CHANGE_STORE_CURRENT_ITEM_TYPE,
+    CLOSE_PROVIDER_GALLERY,
+    EDIT_PROVIDER_PRODUCT,
+    END_EDITING_PROVIDER_PRODUCT,
+    END_FETCHING_PROVIDER,
+    END_FETCHING_PROVIDER_CATEGORIES,
     END_FETCHING_PROVIDER_PRODUCTS_TYPES,
-    FETCH_PRODUCTS_TYPES_PRODUCTS, FETCH_PROVIDER_CATEGORIES,
+    END_FETCHING_STORE_ITEM_TYPES, END_FETCHING_STORE_ITEMS,
+    FETCH_PRODUCTS_TYPES_PRODUCTS,
+    FETCH_PROVIDER_CATEGORIES,
     FETCH_PROVIDER_DATA,
     FETCH_PROVIDER_PRODUCTS_TYPES,
+    FETCH_STORE_ITEM_TYPES, FETCH_STORE_ITEMS,
     INCREASE_PROVIDER_PRODUCT_TYPES_PAGE,
     OPEN_PROVIDER_GALLERY,
-    RESET_PROVIDER_PRODUCT_TYPES_DATA, START_EDITING_PROVIDER_PRODUCT,
+    RESET_PROVIDER_PRODUCT_TYPES_DATA,
+    START_EDITING_PROVIDER_PRODUCT,
     START_FETCHING_PROVIDER,
     START_FETCHING_PROVIDER_CATEGORIES,
     START_FETCHING_PROVIDER_PRODUCTS_TYPES,
+    START_FETCHING_STORE_ITEM_TYPES,
+    START_FETCHING_STORE_ITEM_types,
+    START_FETCHING_STORE_ITEMS,
 } from "./action.types";
 import { BASE_URL } from "../../utls/assets";
 import allCategoryImage from "../../assets/images/all-icon.jpg";
@@ -219,3 +229,78 @@ export const editProviderProduct = data => async dispatch => {
         console.log(e.message);
     }
 }
+
+export const startFetchingStoreItemTypes = {
+    type: START_FETCHING_STORE_ITEM_TYPES
+}
+
+export const endFetchingStoreItemTypes = {
+    type: END_FETCHING_STORE_ITEM_TYPES
+}
+
+export const fetchStoreItemTypes = data => async dispatch => {
+    try {
+        if(data.page == 0) dispatch(startFetchingStoreItemTypes);
+
+        console.log(data);
+
+        const res = await axios.get(`${BASE_URL}endpoints/products-types/list-by-category-ids?locale=${data.lan}&page=${data.page}&categoryIds=${data.categoryIds}&storeId=${data.storeId}`);
+
+        console.log(res);
+        const allItemType = {
+            id: null,
+            name: 'الكل'
+        };
+
+        dispatch({
+            type: FETCH_STORE_ITEM_TYPES,
+            itemTypes: data.page == 0 ? [allItemType, ...res.data.output] : res.data.output,
+            page: data.page
+        });
+
+        if(data.page == 0) {
+            dispatch(changeStoreCurrentItemType(null));
+            const itemTypesData = {
+                page: 0,
+                lan: data.lan,
+                itemTypeIds: [null],
+                storeIds: data.storeId
+            };
+            await dispatch(fetchStoreItems(itemTypesData));
+        }
+        dispatch(endFetchingStoreItemTypes);
+        return res;
+    } catch (e) {
+        console.log(e.message);
+    }
+}
+
+export const startFetchingStoreItems = {
+    type: START_FETCHING_STORE_ITEMS
+}
+
+export const endFetchingStoreItems = {
+    type: END_FETCHING_STORE_ITEMS
+}
+
+export const fetchStoreItems = data => async dispatch => {
+    try {
+        if(data.page == 0) dispatch(startFetchingStoreItems);
+        const res = await axios.get(`${BASE_URL}endpoints/items/list/by-item-types-ids?locale=${data.lan}&page=${data.page}&itemTypeIds=${data.itemTypeIds}&storeIds=${data.storeIds}`);
+
+        dispatch({
+            type: FETCH_STORE_ITEMS,
+            items: res.data.output,
+            page: data.page
+        });
+        dispatch(endFetchingStoreItems);
+        return res;
+    } catch (e) {
+        console.error(e.message);
+    }
+}
+
+export const changeStoreCurrentItemType = (id) => ({
+    type: CHANGE_STORE_CURRENT_ITEM_TYPE,
+    id
+})

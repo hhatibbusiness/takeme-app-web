@@ -1,5 +1,6 @@
 {
   "who we are": "من نحن؟",
+  "underbuilding": "هذة الخدمة قيد الانشاء",
   "filter": "فلتر",
   "join": "انضم كصاحب عمل أو خدمة",
   "condition": "العقد و شروط الاستخدام",
@@ -73,6 +74,7 @@
   "emailmessage": "من فضلك ادخل ايميل او رقم هاتف",
   "providerratings": "تقييمات مزود الخدمة",
   "salestartsfrom": "السعر يبدأ من ",
+  "priceSale": "السعر",
   "rentstartsfrom": "سعر الايجار يبدأ من ",
   "minRentTimeMessage": "اقل مدة للايجار يبدأ من ",
   "rentDurationDay": "يوم",

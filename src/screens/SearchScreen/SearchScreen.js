@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import './SearchScreen.scss';
 import {connect} from "react-redux";
 import {fetchSearchResults, openSearchGallery, closeSearchGallery, changeSearchCategoryId, resetAllSearchData} from "../../store/actions/search.actions";
@@ -15,6 +15,20 @@ import {changeNavbarAssets} from "../../store/actions/ui.actions";
 import DropDownListItem from "../../components/DropDownList/DropDownListItem/DropDownListItem";
 
 const SearchScreen = ({
+    backupFilters,
+    setBackupFilters,
+    filtersActive,
+    setFiltersActive,
+    bodyContainerRef,
+    topValue,
+    setTopValue,
+    showSlider,
+    setShowSlider,
+    setIconsShow,
+    setSearchShow,
+    setBackBtn,
+    navHeight,
+    setShowEye,
     assets,
     fetchSearchResults,
     lan,
@@ -35,9 +49,12 @@ const SearchScreen = ({
 
     const [moreLoading, setMoreLoading] = useState(true);
     const [searchCount, setSearchCount] = useState(0);
+    const [y, setY] = useState(null);
 
     const {t} = useTranslation();
     const navigate = useNavigate();
+    const searchRef = useRef();
+    const searchContainerRef = useRef();
 
     useEffect(() => {
         const home = document.querySelector('body');
@@ -57,8 +74,23 @@ const SearchScreen = ({
     }, []);
 
     useEffect(() => {
-
+        setBackupFilters(filtersActive);
+        setShowEye(false);
+        setBackBtn(true);
+        setSearchShow(true);
+        setIconsShow(false);
+        setShowSlider(false);
+        setFiltersActive(true);
+        return () => {
+            setFiltersActive(backupFilters);
+            setBackBtn(false);
+            setShowEye(true);
+            setSearchShow(false);
+            setIconsShow(true);
+            setShowSlider(true);
+        }
     }, []);
+
 
     useEffect(() => {
         // console.log(curId)
@@ -118,10 +150,53 @@ const SearchScreen = ({
         }
     }, []);
 
+    const handleWindowScroll = useCallback( e => {
+        const container = bodyContainerRef.current;
+        const searchContainer = searchRef.current;
+        const searchContainerEle = searchContainerRef?.current;
+        const top = Math.abs(searchContainerEle.getBoundingClientRect()?.top);
+
+        console.log('scrolling!')
+        console.log(Math.floor(y), top);
+        if(Math.floor(y) > Math.floor(top)) {
+            setY(top);
+            if(topValue + (y - top) > 0) {
+                return setTopValue(0);
+            }
+            setTopValue(topValue + (y - top));
+        } else if(Math.floor(y) < Math.floor(top)) {
+            if(top - y > Math.abs(navHeight) - Math.abs(topValue)) {
+                setY(top);
+                return setTopValue(-navHeight);
+            };
+            if(top - y + topValue < -navHeight) {
+                setY(top);
+                return setTopValue(-navHeight);
+            };
+            setTopValue(topValue - (top - y));
+            setY(top);
+        }
+    }, [y]);
+
+    useEffect(() => {
+        const container = bodyContainerRef.current;
+        const searchContainer = searchRef?.current;
+        const searchContainerEle = searchContainerRef?.current;
+        if(container && searchContainer && searchContainerEle) {
+            setY(Math.abs(searchContainerEle.getBoundingClientRect()?.top));
+            searchContainer.addEventListener('scroll', handleWindowScroll);
+        }
+        return () => {
+            searchContainer?.removeEventListener('scroll', handleWindowScroll);
+        }
+    }, [handleWindowScroll, bodyContainerRef.current, searchRef?.current, searchContainerRef?.current]);
+
+
+
     return (
         <>
             <KeepAlive>
-                <div className={'SearchScreen'}>
+                <div ref={searchRef} className={'SearchScreen'}>
                     {
                         !loadingCategories ? (
                             <InfiniteScroll
@@ -138,11 +213,13 @@ const SearchScreen = ({
                                 useWindow={false}
                             >
                                 <>
-                                    <Categories loadingCategories={loadingCategories} categories={categories} curId={curId} search />
+                                    {/*<div className="SearchScreen__categories" style={{top: `${0}px`}}>*/}
+                                    {/*    <Categories loadingCategories={loadingCategories} categories={categories} curId={curId} search />*/}
+                                    {/*</div>*/}
                                     {
                                         !loadingSearchResults ? (
                                             searchResults.length > 0 ? (
-                                                    <div className={'SearchScreen__container'}>
+                                                    <div ref={searchContainerRef} style={{paddingTop: `${navHeight}px`}} className={'SearchScreen__container'}>
                                                             {
                                                                 searchResults.map((p, i) => (
                                                                     <>

@@ -1,7 +1,9 @@
 import React, {useEffect, useRef} from 'react';
 import './ProductTypeLabel.scss';
+import {changeCurItemTypeId} from "../../../../store/actions/categories.action";
+import {useParams} from "react-router-dom";
 
-const ProductTypeLabel = ({ productType, index, containerHeight, transformValue, setTransformValue, labelContainer, active, setActive, swiper, productTypes }) => {
+const ProductTypeLabel = ({ productType, fetchItems, changeCurItemTypeId, lan, curItemTypeId, market, index, containerHeight, transformValue, setTransformValue, labelContainer, active, setActive, swiper, productTypes }) => {
     const labelRef = useRef();
 
     useEffect(() => {
@@ -15,7 +17,6 @@ const ProductTypeLabel = ({ productType, index, containerHeight, transformValue,
                 console.log(label.getBoundingClientRect().left, container.getBoundingClientRect().left, container.scrollLeft, container.clientWidth / 2, label.clientWidth / 2);
 
                 const offset = label.getBoundingClientRect().left - container.getBoundingClientRect().left + container.scrollLeft - (container.clientWidth / 2) + (label.clientWidth / 2);
-                console.log(offset)
                 container.scrollTo({
                     left: offset,
                     behavior: 'smooth' // Smooth scrolling
@@ -39,12 +40,37 @@ const ProductTypeLabel = ({ productType, index, containerHeight, transformValue,
         setTransformValue(-productTypeTransformValue);
     }
 
+    const params = useParams();
+
     return (
-        <div ref={labelRef} onClick={e => {
+        <div ref={labelRef} onClick={async e => {
             setActive(productType?.id);
-            // swiper.enable();
-            // swiper.slideTo(productTypes?.findIndex(p => p.id == productType?.id), 1500);
-            productTypeClickHandler();
+            if(active != productType?.id) {
+                const container = document.querySelector('.Items__container');
+                if(container) {
+                    const height = container.offsetHeight;
+                    container.style.height = `${height}px`;
+                }
+
+                changeCurItemTypeId(productType?.id);
+
+                const data = {
+                    page: 0,
+                    lan,
+                    itemTypeIds: [productType?.id],
+                    storeIds: [params.providerId]
+                };
+
+
+                const res = await fetchItems(data);
+
+                if(container) {
+                    if(res.status == 200) {
+                        container.style.height = 'auto';
+                    }
+                }
+            }
+            !market && productTypeClickHandler();
         }} className={`ProductTypeLabel ${active == productType?.id && 'ProductTypeLabel__active'}`}>
             {productType?.name}
         </div>

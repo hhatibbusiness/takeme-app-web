@@ -13,10 +13,15 @@
   //scroll-behavior: smooth;
   overflow-x: hidden;
 
-  .Categories {
+  .SearchScreen__categories {
     position: sticky;
-    margin-top: 75px;
-    top: 75px;
+    background: white;
+    z-index: 1;
+  }
+
+  .Categories {
+    //margin-top: 75px;
+    //top: 75px;
     padding-bottom: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
   }

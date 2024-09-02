@@ -35,6 +35,7 @@ export const fetchSearchResults = (lan, categoryId, filter, term, page, navigate
                 paginationName: 'search-providers'
             });
         }
+        console.log(res);
         dispatch(endFetchingSearchResults);
         dispatch(increaseSearchPage());
     } catch (e) {

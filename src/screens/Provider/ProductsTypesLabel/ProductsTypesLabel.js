@@ -2,10 +2,10 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import './ProductsTypesLabel.scss';
 import {connect} from "react-redux";
 import ProductTypeLabel from "./ProductTypeLabel/ProductTypeLabel";
-import {fetchProviderProductsTypes} from '../../../store/actions/provider.actions';
 import {useParams} from "react-router-dom";
+import {changeCurItemTypeId} from "../../../store/actions/categories.action";
 
-const ProductsTypesLabel = ({containerHeight, curId, fetchProviderProductsTypes, page, more, setTransformValue, transFormValue, loadingProductTypes, productTypes, swiper, active, setActive}) => {
+const ProductsTypesLabel = ({containerHeight, changeCurItemTypeId, fetchItems, curItemTypeId, filter, market, lan, curId, fetchProviderProductsTypes, page, more, setTransformValue, transFormValue, loadingProductTypes, productTypes, swiper, active, setActive}) => {
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
     const [down, setDown] = useState(false);
@@ -20,7 +20,6 @@ const ProductsTypesLabel = ({containerHeight, curId, fetchProviderProductsTypes,
     const params = useParams();
 
     useEffect(() => {
-        console.log(productTypes)
         setActive(productTypes[0]?.id);
     }, []);
 
@@ -63,8 +62,12 @@ const ProductsTypesLabel = ({containerHeight, curId, fetchProviderProductsTypes,
             providerId: params.providerId,
             categoryListIds: null,
             productTypeId: null,
-            page
+            page,
+            id: curId,
+            lan,
+            filter
         }
+
         await fetchProviderProductsTypes(data);
         setLoading(false);
     }
@@ -80,7 +83,6 @@ const ProductsTypesLabel = ({containerHeight, curId, fetchProviderProductsTypes,
         if(scrollDirectionX == 'left') {
             console.log(Math.abs(scrollLeft) + clientWidth, scrollWidth - 50)
             if (Math.abs(scrollLeft) + clientWidth >= scrollWidth - 50 && moreLoading) {
-                console.log('Seriously scrolling!');
                 loadMore();
             }
         }
@@ -107,7 +109,7 @@ const ProductsTypesLabel = ({containerHeight, curId, fetchProviderProductsTypes,
                 <div className="ProductsTypesLabel__container">
                     {
                         !loadingProductTypes && productTypes?.map((productType, i) => (
-                            <ProductTypeLabel containerHeight={containerHeight} transformValue={transFormValue} setTransformValue={setTransformValue} labelContainer={labelContainer} index={i} swiper={swiper} productTypes={productTypes} setActive={setActive} active={active} productType={productType} key={productType.id} />
+                            <ProductTypeLabel changeCurItemTypeId={changeCurItemTypeId} fetchItems={fetchItems} curItemTypeId={curItemTypeId} lan={lan} market={market} containerHeight={containerHeight} transformValue={transFormValue} setTransformValue={setTransformValue} labelContainer={labelContainer} index={i} swiper={swiper} productTypes={productTypes} setActive={setActive} active={active} productType={productType} key={productType.id} />
                         ))
                     }
                 </div>
@@ -117,11 +119,8 @@ const ProductsTypesLabel = ({containerHeight, curId, fetchProviderProductsTypes,
 };
 
 const mapStateToProps = state => ({
-    loadingProductTypes: state.provider.loadingProductTypes,
-    productTypes: state.provider.productTypes,
-    page: state.provider.page,
-    more: state.provider.more,
-    curId: state.provider.curId
+    lan: state.categories.lan,
+    filter: state.categories.filter
 });
 
-export default connect(mapStateToProps, {fetchProviderProductsTypes}) (React.memo(ProductsTypesLabel));
+export default connect(mapStateToProps) (React.memo(ProductsTypesLabel));

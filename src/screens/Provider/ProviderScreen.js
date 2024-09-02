@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './ProviderSceen.scss';
 import {connect} from "react-redux";
-import {fetchProviderData, closeProviderGallery, openProviderGallery, fetchProviderProductsTypes, resetProviderProductTypesData, changeCurrentId} from "../../store/actions/provider.actions";
+import {fetchProviderData, closeProviderGallery, changeStoreCurrentItemType, openProviderGallery, fetchProviderProductsTypes, resetProviderProductTypesData, changeCurrentId, fetchStoreItemTypes, fetchStoreItems} from "../../store/actions/provider.actions";
 import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
 import {getAnalytics, logEvent} from "firebase/analytics";
@@ -19,9 +19,15 @@ import {openGallery} from "../../store/actions/product.actions";
 
 import 'swiper/swiper-bundle.css';
 import ChangeIndication from "./ProviderProductType/ChangeIndication/ChangeIndication";
+import {fetchItemTypes} from "../../store/actions/categories.action";
+import Item from "../Home/Body/BodyContainer/Items/Item/Item";
+import StorePageShimmer from "../../components/StorePageShimmer/StorePageShimmer";
+import ItemShimmer from "../../components/ItemShimmer/ItemShimmer";
+import Items from "../Home/Body/BodyContainer/Items/Items";
+import ItemTypesShimmer from "../../components/ItemTypesShimmer/ItemTypesShimmer";
 
 
-const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takemeProviderToken, takemeProviderData, changeCurrentId, fetchingProductTypes, fetchProviderCategories, categories, loadingCategories, curId, page, more, loadingProductTypes, productTypes, changeNavbarAssets, loadingProvider, filter, resetProviderProductTypesData, fetchProviderProductsTypes, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup, catId, openGallery}) => {
+const ProviderScreen = ({fetchProviderData, currentProduct, setCurrentProduct, currentItemTypeId, itemsPage, changeStoreCurrentItemType, itemsMore, fetchingItems, items, fetchingItemTypes, itemTypes, fetchStoreItemTypes, takemeUserToken, currentUser, takemeProviderToken, takemeProviderData, fetchStoreItems, changeCurrentId, fetchingProductTypes, fetchProviderCategories, categories, loadingCategories, curId, page, more, loadingProductTypes, productTypes, changeNavbarAssets, loadingProvider, filter, resetProviderProductTypesData, fetchProviderProductsTypes, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup, catId, openGallery}) => {
     const [moreLoading, setMoreLoading] = useState(false);
     const params = useParams();
     const navigate = useNavigate();
@@ -85,8 +91,6 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
         };
     }, [swiperRef.current]);
 
-
-
     useEffect(() => {
         if(params.providerId == provider?.providerId) return;
         fetchProviderData(lan, params.providerId, filter, navigate);
@@ -123,20 +127,29 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
         (async () => {
             resetProviderProductTypesData();
 
+            // const data = {
+            //     providerId: params.providerId,
+            //     categoryListIds: (curId === 0 || curId === null) ?  null : [curId],
+            //     productTypeId: null,
+            //     navigate,
+            //     filter,
+            //     lan,
+            //     page: 0
+            // };
+            //
+            // // console.log('Loading ProductTypes!')
+            // await fetchProviderProductsTypes(data);
+
             const data = {
-                providerId: params.providerId,
-                categoryListIds: (curId === 0 || curId === null) ?  null : [curId],
-                productTypeId: null,
-                navigate,
-                filter,
+                page: 0,
                 lan,
-                page: 0
+                categoryIds: [curId],
+                storeId: [params.providerId]
             };
 
-            // console.log('Loading ProductTypes!')
-            await fetchProviderProductsTypes(data);
+            await fetchStoreItemTypes(data);
         })();
-    }, [params.providerId, curId]);
+    }, [params.providerId, curId, lan]);
 
     useEffect(() => {
         changeCurrentId(null);
@@ -225,36 +238,37 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
         }
     }, [providerProductTypeContainerRef?.current]);
 
-    useEffect(() => {
-        const providerProducttypeContainer = providerProductTypeContainerRef.current;
-        if(providerProducttypeContainer) {
-            // console.log('transform changed!')
-            providerProducttypeContainer.style.transform = `translateY(${transformValue}px)`
-        }
-
-    }, [providerProductTypeContainerRef.current, transformValue]);
+    // useEffect(() => {
+    //     const providerProducttypeContainer = providerProductTypeContainerRef.current;
+    //     if(providerProducttypeContainer) {
+    //         // console.log('transform changed!')
+    //         providerProducttypeContainer.style.transform = `translateY(${transformValue}px)`
+    //     }
+    //
+    // }, [providerProductTypeContainerRef.current, transformValue]);
 
     return (
         <>
             <KeepAlive cacheKey={'Provider'}>
                 <div
-                    style={{overflowY: `hidden`}}
-                    onTouchStart={e => {
-                        setProviderPosition(e.targetTouches[0].clientY);
-                    }}
-                    onTouchMove={e => {
-                        if(e.targetTouches[0].clientY < providerPosition + 150) {
-                            setHideCover(true);
-                        }
-
-                    }}
+                    // style={{overflowY: `hidden`}}
+                    // onTouchStart={e => {
+                    //     setProviderPosition(e.targetTouches[0].clientY);
+                    // }}
+                    // onTouchMove={e => {
+                    //     if(e.targetTouches[0].clientY < providerPosition + 150) {
+                    //         setHideCover(true);
+                    //     }
+                    //
+                    // }}
                     ref={providerScreenRef} className={'ProviderScreen'}
                 >
                     {
                         !loadingProvider && !loadingCategories ? (
+                        // !loadingProvider && !loadingCategories ? (
                             // Object.keys(provider).length !== 0 ? (
                             <div>
-                                <div className={`ProviderScreen__profile--container ${hideCover ? 'ProviderProfile__hidden' : 'ProviderProfile__display'}`}>
+                                <div className={`ProviderScreen__profile--container`}>
                                     <ProviderProfile hidden={hideCover} currentUser={currentUser} takemeUserToken={takemeUserToken} prov={true} socials={false} link={false} provider={provider} />
                                 </div>
                                 <div
@@ -271,120 +285,36 @@ const ProviderScreen = ({fetchProviderData, takemeUserToken, currentUser, takeme
                                     ref={categoriesContainerRef}
                                 >
                                     <Categories loadingCategories={loadingCategories} categories={categories} provider={true} curId={curId} />
-                                    {!loadingProductTypes && productTypes?.length > 0 && <ProductsTypesLabel transFormValue={transformValue} containerHeight={productTypeHeight} setTransformValue={setTransformValue} swiper={swiperInstance} active={active} setActive={setActive} />}
+                                    {!fetchingItemTypes ? <ProductsTypesLabel changeCurItemTypeId={changeStoreCurrentItemType} fetchItems={fetchStoreItems} fetchProviderProductsTypes={fetchStoreItemTypes} market={false} more={more} page={page} curId={curId} loadingProductTypes={fetchingItemTypes} transFormValue={transformValue} containerHeight={productTypeHeight} setTransformValue={setTransformValue} swiper={swiperInstance} active={active} setActive={setActive} productTypes={itemTypes} /> : <ItemTypesShimmer />}
                                 </div>
-                                {
-                                    loadingProductTypes ? (
-                                        <SpinnerComponent />
-                                    ) : (
-                                        <div
-                                            ref={providerProductTypeContainerRef}
-                                            className={`ProviderScreen__productTypes--container`}
-                                        >
-                                            {/*<Swiper*/}
-                                            {/*    onSwiper={swiper => {*/}
-                                            {/*        swiperRef.current = swiper.el;*/}
-                                            {/*        setSwiperInstance(swiper);*/}
-                                            {/*        console.log(swiper.slides);*/}
-                                            {/*        // swiper.slides.forEach(slide => { slide.style.height = '500px'; })*/}
-                                            {/*    }}*/}
-                                            {/*    // virtual={true}*/}
-                                            {/*    direction={'vertical'}*/}
-                                            {/*    spaceBetween={20}*/}
-                                            {/*    className={'mySwiper'}*/}
-                                            {/*    slidesPerView={1}*/}
-                                            {/*    coverflowEffect={{*/}
-                                            {/*        rotate: 50,*/}
-                                            {/*        stretch: 0,*/}
-                                            {/*        modifier: 3,*/}
-                                            {/*        slideShadows: false,*/}
-                                            {/*    }}*/}
-                                            {/*    grabCursor={true}*/}
-                                            {/*    onSlideChange={slider => {*/}
-                                            {/*        console.log(slider.activeIndex);*/}
-                                            {/*        setActive(productTypes[slider.activeIndex]?.id);*/}
-                                            {/*        setTScroll(false);*/}
-                                            {/*        setBScroll(false);*/}
-                                            {/*    }}*/}
-                                            {/*    // onReachEnd={swiper => {*/}
-                                            {/*    //     if(more) {*/}
-                                            {/*    //         const data = {*/}
-                                            {/*    //             providerId: params.providerId,*/}
-                                            {/*    //             categoryListIds: (curId === 0 || curId === null) ?  null : [curId],*/}
-                                            {/*    //             productTypeId: null,*/}
-                                            {/*    //             navigate,*/}
-                                            {/*    //             filter,*/}
-                                            {/*    //             lan,*/}
-                                            {/*    //             page*/}
-                                            {/*    //         };*/}
-                                            {/*    //         fetchProviderProductsTypes(data);*/}
-                                            {/*    //     }*/}
-                                            {/*    // }}*/}
-                                            {/*    autoHeight={true}*/}
-                                            {/*>*/}
-                                                {
-                                                    productTypes?.map((productType, i, array) => (
-                                                        // <SwiperSlide className={`ProviderScreen__swiper`} key={productType?.id}>
-                                                        <div className={'ProviderScreen__productType--container'}>
-                                                            {
-                                                                indicationTop && i != 0 && productType?.id == active && <ChangeIndication bottom={false} prev={ productTypes[i - 1]?.name} />
-                                                            }
-                                                            <ProviderProductType
-                                                                setActive={setActive}
-                                                                array={array}
-                                                                currentUser={currentUser}
-                                                                takemeUserToken={takemeUserToken}
-                                                                takemeProviderData={takemeProviderData}
-                                                                takemeProviderToken={takemeProviderToken}
-                                                                productTypes={productTypes}
-                                                                containerRef={providerProductTypeContainerRef}
-                                                                index={i}
-                                                                tScroll={tScroll}
-                                                                setTScroll={setTScroll}
-                                                                bScroll={bScroll}
-                                                                setBScroll={setBScroll}
-                                                                provider={provider}
-                                                                productType={productType}
-                                                                openGallery={openGallery}
-                                                                active={active}
-                                                                enableSwiping={enableSwiping}
-                                                                setEnableSwiping={setEnableSwiping}
-                                                                url={location?.pathname}
-                                                                swiperInstance={swiperInstance}
-                                                                hidden={hideCover}
-                                                                containerScroll={containerScroll}
-                                                                setContainerScroll={setContainerScroll}
-                                                                currentProductType={currentProductType}
-                                                                setCurrentProductType={setCurrentProductType}
-                                                                productTypeContainer={providerProductTypeContainerRef}
-                                                                containerHeight={productTypeHeight}
-                                                                transformValue={transformValue}
-                                                                setTransformValue={setTransformValue}
-                                                                scrollValue={scrollValue}
-                                                                setScrollValue={setScrollValue}
-                                                                indicationBottom={indicationBottom}
-                                                                setIndicationBottom={setIndicationBottom}
-                                                                indicationTop={indicationTop}
-                                                                setIndicationTop={setIndicationTop}
-                                                                next={productTypes[i + 1]}
-                                                                prev={productTypes[i - 1]}
-                                                            />
-                                                            {
-                                                                indicationBottom && productType?.id == active && i + 1 != productTypes?.length && <ChangeIndication bottom={true} next={productTypes[i + 1]?.name} />
-                                                            }
-
-                                                        </div>
-                                                        // </SwiperSlide>
-                                                    ))
-                                                }
-                                            {/*</Swiper>*/}
-                                        </div>
-                                    )
-                                }
-
+                                <div className={'ProviderScreen__items'}>
+                                    {
+                                        fetchingItems ? (
+                                            <ItemShimmer store={true} value={100} />
+                                        ) : (
+                                            <div
+                                                ref={providerProductTypeContainerRef}
+                                                className={`ProviderScreen__productTypes--container`}
+                                            >
+                                                <Items
+                                                    store={true}
+                                                    curItemTypeId={currentItemTypeId}
+                                                    moreItems={itemsMore}
+                                                    itemsPage={itemsPage}
+                                                    items={items}
+                                                    value={100}
+                                                    lan={lan}
+                                                    fetchProductsMarket={fetchStoreItems}
+                                                    setCurrentProduct={setCurrentProduct}
+                                                    scrollParent={providerScreenRef?.current}
+                                                />
+                                            </div>
+                                        )
+                                    }
+                                </div>
                             </div>
                         ) : (
-                            <SpinnerComponent />
+                            <StorePageShimmer />
                         )
                     }
                 </div>
@@ -413,6 +343,13 @@ const mapStateToProps = state => ({
     takemeProviderToken: state.login.takemeProviderToken,
     currentUser: state.login.takemeUserData,
     takemeUserToken: state.login.takemeUserToken,
+    itemTypes: state.provider.itemTypes,
+    fetchingItemTypes: state.provider.fetchingItemTypes,
+    items: state.provider.items,
+    fetchingItems: state.provider.fetchingItems,
+    itemsPage: state.provider.itemsPage,
+    itemsMore: state.provider.itemsMore,
+    currentItemTypeId: state.provider.currentItemTypeId
 });
 
-export default connect(mapStateToProps, {fetchProviderCategories, openGallery, changeCurrentId, changeNavbarAssets, fetchProviderData, fetchProviderProductsTypes, closeProviderGallery, resetProviderProductTypesData, openProviderGallery, changePopupProduct, openPopup}) (React.memo(ProviderScreen));
+export default connect(mapStateToProps, {fetchStoreItemTypes, fetchProviderCategories, openGallery, changeCurrentId, changeStoreCurrentItemType, fetchStoreItems, changeNavbarAssets, fetchProviderData, fetchProviderProductsTypes, closeProviderGallery, resetProviderProductTypesData, openProviderGallery, changePopupProduct, openPopup}) (React.memo(ProviderScreen));

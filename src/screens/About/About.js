@@ -11,10 +11,21 @@ import {changeNavbarAssets} from "../../store/actions/ui.actions";
 import ReactHtmlParser from 'react-html-parser';
 import DOMPurify from 'dompurify';
 
-const About = ({fetchAboutPage, changeNavbarAssets, fetchingAboutPage, aboutData, lan}) => {
+const About = ({fetchAboutPage, setshowMidText, setShowIcons, setBackBtn, changeNavbarAssets, fetchingAboutPage, aboutData, lan}) => {
 
     const {t} = useTranslation();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setBackBtn(true);
+        setShowIcons(false);
+        setshowMidText(true);
+        return () => {
+            setBackBtn(false);
+            setShowIcons(true);
+            setshowMidText(false);
+        }
+    }, []);
 
     useEffect(() => {
         const home = document.querySelector('body');

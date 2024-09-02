@@ -34,7 +34,6 @@ const GalleryItem = ({imgUrl, activeIndex}) => {
         const minDim = Math.min(width, height);
         containerElem.style.width = `${minDim}px`;
         containerElem.style.height = `${minDim}px`;
-        console.log(minDim);
     }
 
     useEffect(() => {
@@ -64,6 +63,7 @@ const GalleryItem = ({imgUrl, activeIndex}) => {
                 )
             }
             {(!loaded || hidden) && <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={false} priceTitle={false} imgLoaded={false} details={false} btn={false} />}
+            {/*{(!loaded || hidden) && <LoadingProduct imgLoaderRef={imgLoaderRef} priceStartFrom={false} priceTitle={false} imgLoaded={false} details={false} btn={false} />}*/}
         </div>
     );
 };

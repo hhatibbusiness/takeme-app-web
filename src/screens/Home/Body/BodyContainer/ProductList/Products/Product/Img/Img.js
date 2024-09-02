@@ -72,8 +72,8 @@ const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gall
                 className={'Img__container'}
                 onTouchStart={e => {
                     // console.log('touch start!', e.touches);
-                    console.log(e.touches);
-                    getMidpoint(e.touches)
+                    // console.log(e.touches);
+                    // getMidpoint(e.touches)
                     if(e.touches.length === 2) {
                         // console.log('touch double!')
                         setStartDistance(getDistance(e.touches));

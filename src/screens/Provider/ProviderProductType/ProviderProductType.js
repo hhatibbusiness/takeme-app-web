@@ -712,7 +712,7 @@ const ProviderProductType = ({
                             setIndicationBottom(true);
                             // setIndicationTop(false);
                              setScrollValue(e.targetTouches[0].clientY);
-                             if(Math.abs(e.targetTouches[0].clientY - startY) > containerHeight / 3 && !transformed && array.length != index + 1) {
+                             if(Math.abs(e.targetTouches[0].clientY - startY) > containerHeight / 12 && !transformed && array.length != index + 1) {
                                  setTransformValue(transformValue - containerHeight);
                                  setTransformed(true);
                                  // e.preventDefault();
@@ -729,7 +729,7 @@ const ProviderProductType = ({
                          if (currentScrollTop == 0) {
                              // setIndicationBottom(false);
                              setIndicationTop(true);
-                             if(Math.abs(e.targetTouches[0].clientY - startY) > containerHeight / 3 && !transformed && index != 0) {
+                             if(Math.abs(e.targetTouches[0].clientY - startY) > containerHeight / 12 && !transformed && index != 0) {
                                 setTransformValue(transformValue + containerHeight);
                                 setTransformed(true);
                                 setActive(array[index -1 ].id);

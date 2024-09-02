@@ -130,7 +130,7 @@ const SocialsNew = ({right, assets, isAuthenticated, takemeUserToken, lan, curre
                         ProviderName: provider?.name
                     })
                 }
-            }} href={`tel:${provider.phoneCountryCode}${provider.phone}`} className="SocialsNew__link">
+            }} href={`tel:${provider?.phoneCountryCode}${provider?.phone}`} className="SocialsNew__link">
                 <img className={'SocialsNew__link--image'} src={callImg} alt=""/>
                 <p>اتصال</p>
             </a>

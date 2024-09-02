@@ -1,4 +1,10 @@
 import * as actionTypes from '../actions/action.types';
+import products from "../../screens/Home/Body/BodyContainer/ProductList/Products/Products";
+import {
+    CHANGE_CUR_ITEM_TYPE_ID,
+    END_FETCHING_PRODUCTS_MARKET,
+    START_FETCHING_PRODUCTS_MARKET
+} from "../actions/action.types";
 
 const initialState = {
     categories: [],
@@ -20,7 +26,16 @@ const initialState = {
     stores: [],
     moreStores: false,
     fetchingStores: false,
-    store: false
+    store: false,
+    items: [],
+    fetchingItems: true,
+    itemsPage: 0,
+    moreItems: false,
+    itemTypes: [],
+    itemTypesPage: 0,
+    itemTypesMore: false,
+    fetchingItemTypes: false,
+    curItemTypeId: null
 };
 
 export default (state = initialState, action) => {
@@ -53,7 +68,11 @@ export default (state = initialState, action) => {
         case actionTypes.CHANGE_CURRENT_ID:
             return (() => ({
                 ...state,
-                curId: action.id
+                curId: action.id,
+                itemTypes: [],
+                items: [],
+                itemsPage: 0,
+                itemTypesPage: 0
             }))();
         case actionTypes.START_FETCHING_PRODUCTS:
             return {
@@ -73,11 +92,13 @@ export default (state = initialState, action) => {
 
             }
         case actionTypes.FETCH_CATEGORY_PRODUCTS:
-            return (() => ({
-                ...state,
-                products: [...state.products, ...action.products],
-                more: action.products.length >= 10
-            }))();
+            return (() => {
+                return {
+                    ...state,
+                    products: [...state.products, ...action.products],
+                    more: action.products.length >= 10
+                }
+            })();
         case actionTypes.CHANGE_SLIDER_VALUE:
             return {
                 ...state,
@@ -153,6 +174,47 @@ export default (state = initialState, action) => {
                 stores: [],
                 storePage: 0,
                 moreStores: false
+            }
+        case actionTypes.START_FETCHING_PRODUCTS_MARKET:
+            return {
+                ...state,
+                fetchingItems: true
+            }
+        case actionTypes.END_FETCHING_PRODUCTS_MARKET:
+            return {
+                ...state,
+                fetchingItems: false
+            }
+        case actionTypes.FETCH_PRODUCTS_MARKET:
+            return {
+                ...state,
+                items: [...state.items, ...action.items],
+                itemsPage: state.itemsPage + 1,
+                moreItems: action.items.length == 10
+            }
+        case actionTypes.START_FETCHING_ITEM_TYPES:
+            return {
+                ...state,
+                fetchingItemTypes: true
+            }
+        case actionTypes.END_FETCHING_ITEM_TYPES:
+            return {
+                ...state,
+                fetchingItemTypes: false
+            }
+        case actionTypes.FETCH_ITEM_TYPES:
+            return {
+                ...state,
+                itemTypes: [...state.itemTypes, ...action.itemTypes],
+                itemTypesMore: action.itemTypes.length >= 10,
+                itemTypesPage: state.itemTypesMore + 1
+            }
+        case actionTypes.CHANGE_CUR_ITEM_TYPE_ID:
+            return {
+                ...state,
+                curItemTypeId: action.id,
+                items: [],
+                itemsPage: 0
             }
         default:
             return state;

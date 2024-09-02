@@ -85,7 +85,7 @@ const Search = ({searching, store, searchPage, loadingSearchResults, term, chang
                     }} value={searchPage ? searchTerm : ''} onChange={e => inputChangeHandler(e)} onKeyUp={e => setClicking(false)} onKeyDown={e => {
                         setClicking(true);
                         setTyping(true);
-                    }} ref={inputRef} type="text" className={`Search__input `} placeholder={t('search')}/>
+                    }} ref={inputRef} type="text" className={`Search__input `} placeholder={t('search')} />
                     <button className="Search__btn">
                         {
                             (typing || loadingSearchResults) ? (

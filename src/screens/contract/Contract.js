@@ -10,9 +10,21 @@ import {changeNavbarAssets} from "../../store/actions/ui.actions";
 import ReactHtmlParser from "react-html-parser";
 import DOMPurify from "dompurify";
 
-const Contract = ({fetchContractPage, changeNavbarAssets, lan, fetchingContractPage, contractData}) => {
+const Contract = ({fetchContractPage, setshowMidText, setBackBtn, setShowIcons, changeNavbarAssets, lan, fetchingContractPage, contractData}) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setBackBtn(true);
+        setShowIcons(false);
+        setshowMidText(true);
+        return () => {
+            setBackBtn(false);
+            setShowIcons(true);
+            setshowMidText(false);
+        }
+    }, []);
+
 
     useEffect(() => {
         if (contractData) return;
@@ -41,7 +53,8 @@ const Contract = ({fetchContractPage, changeNavbarAssets, lan, fetchingContractP
     }, []);
 
     useEffect(() => {
-        const data = {
+        console.log('working!')
+        const another = {
             searchPage: false,
             backBtn: true,
             step: null,
@@ -49,26 +62,26 @@ const Contract = ({fetchContractPage, changeNavbarAssets, lan, fetchingContractP
             search: false,
             midText: t('condition'),
             logoLink: '/'
-        }
-        changeNavbarAssets(data);
+        };
+        changeNavbarAssets(another);
     }, []);
 
-    useEffect(() => {
-        return () => {
-            const data = {
-                // assets: assets,
-                searchPage: false,
-                term: '',
-                backBtn: false,
-                step: null,
-                setStep: null,
-                search: true,
-                logoLink: '/'
-            };
-            console.log(data);
-            changeNavbarAssets(data);
-        }
-    }, []);
+    // useEffect(() => {
+    //     return () => {
+    //         const data = {
+    //             // assets: assets,
+    //             searchPage: false,
+    //             term: '',
+    //             backBtn: false,
+    //             step: null,
+    //             setStep: null,
+    //             search: true,
+    //             logoLink: '/'
+    //         };
+    //         console.log(data);
+    //         changeNavbarAssets(data);
+    //     }
+    // }, []);
 
     useEffect(() => {
         const contractContainer = document.querySelector('.ContractScreen__content');

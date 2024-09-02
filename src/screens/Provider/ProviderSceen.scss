@@ -20,9 +20,14 @@
 
   .ProviderScreen__productTypes--container {
     transition: transform 0.2s;
+    background: #d9d9d9;
 
     .ProviderScreen__productType--container {
       position: relative;
+    }
+
+    .Item {
+      margin-bottom: 10px;
     }
   }
 

@@ -12,7 +12,7 @@ import {sendForgetPasswordVerificationCode, sendCodePasswordToServer} from "../.
 import {KeepAlive} from "react-activation";
 import {changeNavbarAssets} from "../../store/actions/ui.actions";
 
-const Login = ({lan, login, logging, changeNavbarAssets, registerError, error, errorMessage}) => {
+const Login = ({lan, login, setBackBtn, logging, setShowIcons, changeNavbarAssets, registerError, error, errorMessage}) => {
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [phoneActive, setPhoneActive] = useState(false);
@@ -26,6 +26,15 @@ const Login = ({lan, login, logging, changeNavbarAssets, registerError, error, e
     const history = useLocation();
 
     const {t} = useTranslation();
+
+    useEffect(() => {
+        setBackBtn(true);
+        setShowIcons(false);
+        return () => {
+            setBackBtn(false)
+            setShowIcons(true);
+        }
+    }, []);
 
     useEffect(() => {
         if(localStorage.getItem('takemeLoginData')) {

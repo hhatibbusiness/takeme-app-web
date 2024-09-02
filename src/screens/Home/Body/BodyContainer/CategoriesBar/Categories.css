@@ -1,8 +1,5 @@
 .Categories {
     position: relative;
-    /*top: 70px;*/
-    /*margin: auto;*/
-    /*width: 100%;*/
     z-index: 5;
     background: white;
     padding: 0;
@@ -10,11 +7,12 @@
     display: flex;
     flex-direction: row;
     justify-content: start;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
 .Categories__shadow {
     padding-bottom: 5px;
-    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.12);
 }
 
 .Categories__parent {
@@ -24,8 +22,6 @@
     direction: rtl;
     margin-left: auto;
     padding: 0 !important;
-    /*margin-bottom: -10px;*/
-    /*white-space: pre;*/
 }
 
 .Categories__parent::-webkit-scrollbar {

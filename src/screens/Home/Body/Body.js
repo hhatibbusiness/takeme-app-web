@@ -10,16 +10,17 @@ import './Body.scss'
 import {Outlet} from "react-router-dom";
 import {closePopup} from "../../../store/actions/ui.actions";
 
-const Body = ({ coverLoaded, setCoverLoaded, currentProduct, setCurrentProduct, setSidebar, sidebar, loadingCategories}) => {
+const Body = ({ coverLoaded, setNavHeight, considerNav, setConsiderNav, fixedNav, setY, y, setFixedNav, topValue, setTopValue, setCoverLoaded, navShow, bodyContainerRef, setNavShow, setFiltersActive, filtersActive, navHeight, currentProduct, setCurrentProduct, setSidebar, sidebar, loadingCategories}) => {
     return (
             <div className={'Body'}>
+            {/*<div className={'Body'} style={{paddingTop: `${navHeight}px`}}>*/}
                 {
                     (loadingCategories) ? (
                         <div />
                     ) : <CategoryError>
                         <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
                         <Backdrop sidebar={sidebar} setSidebar={setSidebar} />
-                        <BodyContainerComponent coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} />
+                        <BodyContainerComponent y={y} setY={setY} fixedNav={fixedNav} setFixedNav={setFixedNav} topValue={topValue} setTopValue={setTopValue} considerNav={considerNav}j bodyContainerRef={bodyContainerRef} setConsiderNav={setConsiderNav} setNavHeight={setNavHeight} navShow={navShow} setNavShow={setNavShow} filtersActive={filtersActive} setFiltersActive={setFiltersActive} navHeight={navHeight} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} />
                     </CategoryError>
                 }
                 {/*{*/}
