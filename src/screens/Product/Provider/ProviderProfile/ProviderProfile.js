@@ -25,6 +25,12 @@ const ProviderProfile = ({provider: p, takemeUserToken, currentUser, search, tog
         }} style={{cursor: `${link && 'pointer'}`}} className={`ProviderProfile ${prov ? 'ProviderProfile__provider' : ''} `}>
             <ProviderImage p={p} activeProduct={activeProduct} id={p?.id} img={p?.imagePath && p.imagePath} prov={prov} />
             <ProviderBody takemeUserToken={takemeUserToken} currentUser={currentUser} activeProduct={activeProduct} prov={prov} socials={socials} provider={p} />
+            <div className="ProviderBody__location">
+                {/*<img src={locationImage}/>*/}
+                <i className="fa-solid fa-location-dot"></i>
+                <p className={'ProviderBody__city'}>{p?.city && p?.city}</p>
+            </div>
+
         </div>
     );
 };

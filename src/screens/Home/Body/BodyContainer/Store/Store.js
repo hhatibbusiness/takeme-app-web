@@ -5,6 +5,7 @@ import {fetchMarketStores, resetMarketStoreData} from "../../../../../store/acti
 import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../../../../components/Loader/Loader";
 import StoreItem from "./StoreItem/StoreItem";
+import StoreViewShimmer from "../../../../../components/StoreViewShimmer/StoreViewShimmer";
 
 const Store = ({fetchMarketStores, curId, filter, resetMarketStoreData, lan, page, fetchingStores, stores, more}) => {
     const [moreLoading, setMoreLoading] = useState(true);
@@ -62,7 +63,18 @@ const Store = ({fetchMarketStores, curId, filter, resetMarketStoreData, lan, pag
                     setLoading(false);
                 }}
                 hasMore={moreLoading}
-                loader={<Loader />}
+                loader={
+                    <>
+                        <StoreViewShimmer />
+                        <div className="Store__separator"></div>
+                        <StoreViewShimmer />
+                        <div className="Store__separator"></div>
+                        <StoreViewShimmer />
+                        <div className="Store__separator"></div>
+                        <StoreViewShimmer />
+
+                    </>
+                }
                 useWindow={true}
                 threshold={50}
             >

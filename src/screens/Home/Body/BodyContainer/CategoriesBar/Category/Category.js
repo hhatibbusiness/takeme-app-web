@@ -15,6 +15,7 @@ import {changeCurrentId} from "../../../../../../store/actions/provider.actions"
 import {changeCurItemTypeId} from "../../../../../../store/actions/categories.action";
 
 const Category = ({
+    providerId,
     cat,
     changeSearchCategoryId,
     changeCurrentId,
@@ -56,7 +57,7 @@ const Category = ({
                             page: 0,
                             lan: lan,
                             itemTypeIds: [null],
-                            storeId: [params.providerId],
+                            storeId: [providerId],
                             categoryIds: [cat?.id]
                         };
 

@@ -32,7 +32,7 @@ const BodyContainerComponent = ({loadingCategories, y, setY, topValue, setTopVal
 
     const handleWindowScroll = useCallback( e => {
         const container = bodyContainerRef.current;
-        console.log(Math.floor(y), Math.floor(window.scrollY));
+
         if(Math.floor(y) > Math.floor(window.scrollY)) {
             setY(window.scrollY);
             if(topValue + (y - window.scrollY) > 0) {
@@ -59,6 +59,7 @@ const BodyContainerComponent = ({loadingCategories, y, setY, topValue, setTopVal
             setY(window.scrollY);
             window.addEventListener('scroll', handleWindowScroll);
         }
+
         return () => {
             window.removeEventListener('scroll', handleWindowScroll);
         }

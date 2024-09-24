@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import './ProviderSceen.scss';
 import {connect} from "react-redux";
 import {fetchProviderData, closeProviderGallery, changeStoreCurrentItemType, openProviderGallery, fetchProviderProductsTypes, resetProviderProductTypesData, changeCurrentId, fetchStoreItemTypes, fetchStoreItems} from "../../store/actions/provider.actions";
@@ -25,9 +25,10 @@ import StorePageShimmer from "../../components/StorePageShimmer/StorePageShimmer
 import ItemShimmer from "../../components/ItemShimmer/ItemShimmer";
 import Items from "../Home/Body/BodyContainer/Items/Items";
 import ItemTypesShimmer from "../../components/ItemTypesShimmer/ItemTypesShimmer";
+import search from "../../components/HOC/Navbar/Search/Search";
 
 
-const ProviderScreen = ({fetchProviderData, currentProduct, setCurrentProduct, currentItemTypeId, itemsPage, changeStoreCurrentItemType, itemsMore, fetchingItems, items, fetchingItemTypes, itemTypes, fetchStoreItemTypes, takemeUserToken, currentUser, takemeProviderToken, takemeProviderData, fetchStoreItems, changeCurrentId, fetchingProductTypes, fetchProviderCategories, categories, loadingCategories, curId, page, more, loadingProductTypes, productTypes, changeNavbarAssets, loadingProvider, filter, resetProviderProductTypesData, fetchProviderProductsTypes, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup, catId, openGallery}) => {
+const ProviderScreen = ({fetchProviderData, setProviderId, setShowSItemTypes, setShowMItemTypes, setShowSCategories, setShowMCategories, setShowSlider, setFiltersActive, setPersonActive, storeDetailsRef, setTopValue, topValue, bodyContainerRef, navHeight, setSearchActive, searchActive, setEyeDis, eyeDis, setPersonAva, setBackBtn, currentProduct, setCurrentProduct, currentItemTypeId, itemsPage, changeStoreCurrentItemType, itemsMore, fetchingItems, items, fetchingItemTypes, itemTypes, fetchStoreItemTypes, takemeUserToken, currentUser, takemeProviderToken, takemeProviderData, fetchStoreItems, changeCurrentId, fetchingProductTypes, fetchProviderCategories, categories, loadingCategories, curId, page, more, loadingProductTypes, productTypes, changeNavbarAssets, loadingProvider, filter, resetProviderProductTypesData, fetchProviderProductsTypes, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup, catId, openGallery}) => {
     const [moreLoading, setMoreLoading] = useState(false);
     const params = useParams();
     const navigate = useNavigate();
@@ -50,9 +51,88 @@ const ProviderScreen = ({fetchProviderData, currentProduct, setCurrentProduct, c
     const [scrollValue, setScrollValue] = useState(0);
     const [indicationBottom, setIndicationBottom] = useState(false);
     const [indicationTop, setIndicationTop] = useState(false);
+    const [y, setY] = useState(0);
 
     const categoriesContainerRef = useRef();
     const providerProductTypeContainerRef = useRef();
+    const providerContainerRefDub = useRef();
+
+    const handleWindowScroll = useCallback( e => {
+        const container = bodyContainerRef.current;
+        const providerContainer = providerContainerRefDub.current;
+        // const searchContainerEle = searchContainerRef?.current;
+        const top = Math.abs(providerContainer.getBoundingClientRect()?.top);
+
+        console.log(Math.floor(y), top);
+
+        if(Math.floor(y) > Math.floor(top)) {
+            setY(top);
+            if(topValue + (y - top) > 0) {
+                return setTopValue(0);
+            }
+            setTopValue(topValue + (y - top));
+        } else if(Math.floor(y) < Math.floor(top)) {
+            if(top - y > Math.abs(navHeight) - Math.abs(topValue)) {
+                setY(top);
+                return setTopValue(-navHeight);
+            }
+            if(top - y + topValue < -navHeight) {
+                setY(top);
+                return setTopValue(-navHeight);
+            }
+            setTopValue(topValue - (top - y));
+            setY(top);
+        }
+    }, [y]);
+
+    // useEffect(() => {
+    //     const container = bodyContainerRef.current;
+    //     const providerContainer = providerScreenRef?.current;
+    //     if(container && providerContainer) {
+    //         console.log(Math.abs(providerContainer.getBoundingClientRect()?.top))
+    //         setY(Math.abs(providerContainer.getBoundingClientRect()?.top));
+    //         // providerContainer.onScroll(e => {
+    //         //     console.log('Hello from Scroll!')
+    //         // })
+    //         // console.log(providerContainer);
+    //         // providerContainer.addEventListener('scroll', handleWindowScroll);
+    //     }
+    //     // return () => {
+    //     //     providerContainer?.removeEventListener('scroll', handleWindowScroll);
+    //     // }
+    // }, [handleWindowScroll, bodyContainerRef.current, providerContainerRefDub?.current]);
+
+    useEffect(() => {
+        setBackBtn(true);
+        setEyeDis(true);
+        setSearchActive(false);
+        setPersonAva(true);
+        setPersonActive(true);
+        setFiltersActive(false);
+        setShowSlider(false);
+        setTopValue(0);
+        setShowSCategories(true);
+        setShowMCategories(false);
+        setShowSItemTypes(true);
+        setShowMItemTypes(false);
+        return () => {
+            setEyeDis(false);
+            setBackBtn(false);
+            setSearchActive(true);
+            setPersonAva(false);
+            setPersonActive(false);
+            setShowSlider(true);
+            setTopValue(0);
+            setShowSCategories(false);
+            setShowMCategories(true);
+            setShowMItemTypes(true);
+            setShowSItemTypes(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        setProviderId(params.providerId)
+    }, [params]);
 
     useEffect(() => {
         const barsContainer = categoriesContainerRef.current;
@@ -79,7 +159,6 @@ const ProviderScreen = ({fetchProviderData, currentProduct, setCurrentProduct, c
                 // });
             };
 
-            // console.log(swiperContainer)
             removeInlineStyles();
             swiperContainer.on('slideChange', removeInlineStyles);
         }
@@ -251,6 +330,10 @@ const ProviderScreen = ({fetchProviderData, currentProduct, setCurrentProduct, c
         <>
             <KeepAlive cacheKey={'Provider'}>
                 <div
+                    onScroll={e => {
+                        if(!providerContainerRefDub?.current) return;
+                        handleWindowScroll();
+                    }}
                     // style={{overflowY: `hidden`}}
                     // onTouchStart={e => {
                     //     setProviderPosition(e.targetTouches[0].clientY);
@@ -265,28 +348,30 @@ const ProviderScreen = ({fetchProviderData, currentProduct, setCurrentProduct, c
                 >
                     {
                         !loadingProvider && !loadingCategories ? (
+                        // false ? (
                         // !loadingProvider && !loadingCategories ? (
                             // Object.keys(provider).length !== 0 ? (
-                            <div>
-                                <div className={`ProviderScreen__profile--container`}>
-                                    <ProviderProfile hidden={hideCover} currentUser={currentUser} takemeUserToken={takemeUserToken} prov={true} socials={false} link={false} provider={provider} />
-                                </div>
-                                <div
-                                    onTouchStart={e => {
-                                        setCategoryBarPosition(e.targetTouches[0].clientY);
-                                    }}
-                                    onTouchMove={e => {
-                                        if(e.targetTouches[0].clientY + 100 > categoryBarPosition) {
-                                            setHideCover(false);
-                                            setCategoryBarPosition(e.targetTouches[0].clientY);
-                                        }
-                                    }}
-                                    className={'Provider__categories'}
-                                    ref={categoriesContainerRef}
-                                >
-                                    <Categories loadingCategories={loadingCategories} categories={categories} provider={true} curId={curId} />
-                                    {!fetchingItemTypes ? <ProductsTypesLabel changeCurItemTypeId={changeStoreCurrentItemType} fetchItems={fetchStoreItems} fetchProviderProductsTypes={fetchStoreItemTypes} market={false} more={more} page={page} curId={curId} loadingProductTypes={fetchingItemTypes} transFormValue={transformValue} containerHeight={productTypeHeight} setTransformValue={setTransformValue} swiper={swiperInstance} active={active} setActive={setActive} productTypes={itemTypes} /> : <ItemTypesShimmer />}
-                                </div>
+                            <div                     style={{paddingTop: `${navHeight}px`}}
+                                                     ref={providerContainerRefDub} >
+                                {/*<div className={`ProviderScreen__profile--container`}>*/}
+                                {/*    <ProviderProfile hidden={hideCover} currentUser={currentUser} takemeUserToken={takemeUserToken} prov={true} socials={false} link={false} provider={provider} />*/}
+                                {/*</div>*/}
+                                {/*<div*/}
+                                {/*    onTouchStart={e => {*/}
+                                {/*        setCategoryBarPosition(e.targetTouches[0].clientY);*/}
+                                {/*    }}*/}
+                                {/*    onTouchMove={e => {*/}
+                                {/*        if(e.targetTouches[0].clientY + 100 > categoryBarPosition) {*/}
+                                {/*            setHideCover(false);*/}
+                                {/*            setCategoryBarPosition(e.targetTouches[0].clientY);*/}
+                                {/*        }*/}
+                                {/*    }}*/}
+                                {/*    className={'Provider__categories'}*/}
+                                {/*    ref={categoriesContainerRef}*/}
+                                {/*>*/}
+                                {/*    <Categories loadingCategories={loadingCategories} categories={categories} provider={true} curId={curId} />*/}
+                                {/*    {!fetchingItemTypes ? <ProductsTypesLabel changeCurItemTypeId={changeStoreCurrentItemType} fetchItems={fetchStoreItems} fetchProviderProductsTypes={fetchStoreItemTypes} market={false} more={more} page={page} curId={curId} loadingProductTypes={fetchingItemTypes} transFormValue={transformValue} containerHeight={productTypeHeight} setTransformValue={setTransformValue} swiper={swiperInstance} active={active} setActive={setActive} productTypes={itemTypes} /> : <ItemTypesShimmer />}*/}
+                                {/*</div>*/}
                                 <div className={'ProviderScreen__items'}>
                                     {
                                         fetchingItems ? (
@@ -314,7 +399,7 @@ const ProviderScreen = ({fetchProviderData, currentProduct, setCurrentProduct, c
                                 </div>
                             </div>
                         ) : (
-                            <StorePageShimmer />
+                            <StorePageShimmer navHeight={navHeight} />
                         )
                     }
                 </div>

@@ -6,7 +6,7 @@ import locationImage from '../../assets/images/location.svg';
 import ItemTypesShimmer from "../ItemTypesShimmer/ItemTypesShimmer";
 import ItemShimmer from "../ItemShimmer/ItemShimmer";
 
-const StorePageShimmer = () => {
+const StorePageShimmer = ({navHeight}) => {
     const [imageRef, setImageRef] = useState();
 
     useEffect(() => {
@@ -15,58 +15,42 @@ const StorePageShimmer = () => {
         }
     }, [imageRef, imageRef?.current]);
     return (
-        <div className={'StorePageShimmer'}>
-            <div className="StorePageShimmer__profile">
-                <div className="StorePageShimmer__profile--avatar"></div>
-                <div className="StorePageShimmer__profile--name"></div>
-                <div className="StorePageShimmer__profile--count"></div>
-                <div className="StorePageShimmer__profile--socials">
-                    <div className="StorePageShimmer__profile--image">
-                        <img src={phoneImage} alt=""/>
-                    </div>
-                    <div className="StorePageShimmer__profile--image">
-                        <img src={whatsImage} alt=""/>
-                    </div>
-                    <div className="StorePageShimmer__profile--image">
-                        <img src={locationImage} alt=""/>
-                    </div>
-                </div>
-            </div>
-            <div className="StorePageShimmer__categories">
-                <div className="StorePageShimmer__categories--category">
-                    <div className="StorePageShimmer__categories--st"></div>
-                    <div className="StorePageShimmer__categrories--text"></div>
-                </div>
-                <div className="StorePageShimmer__categories--category">
-                    <div className="StorePageShimmer__categories--st"></div>
-                    <div className="StorePageShimmer__categrories--text"></div>
+        <div className={'StorePageShimmer'} style={{paddingTop: `${navHeight}px`}}>
+            {/*<div className="StorePageShimmer__categories">*/}
+            {/*    <div className="StorePageShimmer__categories--category">*/}
+            {/*        <div className="StorePageShimmer__categories--st"></div>*/}
+            {/*        <div className="StorePageShimmer__categrories--text"></div>*/}
+            {/*    </div>*/}
+            {/*    <div className="StorePageShimmer__categories--category">*/}
+            {/*        <div className="StorePageShimmer__categories--st"></div>*/}
+            {/*        <div className="StorePageShimmer__categrories--text"></div>*/}
 
-                </div>
-                <div className="StorePageShimmer__categories--category">
-                    <div className="StorePageShimmer__categories--st"></div>
-                    <div className="StorePageShimmer__categrories--text"></div>
+            {/*    </div>*/}
+            {/*    <div className="StorePageShimmer__categories--category">*/}
+            {/*        <div className="StorePageShimmer__categories--st"></div>*/}
+            {/*        <div className="StorePageShimmer__categrories--text"></div>*/}
 
-                </div>
-                <div className="StorePageShimmer__categories--category">
-                    <div className="StorePageShimmer__categories--st"></div>
-                    <div className="StorePageShimmer__categrories--text"></div>
+            {/*    </div>*/}
+            {/*    <div className="StorePageShimmer__categories--category">*/}
+            {/*        <div className="StorePageShimmer__categories--st"></div>*/}
+            {/*        <div className="StorePageShimmer__categrories--text"></div>*/}
 
-                </div>
-                <div className="StorePageShimmer__categories--category">
-                    <div className="StorePageShimmer__categories--st"></div>
-                    <div className="StorePageShimmer__categrories--text"></div>
+            {/*    </div>*/}
+            {/*    <div className="StorePageShimmer__categories--category">*/}
+            {/*        <div className="StorePageShimmer__categories--st"></div>*/}
+            {/*        <div className="StorePageShimmer__categrories--text"></div>*/}
 
-                </div>
-                <div className="StorePageShimmer__categories--category">
-                    <div className="StorePageShimmer__categories--st"></div>
-                    <div className="StorePageShimmer__categrories--text"></div>
+            {/*    </div>*/}
+            {/*    <div className="StorePageShimmer__categories--category">*/}
+            {/*        <div className="StorePageShimmer__categories--st"></div>*/}
+            {/*        <div className="StorePageShimmer__categrories--text"></div>*/}
 
-                </div>
-            </div>
-            <ItemTypesShimmer />
+            {/*    </div>*/}
+            {/*</div>*/}
+            {/*<ItemTypesShimmer />*/}
             <div className="StorePageShimmer__separator"></div>
-            <ItemShimmer setImageRef={setImageRef} value={100} />
-            <div className="StorePageShimmer__location"><i className="fa-solid fa-location-dot"></i></div>
+            <ItemShimmer store={true} setImageRef={setImageRef} value={100} />
+            {/*<div className="StorePageShimmer__location"><i className="fa-solid fa-location-dot"></i></div>*/}
         </div>
     );
 };

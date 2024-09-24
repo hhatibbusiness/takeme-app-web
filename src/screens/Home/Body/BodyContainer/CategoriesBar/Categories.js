@@ -6,7 +6,7 @@ import {changeId, fetchCategories} from "../../../../../store/actions/categories
 import InfiniteScroll from "react-infinite-scroller";
 import {useNavigate} from "react-router-dom";
 
-const Categories = ({categories, provider, fetchCategories, filter, lan, curId, loadingCategories, search, home, page, more}) => {
+const Categories = ({categories, providerId, provider, fetchCategories, filter, lan, curId, loadingCategories, search, home, page, more}) => {
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
     const [down, setDown] = useState(false);
@@ -90,7 +90,7 @@ const Categories = ({categories, provider, fetchCategories, filter, lan, curId, 
 
 
     return (
-        <div id={'categories'} className={`Categories ${provider ? 'Categories__shadow' : ''}`}>
+        <div id={'categories'} className={`Categories`}>
             <div ref={categoriesRef} className="Categories__parent" onMouseDown={mouseDownHandler} onMouseLeave={mouseUpHandler} onMouseUp={mouseUpHandler} onMouseMove={mouseMoveHandler}>
                 {/*<div ref={scrollParent} className={'Categories__infinite'}>*/}
                 {/*    <InfiniteScroll*/}
@@ -130,7 +130,7 @@ const Categories = ({categories, provider, fetchCategories, filter, lan, curId, 
                 <div id={'Categories__container'} ref={containerRef} className="Categories__container">
                     {
                         !loadingCategories && categories.map((cat, i) => (
-                            <CategoryItem provider={provider} curId={curId} search={search} home={home} key={cat?.id && cat.id} cat={cat} />
+                            <CategoryItem providerId={providerId} provider={provider} curId={curId} search={search} home={home} key={cat?.id && cat.id} cat={cat} />
                         ))
                     }
 

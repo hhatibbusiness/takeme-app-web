@@ -5,7 +5,7 @@ import ProductTypeLabel from "./ProductTypeLabel/ProductTypeLabel";
 import {useParams} from "react-router-dom";
 import {changeCurItemTypeId} from "../../../store/actions/categories.action";
 
-const ProductsTypesLabel = ({containerHeight, changeCurItemTypeId, fetchItems, curItemTypeId, filter, market, lan, curId, fetchProviderProductsTypes, page, more, setTransformValue, transFormValue, loadingProductTypes, productTypes, swiper, active, setActive}) => {
+const ProductsTypesLabel = ({containerHeight, providerId, changeCurItemTypeId, fetchItems, curItemTypeId, filter, market, lan, curId, fetchProviderProductsTypes, page, more, setTransformValue, transFormValue, loadingProductTypes, productTypes, swiper, active, setActive}) => {
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
     const [down, setDown] = useState(false);
@@ -109,7 +109,7 @@ const ProductsTypesLabel = ({containerHeight, changeCurItemTypeId, fetchItems, c
                 <div className="ProductsTypesLabel__container">
                     {
                         !loadingProductTypes && productTypes?.map((productType, i) => (
-                            <ProductTypeLabel changeCurItemTypeId={changeCurItemTypeId} fetchItems={fetchItems} curItemTypeId={curItemTypeId} lan={lan} market={market} containerHeight={containerHeight} transformValue={transFormValue} setTransformValue={setTransformValue} labelContainer={labelContainer} index={i} swiper={swiper} productTypes={productTypes} setActive={setActive} active={active} productType={productType} key={productType.id} />
+                            <ProductTypeLabel providerId={providerId} changeCurItemTypeId={changeCurItemTypeId} fetchItems={fetchItems} curItemTypeId={curItemTypeId} lan={lan} market={market} containerHeight={containerHeight} transformValue={transFormValue} setTransformValue={setTransformValue} labelContainer={labelContainer} index={i} swiper={swiper} productTypes={productTypes} setActive={setActive} active={active} productType={productType} key={productType.id} />
                         ))
                     }
                 </div>

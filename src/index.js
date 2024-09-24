@@ -8,6 +8,7 @@ import {Provider} from "react-redux";
 import {HashRouter} from "react-router-dom";
 import history from "./utls/history/history.utl";
 import {AliveScope} from "react-activation";
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 import './i18n';
 
@@ -22,3 +23,6 @@ root.render(
         </HashRouter>
     </Provider>
 );
+
+
+serviceWorkerRegistration.register();

@@ -15,6 +15,7 @@ import {changeNavbarAssets} from "../../store/actions/ui.actions";
 import DropDownListItem from "../../components/DropDownList/DropDownListItem/DropDownListItem";
 
 const SearchScreen = ({
+    setShowItemTypes,
     backupFilters,
     setBackupFilters,
     filtersActive,
@@ -81,6 +82,7 @@ const SearchScreen = ({
         setIconsShow(false);
         setShowSlider(false);
         setFiltersActive(true);
+        setShowItemTypes(false);
         return () => {
             setFiltersActive(backupFilters);
             setBackBtn(false);
@@ -88,6 +90,7 @@ const SearchScreen = ({
             setSearchShow(false);
             setIconsShow(true);
             setShowSlider(true);
+            setShowItemTypes(true);
         }
     }, []);
 
@@ -183,6 +186,8 @@ const SearchScreen = ({
         const searchContainer = searchRef?.current;
         const searchContainerEle = searchContainerRef?.current;
         if(container && searchContainer && searchContainerEle) {
+            console.log(Math.abs(searchContainerEle.getBoundingClientRect()?.top))
+
             setY(Math.abs(searchContainerEle.getBoundingClientRect()?.top));
             searchContainer.addEventListener('scroll', handleWindowScroll);
         }
@@ -190,8 +195,6 @@ const SearchScreen = ({
             searchContainer?.removeEventListener('scroll', handleWindowScroll);
         }
     }, [handleWindowScroll, bodyContainerRef.current, searchRef?.current, searchContainerRef?.current]);
-
-
 
     return (
         <>

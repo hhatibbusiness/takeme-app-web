@@ -286,8 +286,8 @@ export const endFetchingStoreItems = {
 export const fetchStoreItems = data => async dispatch => {
     try {
         if(data.page == 0) dispatch(startFetchingStoreItems);
+        console.log(data);
         const res = await axios.get(`${BASE_URL}endpoints/items/list/by-item-types-ids?locale=${data.lan}&page=${data.page}&itemTypeIds=${data.itemTypeIds}&storeIds=${data.storeIds}`);
-
         dispatch({
             type: FETCH_STORE_ITEMS,
             items: res.data.output,

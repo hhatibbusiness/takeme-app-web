@@ -47,11 +47,6 @@ const ProviderBody = ({provider: p, currentUser, takemeUserToken, activeProduct,
                             })
                         }
                     }} className={'ProviderBody__name'}>{p?.name && p.name} {copied}</p>
-                    <div className="ProviderBody__location">
-                        {/*<img src={locationImage}/>*/}
-                        <i className="fa-solid fa-location-dot"></i>
-                        <p className={'ProviderBody__city'}>{p?.city && p?.city}</p>
-                    </div>
                 </div>
             </div>
             <div className="ProviderBody__left">
