@@ -1,0 +1,20 @@
+.Products {
+    width: 100%;
+    background: #d9d9d9;
+    padding-bottom: 50px;
+    scroll-margin: 190px;
+}
+
+.Products__container {
+    width: 100%;
+    display: grid;
+    margin: auto;
+    background: var(--product-types-background-color);
+    /*padding-top: 10px;*/
+    direction: rtl;
+    scroll-behavior: smooth;
+}
+
+.Products__full {
+    max-width: 500px;
+}

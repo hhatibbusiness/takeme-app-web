@@ -1,0 +1,46 @@
+@import "../../../../styles/index";
+
+.ProviderProfile {
+  @include center-h();
+  flex-direction: row;
+  //padding: 15px 25px 0 0 ;
+  //margin-bottom: 10px;
+  margin-top: 10px;
+  padding-bottom: 10px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  .ProviderBody__location {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    //gap: 5px;
+
+    img {
+      width: 22px;
+      height: 22px;
+    }
+
+    i {
+      color: var(--sec-color-shades-3);
+      font-size: 22px;
+      cursor: pointer;
+    }
+  }
+
+
+}
+
+.ProviderProfile__provider {
+  background: #F2F2F2;
+  margin-top: 0 !important;
+}
+

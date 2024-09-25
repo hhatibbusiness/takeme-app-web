@@ -1,0 +1,24 @@
+.Failure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: white;
+  padding: 50px;
+  gap: 10px;
+
+  p {
+    color: var(--sec-color-shades-5);
+  }
+
+  .Failure__img {
+    max-width: 200px;
+    transform: rotateY(180deg);
+  }
+
+  i {
+    color: red;
+    font-size: 20px;
+  }
+}

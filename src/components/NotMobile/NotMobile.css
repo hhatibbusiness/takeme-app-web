@@ -1,0 +1,9 @@
+.NotMobile {
+    width: 100%;
+    height: 100vh;
+    background: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}

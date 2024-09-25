@@ -1,0 +1,263 @@
+@import "../../../styles/index.scss";
+
+.Navbar {
+  width: 100%;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  //transition: .2s ease-in;
+
+  .Navbar__view--contianer {
+    position: relative;
+  }
+
+  .ProviderProfile {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-top: 20px;
+
+    .ProviderBody__details {
+      position: unset;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 15px;
+      text-align: center;
+      width: 100%;
+
+      .ProviderBody__location {
+        position: absolute;
+        left: 20px;
+        top: 10px;
+        text-align: center;
+        //display: none;
+      }
+
+
+    }
+    .ProviderBody__msg {
+      text-align: center;
+    }
+
+  }
+
+  .ProviderScreen__profile--container {
+    position: relative;
+    z-index: 100;
+  }
+
+
+  .IconsBar__container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+  }
+
+  .BodyContainer__wrapper {
+    width: 100%;
+    background: white;
+  }
+
+  .BodyContainer__wrapper--active {
+    height: auto;
+    overflow: auto;
+  }
+
+  .BodyContainer__wrapper--hidden {
+    height: 0;
+    overflow: hidden;
+  }
+
+  .Navbar__container {
+    width: 100%;
+    background: white;
+    flex-direction: row-reverse;
+    @include center-h();
+    justify-content: space-between;
+    margin: auto;
+    padding: 10px 20px;
+    gap: 7px;
+    position: relative;
+
+    .Navbar__view--backdrop {
+      width: 100vw;
+      height: 100vh;
+      background: transparent;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 2000;
+    }
+
+    .Navbar__eye {
+      font-size: 20px;
+      color: white;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .Navbar__logo {
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      height: 100%;
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+      .LoadingProduct {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: white;
+
+        .LoadingProduct__image {
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          position: relative;
+        }
+      }
+
+      p {
+        font-size: 9px;
+        margin-left: auto;
+        color: black;
+        font-family: var(--fa-font-brands);
+      }
+
+      img {
+        width: 100%;
+        object-fit: contain;
+        min-width: 99px;
+        max-width: 99px;
+        height: 100%;
+        max-height: 52px;
+        background: transparent;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+      }
+    }
+  }
+}
+
+.Navbar__view {
+  position: absolute;
+  background: white;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #c7c4c4;;
+  direction: rtl;
+  z-index: 2001;
+
+  .Navbar__view--container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    gap: 5px;
+    z-index: 2;
+    background: white;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+
+  }
+
+  .Navbar__view--triangle {
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: 1px solid #c7c4c4;;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) rotateZ(45deg);
+    z-index: -2000;
+  }
+
+  .Navbar__view--ver {
+    width: 1px;
+    height: 45px;
+    background: #97EDC5;
+  }
+
+  .Navbar__view--house {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+
+    p {
+      white-space: nowrap;
+      word-break: keep-all;
+      width: fit-content;
+      color: #D0D0D0;
+    }
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+}
+
+
+.Navbar__active {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.Navbar__hidden {
+  position: relative;
+}
+
+.Navbar__fixed {
+  position: fixed !important;
+  transition: none;
+}
+
+.BodyContainer__wrapper--seprator {
+  width: 100%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: auto;
+}
+
+
+.BodyContainer__seprator--margin {
+  width: 80%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: auto;
+}

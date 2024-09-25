@@ -1,0 +1,58 @@
+.ProductsTypesLabel {
+  direction: rtl;
+  background: white;
+  padding: 10px;
+  //padding-top: 15px;
+  //padding-bottom: 10px;
+  width: 100%;
+  z-index: 5;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  transition: 0.3s;
+  //box-shadow: 0 2px 2px rgba(0, 0, 0, 0.12);
+  margin-bottom: 2px;
+
+  &::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+  }
+
+  -webkit-overflow-scrolling: touch;
+
+  &:before,
+  &:after {
+    padding: 0;
+    margin: 0;
+    content: "";
+    display: block;
+  }
+
+  .ProductsTypesLabel__parent {
+    width: fit-content;
+    overflow-x: scroll;
+    scroll-behavior: auto;
+    direction: rtl;
+    margin-left: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+
+    &::-webkit-scrollbar {
+      display: none;
+      width: 0;
+    }
+
+    .ProductsTypesLabel__container {
+      display: flex;
+      flex-direction: row;
+      scroll-behavior: smooth;
+      gap: 10px;
+      width: fit-content;
+      cursor: grab;
+      user-select: none;
+      padding: 10px;
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+  }
+}

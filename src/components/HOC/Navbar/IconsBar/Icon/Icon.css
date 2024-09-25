@@ -1,0 +1,16 @@
+.Icon {
+
+}
+
+.Icon i {
+    color: #888888;
+    font-size: 20px;
+}
+
+.Icon_disabled i {
+    color: #d9d9d9;
+}
+
+.Icon__active i {
+    color: #03ac84 !important;
+}

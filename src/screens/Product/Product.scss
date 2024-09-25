@@ -1,0 +1,47 @@
+.ProductScreen {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 600;
+  background: #eff2f5;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  width: 100vw;
+  height: 100vh;
+  padding-top: 52px;
+  //transform: scale(0.9);
+  //animation: product-grow 0.2s forwards linear;
+
+  .ProductScreen__container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .Navbar {
+    position: sticky;
+    top: 0;
+
+    .Navbar__container {
+      height: 50px !important;
+    }
+  }
+}
+
+@keyframes product-grow {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 500px) {
+  .ProductScreen__container {
+    padding-bottom: 10px;
+  }
+}

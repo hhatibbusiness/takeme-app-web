@@ -1,0 +1,80 @@
+.ItemDesc {
+    padding-bottom: 20px;
+}
+
+.ItemDesc__name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    direction: rtl;
+    padding: 10px 40px;
+}
+
+.ItemDesc__name p {
+    font-size: 25px;
+    line-height: 37px;
+    font-weight: 700;
+    color: #2B2B2B;
+}
+
+.ItemDesc__name img {
+    margin-top: 10px;
+}
+
+.ItemDesc__pricing {
+    direction: rtl;
+    padding: 0 45px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    font-size: 15px;
+}
+
+.ItemDesc__pricing--label {
+    color: #858585;
+}
+
+.ItemDesc__pricing--value {
+    color: #03ac84;
+}
+
+.ItemDesc__pricing i {
+    color: #03ac84;
+}
+
+.ItemDesc__rent {
+    direction: rtl;
+    padding: 0 45px;
+    font-size: 15px;
+    color: #858585;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.ItemDesc__rent--label {
+
+}
+
+.ItemDesc__rent--value {
+    color: #03ac84;
+}
+
+.ItemDesc__rent i {
+    color: #03ac84;
+}
+
+.ItemDesc__rent--dur {
+    font-size: 12px;
+}
+
+.ItemDesc__desc {
+    padding: 0 45px;
+    direction: rtl;
+    font-size: 16px;
+    color: #999999;
+    margin-top: 10px;
+}

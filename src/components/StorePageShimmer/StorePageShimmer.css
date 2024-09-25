@@ -1,0 +1,140 @@
+.StorePageShimmer {
+    width: 100%;
+    position: relative;
+}
+
+.StorePageShimmer .ItemShimmer__image {
+    /*width: 100%;*/
+    min-height: 315px;
+}
+
+.StorePageShimmer__profile {
+    display: flex;
+    /*height: 188px;*/
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: #f2f2f2;
+}
+
+.StorePageShimmer__profile--avatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    animation-duration: 40s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background-color: var(--sec-color-shades-2);
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 8%, rgba(0, 0, 0, 0.05) 30%, rgba(0, 0, 0, 0.05) 70%, rgba(0, 0, 0, 0.08) 100%);
+}
+
+.StorePageShimmer__profile--name {
+    width: 70px;
+    height: 15px;
+    animation-duration: 20s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background-color: var(--sec-color-shades-2);
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 8%, rgba(0, 0, 0, 0.05) 30%, rgba(0, 0, 0, 0.05) 70%, rgba(0, 0, 0, 0.08) 100%);
+    border-radius: 5px;
+}
+
+.StorePageShimmer__profile--count {
+    height: 10px;
+    width: 100px;
+    animation-duration: 6s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background-color: var(--sec-color-shades-2);
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 8%, rgba(0, 0, 0, 0.05) 30%, rgba(0, 0, 0, 0.05) 70%, rgba(0, 0, 0, 0.08) 100%);
+    border-radius: 5px;
+}
+
+.StorePageShimmer__profile--socials {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.StorePageShimmer__profile--image {
+    width: 30.6px;
+    height: 30.6px;
+    padding: 5px;
+    background: #03ac84;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.StorePageShimmer__profile--image img {
+    width: 100%;
+    height: 100%;
+}
+
+.StorePageShimmer__location {
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    color: var(--sec-color-shades-3);
+    font-size: 25px;
+}
+
+.StorePageShimmer__categories {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    direction: rtl;
+    gap: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 1px #0000001f;
+}
+
+.StorePageShimmer__categories--category {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.StorePageShimmer__categories--st {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    animation-duration: 30s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background-color: var(--sec-color-shades-2);
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 8%, rgba(0, 0, 0, 0.05) 30%, rgba(0, 0, 0, 0.05) 70%, rgba(0, 0, 0, 0.08) 100%);
+
+}
+
+.StorePageShimmer__categrories--text {
+    width: 40px;
+    height: 10px;
+    border-radius: 5px;
+    animation-duration: 30s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background-color: var(--sec-color-shades-2);
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 8%, rgba(0, 0, 0, 0.05) 30%, rgba(0, 0, 0, 0.05) 70%, rgba(0, 0, 0, 0.08) 100%);
+}
+
+.StorePageShimmer__separator {
+    box-shadow: 0 2px 1px #0000001f;
+    width: 100%;
+    height: 1px;
+
+}

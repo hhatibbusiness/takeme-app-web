@@ -1,0 +1,43 @@
+.LoginPopup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 6000;
+}
+
+.LoginPopup__container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 7000;
+}
+
+.LoginPopup__btn {
+    padding: 10px 20px;
+    background: red;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+
+}
+
+.LoginPopup__btn:hover {
+    background: darkred;
+
+}
+
+.LoginPopup__backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--sec-color-shades-3);
+    opacity: 0.8;
+    backdrop-filter: blur(10px);
+}

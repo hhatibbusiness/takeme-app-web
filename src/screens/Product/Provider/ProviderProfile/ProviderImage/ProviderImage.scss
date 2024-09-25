@@ -1,0 +1,143 @@
+.ProviderImage__container {
+  position: relative;
+
+  .ProviderImage__verified--provider {
+    right: -10px;
+    left: unset !important;
+  }
+
+  .Img {
+    width: 65px !important;
+    height: 65px;
+    background: #F2F2F2;
+  }
+
+  img:first-child {
+    width: 65px;
+    height: 65px;
+    //margin: 0 10px;
+    //margin-left: 15px;
+    border-radius: 50%;
+    object-fit: cover;
+
+  }
+
+  .LoadingProduct {
+    height: 65px;
+    width: 65px;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: white;
+
+    .LoadingProduct__image {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      z-index: 1;
+      position: relative;
+    }
+  }
+
+  .ProviderImage {
+    width: 65px;
+    height: 65px;
+    //margin: 0 10px;
+    //margin-left: 15px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .ProviderImage__verified {
+    position: absolute;
+    top: -20%;
+    left: -10px;
+    transform: rotateY(180deg);
+  }
+
+  .ProviderBody__score {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    color: #7F7F7F;
+    width: 95px;
+    height: 95px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    //background: red;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+
+    .ProviderImage__score--count {
+      position: absolute;
+      top: 70%;
+      right: 90%;
+      transform: translateX(50%) ;
+      color: var(--main-color-green-dark-1);
+      font-size: 10px;
+      -webkit-text-stroke-width: 0.25px;
+      -webkit-text-stroke-color: #07AB83;
+
+    }
+
+    span {
+      font-size: 15px;
+      color: #7F7F7F;
+    }
+
+
+    .ProductImage__star {
+      position: absolute;
+      font-size: 10px;
+      width: 10px;
+      height: 10px;
+    }
+
+    .ProductImage__star--rotated {
+      direction: ltr;
+    }
+
+    .ProductImage__star:nth-child(1) {
+      top: 76%;
+      right: 22%;
+      transform: translateX(50%) rotateY(180deg);
+
+    }
+    .ProductImage__star:nth-child(2) {
+      top: 83%;
+      right: 35%;
+      transform: translateX(50%) rotateY(180deg);
+
+    }
+    .ProductImage__star:nth-child(3) {
+      top: 85%;
+      right: 50%;
+      transform: translateX(50%) rotateY(180deg);
+
+    }
+    .ProductImage__star:nth-child(4) {
+      top: 83%;
+      right: 65%;
+      transform: translateX(50%) rotateY(180deg);
+
+    }
+    .ProductImage__star:nth-child(5) {
+      top: 76%;
+      right: 78%;
+      transform: translateX(50%) rotateY(180deg);
+    }
+  }
+
+  p {
+    .ProviderBody__stars {
+      color: gold;
+      font-size: 12px;
+    }
+  }
+}
+
+

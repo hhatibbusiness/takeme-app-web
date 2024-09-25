@@ -1,0 +1,15 @@
+.Burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  gap: 2px;
+  cursor: pointer;
+
+  div {
+    width: 21px;
+    height: 3.5px;
+    background: var(--main-color-green-dark-1);
+
+  }
+}

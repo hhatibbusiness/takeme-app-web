@@ -1,0 +1,17 @@
+.ItemLocation {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: center;
+    justify-content: center;
+}
+
+.ItemLocation i {
+    font-size: 20px;
+    color: #8aa3da;
+}
+
+.ItemLocation p {
+    font-size: 10px;
+    color: #666666;
+}

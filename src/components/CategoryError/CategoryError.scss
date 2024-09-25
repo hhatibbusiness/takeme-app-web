@@ -1,0 +1,49 @@
+.CategoryError {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 10px;
+  background: white;
+
+  p {
+    color: #808080;
+  }
+
+  img {
+    max-width: 430px;
+  }
+
+  .CategoryError__or {
+    color: var(--main-color-green-dark-10);
+  }
+
+  .CategoryError__reload {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 40px;
+    background: #F9FFF9;
+    border-radius: 5px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
+    padding: 5px 10px;
+    color: #808080;
+
+    i {
+      font-size: 20px;
+      color: #808080;
+    }
+  }
+
+  i {
+    font-size: 40px;
+  }
+
+  * {
+    color: red;
+  }
+}

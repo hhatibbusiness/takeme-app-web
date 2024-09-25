@@ -1,0 +1,26 @@
+{
+  "minRentTimeMessage": "اقل مدة للايجار يبدأ من ",
+  "rentstartsfrom": "سعر الايجار يبدأ من ",
+  "whoweare": "من نحن؟",
+  "filter": "فلتر",
+  "join": "انضم كصاحب عمل أو خدمة",
+  "condition": "العقد و شروط الاستخدام",
+  "contactUs": "تواصل معنا",
+  "logout": "تسجيل خروج",
+  "filterarray": [
+    "عرض الكل",
+    "عرض الخدمات",
+    "عرض منتجات الاستئجار",
+    "عرض منتجات البيع"
+  ],
+  "rentDurationDay": "يوم",
+  "twoDays": "يومين",
+  "rentDurationHour": "ساعة",
+  "twoHours": "ساعتين",
+  "MultipleHours": "ساعات",
+  "multipleDays": "أيام",
+  "facebook": "فيسبوك",
+  "instagram": "انستجرام",
+  "tiktok": "تيكتوك",
+  "whatsapp": "واتساب"
+}

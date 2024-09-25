@@ -1,0 +1,214 @@
+.StoreRightView {
+    max-height: 140px;
+    display: flex;
+    flex-direction: row;
+    /*align-items: center;*/
+    /*justify-content: center;*/
+}
+
+.StoreRightView__avatar {
+    position: relative;
+}
+
+.StoreRightView__avatar .Img {
+    width: 81px;
+    height: 81px;
+    border-radius: 50%;
+}
+
+.StoreRightView__avatar .LoadingProduct {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    background: white;
+}
+
+.StoreRightView__avatar .LoadingProduct .LoadingProduct__image {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    /*background: white;*/
+    z-index: 300;
+    /*background: white;*/
+}
+
+.StoreRightView__details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.StoreRightView__name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /*justify-content: center;*/
+    /*gap: 10px;*/
+    font-size: 12px;
+}
+
+.StoreRightView__name img {
+    height: 14px;
+    width: 14px;
+    transform: rotateY(180deg);
+}
+
+.StoreRightView__products {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.StoreRightView__products--element {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    font-size: 8px;
+}
+
+.StoreRightView__products--element p {
+    color: #FF9900;
+}
+
+.StoreRightView__contact {
+    position: relative;
+    padding: 0 5px 2px 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    width: fit-content;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.StoreRightView__contact a {
+    font-size: 15px;
+    text-decoration: none;
+    color: #07AB83;
+}
+
+.StoreRightView__contact--socials {
+    position: absolute;
+    left: 50%;
+    bottom: 35px;
+    transform: translateX(-50%);
+    background: white;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #c7c4c4;
+    gap: 5px;
+    z-index: 2001;
+    border-radius: 10px;
+}
+
+.StoreRightView__contact--socials-element {
+    padding: 5px;
+    background: #07ab83;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.StoreRightView__contact--backdrop {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: black;
+}
+
+.StoreRightView__contact--socials-element img {
+    width: 17px;
+    height: 17px;
+}
+
+.StoreRightView__contact--button {
+    font-size: 15px;
+    text-decoration: none;
+    color: #07AB83;
+}
+
+.StoreRightView__contact--close {
+    position: absolute;
+    right: -15px;
+    top: -15px;
+    /*background: black;*/
+    color: #ff4400;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.SocialsNew__location {
+    position: absolute;
+    top: -45px;
+    left: 0;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 0 7px 5px 7px;
+    background: white;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.SocialsNew__location a {
+    font-size: 25px;
+}
+
+.StoreRightView__contact--socials-element .SocialsNew__link {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+/*.StoreRightView__contact--triangle {*/
+/*    position: absolute;*/
+/*    left: 50%;*/
+/*    transform: translateX(-50%);*/
+/*    bottom: -10px;*/
+/*    width: 0;*/
+/*    height: 0;*/
+/*    border-left: 10px solid transparent;*/
+/*    border-right: 10px solid transparent;*/
+/*    border-top: 10px solid #03ac84;*/
+/*}*/
+
+.StoreRightView__contact--triangle {
+    width: 20px;
+    height: 20px;
+    background: white;
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    transform: translateX(-50%) rotate(45deg);
+    z-index: -100;
+    border: 1px solid #c7c4c4;;
+}
+
+.StoreRightView__contact--container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    gap: 5px;
+
+}

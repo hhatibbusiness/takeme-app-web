@@ -1,0 +1,12 @@
+{
+  "rentDurationDay": "يوم",
+  "twoDays": "يومين",
+  "rentDurationHour": "ساعة",
+  "twoHours": "ساعتين",
+  "MultipleHours": "ساعات",
+  "multipleDays": "أيام",
+  "fail to load providers": "فشل تحميل أصحاب منتجات او خدمات",
+  "rentPrice": "سعر الاستأجار ",
+  "minRentTimeMessage": "اقل مدة للايجار يبدأ من ",
+  "rentstartsfrom": "سعر الايجار يبدأ من "
+}

@@ -1,0 +1,52 @@
+.ContractScreen {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background: white;
+  padding-top: 52px;
+  overflow-y: scroll;
+  //direction: rtl;
+
+  .Mid h3 {
+    font-size: 18px !important;
+  }
+
+  .ContractScreen__addedClass {
+    ul {
+      width: 100%;
+      margin: 0;
+      margin-bottom: 3px;
+    }
+
+    ol {
+      margin-right: 5px;
+      width: 100%;
+    }
+
+    li {
+      padding: 3px;
+      &:before {
+        content: '';
+        display: none;
+      }
+    }
+
+  }
+
+  .ContractScreen__content {
+    //width: 90%;
+    padding: 10px;
+    //margin: auto;
+    display: none;
+
+
+  }
+
+  .Navbar {
+    //direction: ltr;
+    z-index: 5;
+  }
+}

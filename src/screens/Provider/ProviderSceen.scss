@@ -1,0 +1,148 @@
+.ProviderScreen {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 900;
+  background: var(--sec-color-shades-1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  width: 100%;
+  height: calc(100vh + 10px);
+  //padding-top: 50px;
+  padding-bottom: 40px;
+
+  .ProviderScreen__profile--container {
+    position: relative;
+    z-index: 100;
+  }
+
+  .ProviderScreen__productTypes--container {
+    transition: transform 0.2s;
+    background: #d9d9d9;
+
+    .ProviderScreen__productType--container {
+      position: relative;
+    }
+
+    .Item {
+      margin-bottom: 10px;
+    }
+  }
+
+  .Provider__categories {
+    position: sticky;
+    margin-top: 0px;
+    top: 0px;
+    //padding-bottom: 10px;
+    z-index: 1000;
+
+    .Categories {
+      //margin-bottom: 10px !important;
+    }
+  }
+
+  .Spinner {
+    position: relative;
+  }
+
+  .Provider {
+    min-height: unset;
+  }
+
+  .ProviderProfile {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-top: 20px;
+
+    .ProviderBody__details {
+      position: unset;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 15px;
+      text-align: center;
+
+      .ProviderBody__location {
+        position: absolute;
+        left: 20px;
+        top: 10px;
+        text-align: center;
+        //display: none;
+      }
+
+
+    }
+    .ProviderBody__msg {
+      text-align: center;
+    }
+
+  }
+
+  .Provider {
+    //height: 900px !important;
+  }
+
+  .Navbar {
+    position: sticky;
+    top: 0;
+    direction: ltr;
+
+    .Navbar__container {
+      height: 50px !important;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .ProviderScreen {
+    //padding-bottom: 10px;
+  }
+}
+
+.ProviderProfile__hidden {
+  max-width: 500px;
+  animation: hide-an 0.5s forwards linear;
+  overflow: hidden;
+
+}
+
+.ProviderProfile__display {
+  max-width: 500px;
+  animation: display-an 0.5s forwards linear;
+  overflow: auto;
+
+}
+
+.swiper-slide {
+  //max-height: 100vh !important;
+  height: auto !important;
+  //height: calc(100vh - 150px) !important;
+}
+
+@keyframes display-an {
+  from {
+    max-height: 0;
+    //opacity: 0;
+  }
+
+  to {
+    max-height: 500px;
+    //opacity: 1;
+  }
+}
+
+@keyframes hide-an {
+  from {
+    max-height: 500px;
+    //opacity: 1;
+  }
+
+  to {
+    max-height: 0;
+    //opacity: 0;
+  }
+}

@@ -1,0 +1,136 @@
+.PhoneVerify {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  .PhoneVerify__inputs {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    direction: ltr;
+
+    .Register__element--input-notvalid {
+      border-bottom: 2px solid red !important;
+    }
+
+    input {
+      width: 35px;
+      border: none;
+      outline: none;
+      border-bottom: 2px solid var(--sec-color-shades-6);
+      text-align: center;
+      caret-color: var(--main-color-green-dark-1);
+
+      &:focus {
+        border-color: var(--main-color-green-dark-1);
+      }
+    }
+  }
+
+  .PhoneVerify__icon {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+
+    i {
+      font-size: 50px;
+      color: var(--main-color-green-dark-1);
+    }
+
+    .PhoneVerify__text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+  }
+
+  .Register__form--element {
+    position: relative;
+
+    .Register__form--element-wrapper {
+      position: relative;
+    }
+
+    .Register__form--forgetPassword {
+      text-align: left;
+      display: block;
+      font-size: 13px;
+      text-decoration: none;
+      color: var(--main-color-green-dark-1);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .Register__form--element-label{
+      position: absolute;
+      bottom: 6px;
+      font-size: 14px;
+      color: var(--sec-color-shades-5);
+      margin-right: 3px;
+      transition: 0.3s;
+    }
+
+    .Register__form--element-label-active {
+      bottom: 30px;
+    }
+
+    .Register__form--button {
+      width: 100%;
+      height: 32px;
+      border: none;
+      outline: none;
+      background: var(--main-color-green-dark-1);
+      color: white;
+      font-size: 18px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 2px var(--main-color-green-light-7);
+      cursor: pointer;
+
+      i {
+        transform: rotate(0);
+        animation: spin-button 0.5s infinite linear;
+      }
+    }
+
+    .Register__form--register {
+      text-align: center;
+      margin-top: 20px;
+
+      .Register__form--register-link {
+        color: var(--main-color-green-dark-1);
+        text-decoration: none;
+        margin-right: 5px;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .Register__form--element-input {
+      width: 100%;
+      border: none;
+      height: 30px;
+      border-bottom: 1px solid var(--sec-color-shades-6);
+      outline: none;
+      transition: 0.3s;
+      z-index: 601;
+      display: block;
+      position: relative;
+      background: transparent;
+
+
+      &:focus-within {
+        border-bottom: 1px solid var(--main-color-green-dark-1);
+      }
+    }
+  }
+}

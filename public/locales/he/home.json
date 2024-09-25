@@ -1,0 +1,28 @@
+{
+  "minRentTimeMessage": "תקופת שכירות מינימלית ",
+  "rentstartsfrom": "מחיר ההשכרה מתחיל מ ",
+  "whoweare": "מי אנחנו؟",
+  "filter": "לְסַנֵן",
+  "join": "הצטרף כבעל עסק או שירות",
+  "condition": "חוזה ותנאי שימוש",
+  "contactUs": "تواصل معنا",
+  "logout": "تسجيل خروج",
+  "filter array": [
+    "צפה בהכל",
+    "צפה בשירותים",
+    "צפו במוצרי השכרה",
+    "צפה במוצרים למכירה"
+  ],
+  "rentDurationDay": "יום",
+  "twoDays": "יומיים",
+  "rentDurationHour": "שעה",
+  "twoHours": "שעתיים",
+  "multipleDays": "ימים",
+  "multipleHours": "שעה (ות",
+  "providerratings": "דירוגי ספקי שירות",
+  "salestartsfrom": "מחיר המכירה מתחיל מ ",
+  "facebook": "פייסבוק",
+  "instagram": "אינסטגרם",
+  "tiktok": "טיק טוק",
+  "whatsapp": "ווטסאפ"
+}

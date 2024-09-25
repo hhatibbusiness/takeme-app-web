@@ -1,0 +1,25 @@
+.ChangeIndication {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.ChangeIndication__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.ChangeIndication__container i {
+    animation: spin 1s linear infinite;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.ChangeIndication__container p {
+    color: rgba(0, 0, 0, 0.5);
+}
