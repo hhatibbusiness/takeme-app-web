@@ -1,6 +1,19 @@
+.Install {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 25px;
+    width: 100%;
+    text-decoration: none;
+    color: var(--sec-color-shades-8);
+    font-size: 15px;
+    cursor: pointer;
+    padding: 10px 12px;
+    transition: 0.5s;
+}
+
 .Install i {
-    color: #ffca79;
-    font-size: 17px;
+    font-size: 22px;
 }
 
 .Install__hidden {

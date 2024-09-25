@@ -109,7 +109,7 @@ const Navbar = ({data, store, providerId, fetchingItems, showItemTypes, showMIte
                             </>
                         )
                     }
-                    <Install />
+                    {/*<Install />*/}
                 </div>
                 {
                     viewOpen && <div onClick={e => setViewOpen(false)} className={'Navbar__view--backdrop'}></div>

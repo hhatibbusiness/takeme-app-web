@@ -19,6 +19,7 @@ import outImg from '../../assets/images/out.png';
 import Img from "../../screens/Home/Body/BodyContainer/ProductList/Products/Product/Img/Img";
 import logo from "../../assets/images/defaults/logo-default-image.svg";
 import ProviderPreview from "./ProviderPreview/ProviderPreview";
+import Install from "../HOC/Navbar/Install/Install";
 
 const Sidebar = ({assets, setSidebar, store, user, takemeProviderData, sidebar, isAuthenticated, logout, changeFilter, filter, lan, changeLan, categories}) => {
     const [langShow, setLanShow] = useState(false);
@@ -149,9 +150,7 @@ const Sidebar = ({assets, setSidebar, store, user, takemeProviderData, sidebar, 
                             </div>
                         </form>
                     </div>
-                    <div className="Sidebar__install">
-
-                    </div>
+                    <Install />
                     <Link id={'Sidebar__filter'} to={'#'} className="Sidebar__link">
                         <div onClick={() => setFilterShow(!filterShow)} className="Sidebar__link--main">
                             {/*<i className="fa-regular fa-images"></i>*/}
