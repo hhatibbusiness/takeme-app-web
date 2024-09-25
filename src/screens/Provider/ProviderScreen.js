@@ -228,7 +228,7 @@ const ProviderScreen = ({fetchProviderData, setProviderId, setShowSItemTypes, se
 
             await fetchStoreItemTypes(data);
         })();
-    }, [params.providerId, curId, lan]);
+    }, [params.providerId, lan]);
 
     useEffect(() => {
         changeCurrentId(null);

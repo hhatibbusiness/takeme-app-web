@@ -149,6 +149,9 @@ const Sidebar = ({assets, setSidebar, store, user, takemeProviderData, sidebar, 
                             </div>
                         </form>
                     </div>
+                    <div className="Sidebar__install">
+
+                    </div>
                     <Link id={'Sidebar__filter'} to={'#'} className="Sidebar__link">
                         <div onClick={() => setFilterShow(!filterShow)} className="Sidebar__link--main">
                             {/*<i className="fa-regular fa-images"></i>*/}
