@@ -47,9 +47,9 @@ const Install = () => {
         setIsInstallable(false);
     };
 
-    if (!isInstallable) {
-        return null;
-    }
+    // if (!isInstallable) {
+    //     return null;
+    // }
 
     return (
         <div onClick={handleInstallClick} className={'Install'}>
