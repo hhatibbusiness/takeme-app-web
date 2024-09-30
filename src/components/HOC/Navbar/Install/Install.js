@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import './Install.css';
+import {useTranslation} from "react-i18next";
 
 const Install = () => {
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [isInstallable, setIsInstallable] = useState(false);
+
+    const {t} = useTranslation();
 
     useEffect(() => {
         const handler = (e) => {
@@ -51,6 +54,7 @@ const Install = () => {
     return (
         <div onClick={handleInstallClick} className={'Install'}>
             <i className="fa-solid fa-download"></i>
+            <p>{t('install')}</p>
         </div>
     );
 };
