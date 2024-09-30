@@ -58,7 +58,8 @@ const Category = ({
                             lan: lan,
                             itemTypeIds: [null],
                             storeId: [providerId],
-                            categoryIds: [cat?.id]
+                            categoryIds: [cat?.id],
+                            filter
                         };
 
                         const res = await fetchStoreItemTypes(data);

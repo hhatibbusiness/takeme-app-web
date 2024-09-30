@@ -142,7 +142,7 @@ export const endFetchingProviderCategories = {
 export const fetchProviderCategories = data => async dispatch => {
     try {
         dispatch(startFetchingProviderCategories);
-        const res = await axios.get(`${BASE_URL}endpoints/categories/list-no-empty?locale=${data.lan}&providerId=${data.providerId}`);
+        const res = await axios.get(`${BASE_URL}endpoints/categories/list-no-empty?locale=${data.lan}&providerId=${data.providerId}&filterByAction=${data.filter}`);
         const allCategory =       {
             id: null,
             name: 'الكل',
@@ -244,7 +244,7 @@ export const fetchStoreItemTypes = data => async dispatch => {
 
         console.log(data);
 
-        const res = await axios.get(`${BASE_URL}endpoints/products-types/list-by-category-ids?locale=${data.lan}&page=${data.page}&categoryIds=${data.categoryIds}&storeId=${data.storeId}`);
+        const res = await axios.get(`${BASE_URL}endpoints/products-types/list-by-category-ids?locale=${data.lan}&page=${data.page}&categoryIds=${data.categoryIds}&storeId=${data.storeId}&filterByAction=${data.filter}`);
 
         console.log(res);
         const allItemType = {
@@ -265,7 +265,8 @@ export const fetchStoreItemTypes = data => async dispatch => {
                 lan: data.lan,
                 itemTypeIds: [null],
                 storeIds: data.storeId,
-                categoryIds: [data.categoryIds]
+                categoryIds: [data.categoryIds],
+                filter: data.filter
             };
             await dispatch(fetchStoreItems(itemTypesData));
         }
@@ -287,7 +288,7 @@ export const endFetchingStoreItems = {
 export const fetchStoreItems = data => async dispatch => {
     try {
         if(data.page == 0) dispatch(startFetchingStoreItems);
-        const res = await axios.get(`${BASE_URL}endpoints/items/list/by-item-types-ids?locale=${data.lan}&page=${data.page}&categoryIds=${data.categoryIds}&itemTypeIds=${data.itemTypeIds}&storeIds=${data.storeIds}`);
+        const res = await axios.get(`${BASE_URL}endpoints/items/list/by-item-types-ids?locale=${data.lan}&page=${data.page}&categoryIds=${data.categoryIds}&itemTypeIds=${data.itemTypeIds}&storeIds=${data.storeIds}&filterByAction=${data.filter}`);
 
         dispatch({
             type: FETCH_STORE_ITEMS,

@@ -7,7 +7,7 @@ import {fetchProductsMarket} from "../../../../../store/actions/categories.actio
 import ItemShimmer from "../../../../../components/ItemShimmer/ItemShimmer";
 import {useParams} from "react-router-dom";
 
-const Items = ({items, value, scrollParent, curId, store, curItemTypeId, setCurrentProduct, lan, fetchProductsMarket, moreItems, itemsPage}) => {
+const Items = ({items, value, scrollParent, filter, curId, store, curItemTypeId, setCurrentProduct, lan, fetchProductsMarket, moreItems, itemsPage}) => {
     const [moreLoading, setMoreLoading] = useState(true);
     const [loading, setLoading] = useState(false);
 
@@ -54,7 +54,8 @@ const Items = ({items, value, scrollParent, curId, store, curItemTypeId, setCurr
                         lan,
                         itemTypeIds: [curItemTypeId],
                         storeIds: store ? [params.providerId] : [null],
-                        categoryIds: [curId]
+                        categoryIds: [curId],
+                        filter
                     };
                     await fetchProductsMarket(data);
                     console.log('Fetching With infinite!');
@@ -80,7 +81,8 @@ const Items = ({items, value, scrollParent, curId, store, curItemTypeId, setCurr
 };
 
 const mapStateToProps = state => ({
-    lan: state.categories.lan
+    lan: state.categories.lan,
+    filter: state.categories.filter
 });
 
 export default connect(mapStateToProps) (Items);

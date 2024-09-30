@@ -343,7 +343,7 @@ export const endFetchingItemTypes = {
 export const fetchItemTypes = data => async dispatch => {
     try {
         if(data.page == 0) dispatch(startFetchingItemTypes);
-        const res = await axios.get(`${BASE_URL}endpoints/products-types/list-by-category-ids?locale=${data.lan}&page=${data.page}&categoryIds=${data.categoryIds}&storeId=${data.storeId}`);
+        const res = await axios.get(`${BASE_URL}endpoints/products-types/list-by-category-ids?locale=${data.lan}&page=${data.page}&categoryIds=${data.categoryIds}&storeId=${data.storeId}&filterByAction=${data.filter}`);
         console.log(res);
 
         const allItemType = {
@@ -363,7 +363,8 @@ export const fetchItemTypes = data => async dispatch => {
                 lan: data.lan,
                 itemTypeIds: [null],
                 storeIds: [null],
-                categoryIds: [data.categoryIds]
+                categoryIds: [data.categoryIds],
+                filter: data.filter
             };
             await dispatch(fetchProductsMarket(itemData));
         }
@@ -379,7 +380,7 @@ export const fetchProductsMarket = data => async dispatch => {
         if(data.page == 0) dispatch(startFetchingProductsMarket());
         console.log(data);
 
-        const res = await axios.get(`${BASE_URL}endpoints/items/list/by-item-types-ids?locale=${data.lan}&categoryIds=${data.categoryIds}&page=${data.page}&itemTypeIds=${data.itemTypeIds}&storeIds=${data.storeIds}`);
+        const res = await axios.get(`${BASE_URL}endpoints/items/list/by-item-types-ids?locale=${data.lan}&categoryIds=${data.categoryIds}&page=${data.page}&itemTypeIds=${data.itemTypeIds}&storeIds=${data.storeIds}&filterByAction=${data.filter}`);
 
         console.log(res);
 
