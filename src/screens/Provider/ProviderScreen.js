@@ -223,7 +223,8 @@ const ProviderScreen = ({fetchProviderData, setProviderId, setShowSItemTypes, se
                 page: 0,
                 lan,
                 categoryIds: [curId],
-                storeId: [params.providerId]
+                storeId: [params.providerId],
+                filter
             };
 
             await fetchStoreItemTypes(data);
@@ -286,7 +287,8 @@ const ProviderScreen = ({fetchProviderData, setProviderId, setShowSItemTypes, se
     useEffect(() => {
         const data = {
             providerId: params.providerId,
-            lan
+            lan,
+            filter
         };
 
         fetchProviderCategories(data);

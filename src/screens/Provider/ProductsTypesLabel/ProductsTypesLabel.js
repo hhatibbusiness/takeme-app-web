@@ -109,7 +109,7 @@ const ProductsTypesLabel = ({containerHeight, providerId, changeCurItemTypeId, f
                 <div className="ProductsTypesLabel__container">
                     {
                         !loadingProductTypes && productTypes?.map((productType, i) => (
-                            <ProductTypeLabel curId={curId} providerId={providerId} changeCurItemTypeId={changeCurItemTypeId} fetchItems={fetchItems} curItemTypeId={curItemTypeId} lan={lan} market={market} containerHeight={containerHeight} transformValue={transFormValue} setTransformValue={setTransformValue} labelContainer={labelContainer} index={i} swiper={swiper} productTypes={productTypes} setActive={setActive} active={active} productType={productType} key={productType.id} />
+                            <ProductTypeLabel filter={filter} curId={curId} providerId={providerId} changeCurItemTypeId={changeCurItemTypeId} fetchItems={fetchItems} curItemTypeId={curItemTypeId} lan={lan} market={market} containerHeight={containerHeight} transformValue={transFormValue} setTransformValue={setTransformValue} labelContainer={labelContainer} index={i} swiper={swiper} productTypes={productTypes} setActive={setActive} active={active} productType={productType} key={productType.id} />
                         ))
                     }
                 </div>

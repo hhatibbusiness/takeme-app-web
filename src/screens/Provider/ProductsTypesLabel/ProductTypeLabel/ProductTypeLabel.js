@@ -3,7 +3,7 @@ import './ProductTypeLabel.scss';
 import {changeCurItemTypeId} from "../../../../store/actions/categories.action";
 import {useParams} from "react-router-dom";
 
-const ProductTypeLabel = ({ productType, providerId, fetchItems, changeCurItemTypeId, lan, curItemTypeId, market, index, containerHeight, transformValue, setTransformValue, labelContainer, active, setActive, swiper, productTypes, curId }) => {
+const ProductTypeLabel = ({ productType, filter, providerId, fetchItems, changeCurItemTypeId, lan, curItemTypeId, market, index, containerHeight, transformValue, setTransformValue, labelContainer, active, setActive, swiper, productTypes, curId }) => {
     const labelRef = useRef();
 
     useEffect(() => {
@@ -61,7 +61,8 @@ const ProductTypeLabel = ({ productType, providerId, fetchItems, changeCurItemTy
                     lan,
                     itemTypeIds: [productType?.id],
                     storeIds: [providerId],
-                    categoryIds: [curId]
+                    categoryIds: [curId],
+                    filter
                 };
 
 

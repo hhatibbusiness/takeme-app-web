@@ -78,7 +78,7 @@ const Sidebar = ({assets, setSidebar, store, user, takemeProviderData, sidebar, 
         const input = filterElement.querySelector('input');
         if(!input) return;
         const id = categories[0]?.id;
-        const containerDiv = !store ? document.querySelector('.Products') : document.querySelector('.Store');
+        const containerDiv = !store ? document.querySelector('.Items') : document.querySelector('.Store');
         containerDiv.style.height = `${containerDiv.offsetHeight}px`;
         const res = await changeFilter(id, lan, 0, navigate, input.value, store);
         containerDiv.style.height = 'auto';
