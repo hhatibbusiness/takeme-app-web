@@ -6,10 +6,10 @@ import searchErrorImage from '../../../../../assets/images/no-search.png';
 const Failure = ({text, provider, product, search, home}) => {
     return (
         <div className={'Failure'}>
-            {
-                search ? <img className={'Failure__img'} src={searchErrorImage} /> : <img className={'Failure__img'} src={errorImage} />
-            }
-            <p>{text}</p>
+                {
+                    search ? <img className={'Failure__img'} src={searchErrorImage} /> : <img className={'Failure__img'} src={errorImage} />
+                }
+                <p>{text}</p>
         </div>
     );
 };

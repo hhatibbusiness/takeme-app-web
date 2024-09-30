@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 
 const longPressDuration = 10;
 
-const IconsBar = ({ eyeOpen, eyeDis, switchMarketStore, personActive, setPersonActive, pseronAva, separatorActive, searchActive, backupFilter, setBackupFilters, showEye, store, setFiltersActive, filtersActive, setEyeOpen, viewOpen, setViewOpen }) => {
+const IconsBar = ({ eyeOpen, currentParams, eyeDis, switchMarketStore, personActive, setPersonActive, pseronAva, separatorActive, searchActive, backupFilter, setBackupFilters, showEye, store, setFiltersActive, filtersActive, setEyeOpen, viewOpen, setViewOpen }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [showPersonPopup, setShowPersonPopup] = useState(false);
     const [showGlassPopup, setShowGlassPopup] = useState(false);
@@ -40,8 +40,12 @@ const IconsBar = ({ eyeOpen, eyeDis, switchMarketStore, personActive, setPersonA
     }
 
     const searchIconClickHandler = e => {
+        console.log(currentParams);
         if(store || !searchActive) {
             return setShowGlassPopup(true);
+        }
+        if(currentParams.providerId) {
+            return navigate(`/search/${currentParams.providerId}`);
         }
         navigate('/search');
     }

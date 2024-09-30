@@ -105,7 +105,7 @@ const ProviderScreen = ({fetchProviderData, setProviderId, setShowSItemTypes, se
     useEffect(() => {
         setBackBtn(true);
         setEyeDis(true);
-        setSearchActive(false);
+        setSearchActive(true);
         setPersonAva(true);
         setPersonActive(true);
         setFiltersActive(false);
@@ -118,7 +118,7 @@ const ProviderScreen = ({fetchProviderData, setProviderId, setShowSItemTypes, se
         return () => {
             setEyeDis(false);
             setBackBtn(false);
-            setSearchActive(true);
+            // setSearchActive(false);
             setPersonAva(false);
             setPersonActive(false);
             setShowSlider(true);
