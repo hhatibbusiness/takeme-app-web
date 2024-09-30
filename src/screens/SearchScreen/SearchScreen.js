@@ -14,8 +14,10 @@ import {closeGallery} from "../../store/actions/product.actions";
 import {changeNavbarAssets} from "../../store/actions/ui.actions";
 import DropDownListItem from "../../components/DropDownList/DropDownListItem/DropDownListItem";
 import {fetchProviderCategories} from "../../store/actions/provider.actions";
+import SearchShimmer from "../../components/SearchShimmer/SearchShimmer";
 
 const SearchScreen = ({
+    padddingTop,
     setShowItemTypes,
     backupFilters,
     setBackupFilters,
@@ -235,7 +237,7 @@ const SearchScreen = ({
                                     setLoading(false);
                                 }}
                                 hasMore={moreLoading}
-                                loader={<Loader />}
+                                loader={<SearchShimmer />}
                                 useWindow={false}
                             >
                                 <>
@@ -243,6 +245,7 @@ const SearchScreen = ({
                                     {/*    <Categories loadingCategories={loadingCategories} categories={categories} curId={curId} search />*/}
                                     {/*</div>*/}
                                     {
+                                        // false ? (
                                         !loadingSearchResults ? (
                                             searchResults.length > 0 ? (
                                                     <div ref={searchContainerRef} style={{paddingTop: `${navHeight}px`}} className={'SearchScreen__container'}>
@@ -262,7 +265,7 @@ const SearchScreen = ({
                                                 <Failure search={true} text={t('there\'s no search results')} />
                                             )
                                         ) : (
-                                            <SpinnerComponent />
+                                            <SearchShimmer topValue={navHeight} />
                                         )
                                     }
                                 </>
