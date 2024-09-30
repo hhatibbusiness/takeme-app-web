@@ -18,24 +18,26 @@ export const endFetchingSearchResults = {
     type: END_FETCHING_SEARCH_RESULTS
 }
 
-export const fetchSearchResults = (lan, categoryId, filter, term, page, navigate) => async dispatch => {
+export const fetchSearchResults = (lan, categoryId, filter, term, page, navigate, storeId) => async dispatch => {
     try {
         if(page == 0){
             dispatch(startFetchingSearchResults);
             dispatch(resetSearchData());
         }
-        const res = await axios.post(`${BASE_URL}endpoints/products/search-web?locale=${lan}&categoryId=${categoryId}&filterByAction=${filter}&searchText=${term}&page=${page}`);
+        const res = await axios.post(`${BASE_URL}endpoints/products/search-web?locale=${lan}&categoryId=${categoryId}&storeIds=${storeId}&filterByAction=${filter}&searchText=${term}&page=${page}`);
+
         dispatch({
             type: FETCH_SEARCH_RESULTS,
             results: res.data.output
         });
+
         if(page > 0 && res.data.length > 0) {
             const analytics = getAnalytics();
             logEvent(analytics, 'pagination', {
                 paginationName: 'search-providers'
             });
         }
-        console.log(res);
+
         dispatch(endFetchingSearchResults);
         dispatch(increaseSearchPage());
     } catch (e) {

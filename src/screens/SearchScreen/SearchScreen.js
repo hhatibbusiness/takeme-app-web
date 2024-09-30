@@ -13,6 +13,7 @@ import {KeepAlive} from "react-activation";
 import {closeGallery} from "../../store/actions/product.actions";
 import {changeNavbarAssets} from "../../store/actions/ui.actions";
 import DropDownListItem from "../../components/DropDownList/DropDownListItem/DropDownListItem";
+import {fetchProviderCategories} from "../../store/actions/provider.actions";
 
 const SearchScreen = ({
     setShowItemTypes,
@@ -45,17 +46,23 @@ const SearchScreen = ({
     filter,
     curId,
     changeNavbarAssets,
-    setSearching
+    setSearching,
+    catId,
+  fetchProviderCategories
 }) => {
 
     const [moreLoading, setMoreLoading] = useState(true);
     const [searchCount, setSearchCount] = useState(0);
     const [y, setY] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const {t} = useTranslation();
     const navigate = useNavigate();
     const searchRef = useRef();
     const searchContainerRef = useRef();
+    // const {params}
+
+    const params = useParams();
 
     useEffect(() => {
         const home = document.querySelector('body');
@@ -109,9 +116,9 @@ const SearchScreen = ({
     useEffect(() => {
         if((!loadingCategories && curId !== null)) {
             setSearchCount(searchCount + 1);
-            fetchSearchResults(lan, curId, filter, term, 0, navigate);
+            fetchSearchResults(lan, params.storeId ? (catId || 0) : curId, filter, term, 0, navigate, params.storeId ? [params.storeId] : [null]);
         }
-    }, [term, curId]);
+    }, [term, curId, catId]);
 
     useEffect(() => {
         setMoreLoading(more);
@@ -182,6 +189,17 @@ const SearchScreen = ({
     }, [y]);
 
     useEffect(() => {
+        if(params.storeId) {
+            const data = {
+                providerId: params.storeId,
+                lan
+            };
+
+            fetchProviderCategories(data);
+        }
+    }, []);
+
+    useEffect(() => {
         const container = bodyContainerRef.current;
         const searchContainer = searchRef?.current;
         const searchContainerEle = searchContainerRef?.current;
@@ -203,13 +221,18 @@ const SearchScreen = ({
                     {
                         !loadingCategories ? (
                             <InfiniteScroll
+                                className={'SearchScreen__list'}
                                 dataLength={searchResults.length}
                                 pageStart={searchPage}
-                                loadMore={() => {
+                                loadMore={async () => {
                                     if(searchResults.length === 0 && searchPage === 0) return;
+                                    if(loadingSearchResults) return;
                                     if(!moreLoading) return;
+                                    setLoading(true);
+                                    if(loading) return;
                                     if(!more) return setMoreLoading(false);
-                                    fetchSearchResults(lan, categoryId, filter, term, searchPage)
+                                    await fetchSearchResults(lan, params.storeId ? (catId || 0) : curId, filter, term, searchPage, navigate, params.storeId ? [params.storeId] : [null])
+                                    setLoading(false);
                                 }}
                                 hasMore={moreLoading}
                                 loader={<Loader />}
@@ -270,7 +293,8 @@ const mapStateToProps = state => ({
     more: state.search.more,
     filter: state.categories.filter,
     assets: state.assets,
-    curId: state.categories.curId
+    curId: state.categories.curId,
+    catId: state.provider.curId
 });
 
-export default connect(mapStateToProps, {changeNavbarAssets, fetchSearchResults, closeSearchGallery, openSearchGallery, changeSearchCategoryId, resetAllSearchData, closeGallery}) (React.memo(SearchScreen));
+export default connect(mapStateToProps, {fetchProviderCategories, changeNavbarAssets, fetchSearchResults, closeSearchGallery, openSearchGallery, changeSearchCategoryId, resetAllSearchData, closeGallery}) (React.memo(SearchScreen));

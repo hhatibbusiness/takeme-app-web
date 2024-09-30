@@ -27,9 +27,10 @@ import locationImage from "../../../assets/images/location.svg";
 import {changeCurrentProductTypeId} from "../../../store/actions/product.actions";
 import {changeStoreCurrentItemType, fetchStoreItemTypes, fetchStoreItems} from "../../../store/actions/provider.actions";
 import Install from "./Install/Install";
+import {useRouterParams} from "../../../contexts/RouterParamsContext";
 
 
-const Navbar = ({data, store, providerId, fetchingItems, showItemTypes, showMItemTypes, showSItemTypes, fetchingItemTypesStore, changeStoreCurrentItemType, curIdStore, more, page, fetchStoreItems, itemTypesStore, fetchStoreItemTypes, currentItemTypeId, showMCategories, showSCategories, curId, categoriesStore, loadingCategoriesStore, storeDetailsRef, personActive, loadingProvider, setPersonActive, personAva, takemeUserToken, eyeDis, currentUser, provider, searchActive, setSearchActive, backupFilters, setBackupFilters, topValue, setTopValue, setFixedNav, fixedNav, showSlider, setShowSlider, bodyContainerRef, showMidText, itemTypes, itemTypesPage, itemTypesMore, curItemTypeId, fetchItemTypes, changeCurItemTypeId, considerNav, fetchProductsMarket, fetchingItemTypes,  id, loadingCategories, categories, backBtn, showEye, searchShow, showIcons, assets, navShow, setNavShow, ui, filtersActive, setFiltersActive, navHeight, setNavHeight, switchMarketStore, searching, setSearching, sidebar, setSidebar}) => {
+const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItemTypes, showMItemTypes, showSItemTypes, fetchingItemTypesStore, changeStoreCurrentItemType, curIdStore, more, page, fetchStoreItems, itemTypesStore, fetchStoreItemTypes, currentItemTypeId, showMCategories, showSCategories, curId, categoriesStore, loadingCategoriesStore, storeDetailsRef, personActive, loadingProvider, setPersonActive, personAva, takemeUserToken, eyeDis, currentUser, provider, searchActive, setSearchActive, backupFilters, setBackupFilters, topValue, setTopValue, setFixedNav, fixedNav, showSlider, setShowSlider, bodyContainerRef, showMidText, itemTypes, itemTypesPage, itemTypesMore, curItemTypeId, fetchItemTypes, changeCurItemTypeId, considerNav, fetchProductsMarket, fetchingItemTypes,  id, loadingCategories, categories, backBtn, showEye, searchShow, showIcons, assets, navShow, setNavShow, ui, filtersActive, setFiltersActive, navHeight, setNavHeight, switchMarketStore, searching, setSearching, sidebar, setSidebar}) => {
     const [inputFocus, setInputFocus] = useState(false);
     const [error, setError] = useState(false);
     const [hidden, setHidden] = useState(true);
@@ -43,6 +44,7 @@ const Navbar = ({data, store, providerId, fetchingItems, showItemTypes, showMIte
     const [activeStore, setActiveStore] = useState(0);
     const [transformValue, setTransformValue] = useState(0);
 
+    const params = useRouterParams();
     const navigate = useNavigate();
     const location = useLocation();
     const navRef=useRef()
@@ -50,12 +52,13 @@ const Navbar = ({data, store, providerId, fetchingItems, showItemTypes, showMIte
     // const bodyContainerRef = useRef();
 
     useEffect(() => {
+        console.log(params)
         if(viewOpen || filtersActive || personActive) {
             setSeparatorActive(true);
         } else {
             setSeparatorActive(false);
         }
-    }, [viewOpen, filtersActive, personActive]);
+    }, [viewOpen, filtersActive, personActive, params]);
 
     useEffect(() => {
         if(location.pathname.split('/').filter(item => item).length == 0) {
@@ -92,7 +95,7 @@ const Navbar = ({data, store, providerId, fetchingItems, showItemTypes, showMIte
                     <Img logo={true} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={(assets?.logoPath && assets.logoPath) || logo}/>
                 </div>
                 {
-                    searchShow && <Search searching={searchShow} setSearching={setSearching} inputFocus={inputFocus} setInputFocus={setInputFocus} loadingSearchResults={data?.loadingSearchResults} searchResults={data?.searchResults} term={data?.term} search={data?.search} searchPage={data?.searchPage} />
+                    searchShow && <Search currentParams={currentParams} searching={searchShow} setSearching={setSearching} inputFocus={inputFocus} setInputFocus={setInputFocus} loadingSearchResults={data?.loadingSearchResults} searchResults={data?.searchResults} term={data?.term} search={data?.search} searchPage={data?.searchPage} />
                 }
                 {
                     showMidText && <Mid midText={data?.midText} />
@@ -119,7 +122,7 @@ const Navbar = ({data, store, providerId, fetchingItems, showItemTypes, showMIte
                 showIcons &&
                     <div className="IconsBar__container">
                     {/*<div className="IconsBar__container" style={{boxShadow: `${!separatorActive ? '0 1px 1px rgba(0, 0, 0, 0.15)' : '0 1px 1px #07ab83'}`}}>*/}
-                        <IconsBar switchMarketStore={switchMarketStore} personActive={personActive} setPersonActive={setPersonActive} pseronAva={personAva} separatorActive={separatorActive} searchActive={searchActive} eyeDis={eyeDis} backupFilter={backupFilters} setBackupFilters={setBackupFilters} showEye={showEye} filtersActive={filtersActive} setFiltersActive={setFiltersActive} eyeOpen={eyeOpen} setEyeOpen={setEyeOpen} viewOpen={viewOpen} setViewOpen={setViewOpen} />
+                        <IconsBar currentParams={currentParams} switchMarketStore={switchMarketStore} personActive={personActive} setPersonActive={setPersonActive} pseronAva={personAva} separatorActive={separatorActive} searchActive={searchActive} eyeDis={eyeDis} backupFilter={backupFilters} setBackupFilters={setBackupFilters} showEye={showEye} filtersActive={filtersActive} setFiltersActive={setFiltersActive} eyeOpen={eyeOpen} setEyeOpen={setEyeOpen} viewOpen={viewOpen} setViewOpen={setViewOpen} />
                     </div>
             }
             <div className="Navbar__view--contianer">
@@ -196,10 +199,10 @@ const Navbar = ({data, store, providerId, fetchingItems, showItemTypes, showMIte
             {
                 <div ref={bodyContainerRef} className={`BodyContainer__wrapper ${(filtersActive) ? 'BodyContainer__wrapper--active' : 'BodyContainer__wrapper--hidden'}`} style={{top: `${navHeight}px`}}>
                     {/*{ true && <div ref={bodyContainerRef} className={`BodyContainer__wrapper ${isSticky ? 'sticky' : ''}`}>*/}
-                    <div className={`BodyContianer__market ${!showMCategories ? 'BodyContainer__wrapper--hidden' : ''}`}>
+                    <div className={`BodyContianer__market ${!showMCategories || currentParams.storeId ? 'BodyContainer__wrapper--hidden' : ''}`}>
                         <Categories loadingCategories={loadingCategories} categories={categories} curId={id} home />
                     </div>
-                    <div className={`BodyContainer__store ${!showSCategories ? 'BodyContainer__wrapper--hidden' : ''}`}>
+                    <div className={`BodyContainer__store ${(!showSCategories && !currentParams.storeId) ? 'BodyContainer__wrapper--hidden' : ''}`}>
                         <Categories providerId={providerId} loadingCategories={loadingCategoriesStore} categories={categoriesStore} provider={true} curId={curId} />
                     </div>
                     <div className="BodyContainer__seprator--margin"></div>

@@ -12,7 +12,7 @@ import Intro from "../../components/Intro/Intro";
 
 const Body = lazy(() => import('./Body/Body'));
 
-const Home = ({lan, match, setY, y, fixedNav, setFixedNav, topValue, setTopValue, setNavHeight, bodyContainerRef, considerNav, setConsiderNav, navHeight, navShow, setNavShow, setFiltersActive, filtersActive, currentProduct, coverLoaded, setCoverLoaded, setCurrentProduct, yPosition, setSidebar, searching, setSearching, sidebar, loadingCategoryProducts, changeNavbarAssets, changeHomePosition, fetchCategories, filter, categories}) => {
+const Home = ({lan, match, setY, currentParams, setCurrentParams, y, fixedNav, setFixedNav, topValue, setTopValue, setNavHeight, bodyContainerRef, considerNav, setConsiderNav, navHeight, navShow, setNavShow, setFiltersActive, filtersActive, currentProduct, coverLoaded, setCoverLoaded, setCurrentProduct, yPosition, setSidebar, searching, setSearching, sidebar, loadingCategoryProducts, changeNavbarAssets, changeHomePosition, fetchCategories, filter, categories}) => {
     const navigate = useNavigate();
 
     const homeRef = useRef();
@@ -21,7 +21,17 @@ const Home = ({lan, match, setY, y, fixedNav, setFixedNav, topValue, setTopValue
         if(categories.length > 0) return;
         fetchCategories(lan, filter, navigate, 0);
     }, []);
+
     const params = useParams();
+
+    useEffect(() => {
+        setCurrentParams(prevParams => {
+            if (JSON.stringify(prevParams) !== JSON.stringify(params)) {
+                return params; // Update only if params have changed
+            }
+            return prevParams
+        })
+    }, [params]);
 
     // useEffect(() => {
     //     const data = {

@@ -13,6 +13,11 @@
   //scroll-behavior: smooth;
   overflow-x: hidden;
 
+  .SearchScreen__list {
+    min-height: 100vh;
+    //padding-bottom: 50px;
+  }
+
   .SearchScreen__categories {
     position: sticky;
     background: white;
@@ -28,6 +33,7 @@
 
   .SearchScreen__container {
     width: 100%;
+    min-height: 100vh;
     //height: 100%;
   }
 }

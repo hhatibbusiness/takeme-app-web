@@ -25,6 +25,7 @@ import FallBack from "./components/FallBack/FallBack";
 import Home from './screens/Home/Home';
 import {fetchMarketStores} from "./store/actions/categories.action";
 import StorePageShimmer from "./components/StorePageShimmer/StorePageShimmer";
+import {RouterParamsProvider} from "./contexts/RouterParamsContext";
 // import Product from './screens/Product/Product';
 // import ProviderScreen from './screens/Provider/ProviderScreen';
 // import SearchScreen from "./screens/SearchScreen/SearchScreen";
@@ -79,6 +80,8 @@ const App = (props) => {
     const [showMItemTypes, setShowMItemTypes] = useState(true);
     const [showSItemTypes, setShowSItemTypes] = useState(false);
     const [providerId, setProviderId] = useState(null);
+    const [currentParams, setCurrentParams] = useState({});
+
 
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [isInstallable, setIsInstallable] = useState(false);
@@ -217,61 +220,72 @@ const App = (props) => {
     //     return null;
     // }
 
+    useEffect(() => {
+        console.log(currentParams);
+    }, [currentParams]);
+
 
     return (
-        <div className={'App'} style={{overflowY: `${(!logoStart && !coverLoaded) ? 'hidden' : 'auto'}`}} >
-            {
-                // true  && <Suspense fallback={<SpinnerComponent />}><Intro /></Suspense>
-                (!logoStart.firstTime)  && <Suspense fallback={<FallBack full={true} />}><Intro /></Suspense>
-            }
-            {
-                !props.loadingAssets && (
-                    isMobile ? (
-                        <>
-                            <Navbar providerId={providerId} setProviderId={setProviderId} showMItemTypes={showMItemTypes} showSItemTypes={showSItemTypes} showMCategories={showMCategories} showSCategories={showSCategories} showItemTypes={showItemTypes} setShowItemTypes={setShowItemTypes} storeDetailsRef={storeDetailsRef} personActive={personActive} setPersonActive={setPersonActive} personAva={personAva} searchActive={searchActive} setSearchActive={setSearchActive} eyeDis={eyeDis} setEyeDis={setEyeDis} backupFilters={backupFilters} setBackupFilters={setBackupFilters} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} showSlider={showSlider} setShowSlider={setShowSlider} bodyContainerRef={bodyContainerRef} considerNav={considerNav} showMidText={showMidText} backBtn={backBtn} searchShow={searchShow} showIcons={showIcons} showEye={showEye} navShow={navShow} setNavShow={setNavShow} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} navHeight={navHeight} setNavHeight={setNavHeight} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />
-                            <Suspense fallback={logoStart.isFirstTime ? <Intro /> : <SpinnerComponent full={true} />}>
-                                <Routes history={history}>
-                                    <Route path={'/'} element={<Home y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} navShow={navShow} considerNav={considerNav} setConsiderNav={setConsiderNav} bodyContainerRef={bodyContainerRef} setNavShow={setNavShow} navHeight={navHeight} setNavHeight={setNavHeight} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />} >
-                                        {/*<Route path={'/product/:productId'} exact element={<Product />} >*/}
-                                        {/*    <Route path={'popup/:id'} exact element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />*/}
-                                        {/*    <Route path={'gallery'} exact={true} element={<Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} />} />*/}
-                                        {/*</Route>*/}
-                                        <Route path={'/product/:productId'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><Product setBackBtn={setBackBtn} /></Suspense>} >
-                                            <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
-                                            <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
-                                        </Route>
-                                        <Route path={'/provider/:providerId'} exact element={<Suspense fallback={<StorePageShimmer />}><ProviderScreen setProviderId={setProviderId} setShowMItemTypes={setShowMItemTypes} setShowSItemTypes={setShowSItemTypes} setShowMCategories={setShowMCategories} setShowSCategories={setShowSCategories} setShowItemTypes={setShowItemTypes} setFiltersActive={setFiltersActive} setShowSlider={setShowSlider} setPersonActive={setPersonActive} bodyContainerRef={bodyContainerRef} topValue={topValue} storeDetailsRef={storeDetailsRef} setTopValue={setTopValue} personActive={personActive} setPersonAva={setPersonAva} navHeight={navHeight} searchActive={searchActive} setSearchActive={setSearchActive} eyeDis={eyeDis} setEyeDis={setEyeDis} setshowMidText={setShowMidText} setBackBtn={setBackBtn} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} /></Suspense>} >
-                                            <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
-                                            <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
-                                        </Route>
-                                        {/*<Route exact path={'/provider/:provider_id/ratings'} element={<KeepAlive cacheKey={'Ratings'}><ProviderRatings /></KeepAlive>} />*/}
-                                        <Route path={'/search'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><SearchScreen setShowItemTypes={setShowItemTypes} backupFilters={backupFilters} setBackupFilters={setBackupFilters} bodyContainerRef={bodyContainerRef} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} topValue={topValue} setTopValue={setTopValue} y={y} setY={setY} showSlider={showSlider} setShowSlider={setShowSlider} setshowMidText={setShowMidText} setIconsShow={setShowIcons} setSearchShow={setSearchShow} setBackBtn={setBackBtn} navHeight={navHeight} setShowEye={setShowEye} gallery={gallery} setGallery={setGallery} searching={searching} setSearching={setSearching} /></Suspense>} >
-                                            <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} >
+        <RouterParamsProvider>
+            <div className={'App'} style={{overflowY: `${(!logoStart && !coverLoaded) ? 'hidden' : 'auto'}`}} >
+                {
+                    // true  && <Suspense fallback={<SpinnerComponent />}><Intro /></Suspense>
+                    (!logoStart.firstTime)  && <Suspense fallback={<FallBack full={true} />}><Intro /></Suspense>
+                }
+                {
+                    !props.loadingAssets && (
+                        isMobile ? (
+                            <>
+                                <Navbar currentParams={currentParams} providerId={providerId} setProviderId={setProviderId} showMItemTypes={showMItemTypes} showSItemTypes={showSItemTypes} showMCategories={showMCategories} showSCategories={showSCategories} showItemTypes={showItemTypes} setShowItemTypes={setShowItemTypes} storeDetailsRef={storeDetailsRef} personActive={personActive} setPersonActive={setPersonActive} personAva={personAva} searchActive={searchActive} setSearchActive={setSearchActive} eyeDis={eyeDis} setEyeDis={setEyeDis} backupFilters={backupFilters} setBackupFilters={setBackupFilters} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} showSlider={showSlider} setShowSlider={setShowSlider} bodyContainerRef={bodyContainerRef} considerNav={considerNav} showMidText={showMidText} backBtn={backBtn} searchShow={searchShow} showIcons={showIcons} showEye={showEye} navShow={navShow} setNavShow={setNavShow} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} navHeight={navHeight} setNavHeight={setNavHeight} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />
+                                <Suspense fallback={logoStart.isFirstTime ? <Intro /> : <SpinnerComponent full={true} />}>
+                                    <Routes history={history}>
+                                        <Route path={'/'} element={<Home currentParams={currentParams} setCurrentParams={setCurrentParams} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} navShow={navShow} considerNav={considerNav} setConsiderNav={setConsiderNav} bodyContainerRef={bodyContainerRef} setNavShow={setNavShow} navHeight={navHeight} setNavHeight={setNavHeight} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />} >
+                                            {/*<Route path={'/product/:productId'} exact element={<Product />} >*/}
+                                            {/*    <Route path={'popup/:id'} exact element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />*/}
+                                            {/*    <Route path={'gallery'} exact={true} element={<Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} />} />*/}
+                                            {/*</Route>*/}
+                                            <Route path={'/product/:productId'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><Product setBackBtn={setBackBtn} /></Suspense>} >
+                                                <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
+                                                <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
+                                            </Route>
+                                            <Route path={'/provider/:providerId'} exact element={<Suspense fallback={<StorePageShimmer />}><ProviderScreen setProviderId={setProviderId} setShowMItemTypes={setShowMItemTypes} setShowSItemTypes={setShowSItemTypes} setShowMCategories={setShowMCategories} setShowSCategories={setShowSCategories} setShowItemTypes={setShowItemTypes} setFiltersActive={setFiltersActive} setShowSlider={setShowSlider} setPersonActive={setPersonActive} bodyContainerRef={bodyContainerRef} topValue={topValue} storeDetailsRef={storeDetailsRef} setTopValue={setTopValue} personActive={personActive} setPersonAva={setPersonAva} navHeight={navHeight} searchActive={searchActive} setSearchActive={setSearchActive} eyeDis={eyeDis} setEyeDis={setEyeDis} setshowMidText={setShowMidText} setBackBtn={setBackBtn} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} /></Suspense>} >
+                                                <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
+                                                <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
+                                            </Route>
+                                            {/*<Route exact path={'/provider/:provider_id/ratings'} element={<KeepAlive cacheKey={'Ratings'}><ProviderRatings /></KeepAlive>} />*/}
+                                            <Route path={'/search'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><SearchScreen setShowItemTypes={setShowItemTypes} backupFilters={backupFilters} setBackupFilters={setBackupFilters} bodyContainerRef={bodyContainerRef} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} topValue={topValue} setTopValue={setTopValue} y={y} setY={setY} showSlider={showSlider} setShowSlider={setShowSlider} setshowMidText={setShowMidText} setIconsShow={setShowIcons} setSearchShow={setSearchShow} setBackBtn={setBackBtn} navHeight={navHeight} setShowEye={setShowEye} gallery={gallery} setGallery={setGallery} searching={searching} setSearching={setSearching} /></Suspense>} >
+                                                <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} >
+                                                    <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
+                                                </Route>
+                                            </Route>
+                                            <Route path={'/search/:storeId'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><SearchScreen setShowItemTypes={setShowItemTypes} backupFilters={backupFilters} setBackupFilters={setBackupFilters} bodyContainerRef={bodyContainerRef} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} topValue={topValue} setTopValue={setTopValue} y={y} setY={setY} showSlider={showSlider} setShowSlider={setShowSlider} setshowMidText={setShowMidText} setIconsShow={setShowIcons} setSearchShow={setSearchShow} setBackBtn={setBackBtn} navHeight={navHeight} setShowEye={setShowEye} gallery={gallery} setGallery={setGallery} searching={searching} setSearching={setSearching} /></Suspense>} >
+                                                <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} >
+                                                    <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
+                                                </Route>
+                                            </Route>
+                                            <Route path={`main/popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} >
                                                 <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                             </Route>
-                                        </Route>
-                                        <Route path={`main/popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} >
+                                            <Route path={`product/popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
                                             <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
+                                            <Route path={'popup/:id'} exact element={<ProductsDetails currentProduct={currentProduct} popup={popup} setPopup={setPopup} setCurrentProduct={setCurrentProduct} />} />
+                                            <Route path={'/about'} exact element={<About setBackBtn={setBackBtn} setShowIcons={setShowIcons} setshowMidText={setShowMidText} />} />
+                                            <Route path={'/contract'} exact element={<Contract setShowIcons={setShowIcons} setBackBtn={setBackBtn} setshowMidText={setShowMidText} />} />
+                                            <Route path={'/login'} exact element={<Login setBackBtn={setBackBtn} setShowIcons={setShowIcons} />} setshowMidText={setShowMidText} />
+                                            <Route path={'/register'} element={<Register setBackBtn={setBackBtn} />} setshowMidText={setShowMidText} />
+                                            <Route path={'/forget/:email'} exact element={<Forget setBackBtn={setBackBtn} />} setshowMidText={setShowMidText} />
                                         </Route>
-                                        <Route path={`product/popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
-                                        <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
-                                        <Route path={'popup/:id'} exact element={<ProductsDetails currentProduct={currentProduct} popup={popup} setPopup={setPopup} setCurrentProduct={setCurrentProduct} />} />
-                                        <Route path={'/about'} exact element={<About setBackBtn={setBackBtn} setShowIcons={setShowIcons} setshowMidText={setShowMidText} />} />
-                                        <Route path={'/contract'} exact element={<Contract setShowIcons={setShowIcons} setBackBtn={setBackBtn} setshowMidText={setShowMidText} />} />
-                                        <Route path={'/login'} exact element={<Login setBackBtn={setBackBtn} setShowIcons={setShowIcons} />} setshowMidText={setShowMidText} />
-                                        <Route path={'/register'} element={<Register setBackBtn={setBackBtn} />} setshowMidText={setShowMidText} />
-                                        <Route path={'/forget/:email'} exact element={<Forget setBackBtn={setBackBtn} />} setshowMidText={setShowMidText} />
-                                    </Route>
-                                </Routes>
-                            </Suspense>
-                        </>
-                    ) : (
-                        <NotMobile />
+                                    </Routes>
+                                </Suspense>
+                            </>
+                        ) : (
+                            <NotMobile />
+                        )
                     )
-                )
-            }
-            {/*<button onClick={handleInstallClick}>Install App</button>*/}
-        </div>
+                }
+                {/*<button onClick={handleInstallClick}>Install App</button>*/}
+            </div>
+        </RouterParamsProvider>
     )
 }
 

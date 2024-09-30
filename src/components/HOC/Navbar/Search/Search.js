@@ -8,7 +8,7 @@ import {getAnalytics, logEvent} from "firebase/analytics";
 import searchIcon from '../../../../assets/images/searchIcon.png';
 
 
-const Search = ({searching, store, searchPage, loadingSearchResults, term, changeSearchTerm}) => {
+const Search = ({searching, currentParams, store, searchPage, loadingSearchResults, term, changeSearchTerm}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [typing, setTyping] = useState(false);
     const [clicking, setClicking] = useState(false);
@@ -70,7 +70,12 @@ const Search = ({searching, store, searchPage, loadingSearchResults, term, chang
             <div onClick={() => {
                 if(store) return;
                 if(!window?.location?.href.includes('search')) {
-                    navigate('/search');
+                    console.log(currentParams);
+                    if(currentParams.storeId) {
+                        navigate(`/search/${currentParams.storeId}`)
+                    }else {
+                        navigate('/search');
+                    }
                 }
                 const analytics = getAnalytics();
                 logEvent(analytics, 'search_bar', {});

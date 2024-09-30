@@ -88,7 +88,6 @@ export default (state = initialState, action) => {
                     results: JSON.parse(JSON.stringify(state.results))
                 }
             })();
-
         default:
             return state;
     }
