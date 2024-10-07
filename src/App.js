@@ -1,8 +1,8 @@
 import './App.scss';
-import {Routes, Route, useNavigate, useLocation} from "react-router-dom";
+import {Routes, Route, useNavigate} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
 import {connect} from "react-redux";
-import {endLoadingAssets, fetchAssets} from "./store/actions/assets.actions";
+import {fetchAssets} from "./store/actions/assets.actions";
 import history from "./history/history";
 import About from "./screens/About/About";
 import Contract from "./screens/contract/Contract";
@@ -15,25 +15,17 @@ import {changePlatform} from "./store/actions/assets.actions";
 import ProductPopup from "./components/ProductPopup/ProductPopup";
 import Navbar from "./components/HOC/Navbar/Navbar";
 import {changeBackBtn} from "./store/actions/ui.actions";
-// import Gallery from "./screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery";
 import ProductsDetails from "./screens/Home/Body/BodyContainer/ProductList/Products/ProductsDetails/ProductsDetails";
 import NotMobile from "./components/NotMobile/NotMobile"; 
 import {Suspense, lazy} from "react";
 import SpinnerComponent from "./components/Spinner/Spinner.Component";
-import {KeepAlive} from "react-activation";
 import FallBack from "./components/FallBack/FallBack"; 
 import Home from './screens/Home/Home';
 import {fetchMarketStores} from "./store/actions/categories.action";
 import StorePageShimmer from "./components/StorePageShimmer/StorePageShimmer";
 import {RouterParamsProvider} from "./contexts/RouterParamsContext";
-// import Product from './screens/Product/Product';
-// import ProviderScreen from './screens/Provider/ProviderScreen';
-// import SearchScreen from "./screens/SearchScreen/SearchScreen";
-// import Intro from './components/Intro/Intro';
 
-// const Home = lazy(() => import(/* webpackChunkName: "Home" */ './screens/Home/Home'));
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
-// const Home = lazy(() => import('./screens/Home/Home'));
 const Product = lazy(() => import(/* webpackChunkName: "Product" */ "./screens/Product/Product"));
 const ProviderScreen = lazy(() => import(/* webpackChunkName: "ProviderScreen" */ "./screens/Provider/ProviderScreen"));
 const SearchScreen = lazy(() => import(/* webpackChunkName: "SearchScreen" */ "./screens/SearchScreen/SearchScreen"));
@@ -47,7 +39,6 @@ const App = (props) => {
     });
     const navigate = useNavigate();
     const [searching, setSearching] = useState(false);
-    const location = useLocation();
     const [gallery, setGallery] = useState(false);
     const [currentProduct, setCurrentProduct] = useState(null);
     const [popup, setPopup] = useState(false);
@@ -65,7 +56,6 @@ const App = (props) => {
     const [showSlider, setShowSlider] = useState(true);
     const [fixedNav, setFixedNav] = useState(false);
     const [topValue, setTopValue] = useState(0);
-    const homeRef = useRef();
     const bodyContainerRef = useRef();
     const [y, setY] = useState(null);
     const [backupFilters, setBackupFilters] = useState(false);
@@ -82,39 +72,9 @@ const App = (props) => {
     const [providerId, setProviderId] = useState(null);
     const [currentParams, setCurrentParams] = useState({});
 
-
-    const [deferredPrompt, setDeferredPrompt] = useState(null);
-    const [isInstallable, setIsInstallable] = useState(false);
-
-    useEffect(() => {
-        const handler = (e) => {
-            e.preventDefault();
-            setDeferredPrompt(e);
-            setIsInstallable(true);
-        };
-
-        window.addEventListener('beforeinstallprompt', handler);
-
-        return () => {
-            window.removeEventListener('beforeinstallprompt', handler);
-        };
-    }, []);
-
-
-    // useEffect(() => {
-    //     console.log(location.pathname);
-    //     if(logoStart != '1' && coverLoaded) {
-    //         setLogoStart(1);
-    //         localStorage.setItem("takemeFirstVisit", 1);
-    //     }
-    // }, [coverLoaded, logoStart]);
-
     useEffect(() => {
         let timeOut;
-        // console.log('Hello there!', logoStart, localStorage.getItem('takemeFirstVisit'));
         if(logoStart != '1') {
-            // if(true){
-            // console.log('Hello from intro');
             timeOut = setTimeout(() => {
                 setLogoStart(prev => {
                     return {
@@ -125,6 +85,7 @@ const App = (props) => {
                 localStorage.setItem("takemeFirstVisit", 1);
             }, 1000);
         }
+
         return () => {
             clearTimeout(timeOut);
         }
@@ -136,17 +97,6 @@ const App = (props) => {
         props.fetchAssets(navigate);
         props.loadProvider()
     }, []);
-
-    // useEffect(() => {
-    //     const data = {
-    //         lan: 'ar',
-    //         page: 0,
-    //         filter: 'ALL',
-    //         categoryId: 0
-    //     };
-    //
-    //     props.fetchMarketStores(data);
-    // }, []);
 
     useEffect(() => {
         function isMobile() {
@@ -181,55 +131,10 @@ const App = (props) => {
         }
     }, []);
 
-    // useEffect(() => {
-    //     const navbar = document?.querySelector('.Navbar');
-    //     if(navbar) {
-    //         if(window?.location.hash.length > 2) {
-    //             if(window?.location?.hash?.includes('search')) {
-    //                 props.changeBackBtn(true);
-    //                 navbar.style.height = "75px";
-    //                 navbar.style.display = "block";
-    //             } else {
-    //                 props.changeBackBtn(true);
-    //                 navbar.style.height = '52px';
-    //                 navbar.style.display = "block";
-    //             }
-    //         } else {
-    //             props.changeBackBtn(false);
-    //             navbar.style.height = "75px";
-    //             navbar.style.display = "block";
-    //         }
-    //     }
-    //
-    // }, [window?.location.hash, logoStart, props.loadingAssets]);
-
-    const handleInstallClick = async () => {
-        if (!deferredPrompt) return prompt('Not Available!');
-
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-            console.log('PWA setup accepted');
-        } else {
-            console.log('PWA setup rejected');
-        }
-        setDeferredPrompt(null);
-    };
-
-    // if (!isInstallable) {
-    //     return null;
-    // }
-
-    useEffect(() => {
-        console.log(currentParams);
-    }, [currentParams]);
-
-
     return (
         <RouterParamsProvider>
             <div className={'App'} style={{overflowY: `${(!logoStart && !coverLoaded) ? 'hidden' : 'auto'}`}} >
                 {
-                    // true  && <Suspense fallback={<SpinnerComponent />}><Intro /></Suspense>
                     (!logoStart.firstTime)  && <Suspense fallback={<FallBack full={true} />}><Intro /></Suspense>
                 }
                 {
@@ -240,10 +145,6 @@ const App = (props) => {
                                 <Suspense fallback={logoStart.isFirstTime ? <Intro /> : <SpinnerComponent full={true} />}>
                                     <Routes history={history}>
                                         <Route path={'/'} element={<Home currentParams={currentParams} setCurrentParams={setCurrentParams} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} navShow={navShow} considerNav={considerNav} setConsiderNav={setConsiderNav} bodyContainerRef={bodyContainerRef} setNavShow={setNavShow} navHeight={navHeight} setNavHeight={setNavHeight} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />} >
-                                            {/*<Route path={'/product/:productId'} exact element={<Product />} >*/}
-                                            {/*    <Route path={'popup/:id'} exact element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />*/}
-                                            {/*    <Route path={'gallery'} exact={true} element={<Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} />} />*/}
-                                            {/*</Route>*/}
                                             <Route path={'/product/:productId'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><Product setBackBtn={setBackBtn} /></Suspense>} >
                                                 <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                                 <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
@@ -283,7 +184,6 @@ const App = (props) => {
                         )
                     )
                 }
-                {/*<button onClick={handleInstallClick}>Install App</button>*/}
             </div>
         </RouterParamsProvider>
     )

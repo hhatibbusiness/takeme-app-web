@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './ItemDesc.css';
-import itemImage from '../../../../../../../assets/images/items/item.png';
+import prodImage from '../../../../../../../assets/images/items/item.png';
 import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
 import {changePopupProduct, openPopup, changeDestination} from "../../../../../../../store/actions/ui.actions";
@@ -71,7 +71,7 @@ const ItemDesc = ({item, value, changePopupProduct, changeDestination, openPopup
     return (
         <div ref={productRef} className={`ItemDesc ${value < 100 && 'Item__disappear'}`}>
             <div className="ItemDesc__name">
-                <img src={itemImage} alt=""/>
+                <img src={prodImage} alt=""/>
                 <p>{item?.name}</p>
             </div>
             {
@@ -103,7 +103,7 @@ const ItemDesc = ({item, value, changePopupProduct, changeDestination, openPopup
                             changePopupProduct(item);
                             openPopup();
                             changeDestination();
-                            navigate(`${window?.location?.hash.replace('#', '')}/product/popup/${item?.id}`);
+                            navigate(`${window?.location?.hash.replace('#/', '')}/product/popup/${item?.id}`);
                         }} style={{color: "#D9D9D9", fontSize: "12px", cursor: "pointer"}}>{more && t("more")}</span></p>
                     </div>
                 )
