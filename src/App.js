@@ -1,6 +1,6 @@
+import React, {useEffect, useRef, useState} from "react";
 import './App.scss';
 import {Routes, Route, useNavigate} from "react-router-dom";
-import React, {useEffect, useRef, useState} from "react";
 import {connect} from "react-redux";
 import {fetchAssets} from "./store/actions/assets.actions";
 import history from "./history/history";
