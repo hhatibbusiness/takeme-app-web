@@ -2,11 +2,9 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import './SearchScreen.scss';
 import {connect} from "react-redux";
 import {fetchSearchResults, openSearchGallery, closeSearchGallery, changeSearchCategoryId, resetAllSearchData} from "../../store/actions/search.actions";
-import Categories from "../Home/Body/BodyContainer/CategoriesBar/Categories";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
 import Failure from "../Product/Provider/ProviderProducts/Failure/Failure";
 import InfiniteScroll from "react-infinite-scroller";
-import Loader from "../../components/Loader/Loader";
 import {useTranslation} from "react-i18next";
 import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {KeepAlive} from "react-activation";
@@ -17,7 +15,6 @@ import {fetchProviderCategories} from "../../store/actions/provider.actions";
 import SearchShimmer from "../../components/SearchShimmer/SearchShimmer";
 
 const SearchScreen = ({
-    padddingTop,
     setShowItemTypes,
     backupFilters,
     setBackupFilters,
@@ -52,7 +49,6 @@ const SearchScreen = ({
     catId,
   fetchProviderCategories
 }) => {
-
     const [moreLoading, setMoreLoading] = useState(true);
     const [searchCount, setSearchCount] = useState(0);
     const [y, setY] = useState(null);
@@ -62,8 +58,6 @@ const SearchScreen = ({
     const navigate = useNavigate();
     const searchRef = useRef();
     const searchContainerRef = useRef();
-    // const {params}
-
     const params = useParams();
 
     useEffect(() => {
@@ -168,8 +162,6 @@ const SearchScreen = ({
         const searchContainerEle = searchContainerRef?.current;
         const top = Math.abs(searchContainerEle.getBoundingClientRect()?.top);
 
-        console.log('scrolling!')
-        console.log(Math.floor(y), top);
         if(Math.floor(y) > Math.floor(top)) {
             setY(top);
             if(topValue + (y - top) > 0) {
@@ -241,21 +233,13 @@ const SearchScreen = ({
                                 useWindow={false}
                             >
                                 <>
-                                    {/*<div className="SearchScreen__categories" style={{top: `${0}px`}}>*/}
-                                    {/*    <Categories loadingCategories={loadingCategories} categories={categories} curId={curId} search />*/}
-                                    {/*</div>*/}
                                     {
-                                        // false ? (
                                         !loadingSearchResults ? (
                                             searchResults.length > 0 ? (
                                                     <div ref={searchContainerRef} style={{paddingTop: `${navHeight}px`}} className={'SearchScreen__container'}>
                                                             {
                                                                 searchResults.map((p, i) => (
                                                                     <>
-                                                                        {/*<Provider search={true} link provider={p} key={p.id} openGallery={openSearchGallery} closeGallery={closeSearchGallery} galleryProduct={galleryProduct} />*/}
-                                                                        {/*{*/}
-                                                                        {/*    gallery && <Gallery product={galleryProduct} closeGallery={closeSearchGallery} openGallery={openSearchGallery} />*/}
-                                                                        {/*}*/}
                                                                         <DropDownListItem term={term} result={p} />
                                                                     </>
                                                                 ))

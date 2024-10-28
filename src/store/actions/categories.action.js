@@ -7,6 +7,7 @@ import {
     CHANGE_SLIDER_VALUE,
     END_FETCHING_CATEGORIES,
     END_FETCHING_ITEM_TYPES,
+    END_FETCHING_LOCALES,
     END_FETCHING_MARKET_STORES,
     END_FETCHING_PRODUCTS,
     END_FETCHING_PRODUCTS_MARKET,
@@ -25,6 +26,7 @@ import {
     RESET_PAGE_NUMBER,
     START_FETCHING_CATEGORIES,
     START_FETCHING_ITEM_TYPES,
+    START_FETCHING_LOCALES,
     START_FETCHING_MARKET_STORES,
     START_FETCHING_PRODUCTS,
     START_FETCHING_PRODUCTS_MARKET,
@@ -89,10 +91,19 @@ export const fetchCategories = (lan, filter, navigate, page, storePage, store) =
             categories = [...res.data.output]
         }
 
+        const data = {
+            locale: data.locale,
+            sortType: 'NEWEST',
+            page: 0
+        };
+
+        dispatch(fetchLocales(data));
+
         dispatch({
             type: FETCH_CATEGORIES_SUCCESS,
             categories
         });
+
         dispatch(increaseCategoriesPageNumber);
 
         dispatch(endFetchingCategories);
@@ -402,3 +413,23 @@ export const changeCurItemTypeId = (id) => ({
     type: CHANGE_CUR_ITEM_TYPE_ID,
     id
 })
+
+export const startFetchingLocales = {
+    type: START_FETCHING_LOCALES
+}
+
+export const endFetchingLocales = {
+    type: END_FETCHING_LOCALES
+}
+
+export const fetchLocales = data => async dispatch => {
+    try {
+        dispatch(startFetchingLocales);
+        const res = await axios.get(`${BASE_URL}/locales/list?mLocale=${data.locale.locale}&sortType=${data.sortType}&page=${data.page}`);
+        console.log(res);
+        dispatch(endFetchingLocales);
+    } catch (e) {
+        
+        dispatch(endFetchingLocales);
+    }
+}
