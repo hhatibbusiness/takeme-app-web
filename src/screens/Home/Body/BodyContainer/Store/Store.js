@@ -7,16 +7,17 @@ import Loader from "../../../../../components/Loader/Loader";
 import StoreItem from "./StoreItem/StoreItem";
 import StoreViewShimmer from "../../../../../components/StoreViewShimmer/StoreViewShimmer";
 
-const Store = ({fetchMarketStores, curId, filter, resetMarketStoreData, lan, page, fetchingStores, stores, more}) => {
+const Store = ({fetchMarketStores, selectedLocale, curId, filter, resetMarketStoreData, lan, page, fetchingStores, stores, more}) => {
     const [moreLoading, setMoreLoading] = useState(true);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         resetMarketStoreData();
+        if (!selectedLocale) return;
         console.log('From useEffect!', curId);
         (async () => {
             const data = {
-                lan,
+                lan: selectedLocale?.locale,
                 page: 0,
                 filter: filter,
                 categoryId: curId
@@ -27,7 +28,7 @@ const Store = ({fetchMarketStores, curId, filter, resetMarketStoreData, lan, pag
         return () => {
             console.log('Product Unmounted!')
         }
-    }, [curId]);
+    }, [curId, selectedLocale]);
 
     useEffect(() => {
         console.log('Hello From the Store page!')
@@ -98,7 +99,8 @@ const mapStateToProps = state => ({
     page: state.categories.storePage,
     fetchingStores: state.categories.fetchingStores,
     stores: state.categories.stores,
-    more: state.categories.moreStores
+    more: state.categories.moreStores,
+    selectedLocale: state.categories.selectedLocale
 });
 
 export default connect(mapStateToProps, {resetMarketStoreData, fetchMarketStores}) (memo(Store));

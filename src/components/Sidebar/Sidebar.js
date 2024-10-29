@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import './Sidebar.scss';
 import {connect} from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
-import {changeLan, changeFilter} from "../../store/actions/categories.action";
+import {changeLan, changeFilter, changeCurrentSelectedLocale} from "../../store/actions/categories.action";
 import i18next from "i18next";
 import {useTranslation} from 'react-i18next';
 import {logout} from "../../store/actions/login.action";
@@ -21,7 +21,7 @@ import logo from "../../assets/images/defaults/logo-default-image.svg";
 import ProviderPreview from "./ProviderPreview/ProviderPreview";
 import Install from "../HOC/Navbar/Install/Install";
 
-const Sidebar = ({assets, setSidebar, store, user, takemeProviderData, sidebar, isAuthenticated, logout, changeFilter, filter, lan, changeLan, categories}) => {
+const Sidebar = ({assets, setSidebar, changeCurrentSelectedLocale, store, user, locales, selectedLocale, takemeProviderData, sidebar, isAuthenticated, logout, changeFilter, filter, lan, changeLan, categories}) => {
     const [langShow, setLanShow] = useState(false);
     const [filterShow, setFilterShow] = useState(false);
     const [socialShow, setSocialShow] = useState(false);
@@ -40,6 +40,10 @@ const Sidebar = ({assets, setSidebar, store, user, takemeProviderData, sidebar, 
     useEffect(() => {
         setCurrFilter(filter);
     }, [filter]);
+
+    useEffect(() => {
+        console.log(locales, selectedLocale);
+    }, [locales, selectedLocale]);
 
     const filterChangeHandler = e => {
         const filter = e.target.closest('input');
@@ -135,11 +139,21 @@ const Sidebar = ({assets, setSidebar, store, user, takemeProviderData, sidebar, 
                             <img src={language}/>
                             <p style={{direction: 'rtl'}}>اللغة-השפה</p>
                         </div>
-                        <form onClick={lanChangeHandler} className={`Sidebar__sublinks Sidebar__lan--form ${langShow && 'Sidebar__sublinks--active'}`}>
-                            <div className="Sidebar__sublinks--element">
+                        <form className={`Sidebar__sublinks Sidebar__lan--form ${langShow && 'Sidebar__sublinks--active'}`}>
+                            {/* <div className="Sidebar__sublinks--element">
                                 <input checked={lan == 'ar'} value={'ar'} name={'language'} type="radio"/>
                                 <label htmlFor="{'language'}">العربية</label>
-                            </div>
+                            </div> */}
+                            {
+                                locales?.map((locale) => (
+                                    <div onClick={e => {
+                                        changeCurrentSelectedLocale(locale);
+                                    }} className="Sidebar__sublinks--element">
+                                        <input checked={selectedLocale?.locale == locale?.locale} value={locale?.locale} type="radio" name={'language'}/>
+                                        <label htmlFor="{'language'}">{locale?.name}</label>
+                                    </div>    
+                                ))
+                            }
                             <div className="Sidebar__sublinks--element">
                                 <input checked={lan == 'he'} disabled={true} value={'he'} type="radio" name={'language'}/>
                                 <label htmlFor="{'language'}">עִברִית</label><span style={{fontSize: '13px', color: "var(--main-color-green-dark-1)"}}> (בקרוב)</span>
@@ -262,7 +276,9 @@ const mapStateToProps = state => ({
     user: state.login.data,
     takemeProviderData: state.login.takemeProviderData,
     takemeProviderToken: state.login.takemeProviderToken,
-    store: state.categories.store
+    store: state.categories.store,
+    locales: state.categories.locales,
+    selectedLocale: state.categories.selectedLocale
 });
 
-export default connect(mapStateToProps, {changeLan, changeFilter, logout}) (Sidebar);
+export default connect(mapStateToProps, {changeLan, changeCurrentSelectedLocale, changeFilter, logout}) (Sidebar);

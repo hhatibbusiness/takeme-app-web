@@ -1,7 +1,7 @@
 import React, {lazy, Suspense, useEffect, useRef} from 'react';
 // import Body from "./Body/Body";
 import {connect} from "react-redux";
-import {fetchCategories} from '../../store/actions/categories.action';
+import {fetchCategories, fetchLocales} from '../../store/actions/categories.action';
 import './Home.scss';
 import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {changeHomePosition, changeNavbarAssets} from "../../store/actions/ui.actions";
@@ -12,15 +12,39 @@ import Intro from "../../components/Intro/Intro";
 
 const Body = lazy(() => import('./Body/Body'));
 
-const Home = ({lan, match, setY, currentParams, setCurrentParams, y, fixedNav, setFixedNav, topValue, setTopValue, setNavHeight, bodyContainerRef, considerNav, setConsiderNav, navHeight, navShow, setNavShow, setFiltersActive, filtersActive, currentProduct, coverLoaded, setCoverLoaded, setCurrentProduct, yPosition, setSidebar, searching, setSearching, sidebar, loadingCategoryProducts, changeNavbarAssets, changeHomePosition, fetchCategories, filter, categories}) => {
+const Home = ({lan, match, store, setY, selectedLocale, fetchLocales, currentParams, setCurrentParams, y, fixedNav, setFixedNav, topValue, setTopValue, setNavHeight, bodyContainerRef, considerNav, setConsiderNav, navHeight, navShow, setNavShow, setFiltersActive, filtersActive, currentProduct, coverLoaded, setCoverLoaded, setCurrentProduct, yPosition, setSidebar, searching, setSearching, sidebar, loadingCategoryProducts, changeNavbarAssets, changeHomePosition, fetchCategories, filter, categories}) => {
     const navigate = useNavigate();
 
     const homeRef = useRef();
 
     useEffect(() => {
         if(categories.length > 0) return;
-        fetchCategories(lan, filter, navigate, 0);
+        // fetchCategories(lan, filter, navigate, 0);
+        const data = {
+            lan,
+            filter,
+            navigate,
+            store,
+            sortType: 'NEWEST',
+            page: 0
+        };
+
+        fetchLocales(data);
     }, []);
+
+    useEffect(() => {
+        const data = {
+            lan,
+            filter,
+            navigate,
+            store,
+            page: 0
+        };
+
+        if (!selectedLocale) return;
+
+        fetchCategories(selectedLocale?.locale, filter, navigate, 0, selectedLocale);
+    }, [selectedLocale])
 
     const params = useParams();
 
@@ -68,7 +92,9 @@ const mapStateToProps = state => ({
     filter: state.categories.filter,
     categories: state.categories.categories,
     yPosition: state.ui.yPosition,
-    loadingCategoryProducts: state.categories.loadingCategoryProducts
+    loadingCategoryProducts: state.categories.loadingCategoryProducts,
+    selectedLocale: state.categories.selectedLocale,
+    store: state.categories.store
 });
 
-export default connect(mapStateToProps, {changeNavbarAssets, fetchCategories, changeHomePosition}) (React.memo(Home));
+export default connect(mapStateToProps, {changeNavbarAssets, fetchLocales, fetchCategories, changeHomePosition}) (React.memo(Home));

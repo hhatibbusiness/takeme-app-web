@@ -28,7 +28,7 @@ import ItemTypesShimmer from "../../components/ItemTypesShimmer/ItemTypesShimmer
 import search from "../../components/HOC/Navbar/Search/Search";
 
 
-const ProviderScreen = ({fetchProviderData, setProviderId, setShowSItemTypes, setShowMItemTypes, setShowSCategories, setShowMCategories, setShowSlider, setFiltersActive, setPersonActive, storeDetailsRef, setTopValue, topValue, bodyContainerRef, navHeight, setSearchActive, searchActive, setEyeDis, eyeDis, setPersonAva, setBackBtn, currentProduct, setCurrentProduct, currentItemTypeId, itemsPage, changeStoreCurrentItemType, itemsMore, fetchingItems, items, fetchingItemTypes, itemTypes, fetchStoreItemTypes, takemeUserToken, currentUser, takemeProviderToken, takemeProviderData, fetchStoreItems, changeCurrentId, fetchingProductTypes, fetchProviderCategories, categories, loadingCategories, curId, page, more, loadingProductTypes, productTypes, changeNavbarAssets, loadingProvider, filter, resetProviderProductTypesData, fetchProviderProductsTypes, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup, catId, openGallery}) => {
+const ProviderScreen = ({fetchProviderData, selectedLocale, setProviderId, setShowSItemTypes, setShowMItemTypes, setShowSCategories, setShowMCategories, setShowSlider, setFiltersActive, setPersonActive, storeDetailsRef, setTopValue, topValue, bodyContainerRef, navHeight, setSearchActive, searchActive, setEyeDis, eyeDis, setPersonAva, setBackBtn, currentProduct, setCurrentProduct, currentItemTypeId, itemsPage, changeStoreCurrentItemType, itemsMore, fetchingItems, items, fetchingItemTypes, itemTypes, fetchStoreItemTypes, takemeUserToken, currentUser, takemeProviderToken, takemeProviderData, fetchStoreItems, changeCurrentId, fetchingProductTypes, fetchProviderCategories, categories, loadingCategories, curId, page, more, loadingProductTypes, productTypes, changeNavbarAssets, loadingProvider, filter, resetProviderProductTypesData, fetchProviderProductsTypes, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup, catId, openGallery}) => {
     const [moreLoading, setMoreLoading] = useState(false);
     const params = useParams();
     const navigate = useNavigate();
@@ -171,8 +171,8 @@ const ProviderScreen = ({fetchProviderData, setProviderId, setShowSItemTypes, se
     }, [swiperRef.current]);
 
     useEffect(() => {
-        if(params.providerId == provider?.providerId) return;
-        fetchProviderData(lan, params.providerId, filter, navigate);
+        if(params.providerId == provider?.providerId || !selectedLocale) return;
+        fetchProviderData(selectedLocale?.locale, params.providerId, filter, navigate);
     }, [params.providerId]);
 
     useEffect(() => {
@@ -193,7 +193,7 @@ const ProviderScreen = ({fetchProviderData, setProviderId, setShowSItemTypes, se
         }
     }, [swiperInstance, enableSwiping]);
 
-    useEffect( () => {
+    useEffect(() => {
         const analytics = getAnalytics();
         logEvent(analytics, 'provider-screen', {
             providerName: provider.name,
@@ -202,6 +202,8 @@ const ProviderScreen = ({fetchProviderData, setProviderId, setShowSItemTypes, se
         if(params.providerId == 9) {
             logEvent(analytics, 'Ameen_visit');
         }
+
+        if (!selectedLocale) return;
 
         (async () => {
             resetProviderProductTypesData();
@@ -221,7 +223,7 @@ const ProviderScreen = ({fetchProviderData, setProviderId, setShowSItemTypes, se
 
             const data = {
                 page: 0,
-                lan,
+                lan: selectedLocale?.locale,
                 categoryIds: [curId],
                 storeId: [params.providerId],
                 filter
@@ -229,7 +231,7 @@ const ProviderScreen = ({fetchProviderData, setProviderId, setShowSItemTypes, se
 
             await fetchStoreItemTypes(data);
         })();
-    }, [params.providerId, lan]);
+    }, [params.providerId, selectedLocale]);
 
     useEffect(() => {
         changeCurrentId(null);
@@ -285,19 +287,19 @@ const ProviderScreen = ({fetchProviderData, setProviderId, setShowSItemTypes, se
     }, [more]);
 
     useEffect(() => {
+        if (!selectedLocale) return;
         const data = {
             providerId: params.providerId,
-            lan,
+            lan: selectedLocale?.locale,
             filter
         };
 
         fetchProviderCategories(data);
-    }, []);
+    }, [selectedLocale]);
 
     useEffect(() => {
         setTransformValue(0);
     }, [curId]);
-
 
     useEffect(() => {
         const productTypesContainer = providerProductTypeContainerRef?.current;
@@ -390,7 +392,7 @@ const ProviderScreen = ({fetchProviderData, setProviderId, setShowSItemTypes, se
                                                     itemsPage={itemsPage}
                                                     items={items}
                                                     value={100}
-                                                    lan={lan}
+                                                    lan={selectedLocale?.locale}
                                                     fetchProductsMarket={fetchStoreItems}
                                                     setCurrentProduct={setCurrentProduct}
                                                     scrollParent={providerScreenRef?.current}
@@ -436,7 +438,8 @@ const mapStateToProps = state => ({
     fetchingItems: state.provider.fetchingItems,
     itemsPage: state.provider.itemsPage,
     itemsMore: state.provider.itemsMore,
-    currentItemTypeId: state.provider.currentItemTypeId
+    currentItemTypeId: state.provider.currentItemTypeId,
+    selectedLocale: state.Categories.selectedLocale
 });
 
 export default connect(mapStateToProps, {fetchStoreItemTypes, fetchProviderCategories, openGallery, changeCurrentId, changeStoreCurrentItemType, fetchStoreItems, changeNavbarAssets, fetchProviderData, fetchProviderProductsTypes, closeProviderGallery, resetProviderProductTypesData, openProviderGallery, changePopupProduct, openPopup}) (React.memo(ProviderScreen));
