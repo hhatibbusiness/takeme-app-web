@@ -8,7 +8,7 @@ import Store from "./Store/Store";
 import Items from "./Items/Items";
 import ItemShimmer from "../../../../components/ItemShimmer/ItemShimmer";
 
-const BodyContainerComponent = ({y, setY, topValue, setTopValue, bodyContainerRef, navHeight, moreItems, itemsPage, fetchingItems, curItemTypeId, items, fetchProductsMarket, coverLoaded, fetchingStores, store, setCoverLoaded, setCurrentProduct, id, value}) => {
+const BodyContainerComponent = ({y, setY, selectedLocale, topValue, setTopValue, bodyContainerRef, navHeight, moreItems, itemsPage, fetchingItems, curItemTypeId, items, fetchProductsMarket, coverLoaded, fetchingStores, store, setCoverLoaded, setCurrentProduct, id, value}) => {
     const spacerRef = useRef();
     const containerRef = useRef();
     const mainRef = useRef();
@@ -110,7 +110,8 @@ const mapStateToProps = state => ({
     curItemTypeId: state.categories.curItemTypeId,
     fetchingItems: state.categories.fetchingItems,
     itemsPage: state.categories.itemsPage,
-    moreItems: state.categories.moreItems
+    moreItems: state.categories.moreItems,
+    selectedLocale: state.categories.selectedLocale
 });
 
 export default connect(mapStateToProps, {changeCurItemTypeId, fetchItemTypes, fetchCategoryProducts, fetchCategories, fetchProductsMarket}) (React.memo(BodyContainerComponent));

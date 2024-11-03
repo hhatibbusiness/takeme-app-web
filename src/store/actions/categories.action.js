@@ -2,6 +2,7 @@ import axios from "axios";
 import {
     CHANGE_CUR_ITEM_TYPE_ID,
     CHANGE_CURRENT_ID,
+    CHANGE_CURRENT_SELECTED_LOCALE,
     CHANGE_FILTER,
     CHANGE_LAN_SUCCESS,
     CHANGE_SLIDER_VALUE,
@@ -17,6 +18,7 @@ import {
     FETCH_CATEGORIES_SUCCESS,
     FETCH_CATEGORY_PRODUCTS,
     FETCH_ITEM_TYPES,
+    FETCH_LOCALES,
     FETCH_MARKET_STORES,
     FETCH_PRODUCTS_MARKET,
     INCREASE_CATEGORIES_PAGE_NUMBER,
@@ -65,8 +67,17 @@ export const increaseCategoriesPageNumber= {
 }
 
 
-export const fetchCategories = (lan, filter, navigate, page, storePage, store) => async dispatch => {
+export const fetchCategories = (lan, filter, navigate, page, storePage, store, selectedLocale) => async dispatch => {
     try {
+        console.log('this is working!');
+        // const localesData = {
+        //     lan,
+        //     sortType: 'NEWEST',
+        //     page: 0
+        // };
+        
+        // await dispatch(fetchLocales(localesData));
+
         if(page == 0) dispatch(startFetchingProducts);
         const res = await axios.get(`${BASE_URL}endpoints/categories/list-no-empty?locale=${lan}&&page=${page}&&filterByAction=${filter}`);
         let categories;
@@ -91,13 +102,6 @@ export const fetchCategories = (lan, filter, navigate, page, storePage, store) =
             categories = [...res.data.output]
         }
 
-        const data = {
-            locale: data.locale,
-            sortType: 'NEWEST',
-            page: 0
-        };
-
-        dispatch(fetchLocales(data));
 
         dispatch({
             type: FETCH_CATEGORIES_SUCCESS,
@@ -192,6 +196,8 @@ const endFetchingProducts = {
 
 export const fetchCategoryProducts = (data, id, lan, page, filter, navigate) => async dispatch => {
     try {
+        console.log('This is working!')
+
         if(data.page == 0) dispatch(startFetchingProducts);
         const res = await axios.get(`${BASE_URL}endpoints/products-types?locale=${data.lan}&categoryId=${data.id}&page=${data.page}&filterByAction=${data.filter}`)
         console.log('Hello from the Products!');
@@ -424,12 +430,27 @@ export const endFetchingLocales = {
 
 export const fetchLocales = data => async dispatch => {
     try {
+        console.log('Hitting!')
         dispatch(startFetchingLocales);
-        const res = await axios.get(`${BASE_URL}/locales/list?mLocale=${data.locale.locale}&sortType=${data.sortType}&page=${data.page}`);
+        const res = await axios.get(`${BASE_URL}endpoints/locales/list?mLocale=${data.lan}&sortType=${data.sortType}&page=${data.page}`);
         console.log(res);
+        dispatch({
+            type: FETCH_LOCALES,
+            locales: res.data.output
+        });
+        // dispatch(fetchCategories(res.data.output[0], data.filter, data.navigate, 0, 0, data.store))
+        dispatch(changeCurrentSelectedLocale(res.data.output[0]))
         dispatch(endFetchingLocales);
     } catch (e) {
-        
+        console.log(e.message);
         dispatch(endFetchingLocales);
+    }
+}
+
+export const changeCurrentSelectedLocale = locale => {
+    console.log(locale);
+    return {
+        type: CHANGE_CURRENT_SELECTED_LOCALE,
+        locale
     }
 }

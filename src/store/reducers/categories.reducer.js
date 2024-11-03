@@ -35,7 +35,10 @@ const initialState = {
     itemTypesPage: 0,
     itemTypesMore: false,
     fetchingItemTypes: false,
-    curItemTypeId: null
+    curItemTypeId: null,
+    locales: [],
+    fetchingLocales: true,
+    selectedLocale: null
 };
 
 export default (state = initialState, action) => {
@@ -215,6 +218,28 @@ export default (state = initialState, action) => {
                 curItemTypeId: action.id,
                 items: [],
                 itemsPage: 0
+            }
+        case actionTypes.START_FETCHING_LOCALES:
+            return {
+                ...state,
+                fetchingLocales: true
+            }
+        case actionTypes.END_FETCHING_LOCALES:
+            return {
+                ...state,
+                fetchingLocales: false
+            }
+        case actionTypes.FETCH_LOCALES:
+            console.log(action.locales);
+            
+            return {
+                ...state,
+                locales: action.locales
+            }
+        case actionTypes.CHANGE_CURRENT_SELECTED_LOCALE:
+            return {
+                ...state,
+                selectedLocale: action.locale
             }
         default:
             return state;

@@ -7,7 +7,7 @@ import {fetchProductsMarket} from "../../../../../store/actions/categories.actio
 import ItemShimmer from "../../../../../components/ItemShimmer/ItemShimmer";
 import {useParams} from "react-router-dom";
 
-const Items = ({items, value, scrollParent, filter, curId, store, curItemTypeId, setCurrentProduct, lan, fetchProductsMarket, moreItems, itemsPage}) => {
+const Items = ({items, value, selectedLocale, scrollParent, filter, curId, store, curItemTypeId, setCurrentProduct, lan, fetchProductsMarket, moreItems, itemsPage}) => {
     const [moreLoading, setMoreLoading] = useState(true);
     const [loading, setLoading] = useState(false);
 
@@ -51,7 +51,7 @@ const Items = ({items, value, scrollParent, filter, curId, store, curItemTypeId,
                     if(loading) return;
                     const data = {
                         page: itemsPage,
-                        lan,
+                        lan: selectedLocale?.locale,
                         itemTypeIds: [curItemTypeId],
                         storeIds: store ? [params.providerId] : [null],
                         categoryIds: [curId],
@@ -82,7 +82,8 @@ const Items = ({items, value, scrollParent, filter, curId, store, curItemTypeId,
 
 const mapStateToProps = state => ({
     lan: state.categories.lan,
-    filter: state.categories.filter
+    filter: state.categories.filter,
+    selectedLocale: state.categories.selectedLocale
 });
 
 export default connect(mapStateToProps) (Items);
