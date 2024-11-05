@@ -8,8 +8,15 @@ import logoImage from '../../assets/images/defaults/logo.png';
 import GoogleImage from '../../assets/images/defaults/google.png';
 import facebookImage from '../../assets/images/defaults/facebook.png';
 import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { authenticateUser } from '../../store/actions/auth.actions';
 
-const Authentication = ({ paddingTop, setBackBtn, setShowIcons }) => {
+const Authentication = ({
+    paddingTop,
+    authenticateUser,
+    setBackBtn,
+    setShowIcons
+}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -23,6 +30,15 @@ const Authentication = ({ paddingTop, setBackBtn, setShowIcons }) => {
             setBackBtn(false);
         }
     }, []);
+
+    const emailButtonClickHandler = () => {
+        const userData = {
+            email,
+            password
+        };
+
+        authenticateUser(userData);
+    }
 
     return (
         <div style={{paddingTop: `${paddingTop + 40}px`}} className='Authentication'>
@@ -58,6 +74,7 @@ const Authentication = ({ paddingTop, setBackBtn, setShowIcons }) => {
                         borderColor={'transparent'}
                         separatorColor={'white'}
                         fontWeight={700}
+                        clickFun={emailButtonClickHandler}
                     />
                 </div>
             </div> 
@@ -107,4 +124,4 @@ const Authentication = ({ paddingTop, setBackBtn, setShowIcons }) => {
     )
 }
 
-export default Authentication;
+export default connect(null, {authenticateUser}) (Authentication);
