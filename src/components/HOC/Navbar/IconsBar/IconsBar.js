@@ -40,7 +40,6 @@ const IconsBar = ({ eyeOpen, currentParams, eyeDis, switchMarketStore, personAct
     }
 
     const searchIconClickHandler = e => {
-        console.log(currentParams);
         if(store || !searchActive) {
             return setShowGlassPopup(true);
         }
@@ -60,10 +59,8 @@ const IconsBar = ({ eyeOpen, currentParams, eyeDis, switchMarketStore, personAct
 
     const eyeMouseDownFunc = e => {
         e.preventDefault();
-        console.log('Pressed Down!');
         timerRef.current = setTimeout(() => {
             if(!eyeDis) {
-                console.log('done!');
                 setLongPressed(true);
                 setViewOpen(true);
             }
@@ -72,8 +69,6 @@ const IconsBar = ({ eyeOpen, currentParams, eyeDis, switchMarketStore, personAct
 
     const eyeMouseUp = e => {
         e.preventDefault();
-
-        console.log('Clicked!', eyeDis, longPressed);
 
         if(!eyeDis) {
             if(!longPressed) switchMarketStore(!store);

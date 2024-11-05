@@ -18,8 +18,6 @@ const Install = () => {
             setIsInstallable(true);
         };
 
-        console.log('It Reached!');
-
         window.addEventListener('beforeinstallprompt', handler);
 
         return () => {
@@ -29,21 +27,9 @@ const Install = () => {
 
     const handleInstallClick = async () => {
         if (!deferredPrompt) return;
-
-        // Show the install prompt
         deferredPrompt.prompt();
-
-        // Wait for the user to respond to the prompt
         const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-            console.log('User accepted the install prompt');
-        } else {
-            console.log('User dismissed the install prompt');
-        }
-
-        // Clear the deferredPrompt variable
         setDeferredPrompt(null);
-        // Optionally hide the install button
         setIsInstallable(false);
     };
 

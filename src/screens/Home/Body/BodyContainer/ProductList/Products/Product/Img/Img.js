@@ -49,18 +49,11 @@ const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gall
         const transformContainer = transformContainerRef?.current;
         if(transformContainer) {
             const [touch1, touch2] = touches;
-            console.log(touch1, touch2);
             const distanceFromTop = transformContainer.getBoundingClientRect().top;
-            console.log(distanceFromTop);
             const x = (touch1.clientX + touch2.clientX) / 2;
             const y = ((touch1.clientY + touch2.clientY) - distanceFromTop) / 2;
             transformContainer.style.transformOrigin = `${x}px ${y}px`;
 
-            // transformContainer.style.transformOrigin = `${(touch1.clientX + touch2.clientX) / 2}px ${(touch1.clientY + touch2.clientY) / 3}px`;
-            // return {
-            //     x: (touch1.clientX + touch2.clientX) / 2,
-            //     y: ((touch1.clientY + touch2.clientY) - distanceFromTop) / 2,
-            // };
         }
     };
 
@@ -71,15 +64,9 @@ const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gall
                 ref={transformContainerRef}
                 className={'Img__container'}
                 onTouchStart={e => {
-                    // console.log('touch start!', e.touches);
-                    // console.log(e.touches);
-                    // getMidpoint(e.touches)
                     if(e.touches.length === 2) {
-                        // console.log('touch double!')
                         setStartDistance(getDistance(e.touches));
                         getMidpoint(e.touches);
-                        // const midpoint = getMidpoint(e.touches);
-                        // setMidPoint(midpoint);
                     }
                 }}
                 onTouchMove={e => {
@@ -90,12 +77,7 @@ const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gall
                         const newScale = scale * (currentDistance / startDistance);
                         setScale(newScale);
                         setStartDistance(currentDistance);
-                        // setMidPoint(getMidpoint(e.touches));
-                        // if(midPoint) {
-                        //     transformContainer.style.transformOrigin = `${midPoint.x}px ${midPoint.y}px`;
-                            // transformContainer.style.transform = `scale(${newScale})`;
-                            transformContainer.style.transform = `scale(${newScale})`;
-                        // }
+                        transformContainer.style.transform = `scale(${newScale})`;
                     }
                 }}
                 onTouchEnd={e => {

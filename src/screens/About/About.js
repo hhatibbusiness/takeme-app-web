@@ -96,7 +96,6 @@ const About = ({fetchAboutPage, setshowMidText, setShowIcons, setBackBtn, change
                 search: true,
                 logoLink: '/'
             };
-            console.log(data);
             changeNavbarAssets(data);
         }
     }, []);

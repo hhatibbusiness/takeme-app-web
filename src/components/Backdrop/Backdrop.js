@@ -6,7 +6,7 @@ const Backdrop = ({sidebar, setSidebar}) => {
     return (
         <div onClick={() => {
             setSidebar(false);
-            navigate('/');
+            // navigate('/');
         }} className={`Backdrop ${sidebar && 'Backdrop__active'}`}>
 
         </div>

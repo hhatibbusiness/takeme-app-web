@@ -52,7 +52,6 @@ const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItem
     // const bodyContainerRef = useRef();
 
     useEffect(() => {
-        console.log(params)
         if(viewOpen || filtersActive || personActive) {
             setSeparatorActive(true);
         } else {
@@ -63,8 +62,6 @@ const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItem
     useEffect(() => {
         if(location.pathname.split('/').filter(item => item).length == 0) {
             setEyeOpen(true);
-            console.log(location.pathname.replace(/\s+/g, '').split('/').length);
-            console.log(location.pathname.split('/').filter(item => item));
         }else {
             setViewOpen(false);
             setEyeOpen(false);
@@ -75,9 +72,7 @@ const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItem
 
     useEffect(() => {
         const navContainer = navRef?.current;
-        console.log('Hello from navBar!');
         if(navContainer) {
-            console.log(navContainer.getBoundingClientRect().height);
             setNavHeight(navContainer.getBoundingClientRect().height);
         }
     }, [navRef?.current?.getBoundingClientRect().height, showIcons, filtersActive, store, personActive, loadingProvider, loadingCategories, provider]);

@@ -57,19 +57,15 @@ const Categories = ({categories, providerId, provider, fetchCategories, filter, 
     }
 
     const handleScroll = useCallback(() => {
-        console.log('Scrolling!');
         const scrollParent = categoriesRef.current;
         if (!scrollParent) return;
-        console.log(scrollParent.scrollRight)
         const { scrollLeft, scrollWidth, clientWidth } = scrollParent;
 
         const scrollDirectionX = scrollLeft > previousScrollLeft.current ? 'right' : 'left';
 
-        console.log(`Scrolling ${scrollDirectionX} horizontally `);
 
         if(scrollDirectionX == 'left') {
             if (Math.abs(scrollLeft) + clientWidth >= scrollWidth - 10 && moreLoading) {
-                console.log('Seriously scrolling!')
                 loadMore();
             }
         }

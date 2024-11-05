@@ -1,6 +1,8 @@
 import React from 'react';
 import './BackBtn.scss';
 import history from '../../../../history/history';
+import backImage from '../../../../assets/images/defaults/back.png';
+
 const BackBtn = ({step, setStep}) => {
     return (
         <div role={'navbar__back'} onClick={() => {
@@ -10,7 +12,7 @@ const BackBtn = ({step, setStep}) => {
                 history.go(-1);
             }
         }} className={'BackBtn'}>
-            <i className="fa-solid fa-left-long"></i>
+            <img src={backImage} />
         </div>
     );
 };

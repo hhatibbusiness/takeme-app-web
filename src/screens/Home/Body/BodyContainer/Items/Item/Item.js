@@ -25,10 +25,8 @@ const Item = ({item, value, store, setCurrentProduct}) => {
             syncHeight();
         }
 
-        return () => {
-            console.log('Hello from the sync height function');
-        }
     }, [value, itemRef?.current]);
+    
     return (
         <div ref={itemRef} className={'Item'} style={{marginBottom: `${value == 100 ? '10px' : '0px'}`}}>
             {

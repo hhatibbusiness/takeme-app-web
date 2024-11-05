@@ -55,7 +55,6 @@ const ProductPopup = ({togglePopup, openSearchPopup, results, changeCurrentProvi
             }
             fetchProviderRatigs(data);
         }
-        console.log(currentProduct)
     }, [openPopup, lan]);
 
     const contRef = useRef();
@@ -78,7 +77,6 @@ const ProductPopup = ({togglePopup, openSearchPopup, results, changeCurrentProvi
     useEffect(() => {
         if(!currentProduct && results?.length > 0) {
             const result = results?.filter(r => r?.productDTO?.id == params?.id)[0];
-            console.log(results?.filter(r => r?.productDTO?.id == params?.id)[0], params.id);
             changePopupProduct(result?.productDTO);
             changeCurrentProvider(result?.provider);
             openSearchPopup();
@@ -87,10 +85,6 @@ const ProductPopup = ({togglePopup, openSearchPopup, results, changeCurrentProvi
     }, [galleryProduct, results]);
 
     const location = useLocation();
-
-    useEffect(() => {
-        console.log(window?.location);
-    }, []);
 
     return (
         <div className={`ProductPopup ${true ? 'ProductPopup__open' : 'ProductPopup__close'}`}>

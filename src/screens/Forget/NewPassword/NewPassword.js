@@ -71,12 +71,9 @@ const NewPassword = ({changingPassword, changePassword, validation, lan}) => {
         }
 
         if(input.rules.match) {
-            console.log(newPassword.value);
             const match = newPassword.value == value;
-            console.log(match);
             inputIsValid = match && inputIsValid;
         }
-        console.log(input, inputIsValid);
 
         return inputIsValid;
     }
