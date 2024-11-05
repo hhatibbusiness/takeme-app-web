@@ -142,6 +142,7 @@ export const fetchCategories = (lan, filter, navigate, page, storePage, store, s
                 await dispatch(fetchItemTypes(data))
             };
         }
+        dispatch(endFetchingCategories);
         return res;
     }catch (err) {
         if(err?.response?.status == 401) {
@@ -181,6 +182,8 @@ export const fetchCategories = (lan, filter, navigate, page, storePage, store, s
         }
 
         await dispatch(fetchCategoryProducts(data, firstId, lan, 0, filter, navigate));
+        
+        console.log('End fetching Categories!');
 
         dispatch(endFetchingCategories);
     }

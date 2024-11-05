@@ -5,9 +5,6 @@ import SpinnerComponent from "../Spinner/Spinner.Component";
 import DropDownListItem from "./DropDownListItem/DropDownListItem";
 
 const DropDownList = ({searchResults, loadingSearchResults, term, setInputFocus, inputRef}) => {
-    useEffect(() => {
-        console.log(searchResults);
-    }, []);
     return (
         <>
             <div className={'DropDownList'}>

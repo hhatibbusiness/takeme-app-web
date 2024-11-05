@@ -1,0 +1,36 @@
+.InputComponent {
+    width: 100%;
+    position: relative;
+    height: 65px;
+}
+
+.InputComponent input {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid #E5E5E5;
+    outline: none;
+    padding-right: 50px;
+}
+
+.InputComponent__icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 25px;
+}
+
+.InputComponent__password {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.InputComponent input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset; /* Removes the color */
+    -webkit-text-fill-color: black; /* Sets text color */
+}
+  

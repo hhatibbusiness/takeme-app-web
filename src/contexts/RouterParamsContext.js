@@ -8,7 +8,6 @@ export const RouterParamsProvider = ({children}) => {
     const [routeParams, setRouteParams] = useState({});
 
     useEffect(() => {
-        console.log(params);
         setRouteParams(prevParams => {
             // Shallow compare to avoid unnecessary updates
             if (JSON.stringify(prevParams) !== JSON.stringify(params)) {

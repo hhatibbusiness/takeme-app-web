@@ -19,9 +19,6 @@ const ProviderPreview = ({provider, setSidebar, takemeProviderToken, takemeProvi
 
     const {t} = useTranslation();
 
-    useEffect(() => {
-        console.log(provider)
-    }, []);
     return (
         <Link onClick={e => setSidebar(false)} to={`/provider/${provider.providerId}`} className={"ProviderPreview"}>
             <div className="ProviderPreview__container">

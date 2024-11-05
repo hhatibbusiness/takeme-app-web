@@ -70,7 +70,6 @@ const Search = ({searching, currentParams, store, searchPage, loadingSearchResul
             <div onClick={() => {
                 if(store) return;
                 if(!window?.location?.href.includes('search')) {
-                    console.log(currentParams);
                     if(currentParams.storeId) {
                         navigate(`/search/${currentParams.storeId}`)
                     }else {

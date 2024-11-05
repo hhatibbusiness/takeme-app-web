@@ -14,7 +14,6 @@ const Items = ({items, value, selectedLocale, scrollParent, filter, curId, store
     const params = useParams();
 
     useEffect(() => {
-        console.log(moreItems);
         setMoreLoading(moreItems);
     }, [moreItems]);
 

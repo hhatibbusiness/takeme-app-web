@@ -14,15 +14,11 @@ const Body = ({ coverLoaded, setNavHeight, considerNav, setConsiderNav, fixedNav
     return (
             <div className={'Body'}>
             {/*<div className={'Body'} style={{paddingTop: `${navHeight}px`}}>*/}
-                {
-                    (loadingCategories) ? (
-                        <div />
-                    ) : <CategoryError>
-                        <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
-                        <Backdrop sidebar={sidebar} setSidebar={setSidebar} />
-                        <BodyContainerComponent y={y} setY={setY} fixedNav={fixedNav} setFixedNav={setFixedNav} topValue={topValue} setTopValue={setTopValue} considerNav={considerNav}j bodyContainerRef={bodyContainerRef} setConsiderNav={setConsiderNav} setNavHeight={setNavHeight} navShow={navShow} setNavShow={setNavShow} filtersActive={filtersActive} setFiltersActive={setFiltersActive} navHeight={navHeight} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} />
-                    </CategoryError>
-                }
+                <CategoryError>
+                    <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
+                    <Backdrop sidebar={sidebar} setSidebar={setSidebar} />
+                    <BodyContainerComponent y={y} setY={setY} fixedNav={fixedNav} setFixedNav={setFixedNav} topValue={topValue} setTopValue={setTopValue} considerNav={considerNav}j bodyContainerRef={bodyContainerRef} setConsiderNav={setConsiderNav} setNavHeight={setNavHeight} navShow={navShow} setNavShow={setNavShow} filtersActive={filtersActive} setFiltersActive={setFiltersActive} navHeight={navHeight} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} />
+                </CategoryError>
                 {/*{*/}
                 {/*    (!coverLoaded) && <div className={'Body__hidden'}>*/}
                 {/*        <SpinnerComponent />*/}

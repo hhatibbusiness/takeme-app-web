@@ -45,7 +45,6 @@ const Forget = ({sendingCode, changeNavbarAssets, error, errorMessage, sendingCo
                 search: true,
                 logoLink: '/'
             };
-            console.log(data);
             changeNavbarAssets(data);
         }
     }, []);

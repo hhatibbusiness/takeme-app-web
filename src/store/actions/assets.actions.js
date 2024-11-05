@@ -23,7 +23,7 @@ export const fetchAssets = (navigate) => async dispatch => {
         dispatch(endLoadingAssets);
         dispatch(errorInactive);
     } catch (err) {
-        dispatch(errorActive);
+        // dispatch(errorActive);
         dispatch(endLoadingAssets);
         if(err?.response?.status == 401) {
             dispatch(loadUser(navigate, 'ar'));

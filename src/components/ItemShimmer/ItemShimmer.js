@@ -12,7 +12,6 @@ const ItemShimmer = ({value, store, setImageRef}) => {
     useEffect(() => {
         const imageContainer = imgRef.current;
         if(imageContainer) {
-            console.log(imageContainer);
             imageContainer.style.height = value == 100 ? `${imageContainer.getBoundingClientRect().width}px` : 'auto';
             window.addEventListener('resize', e => {
                 imageContainer.style.height = value == 100 ? `${imageContainer.getBoundingClientRect().width}px` : 'auto';

@@ -46,7 +46,6 @@ const Category = ({
         <a
             onClick={async () => {
                 if(provider) {
-                    console.log('Fetching from stoer!')
                     changeCurrentId(cat?.id && cat.id);
                     const container = document.querySelector('.ProviderScreen__items');
 
@@ -66,7 +65,6 @@ const Category = ({
                         container.style.height = 'auto';
                     }
                 } else {
-                    console.log('Fetching from market!')
                     resetPageNumber();
                     changeSearchCategoryId(cat?.id && cat.id);
                     changeId(cat?.id && cat.id);
@@ -77,16 +75,11 @@ const Category = ({
                         const topPosition = spacer.getBoundingClientRect().top;
                         const elementPosition = topPosition + window.pageYOffset;
                         const offsetPosition = elementPosition - 65;
-                        console.log(offsetPosition);
-                        // if(topPosition <= 0) {
-                            window.scrollTo({
-                                top: 0,
-                                behavior: "smooth"
-                            });
-                            // spacer.scrollIntoView({behavior: 'smooth', block: 'start'}, 50);
-                        // }
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "smooth"
+                        });
                         document.querySelector('.Items__container').style.height = `${containerHeight}px`;
-                        console.log(containerHeight);
                         const data = {
                             categoryIds: cat?.id == 0 ? [null] : [cat?.id],
                             lan,

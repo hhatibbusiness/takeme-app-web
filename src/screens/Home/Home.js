@@ -1,14 +1,10 @@
 import React, {lazy, Suspense, useEffect, useRef} from 'react';
-// import Body from "./Body/Body";
 import {connect} from "react-redux";
 import {fetchCategories, fetchLocales} from '../../store/actions/categories.action';
 import './Home.scss';
 import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {changeHomePosition, changeNavbarAssets} from "../../store/actions/ui.actions";
-import {KeepAlive} from "react-activation";
-import SpinnerComponent from "../../components/Spinner/Spinner.Component";
 import FallBack from "../../components/FallBack/FallBack";
-import Intro from "../../components/Intro/Intro";
 
 const Body = lazy(() => import('./Body/Body'));
 
@@ -75,13 +71,11 @@ const Home = ({lan, match, store, setY, selectedLocale, fetchLocales, currentPar
 
     return (
         <>
-            {/*<KeepAlive name={'home'}>*/}
-                <div ref={homeRef} className={'Home'}>
-                    <Suspense fallback={<FallBack full={true} />}>
-                        <Body y={y} setY={setY} fixedNav={fixedNav} topValue={topValue} setTopValue={setTopValue} setFixedNav={setFixedNav} bodyContainerRef={bodyContainerRef} considerNav={considerNav} setConsiderNav={setConsiderNav} setNavHeight={setNavHeight} navShow={navShow} setNavShow={setNavShow} filtersActive={filtersActive} setFiltersActive={setFiltersActive} navHeight={navHeight} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />
-                    </Suspense>
-                </div>
-            {/*</KeepAlive>*/}
+            <div ref={homeRef} className={'Home'}>
+                <Suspense fallback={<FallBack full={true} />}>
+                    <Body y={y} setY={setY} fixedNav={fixedNav} topValue={topValue} setTopValue={setTopValue} setFixedNav={setFixedNav} bodyContainerRef={bodyContainerRef} considerNav={considerNav} setConsiderNav={setConsiderNav} setNavHeight={setNavHeight} navShow={navShow} setNavShow={setNavShow} filtersActive={filtersActive} setFiltersActive={setFiltersActive} navHeight={navHeight} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />
+                </Suspense>
+            </div>
             <Outlet />
         </>
     );

@@ -53,7 +53,6 @@ const Contract = ({fetchContractPage, setshowMidText, setBackBtn, setShowIcons, 
     }, []);
 
     useEffect(() => {
-        console.log('working!')
         const another = {
             searchPage: false,
             backBtn: true,
@@ -65,23 +64,6 @@ const Contract = ({fetchContractPage, setshowMidText, setBackBtn, setShowIcons, 
         };
         changeNavbarAssets(another);
     }, []);
-
-    // useEffect(() => {
-    //     return () => {
-    //         const data = {
-    //             // assets: assets,
-    //             searchPage: false,
-    //             term: '',
-    //             backBtn: false,
-    //             step: null,
-    //             setStep: null,
-    //             search: true,
-    //             logoLink: '/'
-    //         };
-    //         console.log(data);
-    //         changeNavbarAssets(data);
-    //     }
-    // }, []);
 
     useEffect(() => {
         const contractContainer = document.querySelector('.ContractScreen__content');
@@ -97,13 +79,11 @@ const Contract = ({fetchContractPage, setshowMidText, setBackBtn, setShowIcons, 
     return (
         <KeepAlive cacheKey={'Contract'}>
             <div className={'ContractScreen'}>
-                {/*<Navbar backBtn={true} midText={t('condition')} />*/}
                 {
                     fetchingContractPage ? (
                         <SpinnerComponent />
                     ) : (
                         <div className={'ContractScreen__content'}>{ReactHtmlParser(DOMPurify.sanitize(contractData))}</div>
-                        // <div className={'ContractScreen__content'} dangerouslySetInnerHTML={{__html: contractData && contractData}}/>
                     )
                 }
             </div>

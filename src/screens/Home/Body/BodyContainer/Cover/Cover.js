@@ -25,28 +25,13 @@ const Cover = ({assets, loaded, setLoaded}) => {
     return (
         <div className={'Cover'} style={{height: `${loaded ? 'auto' : '189px'}`}}>
             <div className={'Cover__Swiper--wrapper'}>
-                {/*<Swiper*/}
-                {/*    grabCursor={true}*/}
-                {/*    centeredSlides={true}*/}
-                {/*    modules={[Autoplay, Pagination]}*/}
-                {/*    className="mySwiper"*/}
-                {/*    autoplay={{ delay: 5000 }}*/}
-                {/*    loop={true}*/}
-                {/*    slidesPerView={1}*/}
-                {/*    pagination={{ clickable: true }}*/}
-                {/*    onSwiper={(swiper) => 1}*/}
-                {/*>*/}
                 <Slider {...settings}>
                     {
                         assets?.coverPaths?.map((image, i) => {
-                            console.log(image);
-                            // return <SwiperSlide>
-                                return <MediaViewer loaded={loaded} setLoaded={setLoaded} image={image}  />
-                            // </SwiperSlide>
+                            return <MediaViewer loaded={loaded} setLoaded={setLoaded} image={image}  />
                         })
                     }
                 </Slider>
-                {/*</Swiper>*/}
             </div>
         </div>
     );

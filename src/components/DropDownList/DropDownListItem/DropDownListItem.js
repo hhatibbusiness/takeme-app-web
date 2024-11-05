@@ -66,7 +66,6 @@ const DropDownListItem = ({result, term, openPopup, changePopupProduct, changeCu
             for(let i = 0; i < occ?.length; i++ ) {
                 if(occ[i] != 0) {
                     if(i == 0) {
-                        // console.log(innerHTML.substring(occ[i], term?.length));
                         title.insertAdjacentHTML('beforeend', `<span>${innerHTML?.substring(0, occ[i] )}</span>`);
                     } else {
                         title.insertAdjacentHTML('beforeend', `<span>${innerHTML.substring(occ[i - 1] + term?.length, occ[i])}</span>`)
@@ -83,7 +82,6 @@ const DropDownListItem = ({result, term, openPopup, changePopupProduct, changeCu
 
     useEffect(() => {
         if(titleRef?.current) {
-            // console.log(titleRef?.current);
             renderName();
         }
     }, []);

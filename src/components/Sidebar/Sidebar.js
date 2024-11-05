@@ -41,10 +41,6 @@ const Sidebar = ({assets, setSidebar, changeCurrentSelectedLocale, store, user, 
         setCurrFilter(filter);
     }, [filter]);
 
-    useEffect(() => {
-        console.log(locales, selectedLocale);
-    }, [locales, selectedLocale]);
-
     const filterChangeHandler = e => {
         const filter = e.target.closest('input');
         if (!filter) return;
@@ -64,19 +60,15 @@ const Sidebar = ({assets, setSidebar, changeCurrentSelectedLocale, store, user, 
     const lanChangeHandler = e => {
         const lanFormElement = e.target.closest('.Sidebar__sublinks--element');
         if(!lanFormElement) return alert('There\'s not language');
-        console.log(lanFormElement);
         const input = lanFormElement.querySelector('input');
         if(!input) return;
-        console.log(input);
         if(input.value == 'en' || input.value == 'he') return;
         const id = categories[0]?.id;
-        console.log(id);
         changeLan(input.value, id);
         i18next.changeLanguage(input.value);
     }
 
     const filterHandleChange = async e => {
-        console.log(store);
         const filterElement = e.target.closest('.Sidebar__sublinks--element');
         if(!filterElement) return;
         const input = filterElement.querySelector('input');
@@ -99,17 +91,17 @@ const Sidebar = ({assets, setSidebar, changeCurrentSelectedLocale, store, user, 
           })
     }, []);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        // window.addEventListener('popstate', e => history.go(1));
-        if(sidebar) {
-            window.history.pushState(null, null, window.location.href);
-            window.addEventListener('popstate', e => {
-                e.preventDefault();
-                setSidebar(false);
-            });
-        }
-    }, [sidebar]);
+    //     // window.addEventListener('popstate', e => history.go(1));
+    //     if(sidebar) {
+    //         window.history.pushState(null, null, window.location.href);
+    //         window.addEventListener('popstate', e => {
+    //             e.preventDefault();
+    //             setSidebar(false);
+    //         });
+    //     }
+    // }, [sidebar]);
 
     return (
         <div id={'Sidebar'} className={`Sidebar ${sidebar && 'Sidebar__active'}`}>

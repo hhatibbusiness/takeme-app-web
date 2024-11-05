@@ -31,10 +31,7 @@ const CoverVideo = ({video, loaded, setLoaded}) => {
     }
 
     useEffect(() => {
-        console.log('Before')
-        console.log()
         if(videoRef.current) {
-            console.log('After')
             const playPromise = videoRef.current.play();
             if (playPromise !== undefined) {
                 playPromise
@@ -56,13 +53,10 @@ const CoverVideo = ({video, loaded, setLoaded}) => {
                 key={key}
                 onClick={handleVideoClicked}
                 onLoadedData={e => {
-                    console.log('video is loaded successfully!');
-                    console.log(videoData)
                     setLoaded(true);
                 }}
                 onError={e => {
                     setVideoData(coverDefault);
-                    console.log(e);
                     setKey(prevKey => prevKey + 1);
                 }}
                 ref={videoRef}
@@ -83,7 +77,6 @@ const CoverVideo = ({video, loaded, setLoaded}) => {
             </video>
 
             {
-                // (true) && <LoadingProduct moreAndMoreDetails={false} moreDetails={false} rentDetails={false} priceStartFrom={false} priceTitle={false} imgLoaded={false} details={false } btn={false} />
                 (!loaded) && <LoadingProduct moreAndMoreDetails={false} moreDetails={false} rentDetails={false} priceStartFrom={false} priceTitle={false} imgLoaded={false} details={false } btn={false} />
 
             }
