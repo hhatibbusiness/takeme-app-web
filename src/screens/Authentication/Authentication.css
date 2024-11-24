@@ -94,3 +94,21 @@
 .Authentication__conditions--link {
     color: #07AB83;
 }
+
+.Authentication__errors--list {
+    list-style: none;
+    color: #FC2121;
+    font-size: 12px;
+    line-height: 17px;
+}
+
+.Authentication__backdrop {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(10px);
+}

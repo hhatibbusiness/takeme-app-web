@@ -1,0 +1,41 @@
+.Alert {
+    position: fixed;
+    bottom: 20px;
+    background: white;
+    direction: rtl;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 100000;
+}
+
+.Alert__element {
+    position: relative;
+    width: 100vw;
+    height: 75px;
+    border-radius: 10px;
+    padding: 0 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 13px;
+    gap: 10px;
+}
+
+.Alert__success {
+    background: #F5FDF9;
+}
+
+.Alert__danger {
+    background: #FFEFEF;
+}
+
+.Alert__warning {
+    background-color: #FFF5E6;
+}
+
+.Alert__close {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}

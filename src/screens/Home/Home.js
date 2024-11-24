@@ -17,7 +17,7 @@ const Home = ({lan, match, store, setY, selectedLocale, fetchLocales, currentPar
         if(categories.length > 0) return;
         // fetchCategories(lan, filter, navigate, 0);
         const data = {
-            lan,
+            lan: 'ar_SA',
             filter,
             navigate,
             store,
