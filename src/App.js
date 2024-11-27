@@ -6,8 +6,6 @@ import {endLoadingAssets, fetchAssets} from "./store/actions/assets.actions";
 import history from "./history/history";
 import About from "./screens/About/About";
 import Contract from "./screens/contract/Contract";
-import Login from "./screens/Login/Login";
-import Register from "./screens/Register/Register";
 import {loadUser, loadProvider} from "./store/actions/login.action";
 import {createOrder} from "./store/actions/order.actions";
 import Forget from "./screens/Forget/Forget";
@@ -25,7 +23,6 @@ import FallBack from "./components/FallBack/FallBack";
 import Home from './screens/Home/Home';
 import {fetchMarketStores} from "./store/actions/categories.action";
 import StorePageShimmer from "./components/StorePageShimmer/StorePageShimmer";
-import {RouterParamsProvider} from "./contexts/RouterParamsContext";
 import Authentication from './screens/Authentication/Authentication';
 import Alert from './components/Alert/Alert';
 import ConfirmEmail from './screens/Authentication/ConfirmEmail/ConfirmEmail';
@@ -33,6 +30,8 @@ import axios from 'axios';
 import { BASE_URL } from './utls/assets';
 import setToken from './utls/set.axios.headers';
 import { addAlert } from './store/actions/alert.actions';
+import Languages from './screens/Languages/Languages';
+import LanguagesAdd from './screens/Languages/LanguagesAdd/LanguagesAdd.js';
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
 const Product = lazy(() => import(/* webpackChunkName: "Product" */ "./screens/Product/Product"));
@@ -247,6 +246,11 @@ const App = (props) => {
                                         <Route path={'/about'} exact element={<About setBackBtn={setBackBtn} setShowIcons={setShowIcons} setshowMidText={setShowMidText} />} />
                                         <Route path={'/contract'} exact element={<Contract setShowIcons={setShowIcons} setBackBtn={setBackBtn} setshowMidText={setShowMidText} />} />
                                         <Route path={'/forget/:email'} exact element={<Forget setBackBtn={setBackBtn} />} setshowMidText={setShowMidText} />
+                                        <Route path='/languages' element={<Languages setBackBtn={setBackBtn} paddingTop={navHeight} />} />
+                                        <Route path='/languages/add' exact element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} />} />
+                                        <Route path='/languages/add/duplicate/:lanId' exact element={<LanguagesAdd />} />
+                                        <Route path='/languages/edit/:editId' exact element={<LanguagesAdd />} />
+
                                     </Route>
                                 </Routes>
                             </Suspense>

@@ -1,0 +1,26 @@
+.Input__container {
+    display: flex;
+    flex-direction: column;
+    /* gap: 5px; */
+}
+
+.Input {
+    height: 60px;
+    border: 1px solid #E5E5E5;
+    padding: 10px 15px;
+    outline: none;
+    border-radius: 10px;;
+}
+
+.Input::placeholder {
+    font-size: 15px;
+    color: #E5E5E5;
+}
+
+.Input__invalid {
+    border: 1px solid #FC2121;
+}
+
+.Input:disabled {
+    background-color: white;;
+}

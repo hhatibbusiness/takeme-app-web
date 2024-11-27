@@ -27,7 +27,6 @@ import locationImage from "../../../assets/images/location.svg";
 import {changeCurrentProductTypeId} from "../../../store/actions/product.actions";
 import {changeStoreCurrentItemType, fetchStoreItemTypes, fetchStoreItems} from "../../../store/actions/provider.actions";
 import Install from "./Install/Install";
-import {useRouterParams} from "../../../contexts/RouterParamsContext";
 
 
 const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItemTypes, showMItemTypes, showSItemTypes, fetchingItemTypesStore, changeStoreCurrentItemType, curIdStore, more, page, fetchStoreItems, itemTypesStore, fetchStoreItemTypes, currentItemTypeId, showMCategories, showSCategories, curId, categoriesStore, loadingCategoriesStore, storeDetailsRef, personActive, loadingProvider, setPersonActive, personAva, takemeUserToken, eyeDis, currentUser, provider, searchActive, setSearchActive, backupFilters, setBackupFilters, topValue, setTopValue, setFixedNav, fixedNav, showSlider, setShowSlider, bodyContainerRef, showMidText, itemTypes, itemTypesPage, itemTypesMore, curItemTypeId, fetchItemTypes, changeCurItemTypeId, considerNav, fetchProductsMarket, fetchingItemTypes,  id, loadingCategories, categories, backBtn, showEye, searchShow, showIcons, assets, navShow, setNavShow, ui, filtersActive, setFiltersActive, navHeight, setNavHeight, switchMarketStore, searching, setSearching, sidebar, setSidebar}) => {
@@ -44,7 +43,6 @@ const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItem
     const [activeStore, setActiveStore] = useState(0);
     const [transformValue, setTransformValue] = useState(0);
 
-    const params = useRouterParams();
     const navigate = useNavigate();
     const location = useLocation();
     const navRef=useRef()
@@ -57,7 +55,7 @@ const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItem
         } else {
             setSeparatorActive(false);
         }
-    }, [viewOpen, filtersActive, personActive, params]);
+    }, [viewOpen, filtersActive, personActive]);
 
     useEffect(() => {
         if(location.pathname.split('/').filter(item => item).length == 0) {

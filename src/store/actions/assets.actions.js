@@ -16,7 +16,7 @@ export const endLoadingAssets = {
 export const fetchAssets = (navigate) => async dispatch => {
     try {
         dispatch(startLoadingAssets)
-        const res = await axios.get(`${BASE_URL}endpoints/details?locale=ar`);
+        const res = await axios.get(`${BASE_URL}endpoints/details?mLocale=ar_SA`);
         dispatch({
             type: FETCH_TAKE_ME_ASSETS,
             assets: res.data

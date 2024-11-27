@@ -1,12 +1,14 @@
 import token from '../../utls/set.axios.headers';
 import setToken from '../../utls/set.axios.headers';
 import * as actionTypes from '../actions/action.types';
+import { jwtDecode } from "jwt-decode";
 
 const initialState = {
     profile: {},
     authenticatingUser: false,
     token: null,
     resetPasswordEmail: 'engahmedgomaa97@gmail.com',
+    roles: null
 }
 
 export default (state=initialState, action) => {
@@ -44,6 +46,14 @@ export default (state=initialState, action) => {
             return {
                 ...state,
                 profile: action.profile
+            }
+        case actionTypes.GET_USER_ROLE:
+            const tokenDecoded = jwtDecode(token);
+            console.log(tokenDecoded);
+            
+            return {
+                ...state,
+                role: tokenDecoded.roles
             }
         default:
             return state;
