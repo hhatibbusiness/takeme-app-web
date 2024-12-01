@@ -12,6 +12,11 @@
     border-radius: 10px;
 }
 
+.InputAdmin input {
+    width: 100%;
+    
+}
+
 .InputAdmin::placeholder {
     font-size: 15px;
     color: #E5E5E5;

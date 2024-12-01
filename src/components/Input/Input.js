@@ -25,12 +25,12 @@ const Input = ({
                 </label>
                 <input
                     onChange={onChange}
-                    value={value.value}
-                    onBlur={e => value.value.length === 0 && setInputActive(false)}
+                    value={value?.value}
+                    onBlur={e => value?.value.length === 0 && setInputActive(false)}
                     onFocus={e => setInputActive(true)}
                     name={name}
                     type={type}
-                    className={`Input__element-input Input__element-inputPhone ${!value.valid && value.touched && 'Input__element-inValid'}`}
+                    className={`Input__element-input Input__element-inputPhone ${!value?.valid && value?.touched && 'Input__element-inValid'}`}
                 />
             </div>
         </div>

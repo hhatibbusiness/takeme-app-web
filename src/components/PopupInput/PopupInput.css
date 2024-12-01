@@ -1,0 +1,29 @@
+.PopupInput {
+    position: relative;
+}
+
+.PopupInput__contianer {
+    position: relative;
+
+}
+
+.PopupInput__arrow {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.PopupInput__arrow i {
+    font-size: 10px;
+}
+
+.PopupInput__cover {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: transparent;;
+}

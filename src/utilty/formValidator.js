@@ -5,12 +5,12 @@ export const formValidator = (rules, value) => {
     let InputIsValid = true;
     if (!rules) return true;
     if (rules.required) {
-        InputIsValid = value.trim() != '' && InputIsValid;
+        InputIsValid = value?.trim() != '' && InputIsValid;
     }
 
     if (rules.maxLength) {
         console.log(rules)
-        InputIsValid = value.length <= rules.maxLength.value && InputIsValid;
+        InputIsValid = value?.length <= rules?.maxLength.value && InputIsValid;
     }
 
     return InputIsValid;

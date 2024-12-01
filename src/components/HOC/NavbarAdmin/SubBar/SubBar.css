@@ -1,0 +1,52 @@
+.SubBar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    direction: rtl;
+    position: relative;
+    gap: 20px;
+}
+
+.SubBar__right {
+    flex: 1;
+}
+
+.SubBar__left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.SubBar__icon {
+    width: 28px;
+    height: 28px;
+}
+
+.SubBar__box {
+    flex: 1;
+    position: relative;
+}
+
+.SubBar__box input {
+    width: 100%;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 10px;
+}
+
+.SubBar__box input::placeholder {
+    color: #E5E5E5;
+    font-size: 15px;
+}
+
+.SubBar__box--close {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fddcaa;
+    cursor: pointer;
+}

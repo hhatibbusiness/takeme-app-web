@@ -24,8 +24,6 @@ import Item from "../Home/Body/BodyContainer/Items/Item/Item";
 import StorePageShimmer from "../../components/StorePageShimmer/StorePageShimmer";
 import ItemShimmer from "../../components/ItemShimmer/ItemShimmer";
 import Items from "../Home/Body/BodyContainer/Items/Items";
-import ItemTypesShimmer from "../../components/ItemTypesShimmer/ItemTypesShimmer";
-import search from "../../components/HOC/Navbar/Search/Search";
 
 
 const ProviderScreen = ({fetchProviderData, selectedLocale, setProviderId, setShowSItemTypes, setShowMItemTypes, setShowSCategories, setShowMCategories, setShowSlider, setFiltersActive, setPersonActive, storeDetailsRef, setTopValue, topValue, bodyContainerRef, navHeight, setSearchActive, searchActive, setEyeDis, eyeDis, setPersonAva, setBackBtn, currentProduct, setCurrentProduct, currentItemTypeId, itemsPage, changeStoreCurrentItemType, itemsMore, fetchingItems, items, fetchingItemTypes, itemTypes, fetchStoreItemTypes, takemeUserToken, currentUser, takemeProviderToken, takemeProviderData, fetchStoreItems, changeCurrentId, fetchingProductTypes, fetchProviderCategories, categories, loadingCategories, curId, page, more, loadingProductTypes, productTypes, changeNavbarAssets, loadingProvider, filter, resetProviderProductTypesData, fetchProviderProductsTypes, lan, provider, gallery, galleryProduct, closeProviderGallery, openProviderGallery, changePopupProduct, openPopup, catId, openGallery}) => {

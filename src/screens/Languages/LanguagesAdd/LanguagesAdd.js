@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './LanguagesAdd.css';
-import Input from '../../../components/Input/Input';
+import Input from '../../../components/InputAdmin/Input';
 import TextArea from '../../../components/TextArea/TextArea';
 import SaveButton from '../../../components/SaveButton/SaveButton';
 import CancelButton from '../../../components/CancelButton/CancelButton';
 import { useLanguagesContext } from '../../../context/languages.context';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAlertContext } from '../../../context/alerts.context';
 import { formValidator } from '../../../utilty/formValidator';
-// import { useNavbarContext } from '../../../context/navbar.context';
+import {useNavbarContext} from "../../../context/navbar.context";
 
-const LanguagesAdd = ({setBackBtn, paddingTop}) => {
+const LanguagesAdd = ({setBackBtn, setAdmin}) => {
     const { languages, addLanguage, editLanguage } = useLanguagesContext();
-    // const { changeSearchActive } = useNavbarContext();
+    const { changeSearchActive } = useNavbarContext();
+    const [paddingTop, setPaddingTop] = useState(0);
+
     const [lanName, setLanName] = useState({
         value: '',
         rules: {
@@ -33,11 +34,16 @@ const LanguagesAdd = ({setBackBtn, paddingTop}) => {
 
     useEffect(() => {
         setBackBtn(true);
+        setAdmin(true);
+        changeSearchActive(false);
         return () => {
             setBackBtn(false);
+            setAdmin(false);
+            changeSearchActive(true);
         }
-    }, [])
-    
+    }, []);
+
+
     const [engName, setEngName] = useState({
         value: '',
         rules: {
@@ -96,24 +102,23 @@ const LanguagesAdd = ({setBackBtn, paddingTop}) => {
         valid: false
     });
     const [submitted, setSubmitted] = useState(false);
-    const { alerts, addAlert } = useAlertContext();
     const [valid, setValid] = useState(false);
 
     const navigate = useNavigate();
     const params = useParams();
-    
-    // useEffect(() => {
-    //     changeSearchActive(false);
 
-    //     return () => {
-    //         changeSearchActive(true);
-    //     }
-    // }, []);
+    const navbarGetter = document.querySelector('.Navbar');
+
+    useEffect(() => {
+        if(navbarGetter) {
+            setPaddingTop(navbarGetter.getBoundingClientRect().height);
+        }
+    });
 
     useEffect(() => {
         if (params.lanId) {
             const language = languages?.languages?.filter(l => l.id == params.lanId)[0];
-        
+
             if (language) {
                 lanNameChangeHandler(language?.name);
                 engNameChangeHandler(language?.englishName);
@@ -185,7 +190,7 @@ const LanguagesAdd = ({setBackBtn, paddingTop}) => {
                 },
                 maxLength: {
                     ...lanName.rules.maxLength,
-                    valid: value.length <= lanName.rules.maxLength.value
+                    valid: value?.length <= lanName.rules.maxLength.value
                 }
             }
         });
@@ -210,7 +215,7 @@ const LanguagesAdd = ({setBackBtn, paddingTop}) => {
                 },
                 maxLength: {
                     ...engName.rules.maxLength,
-                    valid: value.length <= engName.rules.maxLength.value
+                    valid: value?.length <= engName.rules.maxLength.value
                 }
             }
 
@@ -219,6 +224,7 @@ const LanguagesAdd = ({setBackBtn, paddingTop}) => {
 
         setValid(lanName.valid && inputIsValid && code.valid && notes.valid);
     }
+
     const notesChangeHandler = value => {
         setSubmitted(false);
 
@@ -244,6 +250,7 @@ const LanguagesAdd = ({setBackBtn, paddingTop}) => {
 
         setValid(inputIsValid && engName.valid && code.valid && lanName.valid);
     }
+
     const codeChangeHandler = value => {
         setSubmitted(false);
 
@@ -261,7 +268,7 @@ const LanguagesAdd = ({setBackBtn, paddingTop}) => {
                 },
                 maxLength: {
                     ...code.rules.maxLength,
-                    valid: value.length <= code.rules.maxLength.value
+                    valid: value?.length <= code.rules.maxLength.value
                 }
             }
 
@@ -336,7 +343,7 @@ const LanguagesAdd = ({setBackBtn, paddingTop}) => {
             navigate(-1);
         }
         setSubmitted(false);
-    }   
+    }
     
     return (
         <div className='LanguagesAdd' style={{paddingTop: `${paddingTop}px`}}>
