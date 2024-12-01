@@ -210,6 +210,13 @@ const Sidebar = ({assets, setSidebar, changeCurrentSelectedLocale, store, user, 
                             <p className={'overflow-hidden text-overflow-ellipsis whitespace-nowrap rtl'}>{t('condition')}</p>
                         </div>
                     </Link>
+                    <Link id={'Sidebar__conditions'} onClick={e => setSidebar(false)} to={'/languages'} className="Sidebar__link">
+                        <div className="Sidebar__link--main">
+                            <img src={language} />
+                            {/*<i className="fa-regular fa-copyright"></i>*/}
+                            <p className={'overflow-hidden text-overflow-ellipsis whitespace-nowrap rtl'}>{t('languages')}</p>
+                        </div>
+                    </Link>
                     <div id={'Sidebar__contact'} className={`Sidebar__link ${socialShow && 'Sidebar__link--active'}`}>
                         <div onClick={() => setSocialShow(!socialShow)} className="Sidebar__link--main">
                             {/*<i className="fa-regular fa-images"></i>*/}

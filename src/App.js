@@ -6,8 +6,6 @@ import {endLoadingAssets, fetchAssets} from "./store/actions/assets.actions";
 import history from "./history/history";
 import About from "./screens/About/About";
 import Contract from "./screens/contract/Contract";
-import Login from "./screens/Login/Login";
-import Register from "./screens/Register/Register";
 import {loadUser, loadProvider} from "./store/actions/login.action";
 import {createOrder} from "./store/actions/order.actions";
 import Forget from "./screens/Forget/Forget";
@@ -25,8 +23,15 @@ import FallBack from "./components/FallBack/FallBack";
 import Home from './screens/Home/Home';
 import {fetchMarketStores} from "./store/actions/categories.action";
 import StorePageShimmer from "./components/StorePageShimmer/StorePageShimmer";
-import {RouterParamsProvider} from "./contexts/RouterParamsContext";
 import Authentication from './screens/Authentication/Authentication';
+import Alert from './components/Alert/Alert';
+import ConfirmEmail from './screens/Authentication/ConfirmEmail/ConfirmEmail';
+import axios from 'axios';
+import { BASE_URL } from './utls/assets';
+import setToken from './utls/set.axios.headers';
+import { addAlert } from './store/actions/alert.actions';
+import Languages from './screens/Languages/Languages';
+import LanguagesAdd from './screens/Languages/LanguagesAdd/LanguagesAdd.js';
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
 const Product = lazy(() => import(/* webpackChunkName: "Product" */ "./screens/Product/Product"));
@@ -153,16 +158,64 @@ const App = (props) => {
         }
     }, []);
 
+    const confirmEmailAndChangePassword = async data => {
+        try {
+            const res = await axios.post(`${BASE_URL}endpoints/users/verify-email-code-and-change-password?mLocale=${props.locale?.locale}`, data);
+            // this will be the setting token in the local storage.
+            if (res.status == 200 && res.data.status) {
+                const token = res.data.output.authToken;
+                localStorage.setItem('TAKEME_TOKEN', token);
+                setToken(token);
+            } else {
+                props.addAlert({
+                    msg: res.data.message
+                });
+            }
+        } catch (e) {
+            props.addAlert({
+                msg: e?.response?.data?.error,
+                alertType: 'danger'
+
+            });
+            console.log(e.response.data.error);
+        }
+    }
+
+    const confirmEmailAndRegister = async data => {
+        try {
+            const res = await axios.post(`${BASE_URL}endpoints/users/verify-email-and-register?mLocale=${props.locale?.locale}`, data);
+            if (res.status == 200 && res.data.status) {
+                const token = res.data.output.authToken;
+                localStorage.setItem('TAKEME_TOKEN', token);
+                setToken(token);
+            } else {
+                props.addAlert({
+                    msg: res.data.message
+                });
+            }
+        } catch (e) {
+            props.addAlert({
+                msg: e?.response?.data?.error,
+                alertType: 'danger'
+            });
+        }
+    }
+
     return (
         <div className={'App'} style={{overflowY: `${(!logoStart && !coverLoaded) ? 'hidden' : 'auto'}`}} >
             {
-                (!logoStart.firstTime)  && <Suspense fallback={<FallBack full={true} />}><Intro /></Suspense>
+                (!logoStart.firstTime) && <Suspense fallback={<FallBack full={true} />}><Intro /></Suspense>
             }
             {
                 !props.loadingAssets && (
                     isMobile ? (
                         <>
                             <Navbar currentParams={currentParams} providerId={providerId} setProviderId={setProviderId} showMItemTypes={showMItemTypes} showSItemTypes={showSItemTypes} showMCategories={showMCategories} showSCategories={showSCategories} showItemTypes={showItemTypes} setShowItemTypes={setShowItemTypes} storeDetailsRef={storeDetailsRef} personActive={personActive} setPersonActive={setPersonActive} personAva={personAva} searchActive={searchActive} setSearchActive={setSearchActive} eyeDis={eyeDis} setEyeDis={setEyeDis} backupFilters={backupFilters} setBackupFilters={setBackupFilters} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} showSlider={showSlider} setShowSlider={setShowSlider} bodyContainerRef={bodyContainerRef} considerNav={considerNav} showMidText={showMidText} backBtn={backBtn} searchShow={searchShow} showIcons={showIcons} showEye={showEye} navShow={navShow} setNavShow={setNavShow} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} navHeight={navHeight} setNavHeight={setNavHeight} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />
+                            {
+                                props.alert && (
+                                    <Alert />
+                                )
+                            }
                             <Suspense fallback={logoStart.isFirstTime ? <Intro /> : <SpinnerComponent full={true} />}>
                                 <Routes history={history}>
                                     <Route path={'/'} element={<Home currentParams={currentParams} setCurrentParams={setCurrentParams} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} navShow={navShow} considerNav={considerNav} setConsiderNav={setConsiderNav} bodyContainerRef={bodyContainerRef} setNavShow={setNavShow} navHeight={navHeight} setNavHeight={setNavHeight} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />} >
@@ -184,6 +237,8 @@ const App = (props) => {
                                         <Route path={`main/popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} >
                                             <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                         </Route>
+                                        <Route path='/confirm/email/:email' exact element={<ConfirmEmail confirmHandler={confirmEmailAndRegister} paddingTop={navHeight} setBackBtn={setBackBtn} showIcons={showIcons} setShowIcons={setShowIcons} />} />
+                                        <Route path='/confirm/email/change/password/:email/:password' exact element={<ConfirmEmail confirmHandler={confirmEmailAndChangePassword} paddingTop={navHeight} setBackBtn={setBackBtn} showIcons={showIcons} setShowIcons={setShowIcons} />} />
                                         <Route path={'/login'} exact element={<Authentication setBackBtn={setBackBtn} paddingTop={navHeight} showIcons={showIcons} setShowIcons={setShowIcons} />} />
                                         <Route path={`product/popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
                                         <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
@@ -191,6 +246,11 @@ const App = (props) => {
                                         <Route path={'/about'} exact element={<About setBackBtn={setBackBtn} setShowIcons={setShowIcons} setshowMidText={setShowMidText} />} />
                                         <Route path={'/contract'} exact element={<Contract setShowIcons={setShowIcons} setBackBtn={setBackBtn} setshowMidText={setShowMidText} />} />
                                         <Route path={'/forget/:email'} exact element={<Forget setBackBtn={setBackBtn} />} setshowMidText={setShowMidText} />
+                                        <Route path='/languages' element={<Languages setBackBtn={setBackBtn} paddingTop={navHeight} />} />
+                                        <Route path='/languages/add' exact element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} />} />
+                                        <Route path='/languages/add/duplicate/:lanId' exact element={<LanguagesAdd />} />
+                                        <Route path='/languages/edit/:editId' exact element={<LanguagesAdd />} />
+
                                     </Route>
                                 </Routes>
                             </Suspense>
@@ -214,7 +274,9 @@ const mapStateToProps = state => ({
     closeGallery: state.ui.closeGallery,
     galleryProduct: state.product.galleryProduct,
     token: state.login.takemeUserToken,
-    assets: state.assets
+    assets: state.assets,
+    alert: state.alert,
+    locale: state.categories.selectedLocale
 });
 
-export default connect(mapStateToProps, {fetchAssets, fetchMarketStores, loadProvider, changeBackBtn, createOrder, loadUser, changePlatform}) (React.memo(App));
+export default connect(mapStateToProps, {fetchAssets, fetchMarketStores, loadProvider, addAlert, changeBackBtn, createOrder, loadUser, changePlatform}) (React.memo(App));

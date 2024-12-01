@@ -1,0 +1,12 @@
+.InputError__error--list {
+    list-style: none;
+    font-size: 12px;
+    color: #FC2121;
+    padding: 0 !important;
+    margin: 0;
+    padding-right: 5px;
+}
+
+.InputError__error--list li {
+    padding-right: 5px;;
+}

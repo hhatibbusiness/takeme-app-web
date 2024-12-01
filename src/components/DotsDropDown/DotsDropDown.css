@@ -1,0 +1,59 @@
+.DotsDropDown__backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    background-color: rgba(0, 0, 0, 0.001) !important;
+    z-index: 1;
+}
+
+.DotsDropDown__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    position: relative;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 2;
+}
+
+.DotsDropDown__separator {
+    background-color: #FFDFB0;
+    width: 27px;
+    height: 2px;
+    transform: rotate(90deg);
+}
+
+.DotsDropDown {
+    position: absolute;
+    left: 20px;;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    background-color: white;
+}
+
+.DotsDropDown__delete {
+    color: #FC2121;
+}
+
+.DotsDropDown__element {
+    cursor: pointer;
+}
+
+.DotsDropDown__sort {
+    position: absolute;
+    top: unset;
+    bottom: -50px;
+    left: 0;
+    transform: none;
+    ;
+}
+
+.SotsDropDown__element--active {
+    color: #07AB83;
+}

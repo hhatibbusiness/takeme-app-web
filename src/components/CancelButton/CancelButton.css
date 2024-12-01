@@ -1,0 +1,9 @@
+.CancelButton {
+    flex: 1;
+    text-align: center;
+    height: 65px;
+    background-color: #F0F0F0;
+    border-radius: 10px 0 0 10px;
+    color: #07AB83;
+    cursor: pointer;
+}

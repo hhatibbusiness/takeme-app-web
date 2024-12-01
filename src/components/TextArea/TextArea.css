@@ -1,0 +1,42 @@
+.TextArea__wrapper {
+    position: relative;
+    display: inline-block;
+    padding: 5px;
+    flex: 1;
+    width: 100%;
+}
+
+.TextArea {
+    border: 1px solid #E5E5E5;
+    padding: 10px 15px;
+    outline: none;
+    border-radius: 10px;
+    resize: vertical;
+    min-height: 100px;
+    resize: none;
+    flex: 1;
+    width: 100%;
+}
+
+.TextArea::placeholder {
+    font-size: 15px;
+    color: #E5E5E5;
+}
+
+.TextArea__invalid {
+    border: 2px solid red;
+    background-color: #ffe6e6; /* Light red background */
+  
+}
+
+.TextArea__resize--handler {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 20px;  /* Customize size of the handle */
+    height: 20px;
+    /* background-color: #ccc; */
+    cursor: nwse-resize;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.5);
+}

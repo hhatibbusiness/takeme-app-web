@@ -69,15 +69,6 @@ export const increaseCategoriesPageNumber= {
 
 export const fetchCategories = (lan, filter, navigate, page, storePage, store, selectedLocale) => async dispatch => {
     try {
-        console.log('this is working!');
-        // const localesData = {
-        //     lan,
-        //     sortType: 'NEWEST',
-        //     page: 0
-        // };
-        
-        // await dispatch(fetchLocales(localesData));
-
         if(page == 0) dispatch(startFetchingProducts);
         const res = await axios.get(`${BASE_URL}endpoints/categories/list-no-empty?locale=${lan}&&page=${page}&&filterByAction=${filter}`);
         let categories;
@@ -433,16 +424,14 @@ export const endFetchingLocales = {
 
 export const fetchLocales = data => async dispatch => {
     try {
-        console.log('Hitting!')
         dispatch(startFetchingLocales);
-        const res = await axios.get(`${BASE_URL}endpoints/locales/list?mLocale=${data.lan}&sortType=${data.sortType}&page=${data.page}`);
-        console.log(res);
+        const res = await axios.get(`${BASE_URL}endpoints/locales/list?mLocale=${data.lan}&page=${data.page}&sortType=NEWEST`);
         dispatch({
             type: FETCH_LOCALES,
             locales: res.data.output
         });
-        // dispatch(fetchCategories(res.data.output[0], data.filter, data.navigate, 0, 0, data.store))
-        dispatch(changeCurrentSelectedLocale(res.data.output[0]))
+        dispatch(fetchCategories(res.data.output[0].locale, data.filter, data.navigate, 0, 0, data.store))
+        dispatch(changeCurrentSelectedLocale(res.data.output[0]));
         dispatch(endFetchingLocales);
     } catch (e) {
         console.log(e.message);

@@ -3,6 +3,7 @@ import {CHANGE_PLATFORM, END_LOADING_ASSETS, FETCH_TAKE_ME_ASSETS, START_LOADING
 import {BASE_URL} from "../../utls/assets";
 import {loadUser} from "./login.action";
 import {errorActive, errorInactive} from "./categories.action";
+import { getUserProfile } from './auth.actions';
 
 export const startLoadingAssets = {
     type: START_LOADING_ASSETS
@@ -15,11 +16,14 @@ export const endLoadingAssets = {
 export const fetchAssets = (navigate) => async dispatch => {
     try {
         dispatch(startLoadingAssets)
-        const res = await axios.get(`${BASE_URL}endpoints/details?locale=ar`);
+        const res = await axios.get(`${BASE_URL}endpoints/details?mLocale=ar_SA`);
         dispatch({
             type: FETCH_TAKE_ME_ASSETS,
             assets: res.data
         });
+        dispatch(getUserProfile({
+            locale: 'ar_SA'
+        }))
         dispatch(endLoadingAssets);
         dispatch(errorInactive);
     } catch (err) {

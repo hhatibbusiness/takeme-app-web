@@ -2,12 +2,20 @@ import React, { useEffect, useState } from 'react';
 import './InputComponent.css';
 import invisibleImage from '../../assets/images/defaults/invisible.png';
 
-const InputComponent = ({ icon, type, placeholder, value, setValue }) => {
+const InputComponent = ({ icon, type, placeholder, value, setValue, touched, valid, submitted }) => {
     const [inputType, setInputType] = useState('');
 
     useEffect(() => {
         setInputType(type);
-    }, [type])
+    }, [type]);
+
+    const hasBorder = () => {
+        if (touched && submitted && !valid) {
+            return {
+                border: `1px solid #FC2121`
+            }
+        }
+    }
 
     return (
         <div className='InputComponent'>
@@ -16,6 +24,7 @@ const InputComponent = ({ icon, type, placeholder, value, setValue }) => {
                 src={icon}
             />
             <input
+                style={hasBorder()}
                 value={value}
                 onChange={e => {
                     setValue(e.target.value)

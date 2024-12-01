@@ -11,6 +11,8 @@ import forgetPasswordReducer from "./forget.password.reducer";
 import registerReducer from "./register.reducer";
 import uiReducer from "./ui.reducer";
 import ratingsReducer from "./ratings.reducer";
+import alertReducer from "./alert.reducer";
+import authReducer from "./auth.reducer";
 
 const initialState = {
     message: 'Hello from the store'
@@ -33,5 +35,7 @@ export default combineReducers({
     forget: forgetPasswordReducer,
     register: registerReducer,
     ui: uiReducer,
-    ratings: ratingsReducer
+    ratings: ratingsReducer,
+    alert: alertReducer,
+    auth: authReducer
 });
