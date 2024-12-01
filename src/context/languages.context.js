@@ -28,7 +28,113 @@ const actionTypes = {
 }
 
 const initialState = {
-    languages: [],
+    languages: [
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 1
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 2
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 3
+        //
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 4
+        //
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 5
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 6
+        //
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 7
+        //
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 7
+        //
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 7
+        //
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 7
+        //
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 7
+        //
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 7
+        //
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 7
+        //
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 7
+        //
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 7
+        //
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 7
+        //
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 8
+        //
+        // },
+        // {
+        //     englishName: 'fdlkajfdlakjf',
+        //     name: 'normal name',
+        //     id: 9
+        //
+        // },
+    ],
     fetchingLanguages: false,
     page: 0,
     sortType: "NEWEST",
@@ -193,7 +299,7 @@ const languagesActions = {
     },
     fetchLanguages: async (dispatch, data=null, addAlert) => {
         try {
-            if(data.page == 0) dispatch({ type: actionTypes.START_FETCHING_LANGUAGES });
+            // if(data.page == 0) dispatch({ type: actionTypes.START_FETCHING_LANGUAGES });
             const res = await axios.get(`${BASE_URL}endpoints/languages/list?mLocale=${data.lan}&sortType=${data.sortType}&page=${data.page}`);
             dispatch({type: actionTypes.FETCH_LANGUAGES, languages: res.data.output})
             dispatch({ type: actionTypes.END_FETCHING_LANGUAGES });

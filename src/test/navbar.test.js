@@ -1,6 +1,6 @@
 import { screen, render } from '@testing-library/react';
 import {BrowserRouter} from "react-router-dom";
-import NavbarTestV from "../components/HOC/Navbar/NavbarTestV";
+import NavbarTestV from "../components/HOC/NavbarWebsite/NavbarTestV";
 
 test('navbar renders correctly', () => {
     const assets = {

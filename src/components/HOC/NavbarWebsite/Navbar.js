@@ -82,7 +82,7 @@ const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItem
     });
 
     return (
-        <div ref={navRef} className={`Navbar`} style={{top: `${topValue}px`}}>
+        <div ref={navRef} className={`NavbarWebsite`} style={{top: `${topValue}px`}}>
             <div className={'Navbar__container'}>
                 <div onClick={() =>  navigate('/')} style={{cursor: `${data?.backBtn && 'pointer'}`}} className="Navbar__logo">
                     <Img logo={true} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={(assets?.logoPath && assets.logoPath) || logo}/>

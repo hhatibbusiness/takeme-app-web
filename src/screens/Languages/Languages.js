@@ -6,8 +6,9 @@ import LanguagesShimmer from '../../components/ItemsShimmerAdmin/ItemsShimmer.js
 import ItemsList from '../../components/ItemsListAdmin/ItemsList.js';
 
 
-function Languages({paddingTop, setBackBtn}) {
+function Languages({setBackBtn, admin, setAdmin}) {
     const { languages, fetchLanguages, searchLanguage, deleteLanguage } = useLanguagesContext();
+    const [paddingTop, setPaddingTop] = useState(0);
 
     const itemsListPropsMain = {
         itemsFun: fetchLanguages,
@@ -70,11 +71,21 @@ function Languages({paddingTop, setBackBtn}) {
     }
 
     useEffect(() => {
-        setBackBtn(true)
+        setBackBtn(true);
+        setAdmin(true);
         return () => {
             setBackBtn(false);
+            setAdmin(false);
         }
     }, []);
+
+    const navbarGetter = document.querySelector('.Navbar');
+
+    useEffect(() => {
+        if(navbarGetter) {
+            setPaddingTop(navbarGetter.getBoundingClientRect().height);
+        }
+    });
 
     return (
         <KeepAlive>
@@ -84,7 +95,6 @@ function Languages({paddingTop, setBackBtn}) {
                         languages.search ? (
                             languages.searching ? (
                                 <LanguagesShimmer />
-
                             ) : (
                                 <ItemsList window={true} {...itemsListPropsSearch} />
                             )

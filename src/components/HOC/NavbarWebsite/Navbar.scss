@@ -1,6 +1,6 @@
 @import "../../../styles/index.scss";
 
-.Navbar {
+.NavbarWebsite {
   width: 100%;
   position: fixed !important;
   top: 0;
@@ -8,6 +8,7 @@
   z-index: 1100;
   display: flex;
   flex-direction: column;
+  //padding: 5px 10px;
   //transition: .2s ease-in;
 
   .Navbar__view--contianer {

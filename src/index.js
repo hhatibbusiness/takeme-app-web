@@ -5,7 +5,7 @@ import App from './App';
 import reducer from './store/reducers/index.reducer';
 import configureReducer from './store/index.store';
 import {Provider} from "react-redux";
-import {HashRouter, BrowserRouter as Router} from "react-router-dom";
+import {BrowserRouter as Router} from "react-router-dom";
 import history from "./utls/history/history.utl";
 import {AliveScope} from "react-activation";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
@@ -15,6 +15,9 @@ import './i18n';
 import AlertProvider from './context/alerts.context';
 import { DetailsProvider } from './context/details.context';
 import { NavbarProvider } from './context/navbar.context';
+import {LocalesProvider} from "./context/locales.context";
+import {SelectContextProvider} from "./context/single.select.context";
+import {CountriesProvider} from "./context/countries.context";
 
 const store = configureReducer(reducer);
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -24,13 +27,19 @@ root.render(
         <Router history={history}>
             <AliveScope>
                 <DetailsProvider>
-                    <AlertProvider>
-                        <NavbarProvider>
-                            <LanguagesProvider>
-                                <App />
-                            </LanguagesProvider>
-                        </NavbarProvider>
-                    </AlertProvider>
+                    <SelectContextProvider>
+                        <AlertProvider>
+                            <LocalesProvider>
+                                <NavbarProvider>
+                                    <LanguagesProvider>
+                                        <CountriesProvider>
+                                            <App />
+                                        </CountriesProvider>
+                                    </LanguagesProvider>
+                                </NavbarProvider>
+                            </LocalesProvider>
+                        </AlertProvider>
+                    </SelectContextProvider>
                 </DetailsProvider>
             </AliveScope>
         </Router>

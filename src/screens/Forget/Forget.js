@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import './Foget.scss';
-import Navbar from "../../components/HOC/Navbar/Navbar";
 import {useTranslation} from "react-i18next";
 import Step from "../../components/RegisterComponents/Step/Step";
 import VerifyScreen from "./VerifyScreen/VerifyScreen";

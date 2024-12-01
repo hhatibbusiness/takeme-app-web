@@ -3,7 +3,7 @@ import './About.scss';
 import {fetchAboutPage} from "../../store/actions/about.actions";
 import {connect} from "react-redux";
 import SpinnerComponent from "../../components/Spinner/Spinner.Component";
-import Navbar from "../../components/HOC/Navbar/Navbar";
+import Navbar from "../../components/HOC/NavbarWebsite/Navbar";
 import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from "react-router-dom";
 import {KeepAlive} from "react-activation";
