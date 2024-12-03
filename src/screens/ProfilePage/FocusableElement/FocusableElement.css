@@ -1,0 +1,32 @@
+/* Container that holds everything */
+.dimmed {
+    position: relative;
+    overflow: hidden;  /* Ensure the backdrop doesn't affect overflow */
+  }
+  
+/* The dimming backdrop */
+.dimmed::before {
+    content: '';  /* Creates a pseudo-element to act as the backdrop */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);  /* Semi-transparent background for dimming */
+    backdrop-filter: blur(8px) grayscale(80%); /* Apply blur and grayscale effect */
+    z-index: 1;  /* Behind the focused element */
+    pointer-events: none; /* Prevent interaction with the backdrop */
+    transition: all 0.3s ease;
+}
+  
+  /* Styling for the focused element to ensure it stays on top and fully visible */
+.dimmed .focusable-element.focused {
+    position: relative;   /* Allow the element to be positioned above the backdrop */
+    z-index: 10;          /* Ensures it's on top of the dimmed backdrop */
+    filter: none;         /* Remove any blur/grayscale */
+    opacity: 1;           /* Full opacity */
+    pointer-events: auto; /* Enable interaction */
+    transition: all 0.3s ease;
+    transform: scale(1.5);
+}
+  
