@@ -6,7 +6,7 @@ import { DropDown } from '../components/Components'
 import SearchInput from '../components/SearchInput/SearchInput'
 import Shimmer from '../shimmer/shimmer'
 import RightMark from '../../../assets/images/profile/Right.png'
-import {getListCountry} from '../../../models/manageCountry'
+import {getListCountry} from './../models/manageCountry'
 
 export default function Location({ Focused, setFocused, isLoading, ProfileData, setProfileData }) {
     const isFound = useRef(isCountryFound(ProfileData));

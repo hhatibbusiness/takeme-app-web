@@ -8,10 +8,10 @@ import DOT from '../../assets/images/profile/Dot.png'
 import Age from './Age/Age'
 import Location from './Location/Location';
 import Welcome from '../../assets/images/profile/Welcome.png'
-import { GetProfileData } from '../../models/manageProfile'
-import { ImageManager } from '../../common/ImageManager'
+import { GetProfileData } from './models/manageProfile'
+//import { ImageManager } from '../../common/ImageManager'
 
-export default function ProfilePage() {
+export default function ProfilePage({ paddingTop, admin, setAdmin }) {
   const [ProfileData, setProfileData] = useState({});
   const [isLoading, setLoading] = useState(false)
   const [GenderFocused, setGenderFocused] = useState(false);
@@ -74,7 +74,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="ProfilePage__container">
+    <div className="ProfilePage__container" style={{ position: 'absolute', paddingTop: `${paddingTop}px`, left: 0, top: 0}}>
         {/** Check if The Overlay Active */}
         {(GenderFocused || NameFocused || AgeFocused || LocationFocused) && <div className="overlay" onClick={clearFocus}></div>}
 
@@ -104,11 +104,11 @@ export default function ProfilePage() {
             اهلا بك بعالم تيكمي للسعادة, هنا منصتك للحصول على رغباتك وحاجياتك بسرعة و سهولة.
             </div>
         </div>
-        {openImageManager &&
+        {/*openImageManager &&
             <div className='ImageManagerShow'>
                 <ImageManager setOpenImageManager={setOpenImageManager} handleSaveImages={handleSaveImages}/>
             </div>
-        }
+        */}
     </div>
   );
 }

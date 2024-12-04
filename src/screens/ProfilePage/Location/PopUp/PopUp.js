@@ -4,7 +4,7 @@ import exist from '../../../../assets/images/profile/exist.png'
 import Right from '../../../../assets/images/profile/Right.png'
 import { DropDown, Input, TextArea } from "../../components/Components";
 import SearchInput from "../../components/SearchInput/SearchInput";
-import { getListCountry } from "../../../../models/manageCountry";
+import { getListCountry } from "./../../models/manageCountry";
 
 
 export default function PopUpLocation ({ setFocused, ProfileData, setProfileData }) {

@@ -37,6 +37,7 @@ import LocalesAdd from "./screens/Locales/LocalesAdd/LocalesAdd";
 import NavbarAdmin from './components/HOC/NavbarAdmin/Navbar';
 import Countries from "./screens/Countries/Countries";
 import CountriesAdd from "./screens/Countries/CountriesAdd/CountriesAdd";
+import ProfilePage from './screens/ProfilePage/ProfilePage.js'
 
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
@@ -338,6 +339,10 @@ const App = (props) => {
                                             path='/countries/edit/:editId'
                                             exact
                                             element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                        />
+                                        <Route 
+                                            path='/profile'
+                                            exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                         />
                                     </Route>
                                 </Routes>

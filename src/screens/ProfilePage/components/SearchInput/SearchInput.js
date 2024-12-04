@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './SearchInput.css'
 import SearchIcon from '../../../../assets/images/profile/SearchIcon.png'
-import { getListCountry } from '../../../../models/manageCountry'
+import { getListCountry } from './../../models/manageCountry'
 
 export default function SearchInput({ PlaceHolderTEXT, defualtValue, CheckFun, searchFun, width='100%', height='100%' }){
     const [value, setValue] = useState(defualtValue || '');
