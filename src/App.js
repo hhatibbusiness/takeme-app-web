@@ -374,6 +374,7 @@ const App = (props) => {
                                             path='/profile'
                                             exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                         />
+
                                     </Route>
                                 </Routes>
                             </Suspense>
