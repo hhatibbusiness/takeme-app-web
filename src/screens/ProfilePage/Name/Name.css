@@ -1,0 +1,43 @@
+.NameContainer{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    box-sizing: border-box;
+    height: 100%;
+    width: fit-content;
+    min-width: 20%;
+}
+
+.Name__Container {
+    font-family: 'DIN Next LT Arabic';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 25px;
+    text-align: right;
+    color: #666666;
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1.3);
+    }
+}
+
+.Name__Input_Container {
+    position: absolute;
+    height: 90%;
+    width: 50%;
+    animation: fadeInScale 0.3s ease forwards;
+    z-index: 100;
+}

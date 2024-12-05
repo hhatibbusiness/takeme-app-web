@@ -1,0 +1,61 @@
+export async function getListCountry(value) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            const countries = [
+                { id: 1, name: 'بلد 1' },
+                { id: 2, name: 'بلد 2' },
+                { id: 3, name: 'بلد 3' },
+                { id: 4, name: 'بلد 4' },
+                { id: 5, name: 'بلد 5' },
+                { id: 6, name: 'بلد 6' },
+                { id: 7, name: 'بلد 7' },
+                { id: 8, name: 'بلد 8' },
+                { id: 9, name: 'بلد 9' },
+                { id: 10, name: 'بلد 10'},
+                { id: 11, name: 'بلد 11' },
+                { id: 12, name: 'بلد 12' },
+                { id: 13, name: 'بلد 13' },
+                { id: 14, name: 'بلد 14' },
+                { id: 15, name: 'بلد 15' },
+                { id: 16, name: 'بلد 16' },
+                { id: 17, name: 'بلد 17' },
+                { id: 18, name: 'بلد 18' },
+                { id: 19, name: 'بلد 19' },
+                { id: 20, name: 'بلد 20' },
+                { id: 21, name: 'بلد 21' },
+                { id: 22, name: 'بلد 22' },
+                { id: 23, name: 'بلد 23' },
+                { id: 24, name: 'بلد 24' },
+                { id: 25, name: 'بلد 25' },
+                { id: 26, name: 'بلد 26' },
+                { id: 27, name: 'بلد 27' },
+                { id: 28, name: 'بلد 28' },
+                { id: 29, name: 'بلد 29' },
+                { id: 30, name: 'بلد 30' },
+                { id: 31, name: 'بلد 31' },
+                { id: 32, name: 'بلد 32' },
+                { id: 33, name: 'بلد 33' },
+                { id: 34, name: 'بلد 34' },
+                { id: 35, name: 'بلد 35' },
+                { id: 36, name: 'بلد 36' },
+                { id: 37, name: 'بلد 37' },
+                { id: 38, name: 'بلد 38' },
+                { id: 39, name: 'بلد 39' },
+                { id: 40, name: 'بلد 40' },
+                { id: 41, name: 'بلد 41' },
+                { id: 42, name: 'بلد 42' },
+                { id: 43, name: 'بلد 43' },
+                { id: 44, name: 'بلد 44' },
+                { id: 45, name: 'بلد 45' },
+                { id: 46, name: 'بلد 46' },
+                { id: 47, name: 'بلد 47' },
+                { id: 48, name: 'بلد 48' },
+                { id: 49, name: 'بلد 49' },
+                { id: 50, name: 'بلد 50' },
+            ];
+
+            const filteredCountries = countries.filter(country => country.name.includes(value));
+            resolve(filteredCountries);
+        }, 1000);
+    });
+}
