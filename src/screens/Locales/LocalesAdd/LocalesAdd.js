@@ -299,6 +299,7 @@ const LocalesAdd = ({ setBackBtn, setAdmin}) => {
                 code: code.value,
                 comments: notes.value,
                 lan: 'ar_SA',
+                englishName: engName.value,
                 languageId: locales?.selectedLanguage?.id,
                 locale: `${locales?.selectedLanguage.code}_${code.value}`,
             };

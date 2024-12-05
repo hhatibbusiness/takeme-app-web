@@ -67,7 +67,7 @@ const Locales = ({ setBackBtn, setAdmin }) => {
             sortType: locales.sortType,
             searchKey: locales.searchKey
         },
-        displayName: 'name',
+        displayName: 'locale',
         searchKey: locales.searchKey,
         dotsProps: id =>  ({
             urls: {

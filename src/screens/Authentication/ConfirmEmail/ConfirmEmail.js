@@ -6,8 +6,9 @@ import { useSSR } from 'react-i18next';
 import LoginButton from '../../../components/LoginButton/LoginButton';
 import axios from 'axios';
 import { BASE_URL } from '../../../utls/assets';
+import {connect} from "react-redux";
 
-const ConfirmEmail = ({ paddingTop, setBackBtn, setShowIcons, confirmHandler }) => {
+const ConfirmEmail = ({ paddingTop, locale, setBackBtn, setShowIcons, confirmHandler }) => {
     const [first, setFirst] = useState('');
     const [second, setSecond] = useState('');
     const [third, setThird] = useState('');
@@ -29,7 +30,6 @@ const ConfirmEmail = ({ paddingTop, setBackBtn, setShowIcons, confirmHandler }) 
         }
     }, []);
 
-    
     return (
         <div
             style={{ paddingTop: `${paddingTop }px`}}
@@ -49,7 +49,6 @@ const ConfirmEmail = ({ paddingTop, setBackBtn, setShowIcons, confirmHandler }) 
                     <input ref={firstRef} type='text' value={first} onChange={e => {
                         setFirst(prevState => {
                             console.log('Reached!');
-                            // return 2;
                             return e.target.value.length > 1 ? prevState : e.target.value;
                         })
                         if (e.target.value.length > first) {
@@ -115,7 +114,9 @@ const ConfirmEmail = ({ paddingTop, setBackBtn, setShowIcons, confirmHandler }) 
                         const data = {
                             email: params.email,
                             password: params.password,
-                            code: `${first}${second}${third}${forth}`
+                            code: `${first}${second}${third}${forth}`,
+                            authType: 'email',
+                            localeId: locale?.id
                         }
                         confirmHandler(data);
                     }}
@@ -131,4 +132,8 @@ const ConfirmEmail = ({ paddingTop, setBackBtn, setShowIcons, confirmHandler }) 
     )
 }
 
-export default ConfirmEmail;
+const mapStateToProps = state => ({
+    locale: state.categories.selectedLocale
+})
+
+export default connect(mapStateToProps) (ConfirmEmail);

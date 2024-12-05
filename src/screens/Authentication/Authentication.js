@@ -47,7 +47,7 @@ const Authentication = ({
             required: {
                 valid: false
             },
-            maxLength: {
+            minLength: {
                 valid: false,
                 value: 6
             }
@@ -61,7 +61,7 @@ const Authentication = ({
     const [emailErrors, setEmailErrors] = useState({});
     const [passwordErrors, setPasswordErrors] = useState({});
     const [submitted, setSubmitted] = useState(true);
-    const [reset, setReset] = useState(true);
+    const [reset, setReset] = useState(false);
 
     const navigate = useNavigate();
     
@@ -75,18 +75,40 @@ const Authentication = ({
         }
     }, []);
 
-    const emailButtonClickHandler = () => {
+    const emailButtonClickHandler = async () => {
         setSubmitted(true);
         if (!valid) return;
+        console.log(locale);
         const userData = {
             email: email.value,
             password: password.value,
             navigate,
             locale: locale?.locale,
-            authType: 'email'
+            authType: 'email',
+            localeId: locale?.id
         };
 
-        authenticateUser(userData);
+        console.log(password)
+
+        const res = await authenticateUser(userData);
+
+        console.log(res);
+
+        if(res?.response?.status == 401) {
+            setEmail({
+                ...email,
+                valid: false
+            });
+            setPassword({
+                ...password,
+                valid: false
+            })
+        } else if(res?.response?.status == 500) {
+            addAlert({
+                msg: res.response.data.message,
+                alertType: 'danger'
+            });
+        }
     }
 
     const inputValidator = (value, rules) => {
@@ -99,6 +121,11 @@ const Authentication = ({
         if (rules.maxLength) {
             inputIsValid = value.length <= rules.maxLength.value && inputIsValid;
         }
+
+        if(rules.minLength) {
+            inputIsValid = value?.length >= rules?.minLength.value && inputIsValid;
+        }
+
 
         if (rules.isEmail) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -153,27 +180,27 @@ const Authentication = ({
             ...password,
             value: value,
             touched: true,
-            valid: inputValidator(value, password?.rules)
+            valid: isValid
         });
 
         setValid(isValid && email.valid);
 
         setPasswordErrors({});
 
-        const maxValid = value.length <= password.rules.maxLength.value;
+        const minLength = value?.length >= password.rules.minLength.value;
 
-        if (password.rules.required && value.trim().length == 0) {
+        if (password.rules.required && value?.trim().length == 0) {
             setPasswordErrors({
                 ...passwordErrors,
                 required: {
                     message: 'ادخل كلمة المرور'
                 }
             });
-        } else if (password.rules.maxLength && !maxValid) {
+        } else if (password.rules.minLength && !minLength) {
             setPasswordErrors({
                 ...passwordErrors,
-                maxLength: {
-                    message: 'أكبر طول هو 6 حروف '
+                minLength: {
+                    message: 'أقل طول هو 6 حروف '
                 }
             })
         }
@@ -207,7 +234,12 @@ const Authentication = ({
                     backend: {
                         message: e?.response?.data?.error
                     }
+                });
+                setEmail({
+                    ...email,
+                    valid: false
                 })
+                setSubmitted(true);
             } else {
                 addAlert({
                     alertType: 'danger',
@@ -345,4 +377,4 @@ const mapStateToProps = state => ({
     locale: state.categories.selectedLocale
 });
 
-export default connect(null, {authenticateUser, addAlert}) (Authentication);
+export default connect(mapStateToProps, {authenticateUser, addAlert}) (Authentication);

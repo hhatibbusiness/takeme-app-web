@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useReducer } from "react";
 import { useAlertContext } from "./alerts.context";
 import axios from 'axios';
-import { AUTH_TOKEN, BaseURL } from "../assets/constants/Base";
+import { BaseURL } from "../assets/constants/Base";
 import { useSelectContext } from "./single.select.context";
 
 const actionTypes = {
@@ -253,7 +253,7 @@ const localesActions = {
     
             }
             dispatch({ type: actionTypes.START_ADDING_LOCALE });
-            const res = await axios.post(`${BaseURL}/locales/add?mLocale=${data.lan}`, postData, { headers: { 'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': AUTH_TOKEN } });
+            const res = await axios.post(`${BaseURL}/locales/add?mLocale=${data.lan}`, postData, { headers: { 'accept': '*/*', 'Content-Type': 'application/json'} });
             dispatch({type: actionTypes.ADD_LOCALE, locale: res.data.output})
             dispatch({ type: actionTypes.END_ADDING_LOCALE });
             return res;
@@ -271,7 +271,7 @@ const localesActions = {
     editLocale: async (dispatch, data, addAlert) => {
         try {
             dispatch({ type: actionTypes.START_EDITING_LOCALE });
-            const res = await axios.put(`${BaseURL}/locales/update?mLocale=${data.lan}`, data, { headers: { 'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': AUTH_TOKEN } });
+            const res = await axios.put(`${BaseURL}/locales/update?mLocale=${data.lan}`, data, { headers: { 'accept': '*/*', 'Content-Type': 'application/json'} });
             dispatch({ type: actionTypes.EDIT_LOCALE, locale: res.data.output });
             dispatch({ type: actionTypes.END_EDITING_LOCALE });
             console.log('reached this part');
@@ -290,7 +290,7 @@ const localesActions = {
     deleteLocale: async (dispatch, data, addAlert) => {
         try {
             dispatch({ type: actionTypes.START_DELETING_LOCALE });
-            const res = await axios.delete(`${BaseURL}/locales/delete?Mlocale=${data.lan}&localeId=${data.localeId}`, { headers: { 'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': AUTH_TOKEN } });
+            const res = await axios.delete(`${BaseURL}/locales/delete?Mlocale=${data.lan}&localeId=${data.localeId}`, { headers: { 'accept': '*/*', 'Content-Type': 'application/json' } });
 
             dispatch({type: actionTypes.DELETE_LOCALE, localeId: data.localeId})
             dispatch({ type: actionTypes.END_DELETING_LOCALE });
@@ -331,7 +331,7 @@ const localesActions = {
         try {
             console.log(data);
             if(data.page == 0) dispatch({ type: actionTypes.START_SEARCHING_LOCALES });
-            const res = await axios.get(`${BaseURL}/locales/search?mLocale=${data.lan}&searchKey=${data.searchKey}&sortType=${data.sortType}&page=${data.page}`, { headers: { 'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': AUTH_TOKEN } });
+            const res = await axios.get(`${BaseURL}/locales/search?mLocale=${data.lan}&searchKey=${data.searchKey}&sortType=${data.sortType}&page=${data.page}`, { headers: { 'accept': '*/*', 'Content-Type': 'application/json' } });
             dispatch({ type: actionTypes.SEARCH_LOCALES, searchResults: res.data.output, searchKey: data.searchKey, page: data.page });
             
             dispatch({ type: actionTypes.END_SEARCHING_LOCALES });

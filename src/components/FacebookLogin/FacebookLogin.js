@@ -29,8 +29,12 @@ const FacebookLoginButton = ({
                 password: response.id,
                 authType: 'facebook',
                 locale: locale?.locale,
-                navigate
+                navigate,
+                localeId: locale?.id,
+                accessToken: response.accessToken
             }
+
+            console.log(response);
             
             authenticateUser(data);
         }
