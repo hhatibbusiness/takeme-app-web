@@ -316,7 +316,7 @@ const languagesActions = {
     addLanguage: async (dispatch, data, addAlert) => {
         try {
             dispatch({ type: actionTypes.START_ADDING_LANGUAGE });
-            const res = await axios.post(`${BASE_URL}endpoints/languages/add?mLocale=${data.lan}`, data, { headers: { 'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': AUTH_TOKEN } });
+            const res = await axios.post(`${BASE_URL}endpoints/languages/add?mLocale=${data.lan}`, data, { headers: { 'accept': '*/*', 'Content-Type': 'application/json'} });
             dispatch({type: actionTypes.ADD_LANGUAGE, language: res.data.output})
             dispatch({ type: actionTypes.END_ADDING_LANGUAGE });
             return res;
@@ -341,10 +341,10 @@ const languagesActions = {
                 code: data.code,
                 comments: data.comments
             };
-            const res = await axios.put(`${BASE_URL}endpionts/languages/update?mLocale=${data.lan}`, editData, { headers: { 'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': AUTH_TOKEN } });
+            const res = await axios.put(`${BASE_URL}endpoints/languages/update?mLocale=${data.lan}`, editData, { headers: { 'accept': '*/*', 'Content-Type': 'application/json'} });
             dispatch({ type: actionTypes.EDIT_LANGUAGE, language: res.data.output });
             dispatch({ type: actionTypes.END_EDITING_LANGUAGE });
-            console.log('reached this part');
+
             return res;
         } catch (e) {
             console.error(e.message);
@@ -360,7 +360,7 @@ const languagesActions = {
     deleteLanguage: async (dispatch, data, addAlert) => {
         try {
             dispatch({ type: actionTypes.START_DELETING_LANGUAGE });
-            const res = await axios.delete(`${BASE_URL}endpoints/languages/delete?Mlocale=${data.lan}&languageId=${data.languageId}`, { headers: { 'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': AUTH_TOKEN } });
+            const res = await axios.delete(`${BASE_URL}endpoints/languages/delete?Mlocale=${data.lan}&languageId=${data.languageId}`, { headers: { 'accept': '*/*', 'Content-Type': 'application/json'} });
 
             dispatch({type: actionTypes.DELETE_LANGUAGE, languageId: data.languageId})
             dispatch({ type: actionTypes.END_DELETING_LANGUAGE });

@@ -39,6 +39,7 @@ import {BASE_URL} from "../../utls/assets";
 import {getAnalytics, logEvent} from "firebase/analytics";
 import allCategoryImage from "../../assets/images/all-icon.jpg";
 import {loadUser} from "./login.action";
+import {fetchAssets} from "./assets.actions";
 
 export const startFetchingCategories = {
     type: START_FETCHING_CATEGORIES
@@ -430,6 +431,7 @@ export const fetchLocales = data => async dispatch => {
             type: FETCH_LOCALES,
             locales: res.data.output
         });
+        dispatch(fetchAssets(data.navigate, res.data.output[0].id));
         dispatch(fetchCategories(res.data.output[0].locale, data.filter, data.navigate, 0, 0, data.store))
         dispatch(changeCurrentSelectedLocale(res.data.output[0]));
         dispatch(endFetchingLocales);
