@@ -5,8 +5,9 @@
   width: 90%;
   height: 100%;
   transform: translateX(-100%);
-  transition: 0.3s;
-  z-index: 5000;
+  transition: transform 0.3s;
+  //z-index: 5000;
+  direction: rtl;
 
   .Sidebar__container {
     width: 100%;

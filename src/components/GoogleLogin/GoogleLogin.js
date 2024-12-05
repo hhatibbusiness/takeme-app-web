@@ -43,13 +43,18 @@ function LoginButtonComponent({
           }
         });
         if (res.status == 200) {
+
           const data = {
             email: res.data.email,
             password: res.data.sub,
             locale: locale?.locale,
             authType: 'google',
-            navigate
+            navigate,
+            localeId: locale?.id,
+            accessToken: tokenResponse.access_token
           }
+
+          console.log(data)
 
           googleAction(data);
         }
@@ -83,7 +88,7 @@ const mapStateToProps = state => ({
 })
 
 //// Main Wrapped Compomet
-export default connect(mapStateToProps, { authenticateUser })(function GoogleLogin({ locale, loginUserUsingGoogle, icon, value, color, backColor, borderColor, separatorColor, fontWeight, hasImage, login }) {
+export default connect(mapStateToProps, { authenticateUser })(function GoogleLogin({ locale, authenticateUser, loginUserUsingGoogle, icon, value, color, backColor, borderColor, separatorColor, fontWeight, hasImage, login }) {
   //// this Client Id must chnage with TakeMe API Client Id
   const CLIENT_ID = '411892016185-u17l10r5t0p7t2ovov351mkugufj0uh4.apps.googleusercontent.com'
   return (

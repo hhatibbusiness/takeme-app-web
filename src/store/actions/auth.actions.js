@@ -13,27 +13,44 @@ export const endAuthenticatingUser = {
     type: END_AUTHENTICATION_USER
 }
 
+export const getUserRoles = (token) => ({
+    type: GET_USER_ROLE,
+    token
+});
+
 export const authenticateUser = data => async dispatch => {
     try {
+        console.log('jfdlakjsflakjfs');
         dispatch(startAuthenticatingUser);
         const userData = {
-            authType: data.authType,
-            authValue: data.email,
-            authPassword: data.password
+            localeId: data.localeId,
+            userAuthenticationRequestDto: {
+                authType: data.authType,
+                authValue: data.email,
+                password: data.password,
+                accessToken: data.accessToken
+            }
         }
 
-        const res = await axios.post(`${BASE_URL}endpoints/users/login-register?locale=${data.locale}`, userData);
+        console.log(userData);
+        const res = await axios.post(`${BASE_URL}endpoints/users/login-register?mLocale=${data.locale}`, userData);
+
         if (res.status == 200) {
+            const token = res.data.output.userToken.split('=')[1].split(';')[0];
             dispatch({
                 type: AUTHENTICATE_USER,
-                token: res.data.output.authToken
+                token,
+                personalProfile: res.data.output.personalProfile
             });
+            dispatch(getUserRoles(token));
+
             data.navigate(`/profile`);
         } else if (res.status == 202) {
-            data.navigate(`/confirm/email/${data.email}/${data.password}`);
+            data.navigate(`/confirm/email/register/${data.email}/${data.password}`);
         }
 
         dispatch(endAuthenticatingUser);
+        return res;
     } catch (e) {
         console.error(e.message);
         const data = {
@@ -42,6 +59,7 @@ export const authenticateUser = data => async dispatch => {
         };
         dispatch(addAlert(data));
         dispatch(endAuthenticatingUser);
+        return e;
     }
 }
 
@@ -56,15 +74,13 @@ export const endFetchingUserData = {
 export const getUserProfile = data => async dispatch => {
     try {
         dispatch(startFetchingUserData);
-        // const token = localStorage.getItem('TAKEME_TOKEN');
-        const token = "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJlNGJlMThkOC1hZGU4LTRjNTctOGFmMS0xNDExMjlkOGU5NzQiLCJzdWIiOiJhcl9TQS9mYWNlYm9vay9mdGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3MzI3MzA4NjksInJvbGVzIjpbIlJPTEVfUGVyc29uIiwiUk9MRV9BZG1pbiJdLCJleHAiOjE3NDA1MDY4Njl9.ZppC0L5RwU29ZO6KHIB-B2jVlR8X1-C6Jd250-C5bdeHxSdmBfTkNCgZLHK0u3fDphngYOOylvsMCuUXnqIo4w";
-        dispatch({
-            type: GET_USER_ROLE,
-            token
-        })
+        const token = localStorage.getItem('TAKEME_TOKEN');
+
+        dispatch(getUserRoles(token));
+
         if (token) {
             setToken(token);
-            const res = await axios.get(`${BASE_URL}endpoints/users/get-profile?Mlocale=${data.locale}`);
+            const res = await axios.get(`${BASE_URL}endpoints/users/personal/profile?mLocale=${data.locale}&localeId=${data.localeId}`);
 
             if (res.status == 200 && res.data.status) {
                 dispatch({

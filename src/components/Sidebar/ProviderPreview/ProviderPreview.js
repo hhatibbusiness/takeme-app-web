@@ -39,10 +39,14 @@ const ProviderPreview = ({provider, setSidebar, takemeProviderToken, takemeProvi
 
                     </div>
                 </div>
-                <div className="ProviderPreview__location">
-                    <i className="fa-solid fa-location-dot"></i>
-                    <p>{provider?.city}</p>
-                </div>
+                {
+                    provider?.location && (
+                        <div className="ProviderPreview__location">
+                            <i className="fa-solid fa-location-dot"></i>
+                            <p>{provider?.city}</p>
+                        </div>
+                    )
+                }
             </div>
         </Link>
     );
