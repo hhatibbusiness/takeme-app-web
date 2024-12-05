@@ -2,9 +2,11 @@ import token from '../../utls/set.axios.headers';
 import setToken from '../../utls/set.axios.headers';
 import * as actionTypes from '../actions/action.types';
 import { jwtDecode } from "jwt-decode";
+import {GET_USER_ROLE} from "../actions/action.types";
 
 const initialState = {
     profile: {},
+    isAuthenticated: false,
     authenticatingUser: false,
     token: null,
     resetPasswordEmail: 'engahmedgomaa97@gmail.com',
@@ -23,37 +25,46 @@ export default (state=initialState, action) => {
                 ...state,
                 authenticatingUser: false
             }
+        // case actionTypes.AUTHENTICATE_USER:
+        //     return {
+        //         ...state,
+        //         profile: action.profile
+        //     }
         case actionTypes.AUTHENTICATE_USER:
-            return {
-                ...state,
-                profile: action.profile
-            }
-        case actionTypes.AUTHENTICATE_USER:
+            console.log(action.token);
             localStorage.setItem('TAKEME_TOKEN', action.token);
             setToken(action.token);
 
             return {
                 ...state,
-                token: action.token
+                token: action.token,
+                isAuthenticated: true,
+                profile: action.personalProfile
             }
         case actionTypes.LOG_PROFILE_OUT:
             localStorage.removeItem('TAKEME_TOKEN');
             return {
                 ...state,
-                token: null
+                token: null,
+                isAuthenticated: false,
+                roles: null,
+                profile: {}
             }
         case actionTypes.GET_USER_PROFILE:
             return {
                 ...state,
-                profile: action.profile
+                profile: action.profile,
+                isAuthenticated: true
             }
         case actionTypes.GET_USER_ROLE:
-            const tokenDecoded = jwtDecode(token);
+            const tokenDecoded = jwtDecode(action.token);
+
             console.log(tokenDecoded);
             
             return {
                 ...state,
-                role: tokenDecoded.roles
+                roles: tokenDecoded.roles,
+                isAuthenticated: true
             }
         default:
             return state;

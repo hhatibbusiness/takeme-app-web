@@ -2,7 +2,7 @@ import './App.scss';
 import {Routes, Route, useNavigate, useLocation} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
 import {connect} from "react-redux";
-import {endLoadingAssets, fetchAssets} from "./store/actions/assets.actions";
+import {fetchAssets} from "./store/actions/assets.actions";
 import history from "./history/history";
 import About from "./screens/About/About";
 import Contract from "./screens/contract/Contract";
@@ -13,13 +13,11 @@ import {changePlatform} from "./store/actions/assets.actions";
 import ProductPopup from "./components/ProductPopup/ProductPopup";
 import Navbar from "./components/HOC/NavbarWebsite/Navbar";
 import {changeBackBtn} from "./store/actions/ui.actions";
-// import Gallery from "./screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery";
 import ProductsDetails from "./screens/Home/Body/BodyContainer/ProductList/Products/ProductsDetails/ProductsDetails";
 import NotMobile from "./components/NotMobile/NotMobile"; 
 import {Suspense, lazy} from "react";
 import SpinnerComponent from "./components/Spinner/Spinner.Component";
-import {KeepAlive} from "react-activation";
-import FallBack from "./components/FallBack/FallBack"; 
+import FallBack from "./components/FallBack/FallBack";
 import Home from './screens/Home/Home';
 import {fetchMarketStores} from "./store/actions/categories.action";
 import StorePageShimmer from "./components/StorePageShimmer/StorePageShimmer";
@@ -37,11 +35,11 @@ import LocalesAdd from "./screens/Locales/LocalesAdd/LocalesAdd";
 import NavbarAdmin from './components/HOC/NavbarAdmin/Navbar';
 import Countries from "./screens/Countries/Countries";
 import CountriesAdd from "./screens/Countries/CountriesAdd/CountriesAdd";
-import ProfilePage from './screens/ProfilePage/ProfilePage.js'
-
+import {useNavbarContext} from "./context/navbar.context";
+import {getUserRoles, getUserProfile} from "./store/actions/auth.actions";
+import {fetchLocales} from "./store/actions/categories.action";
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
-const Product = lazy(() => import(/* webpackChunkName: "Product" */ "./screens/Product/Product"));
 const ProviderScreen = lazy(() => import(/* webpackChunkName: "ProviderScreen" */ "./screens/Provider/ProviderScreen"));
 const SearchScreen = lazy(() => import(/* webpackChunkName: "SearchScreen" */ "./screens/SearchScreen/SearchScreen"));
 const Intro = lazy(() => import(/* webpackChunkName: "Intro" */ "./components/Intro/Intro"));
@@ -72,7 +70,6 @@ const App = (props) => {
     const [showSlider, setShowSlider] = useState(true);
     const [fixedNav, setFixedNav] = useState(false);
     const [topValue, setTopValue] = useState(0);
-    const homeRef = useRef();
     const bodyContainerRef = useRef();
     const [y, setY] = useState(null);
     const [backupFilters, setBackupFilters] = useState(false);
@@ -89,10 +86,14 @@ const App = (props) => {
     const [providerId, setProviderId] = useState(null);
     const [currentParams, setCurrentParams] = useState({});
     const [admin, setAdmin] = useState(false);
-
+    const {changeMidText} = useNavbarContext();
 
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [isInstallable, setIsInstallable] = useState(false);
+
+    useEffect(() => {
+        changeMidText(location.pathname);
+    }, [location]);
 
     useEffect(() => {
         const handler = (e) => {
@@ -126,11 +127,16 @@ const App = (props) => {
         }
     }, [props.loadingAssets]);
 
-
     useEffect(async () => {
         await props.loadUser(navigate, props.lan);
-        props.fetchAssets(navigate);
-        props.loadProvider()
+        const data = {
+            lan: 'ar_SA',
+            page: 0,
+            navigate
+        }
+        // props.fetchAssets(navigate, props.locale?.id);
+        props.fetchLocales(data);
+        props.loadProvider();
     }, []);
 
     useEffect(() => {
@@ -191,11 +197,28 @@ const App = (props) => {
 
     const confirmEmailAndRegister = async data => {
         try {
-            const res = await axios.post(`${BASE_URL}endpoints/users/verify-email-and-register?mLocale=${props.locale?.locale}`, data);
+            const userData = {
+                localeId: data.localeId,
+                userAuthenticationRequestDto: {
+                    authType: data.authType,
+                    authValue: data.email,
+                    password: data.password,
+                    accessToken: 'fldjaslkfj'
+                }
+            }
+
+            const res = await axios.post(`${BASE_URL}endpoints/users/verify-email-and-register?mLocale=${props.locale?.locale}&code=${data.code}`, userData);
             if (res.status == 200 && res.data.status) {
-                const token = res.data.output.authToken;
+                const token = res.data.output.userToken.split('=')[1].split(';')[0];
                 localStorage.setItem('TAKEME_TOKEN', token);
                 setToken(token);
+                props.getUserRoles(token);
+                const data = {
+                    locale: props.locale?.locale,
+                    localeId: props.locale?.id
+                }
+                props.getUserProfile(data);
+                navigate('/profile');
             } else {
                 props.addAlert({
                     msg: res.data.message
@@ -232,7 +255,7 @@ const App = (props) => {
                             }
                             <Suspense fallback={logoStart.isFirstTime ? <Intro /> : <SpinnerComponent full={true} />}>
                                 <Routes history={history}>
-                                    <Route path={'/'} element={<Home currentParams={currentParams} setCurrentParams={setCurrentParams} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} navShow={navShow} considerNav={considerNav} setConsiderNav={setConsiderNav} bodyContainerRef={bodyContainerRef} setNavShow={setNavShow} navHeight={navHeight} setNavHeight={setNavHeight} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />} >
+                                    <Route path={'/'} element={<Home currentParams={currentParams} backBtn={backBtn} setCurrentParams={setCurrentParams} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} navShow={navShow} considerNav={considerNav} setConsiderNav={setConsiderNav} bodyContainerRef={bodyContainerRef} setNavShow={setNavShow} navHeight={navHeight} setNavHeight={setNavHeight} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />} >
                                         <Route path={'/provider/:providerId'} exact element={<Suspense fallback={<StorePageShimmer />}><ProviderScreen setProviderId={setProviderId} setShowMItemTypes={setShowMItemTypes} setShowSItemTypes={setShowSItemTypes} setShowMCategories={setShowMCategories} setShowSCategories={setShowSCategories} setShowItemTypes={setShowItemTypes} setFiltersActive={setFiltersActive} setShowSlider={setShowSlider} setPersonActive={setPersonActive} bodyContainerRef={bodyContainerRef} topValue={topValue} storeDetailsRef={storeDetailsRef} setTopValue={setTopValue} personActive={personActive} setPersonAva={setPersonAva} navHeight={navHeight} searchActive={searchActive} setSearchActive={setSearchActive} eyeDis={eyeDis} setEyeDis={setEyeDis} setshowMidText={setShowMidText} setBackBtn={setBackBtn} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} /></Suspense>} >
                                             <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                             <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
@@ -250,7 +273,7 @@ const App = (props) => {
                                         <Route path={`main/popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} >
                                             <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                         </Route>
-                                        <Route path='/confirm/email/:email' exact element={<ConfirmEmail confirmHandler={confirmEmailAndRegister} paddingTop={navHeight} setBackBtn={setBackBtn} showIcons={showIcons} setShowIcons={setShowIcons} />} />
+                                        <Route path='/confirm/email/register/:email/:password' exact element={<ConfirmEmail confirmHandler={confirmEmailAndRegister} paddingTop={navHeight} setBackBtn={setBackBtn} showIcons={showIcons} setShowIcons={setShowIcons} />} />
                                         <Route path='/confirm/email/change/password/:email/:password' exact element={<ConfirmEmail confirmHandler={confirmEmailAndChangePassword} paddingTop={navHeight} setBackBtn={setBackBtn} showIcons={showIcons} setShowIcons={setShowIcons} />} />
                                         <Route path={'/login'} exact element={<Authentication setBackBtn={setBackBtn} paddingTop={navHeight} showIcons={showIcons} setShowIcons={setShowIcons} />} />
                                         <Route
@@ -281,69 +304,72 @@ const App = (props) => {
                                             exact
                                             element={<Forget setBackBtn={setBackBtn} />} setshowMidText={setShowMidText}
                                         />
-                                        <Route
-                                            path='/languages'
-                                            element={<Languages setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                        />
-                                        <Route
-                                            path='/languages/add'
-                                            exact
-                                            element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                        />
-                                        <Route
-                                            path='/languages/add/duplicate/:lanId'
-                                            exact
-                                            element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                        />
-                                        <Route
-                                            path='/languages/edit/:editId'
-                                            exact
-                                            element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                        />
-                                        <Route
-                                            path='/locales'
-                                            exact
-                                            element={<Locales setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                        />
-                                        <Route
-                                            path="/locales/add"
-                                            exact
-                                            element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                        />
-                                        <Route
-                                            path='/locales/add/duplicate/:lanId'
-                                            exact
-                                            element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                        />
-                                        <Route
-                                            path='/locales/edit/:editId'
-                                            exact
-                                            element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                        />
-                                        <Route
-                                            path='/countries'
-                                            exact
-                                            element={<Countries setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
-                                        />
-                                        <Route
-                                            path='/countries/add'
-                                            exact
-                                            element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
-                                        />
-                                        <Route
-                                            path='/countries/add/duplicate/:lanId'
-                                            exact
-                                            element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
-                                        />
-                                        <Route
-                                            path='/countries/edit/:editId'
-                                            exact
-                                            element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
-                                        />
-                                        <Route 
-                                            path='/profile'
-                                            exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                        />
+                                        {
+                                            props.roles?.includes('ROLE_Admin') && (
+                                                <>
+                                                    <Route
+                                                        path='/languages'
+                                                        element={<Languages setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/languages/add'
+                                                        exact
+                                                        element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/languages/add/duplicate/:lanId'
+                                                        exact
+                                                        element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/languages/edit/:editId'
+                                                        exact
+                                                        element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/locales'
+                                                        exact
+                                                        element={<Locales setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path="/locales/add"
+                                                        exact
+                                                        element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/locales/add/duplicate/:lanId'
+                                                        exact
+                                                        element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/locales/edit/:editId'
+                                                        exact
+                                                        element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/countries'
+                                                        exact
+                                                        element={<Countries setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/countries/add'
+                                                        exact
+                                                        element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/countries/add/duplicate/:lanId'
+                                                        exact
+                                                        element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/countries/edit/:editId'
+                                                        exact
+                                                        element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                </>
+                                            )
+                                        }
+                                        <Route path={'/profile'} element={<div>fdakjdflajfl</div>} />
                                     </Route>
                                 </Routes>
                             </Suspense>
@@ -369,7 +395,8 @@ const mapStateToProps = state => ({
     token: state.login.takemeUserToken,
     assets: state.assets,
     alert: state.alert,
-    locale: state.categories.selectedLocale
+    locale: state.categories.selectedLocale,
+    roles: state.auth.roles
 });
 
-export default connect(mapStateToProps, {fetchAssets, fetchMarketStores, loadProvider, addAlert, changeBackBtn, createOrder, loadUser, changePlatform}) (React.memo(App));
+export default connect(mapStateToProps, {fetchAssets, fetchLocales, getUserRoles, getUserProfile, fetchMarketStores, loadProvider, addAlert, changeBackBtn, createOrder, loadUser, changePlatform}) (React.memo(App));

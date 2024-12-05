@@ -66,8 +66,9 @@
 }
 
 .ProviderPreview__avatar--details p {
-    font-size: 10px;
-    color: #666666;
+    font-size: 20px;
+    font-weight: 700;
+    color: #2B2B2B;
 }
 
 .ProviderPreview__avatar--verify {
