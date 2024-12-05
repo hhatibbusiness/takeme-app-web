@@ -38,6 +38,7 @@ import CountriesAdd from "./screens/Countries/CountriesAdd/CountriesAdd";
 import {useNavbarContext} from "./context/navbar.context";
 import {getUserRoles, getUserProfile} from "./store/actions/auth.actions";
 import {fetchLocales} from "./store/actions/categories.action";
+import ProfilePage from './screens/ProfilePage/ProfilePage.js'
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
 const ProviderScreen = lazy(() => import(/* webpackChunkName: "ProviderScreen" */ "./screens/Provider/ProviderScreen"));
@@ -370,6 +371,11 @@ const App = (props) => {
                                             )
                                         }
                                         <Route path={'/profile'} element={<div>fdakjdflajfl</div>} />
+                                        <Route
+                                            path='/profile'
+                                            exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                        />
+
                                     </Route>
                                 </Routes>
                             </Suspense>
