@@ -2,9 +2,9 @@ import React, { useEffect, useState, useLayoutEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./Place.style.css";
 
-import { useNavbarContext } from "../../context/navbar.context";
-import { addPlace, EditPlace } from '../../modals/managePlaces.js';
-import { useAlertContext } from "../../context/alerts.context";
+import { useNavbarContext } from "../../../context/navbar.context";
+import { addPlace, EditPlace } from '../../../modals/managePlaces.js';
+import { useAlertContext } from "../../../context/alerts.context";
 import DesireNameInput from './PlaceController/PlacesInput'
 import DesireDescriptionText from './PlaceController/PlacesCommentText'
 import MyComponent from './PlaceController/SelectLocalePop'

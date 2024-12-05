@@ -39,6 +39,11 @@ import {useNavbarContext} from "./context/navbar.context";
 import {getUserRoles, getUserProfile} from "./store/actions/auth.actions";
 import {fetchLocales} from "./store/actions/categories.action";
 import ProfilePage from './screens/ProfilePage/ProfilePage.js'
+import Desires from './screens/Desires/DesiresPage.js'
+import AddEditDesire from './screens/Desires/AddEditDesire/AddEditDesire.js'
+import Places from './screens/Places/PlacesPage.js'
+import AddEditPlace from './screens/Places/AddEditPlace/AddEditPlace.js'
+
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
 const ProviderScreen = lazy(() => import(/* webpackChunkName: "ProviderScreen" */ "./screens/Provider/ProviderScreen"));
@@ -367,13 +372,45 @@ const App = (props) => {
                                                         exact
                                                         element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
                                                     />
+                                                    <Route
+                                                        path='/profile'
+                                                        exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/desires'
+                                                        exact element={<Desires paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/desire/add'
+                                                        exact element={<AddEditDesire paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/desire/edit/:id'
+                                                        exact element={<AddEditDesire mode={'edit'} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/desire/duplicate/:id'
+                                                        exact element={<AddEditDesire mode={'duplicate'} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/places'
+                                                        exact element={<Places paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route 
+                                                        path='/palce/add'
+                                                        exact element={<AddEditPlace paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/place/edit/:id'
+                                                        exact element={<AddEditPlace mode={'edit'} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
+                                                    <Route
+                                                        path='/place/duplicate/:id'
+                                                        exact element={<AddEditPlace mode={'duplicate'} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    />
                                                 </>
                                             )
                                         }
-                                        <Route
-                                            path='/profile'
-                                            exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                        />
 
                                     </Route>
                                 </Routes>

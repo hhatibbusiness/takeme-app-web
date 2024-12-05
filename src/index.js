@@ -18,6 +18,8 @@ import { NavbarProvider } from './context/navbar.context';
 import {LocalesProvider} from "./context/locales.context";
 import {SelectContextProvider} from "./context/single.select.context";
 import {CountriesProvider} from "./context/countries.context";
+import {DesiresProvider}  from "./context/desiresContext";
+import {PlacesProvider}   from "./context/placesContext";
 
 const store = configureReducer(reducer);
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -33,7 +35,11 @@ root.render(
                                 <NavbarProvider>
                                     <LanguagesProvider>
                                         <CountriesProvider>
-                                            <App />
+                                            <DesiresProvider>
+                                                <PlacesProvider>
+                                                    <App />
+                                                </PlacesProvider>
+                                            </DesiresProvider>
                                         </CountriesProvider>
                                     </LanguagesProvider>
                                 </NavbarProvider>

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import SelectPopup from '../../../components/SelectPopup/SelectPopup';
-import { useSelectContext } from '../../../context/single.select.context';
-import { searchPlaces } from '../../../modals/managePlaces';
+import SelectPopup from '../../../../components/SelectPopup/SelectPopup';
+import { useSelectContext } from '../../../../context/single.select.context';
+import { searchPlaces } from '../../../../modals/managePlaces';
 import '../Place.style.css';
 
 const MyComponent = ({ text }) => {
