@@ -370,7 +370,6 @@ const App = (props) => {
                                                 </>
                                             )
                                         }
-                                        <Route path={'/profile'} element={<div>fdakjdflajfl</div>} />
                                         <Route
                                             path='/profile'
                                             exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
