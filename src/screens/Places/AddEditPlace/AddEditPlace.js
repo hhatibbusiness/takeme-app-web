@@ -10,7 +10,7 @@ import DesireDescriptionText from './PlaceController/PlacesCommentText'
 import MyComponent from './PlaceController/SelectLocalePop'
 import PlaceType from './PlaceController/PlaceType/PlaceType.js'
 
-export default function AddEditPlace( { mode } ) {
+export default function AddEditPlace( { mode, paddingTop, admin, setAdmin} ) {
     const navigate = useNavigate()
     const { id } = useParams();
     const { addAlert } = useAlertContext();
@@ -26,6 +26,10 @@ export default function AddEditPlace( { mode } ) {
     const handlePlaceTypeChange = (value) => {
         setPlaceType(value);
     };
+
+    useEffect(() => {
+        setAdmin(true);
+    }, []);
 
     /// Set up the initial state of the page
     useLayoutEffect(() => {
@@ -88,7 +92,7 @@ export default function AddEditPlace( { mode } ) {
     }}
 
     return (
-        <div className={'AddDesireBody no-scroll'}>
+        <div className='AddDesireBody no-scroll' style={{ paddingTop: `${paddingTop}px`, position: 'fixed', top: 0, left: 0}}>
             <div dir='rtl' className="add-place-container">
                 {/**Name Input */}
                 <DesireNameInput placeholderText={'اسم المكان'} defaultValue={PlaceData?.name}  submitted={submitted} setValid={setNameValid} onValueChange={onNameChange}/>

@@ -310,6 +310,22 @@ const App = (props) => {
                                             exact
                                             element={<Forget setBackBtn={setBackBtn} />} setshowMidText={setShowMidText}
                                         />
+                                        <Route
+                                            path='/profile'
+                                            exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                        />
+                                        <Route
+                                            path='/desires'
+                                            exact element={<Desires paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                        />
+                                        <Route
+                                            path='/places'
+                                            exact element={<Places paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                        />
+                                        <Route
+                                            path='/palce/add'
+                                            exact element={<AddEditPlace paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                        />
                                         {
                                             props.roles?.includes('ROLE_Admin') && (
                                                 <>
@@ -373,14 +389,6 @@ const App = (props) => {
                                                         element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
                                                     />
                                                     <Route
-                                                        path='/profile'
-                                                        exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route
-                                                        path='/desires'
-                                                        exact element={<Desires paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route
                                                         path='/desire/add'
                                                         exact element={<AddEditDesire paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                                     />
@@ -391,14 +399,6 @@ const App = (props) => {
                                                     <Route
                                                         path='/desire/duplicate/:id'
                                                         exact element={<AddEditDesire mode={'duplicate'} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route
-                                                        path='/places'
-                                                        exact element={<Places paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route 
-                                                        path='/palce/add'
-                                                        exact element={<AddEditPlace paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                                     />
                                                     <Route
                                                         path='/place/edit/:id'

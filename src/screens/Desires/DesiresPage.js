@@ -6,7 +6,7 @@ import { useDesiresContext } from '../../context/desiresContext.js';
 import LanguagesShimmer from '../../components/ItemsShimmer/ItemsShimmer.js';
 
 
-function Desires() {
+function Desires({ paddingTop, admin, setAdmin}) {
   const [desireItems, setDesireItems] = useState(()=>{ 
     return sessionStorage.getItem('desires') ? JSON.parse(sessionStorage.getItem('desires')) : []  
   });
@@ -17,6 +17,10 @@ function Desires() {
   const [isDeletingDesire, setIsDeletingDesire] = useState(false);
   const { SearchDesiresFun, searchDesires, isSearchingDesires, isJustSearching, searchDesireTerm, sortTypeDesire } = useDesiresContext();
   const initSort = useRef(sortTypeDesire);
+
+  useEffect(() => {
+    setAdmin(true);
+  },[]);
 
   /// Cashe Data For The Desires Page
   useEffect(() => {
@@ -109,7 +113,7 @@ function Desires() {
 
 
   return (
-    <div dir='rtl' className='body'>
+    <div dir='rtl' className='body' style={{ paddingTop: `${paddingTop+50}px`, position: 'fixed', top: 50, left: 0}}>
       {!isSearchingDesires ?
         <ItemsList {...desiresData} />
         :

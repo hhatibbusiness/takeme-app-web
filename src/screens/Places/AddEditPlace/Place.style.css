@@ -1,11 +1,11 @@
 .AddDesireBody{
     margin: 0;
-    padding: 0;
     display: flex;
     flex-direction: column;
     height: 100vh;
     width: 100vw;
     scrollbar-width: none;
+    background-color: #FFFFFF;
 }
 .AddDesireBody.no-scroll {
     overflow: hidden;
