@@ -1,0 +1,48 @@
+.placeTypeElementContainer {
+    position: relative;
+    width: 100%;
+    border: 1px solid #E5E5E5;
+    border-radius: 10px;
+    background: none;
+    color: #E5E5E5;
+    text-align: right;
+    cursor: pointer;
+    user-select: none;
+}
+
+.placeTypeElementContainer__selected {
+    padding: 10px;
+    font-family: 'DIN Next LT Arabic';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17px;
+    color: #E5E5E5;
+}
+
+.placeTypeElementContainer__options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #E5E5E5;
+    border-radius: 10px;
+    background-color: #fff;
+    z-index: 1000;
+}
+
+.placeTypeElementContainer__option {
+    padding: 10px;
+    background-color: #fff;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.placeTypeElementContainer__option:hover {
+    background-color: #f1f1f1;
+}
+
+.placeTypeElementContainer__selected:focus,
+.placeTypeElementContainer__option:focus {
+    outline: none;
+    box-shadow: none;
+}

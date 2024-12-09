@@ -64,7 +64,7 @@ const Countries = ({ setBackBtn, setAdmin }) => {
             page: countries.page,
             searchKey: countries.searchKey
         },
-        displayName: 'countryName',
+        displayName: 'translations.fields.value',
         searchKey: countries.searchKey,
         dotsProps: id =>  ({
             urls: {
