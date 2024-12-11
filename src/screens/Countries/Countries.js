@@ -32,19 +32,20 @@ const Countries = ({ setBackBtn, setAdmin }) => {
         more: countries.moreSearchResults,
         items: countries.searchResults,
         paginationData: {
-            lan: 'ar',
+            lan: 'ar_SA',
             page: countries.searchResultsPage,
             searchKey: countries.searchKey
         },
-        displayName: 'countryName',
+        displayName: 'translations.fields.value',
         searchKey: countries.searchKey,
+        dots: true,
         dotsProps: id =>  ({
             urls: {
                 addUrl: `/countries/add/duplicate/${id}`,
                 editUrl: `/countries/edit/${id}`
             },
             deleteData: {
-                lan: 'ar',
+                lan: 'ar_SA',
                 countryId: id
             },
             deleteFun: deleteCountry,
@@ -60,19 +61,20 @@ const Countries = ({ setBackBtn, setAdmin }) => {
         more: countries.more,
         items: countries.countries,
         paginationData: {
-            lan: 'ar',
+            lan: 'ar_SA',
             page: countries.page,
             searchKey: countries.searchKey
         },
-        displayName: 'countryName',
+        displayName: 'translations.fields.value',
         searchKey: countries.searchKey,
+        dots: true,
         dotsProps: id =>  ({
             urls: {
                 addUrl: `/countries/add/duplicate/${id}`,
                 editUrl: `/countries/edit/${id}`,
             },
             deleteData: {
-                lan: 'ar',
+                lan: 'ar_SA',
                 countryId: id
             },
             deleteFun: deleteCountry,

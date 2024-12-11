@@ -176,17 +176,17 @@ const countriesReducer = (state, action) => {
                 ...state,
                 search: false
             }
-        case actionTypes.START_FETCHING_LOCALE_BY_ID:
+        case actionTypes.START_FETCHING_COUNTRY_BY_ID:
             return {
                 ...state,
                 fetchingCountryById: true
             }
-        case actionTypes.END_FETCHING_LOCALE_BY_ID:
+        case actionTypes.END_FETCHING_COUNTRY_BY_ID:
             return {
                 ...state,
                 fetchingCountryById: false
             }
-        case actionTypes.FETCH_LOCALE_BY_ID:
+        case actionTypes.FETCH_COUNTRY_BY_ID:
             return {
                 ...state,
                 country: action.country
@@ -261,7 +261,7 @@ const countriesActions = {
         try {
             dispatch({ type: actionTypes.START_ADDING_COUNTRY });
             const res = await axios.post(`${BaseURL}/countries/add?mLocale=${data.lan}`, data, { headers: { 'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': AUTH_TOKEN } });
-            dispatch({type: actionTypes.ADD_COUNTRY, country: res.data.output})
+            dispatch({type: actionTypes.ADD_COUNTRY, country: res.data})
             dispatch({ type: actionTypes.END_ADDING_COUNTRY });
             return res;
         } catch (e) {
@@ -338,11 +338,10 @@ const countriesActions = {
     },
     fetchCountryById: async (dispatch, data, addAlert) => {
         try {
-            dispatch({ type: actionTypes.START_FETCHING_LOCALE_BY_ID });
-            const res = await axios.get(`${BaseURL}/countries/get?mLocale=${data.lan}&countryId=${data.countryId}`);
-            dispatch({ type: actionTypes.FETCH_LOCALE_BY_ID, country: res.data.output });
-            // dispatch({type: actionTypes.FETCH_COUNTRY_BY_ID, country: res.data.output})
-            dispatch({ type: actionTypes.END_FETCHING_LOCALE_BY_ID });
+            dispatch({ type: actionTypes.START_FETCHING_COUNTRY_BY_ID });
+            const res = await axios.get(`${BaseURL}/countries/get?mLocale=${data.lan}&countryId=${data.countryId}&localeId=1`);
+            dispatch({type: actionTypes.FETCH_COUNTRY_BY_ID, country: res.data.output})
+            dispatch({ type: actionTypes.END_FETCHING_COUNTRY_BY_ID });
         } catch (e) {
             console.error(e.message);
             const alertData = {
@@ -356,7 +355,7 @@ const countriesActions = {
     searchForLocales: async (dispatch, data, addAlert) => {
         try {
             if (data.page == 0) dispatch({ type: actionTypes.START_SEARCHING_FOR_LOCALES });
-            const res = await axios.get(`${BaseURL}/locales/search?mLocale=${data.locale}&searchKey=${data.searchKey}&page=${data.page}&sortType=NEWEST`);
+            const res = await axios.get(`${BaseURL}/locales/search?mLocale=${data.lan}&searchKey=${data.searchKey}&page=${data.page}&sortType=NEWEST`);
             dispatch({ type: actionTypes.SEARCH_FOR_LOCALES, locales: res.data.output });
             dispatch({ type: actionTypes.END_SEARCHING_FOR_LOCALES });
         } catch (e) {
@@ -383,7 +382,7 @@ export const CountriesProvider = ({ children }) => {
     
     useEffect(() => {
         const data = {
-            lan: 'ar',
+            lan: 'ar_SA',
             page: 0,
             sortType: 'NEWEST',
         };
@@ -393,7 +392,7 @@ export const CountriesProvider = ({ children }) => {
 
     useEffect(() => {
         const data = {
-            lan: 'ar',
+            lan: 'ar_SA',
             localeId: 53,
             countryName: 'Egypt',
             timeZone: 'GMT+3',

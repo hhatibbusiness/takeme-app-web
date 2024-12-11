@@ -136,14 +136,14 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
     useEffect(() => {
         if (params.lanId) {
             const data = {
-                lan: 'ar',
+                lan: 'ar_SA',
                 countryId: params.lanId
             }
             fetchCountryById(data);
-            
+
         } else if (params.editId) {
             const data = {
-                lan: 'ar',
+                lan: 'ar_SA',
                 countryId: params.editId
             }
             fetchCountryById(data);
@@ -154,10 +154,9 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
     useEffect(() => {
         if (params.lanId) {
             // const locale = locales?.locales?.filter(l => l.id == params.lanId)[0];
-            
             if (countries.country) {
-                conNameChangeHandler(countries?.country?.countryName || '');
-                codeChangeHandler(countries?.country?.code || '');
+                conNameChangeHandler(countries?.country?.translations?.fields[0]?.value || '');
+                codeChangeHandler(countries?.country?.countryCode || '');
                 notesChangeHandler(countries?.country?.comments || '');
                 timeZoneChangeHandler(countries?.country?.timeZone || '');
             }
@@ -165,11 +164,10 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
         } else if (params.editId) {
             // const locale = locales.locales.filter(l => l.id == params.editId)[0];
             if (countries.country) {
-                conNameChangeHandler(countries?.country?.countryName || '');
-                codeChangeHandler(countries?.country?.code || '');
+                conNameChangeHandler(countries?.country?.translations?.fields[0]?.value || '');
+                codeChangeHandler(countries?.country?.countryCode || '');
                 notesChangeHandler(countries?.country?.comments || '');
                 timeZoneChangeHandler(countries?.country?.timeZone || '');
-
             }
 
             setValid(true);
@@ -290,12 +288,19 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
         if (params.editId) {
             const data = {
                 id: params.editId,
-                name: conName.value,
-                code: code.value,
+                localeId: 1,
+                countryCode: code.value,
                 comments: notes.value,
-                lan: 'ar',
-                languageId: countries?.selectedLanguage?.id,
-                locale: `${countries?.selectedLanguage.code}_${code.value}`,
+                translations: {
+                    localeId: 1,
+                    fields: [ { 
+                        key: "name",
+                        value: conName.value
+                    } ]
+                },
+                lan: 'ar_SA',
+                //locale: `${countries?.selectedLanguage?.code}_${code?.value}`,
+                //languageId: countries?.selectedLanguage?.id
             };
 
             console.log(data);
@@ -303,13 +308,19 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
             res = await editCountry(data);
         } else {
             const data = {
-                name: conName.value,
-                timeZone: timeZone.value,
-                code: code.value,
+                localeId: 1,
+                countryCode: code.value,
                 comments: notes.value,
-                lan: 'ar',
-                locale: `${countries?.selectedLanguage.code}_${code.value}`,
-                languageId: countries?.selectedLanguage?.id
+                translations: {
+                    localeId: 1,
+                    fields: [ { 
+                        key: "name",
+                        value: conName.value
+                    } ]
+                },
+                lan: 'ar_SA',
+                //locale: `${countries?.selectedLanguage?.code}_${code?.value}`,
+                //languageId: countries?.selectedLanguage?.id
             };
     
             res = await addCountry(data);
@@ -346,7 +357,7 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
             more: countries.localesMore,
             items: countries.locales,
             paginationData: {
-                lan: 'ar',
+                lan: 'ar_SA',
                 page: countries.localesPage,
                 searchKey: countries.localesSearchKey
             },
@@ -379,15 +390,16 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
         more: countries.localesMore,
         items: countries.locales,
         paginationData: {
-            lan: 'ar',
+            lan: 'ar_SA',
             page: countries.localesPage,
             searchKey: countries.localesSearchKey
         },
-        searchData: value =>({
-            lan: 'ar',
+        searchData: {
+            lan: 'ar_SA',
             page: 0,
-            searchKey: value
-        }),
+            searchKey: countries.localesSearchKey
+        },
+        setSearchKey: (k)=> {console.log('search key', k)},
         displayName: 'locale',
         searchKey: countries.localesSearchKey,
         dotsProps: id => ({
@@ -440,7 +452,7 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
                 />
                 <PopupInput
                     data={{
-                        lan: 'ar',
+                        lan: 'ar_SA',
                         page: 0,
                         searchKey: ''
                     }}
