@@ -1,6 +1,6 @@
 export const formValidator = (rules, value) => {
-    console.log(rules.maxLength);
-    console.log(value);
+    //console.log(rules.maxLength);
+    //console.log(value);
     
     let InputIsValid = true;
     if (!rules) return true;
@@ -9,7 +9,7 @@ export const formValidator = (rules, value) => {
     }
 
     if (rules.maxLength) {
-        console.log(rules)
+        //console.log(rules)
         InputIsValid = value?.length <= rules?.maxLength.value && InputIsValid;
     }
 
@@ -17,7 +17,7 @@ export const formValidator = (rules, value) => {
         InputIsValid = value?.length >= rules?.minLength.value && InputIsValid;
     }
 
-    console.log(InputIsValid);
+    //console.log(InputIsValid);
 
     return InputIsValid;
 }
