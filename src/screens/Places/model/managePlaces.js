@@ -1,5 +1,5 @@
-//import  { BaseURL, AUTH_TOKEN}  from "../assets/constants/Base.js"
-//import axios from 'axios';
+import  { BaseURL, AUTH_TOKEN}  from "../../../assets/constants/Base";
+import axios from 'axios';
 
 function generateRandomPlaces(count) {
     const randomString = (length) => Math.random().toString(36).substring(2, 2 + length);
@@ -21,10 +21,10 @@ export async function EditPlace(object) {
     console.log("EditPlace", object)
 }
 
-export async function getPlaces({page}){
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log(`Fetching places for page ${page}`);
-    return generateRandomPlaces(10);
+export async function getPlaces({mLocale='ar_SA', page, isAscending=true}) {
+    const url = `${BaseURL}/places/list?mLocale=${mLocale}&page=${page}&itemCount=0&ascending=${isAscending}`;
+    const res = await axios.get(url); 
+    return res.data.output;
 }
 
 export async function searchPlacesAPI({searchText, page, sortType}){

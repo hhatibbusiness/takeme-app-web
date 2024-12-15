@@ -6,9 +6,8 @@ import { usePlacesContext } from '../../context/placesContext.js';
 import LanguagesShimmer from '../../components/ItemsShimmer/ItemsShimmer.js';
 
 
-export default function Places({ paddingTop, admin, setAdmin }) {
+export default function Places({ paddingTop, setBackBtn, setAdmin }) {
     const [placeItems, setPlaceItems] = useState(()=>{
-        console.log(sessionStorage.getItem('places') ? JSON.parse(sessionStorage.getItem('places')) : [])
         return sessionStorage.getItem('places') ? JSON.parse(sessionStorage.getItem('places')) : []  
     });
     const [page, setPage] = useState(() => {
@@ -21,10 +20,13 @@ export default function Places({ paddingTop, admin, setAdmin }) {
     
     useEffect(() => {
         setAdmin(true);
+        setBackBtn(true);
         return () => {
             setAdmin(false);
+            setBackBtn(false);
         }
     }, []);
+
     /// Cashe Data For The places Page
     useEffect(() => {
         sessionStorage.setItem('places', JSON.stringify(placeItems));
@@ -72,7 +74,7 @@ export default function Places({ paddingTop, admin, setAdmin }) {
         items: placeItems,
         page: page,
         searchKey: searchPlaceTerm,
-        displayName: 'name',
+        displayName: 'translations.fields.value',
         isSearching : isSearchingPlaces,
         paginationData: { page: page, isAscending: sortTypePlace === 'ASCENDING' },
         more: more,
@@ -118,7 +120,7 @@ export default function Places({ paddingTop, admin, setAdmin }) {
 
 
     return (
-        <div dir='rtl' className='Places_body' style={{ paddingTop: `${paddingTop+50}px`, position: 'fixed', top: 0, left: 0}}>
+        <div dir='rtl' className='Places_body' style={{ paddingTop: `${paddingTop+30}px`, position: 'fixed', top: 0, left: 0}}>
         {!isSearchingPlaces ?
             <ItemsList {...placesData} />
             :
