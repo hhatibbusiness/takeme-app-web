@@ -305,77 +305,77 @@ const App = (props) => {
                                             exact
                                             element={<Forget setBackBtn={setBackBtn} />} setshowMidText={setShowMidText}
                                         />
-                                        {
-                                            props.roles?.includes('ROLE_Admin') && (
-                                                <>
-                                                    <Route
-                                                        path='/languages'
-                                                        element={<Languages setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route
-                                                        path='/languages/add'
-                                                        exact
-                                                        element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route
-                                                        path='/languages/add/duplicate/:lanId'
-                                                        exact
-                                                        element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route
-                                                        path='/languages/edit/:editId'
-                                                        exact
-                                                        element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route
-                                                        path='/locales'
-                                                        exact
-                                                        element={<Locales setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route
-                                                        path="/locales/add"
-                                                        exact
-                                                        element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route
-                                                        path='/locales/add/duplicate/:lanId'
-                                                        exact
-                                                        element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route
-                                                        path='/locales/edit/:editId'
-                                                        exact
-                                                        element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route
-                                                        path='/countries'
-                                                        exact
-                                                        element={<Countries setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route
-                                                        path='/countries/add'
-                                                        exact
-                                                        element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route
-                                                        path='/countries/add/duplicate/:lanId'
-                                                        exact
-                                                        element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                    <Route
-                                                        path='/countries/edit/:editId'
-                                                        exact
-                                                        element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
-                                                    />
-                                                </>
-                                            )
-                                        }
                                         <Route
                                             path='/profile'
                                             exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                         />
 
                                     </Route>
+                                    {
+                                        props.roles?.includes('ROLE_Admin') && (
+                                            <>
+                                                <Route
+                                                    path='/languages'
+                                                    element={<Languages setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/languages/add'
+                                                    exact
+                                                    element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/languages/add/duplicate/:lanId'
+                                                    exact
+                                                    element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/languages/edit/:editId'
+                                                    exact
+                                                    element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/locales'
+                                                    exact
+                                                    element={<Locales setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path="/locales/add"
+                                                    exact
+                                                    element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/locales/add/duplicate/:lanId'
+                                                    exact
+                                                    element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/locales/edit/:editId'
+                                                    exact
+                                                    element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/countries'
+                                                    exact
+                                                    element={<Countries setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/countries/add'
+                                                    exact
+                                                    element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/countries/add/duplicate/:lanId'
+                                                    exact
+                                                    element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/countries/edit/:editId'
+                                                    exact
+                                                    element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                            </>
+                                        )
+                                    }
                                 </Routes>
                             </Suspense>
                         </>

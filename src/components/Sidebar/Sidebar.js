@@ -94,9 +94,9 @@ const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, chang
           })
     }, []);
 
-    useEffect(() => {
-        console.log(roles);
-    });
+    //useEffect(() => {
+    //    console.log(roles);
+    //});
 
     // useEffect(() => {
 
