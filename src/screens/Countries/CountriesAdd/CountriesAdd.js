@@ -33,7 +33,7 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
 
     useEffect(() => {
         if(navbarGetter) {
-            setPaddingTop(navbarGetter.getBoundingClientRect().height);
+            setPaddingTop(navbarGetter.getBoundingClientRect().height+20);
         }
     });
 
@@ -110,26 +110,6 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
         valid: false
     });
 
-    const [timeZone, setTimeZone] = useState({
-        value: '',
-        rules: {
-            maxLength: {
-                value: 20,
-                valid: false,
-                message: 'اكبر عدد من الحروف 20 حرف'
-
-            },
-            required: {
-                value: true,
-                valid: false,
-                message: "هذا الحقل مطلوب"
-
-            }
-        },
-        touched: false,
-        valid: false
-    });
-
     const params = useParams();
     const navigate = useNavigate();
 
@@ -158,7 +138,6 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
                 conNameChangeHandler(countries?.country?.translations?.fields[0]?.value || '');
                 codeChangeHandler(countries?.country?.countryCode || '');
                 notesChangeHandler(countries?.country?.comments || '');
-                timeZoneChangeHandler(countries?.country?.timeZone || '');
             }
             setValid(true);
         } else if (params.editId) {
@@ -167,7 +146,6 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
                 conNameChangeHandler(countries?.country?.translations?.fields[0]?.value || '');
                 codeChangeHandler(countries?.country?.countryCode || '');
                 notesChangeHandler(countries?.country?.comments || '');
-                timeZoneChangeHandler(countries?.country?.timeZone || '');
             }
 
             setValid(true);
@@ -199,7 +177,7 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
             }
         });
 
-        setValid(inputIsValid && code.valid && timeZone.value);
+        setValid(inputIsValid && code.valid);
     }
 
     const codeChangeHandler = value => {
@@ -225,33 +203,6 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
 
         setValid(inputIsValid && conName.valid && notes.valid);
     }
-
-    const timeZoneChangeHandler = value => {
-        setSubmitted(false);
-
-        const inputIsValid = formValidator(timeZone.rules, value, setTimeZone, timeZone);
-        setTimeZone({
-            ...timeZone,
-            touched: true,
-            valid: inputIsValid,
-            value: value,
-            rules: {
-                ...timeZone.rules,
-                required: {
-                    ...timeZone.rules.required,
-                    valid: value != ''
-                },
-                maxLength: {
-                    ...timeZone.rules.maxLength,
-                    valid: value.length <= timeZone.rules.maxLength.value
-                }
-            }
-
-        });
-
-        setValid(conName.valid && inputIsValid && code.valid && notes.valid);
-    }
-
 
     const notesChangeHandler = value => {
         setSubmitted(false);
@@ -302,8 +253,6 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
                 //locale: `${countries?.selectedLanguage?.code}_${code?.value}`,
                 //languageId: countries?.selectedLanguage?.id
             };
-
-            console.log(data);
     
             res = await editCountry(data);
         } else {
@@ -337,10 +286,6 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
             });
             setNotes({
                 ...notes,
-                value: ''
-            });
-            setTimeZone({
-                ...timeZone,
                 value: ''
             });
         }
@@ -431,16 +376,6 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
                     placeholder={'اسم الدولة'}
                 />
                 <Input
-                    touched={timeZone.touched}
-                    valid={timeZone.valid}
-                    rules={timeZone.rules}
-                    submitted={submitted}
-                    required={timeZone.rules.required}
-                    value={timeZone.value}
-                    setValue={value => timeZoneChangeHandler(value)}
-                    placeholder={'المنطقة الزمنية'}
-                />
-                <Input
                     touched={code.touched}
                     valid={code.valid}
                     rules={code.rules}
@@ -462,7 +397,7 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
                     inputClickHandler={inputClickHandler}
                     selectedItem={countries.selectedLocale}
                     displayName="locale"
-                /> 
+                />
                 <TextArea
                     touched={notes.touched}
                     valid={notes.valid}

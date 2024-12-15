@@ -279,7 +279,7 @@ const countriesActions = {
         try {
             dispatch({ type: actionTypes.START_EDITING_COUNTRY });
             const res = await axios.put(`${BaseURL}/countries/update?mLocale=${data.lan}`, data, { headers: { 'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': AUTH_TOKEN } });
-            dispatch({ type: actionTypes.EDIT_COUNTRY, country: res.data.output });
+            dispatch({ type: actionTypes.EDIT_COUNTRY, country: res.data });
             dispatch({ type: actionTypes.END_EDITING_COUNTRY });
             return res;
         } catch (e) {
