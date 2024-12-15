@@ -369,13 +369,13 @@ const App = (props) => {
                                                         exact
                                                         element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
                                                     />
+                                                    <Route
+                                                        path={'/places'}
+                                                        exact element={<Places paddingTop={navHeight} admin={admin} setAdmin={setAdmin}/>}
+                                                    />
                                                 </>
                                             )
                                         }
-                                        <Route
-                                            path={'/places'}
-                                            exact element={<Places paddingTop={navHeight} admin={admin} setAdmin={setAdmin}/>}
-                                        />
                                         <Route
                                             path='/profile'
                                             exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
