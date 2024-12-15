@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { useCountriesContext } from '../../context/countries.context';
 import CountriesShimmer from '../../components/ItemsShimmer/ItemsShimmer';
 import ItemsList from '../../components/ItemsList/ItemsList';
@@ -7,6 +7,8 @@ import './Countries.css';
 const Countries = ({ setBackBtn, setAdmin }) => {
     const { countries, fetchCountries, searchCountries, deleteCountry } = useCountriesContext();
     const [paddingTop, setPaddingTop] = useState(0);
+
+    const parentRef = useRef(null);
 
     useEffect(() => {
         setAdmin(true);
@@ -23,6 +25,8 @@ const Countries = ({ setBackBtn, setAdmin }) => {
         if(navbarGetter) {
             setPaddingTop(navbarGetter.getBoundingClientRect().height);
         }
+
+        console.log(countries);
     });
 
 
@@ -52,7 +56,8 @@ const Countries = ({ setBackBtn, setAdmin }) => {
             isItem: true,
             deleting: countries?.deleting
         }),
-        isSearching: countries.search
+        isSearching: countries.search,
+        parentScroller: parentRef.current
     }
 
     const itemsListPropsMain = {
@@ -81,11 +86,12 @@ const Countries = ({ setBackBtn, setAdmin }) => {
             isItem: true,
             deleting: countries?.deleting
         }),
-        isSearching: countries.search
+        isSearching: countries.search,
+        parentScroller: parentRef.current
     }
 
     return (
-        <div className='Countries' style={{paddingTop: `${paddingTop}px`}}>
+        <div className='Countries' ref={parentRef} style={{paddingTop: `${paddingTop}px`}}>
             {
                 countries.search ? (
                     countries.searching ? (

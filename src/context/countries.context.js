@@ -204,7 +204,7 @@ const countriesReducer = (state, action) => {
         case actionTypes.SEARCH_FOR_LOCALES:
             return {
                 ...state,
-                locales: [...state.locales, ...action.locales],
+                locales: action.page == 0 ? [...action.locales] : [...state.locales, ...action.locales],
                 localesPage: state.localesPage + 1,
                 localesMore: action.locales.length >= 10,
                 localesSearchKey: action.searchKey
@@ -356,7 +356,7 @@ const countriesActions = {
         try {
             if (data.page == 0) dispatch({ type: actionTypes.START_SEARCHING_FOR_LOCALES });
             const res = await axios.get(`${BaseURL}/locales/search?mLocale=${data.lan}&searchKey=${data.searchKey}&page=${data.page}&sortType=NEWEST`);
-            dispatch({ type: actionTypes.SEARCH_FOR_LOCALES, locales: res.data.output });
+            dispatch({ type: actionTypes.SEARCH_FOR_LOCALES, locales: res.data.output, page: data.page });
             dispatch({ type: actionTypes.END_SEARCHING_FOR_LOCALES });
         } catch (e) {
             const alertData = {
@@ -370,7 +370,6 @@ const countriesActions = {
     changeSelectedLocale: (dispatch, locale) => {
         dispatch({type: actionTypes.CHANGE_SELECTED_LOCALE, locale})
     }
-
 }
 
 

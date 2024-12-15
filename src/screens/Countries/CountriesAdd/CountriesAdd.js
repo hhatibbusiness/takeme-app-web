@@ -18,6 +18,8 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
     const { countries, fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale } = useCountriesContext();
     const [paddingTop, setPaddingTop] = useState(0);
 
+    const [selectSearchKey, setSelectSearchKey] = useState('');
+
     useEffect(() => {
         changeSearchActive(false);
         setBackBtn(true);
@@ -229,9 +231,7 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
     }
 
     const addLocaleHandler = async () => {
-
         setSubmitted(true);
-
         if (!valid) return;
 
         let res;
@@ -337,16 +337,16 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
         paginationData: {
             lan: 'ar_SA',
             page: countries.localesPage,
-            searchKey: countries.localesSearchKey
+            searchKey: selectSearchKey
         },
         searchData: {
             lan: 'ar_SA',
             page: 0,
-            searchKey: countries.localesSearchKey
+            searchKey: selectSearchKey
         },
         setSearchKey: (k)=> {console.log('search key', k)},
         displayName: 'locale',
-        searchKey: countries.localesSearchKey,
+        searchKey: selectSearchKey,
         dotsProps: id => ({
         }),
         isSearching: true,
