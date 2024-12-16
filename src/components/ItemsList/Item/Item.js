@@ -39,9 +39,9 @@ const Item = ({
         }, object);
     }
     
-    const itemValue = getValueFromNestedObject(item, displayName);
-    
+
     function getValueFromNestedObject(object, keyPath) {
+        console.log(item, keyPath);
         return keyPath.split('.').reduce((current, key) => {
             // If current value is an array, loop through it
             if (Array.isArray(current)) {
@@ -56,7 +56,9 @@ const Item = ({
             return current?.[key];
         }, object);
     }
-    
+
+    const itemValue = getValueFromNestedObject(item, displayName);
+
     return (
         <div onClick={(e) => {
             e.stopPropagation();
@@ -77,7 +79,7 @@ const Item = ({
                         <div onClick={e => {
                             e.stopPropagation();
                             e.preventDefault();
-                            setSelected(!selected)
+                            setSelected(!selected);
                         }} className='Item__select--box'>
                             {
                                 selected ? (

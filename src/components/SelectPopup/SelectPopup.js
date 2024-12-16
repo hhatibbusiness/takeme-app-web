@@ -71,7 +71,8 @@ const SelectPopup = ({
                                     window={window}
                                     selectedItem={selectedItem}
                                     itemClickFun={itemClickFun}
-                                    dotsProps={( ) => {}}
+                                    dotsProps={(  ) => {}}
+                                    searchKey={searchKey}
                                 />
                         )
                     }
