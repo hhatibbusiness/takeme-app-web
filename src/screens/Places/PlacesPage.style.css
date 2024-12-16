@@ -1,0 +1,16 @@
+.Places_body{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    background-color: #FFFFFF;
+  }
+  
+  .cards-list{
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+    width: 92%;
+    background-color: #FFFFFF;
+  }
