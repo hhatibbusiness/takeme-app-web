@@ -57,9 +57,6 @@ const Item = ({
         }, object);
     }
     
-    const itemValue = getValueFromNestedObject(item, displayName);
-    
-    
     return (
         <div onClick={(e) => {
             e.stopPropagation();
