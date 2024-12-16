@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Input from '../../../../components/Input/Input';
+import Input from '../../../../components/InputAdmin/Input';
 import { formValidator } from '../../../../utilty/formValidator'; 
 
 export default function DesireNameInput ({ defaultValue, submitted, setValid, onValueChange, placeholderText }) {
