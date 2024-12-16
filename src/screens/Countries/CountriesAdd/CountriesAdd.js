@@ -344,7 +344,7 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
             page: 0,
             searchKey: selectSearchKey
         },
-        setSearchKey: (k)=> {console.log('search key', k)},
+        setSearchKey: setSelectSearchKey,
         displayName: 'locale',
         searchKey: selectSearchKey,
         dotsProps: id => ({
