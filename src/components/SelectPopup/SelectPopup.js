@@ -35,7 +35,7 @@ const SelectPopup = ({
     
     const parentScroller = useRef();
 
-    useEffect(() => {        
+    useEffect(() => {
         itemsFun(searchData);
     }, [debouncedSearchTerm]);
 
@@ -71,7 +71,8 @@ const SelectPopup = ({
                                     window={window}
                                     selectedItem={selectedItem}
                                     itemClickFun={itemClickFun}
-                                    dotsProps={( ) => {}}
+                                    dotsProps={(  ) => {}}
+                                    searchKey={searchKey}
                                 />
                         )
                     }

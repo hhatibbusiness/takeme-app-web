@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {useNavbarContext} from "../../context/navbar.context";
+import {useNavbarContext} from "../../../context/navbar.context";
 import "./Desire.style.css";
-import { addDesire, EditDesire, getDesireWithNeeds } from '../../modals/manageDesires';
-import { useAlertContext } from "../../context/alerts.context";
-import ImageLoader from "../../utilty/ImageLoader";
-import PopUp from "../../components/PopUp/PopUp";
-import CircleImageLabel from "../../components/CircleImageLabel/CircleImageLabel";
+import { addDesire, EditDesire, getDesireWithNeeds } from '../model/manageDesires';
+import { useAlertContext } from "../../../context/alerts.context";
+import ImageLoader from "../../../utilty/ImageLoader";
+import PopUp from "../../../components/PopUp/PopUp";
+import CircleImageLabel from "../../../components/CircleImageLabel/CircleImageLabel";
 import DesireNameInput from './DesiresController/DesireNameInput'
 import DesireDescriptionText from './DesiresController/DesireDescriptionText'
 import Shimmer from './shimmer/shimmer'

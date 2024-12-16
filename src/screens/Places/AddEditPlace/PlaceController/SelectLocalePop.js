@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import SelectPopup from '../../../../components/SelectPopup/SelectPopup';
 import { useSelectContext } from '../../../../context/single.select.context';
-import { searchPlaces } from '../../model/managePlaces';
+import { searchPlacesAPI } from '../../model/managePlaces';
 import '../Place.style.css';
 
 const MyComponent = ({ text }) => {
@@ -19,13 +19,13 @@ const MyComponent = ({ text }) => {
             console.log("Searching Places");
             setSearching(true);
             setMore(false);
-            const data = await searchPlaces(dataProps);
+            const data = await searchPlacesAPI(dataProps);
             setItems(data);
             setSearching(false);
         } else {
             console.log("List Places");
             setMore(true);
-            const data = await searchPlaces(dataProps);
+            const data = await searchPlacesAPI(dataProps);
             Listitems.current = Listitems.current.concat(data);
             //console.log("List Items", Listitems.current);
             setItems(Listitems.current);

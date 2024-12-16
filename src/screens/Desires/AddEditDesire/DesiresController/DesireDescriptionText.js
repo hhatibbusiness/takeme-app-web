@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import TextArea from '../../../components/TextArea/TextArea';
-import { formValidator } from '../../../utilty/formValidator'; 
+import TextArea from '../../../../components/TextArea/TextArea';
+import { formValidator } from '../../../../utilty/formValidator'; 
 
 export default function DesireDescriptionText ({ defaultValue, submitted, setValid, onValueChange }) {
     const [desireDescription, setDesireDescription] = useState({

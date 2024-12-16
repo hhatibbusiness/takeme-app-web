@@ -10,7 +10,8 @@ import DesireDescriptionText from './PlaceController/PlacesCommentText'
 import MyComponent from './PlaceController/SelectLocalePop'
 import PlaceType from './PlaceController/PlaceType/PlaceType.js'
 
-export default function AddEditPlace( { mode } ) {
+
+export default function AddEditPlace( { mode, setBackBtn, setAdmin } ) {
     const navigate = useNavigate()
     const { id } = useParams();
     const { addAlert } = useAlertContext();
@@ -23,19 +24,23 @@ export default function AddEditPlace( { mode } ) {
     const [desireDescription, setDesireDescription] = useState('');
     const [placeType, setPlaceType] = useState('');
 
-    const handlePlaceTypeChange = (value) => {
-        setPlaceType(value);
-    };
-
     /// Set up the initial state of the page
     useLayoutEffect(() => {
         window.scrollTo(0, 0);
         changeSearchActive(false);
+        setBackBtn(true);
+        setAdmin(true);
         return () => {
             changeSearchActive(true);
+            setBackBtn(false);
+            setAdmin(false);
         }
         // eslint-disable-next-line
     }, []);
+
+    const handlePlaceTypeChange = (value) => {
+        setPlaceType(value);
+    };
 
     const onNameChange = (value) => {
         setDesireName(value);
@@ -88,7 +93,7 @@ export default function AddEditPlace( { mode } ) {
     }}
 
     return (
-        <div className={'AddDesireBody no-scroll'}>
+        <div className='AddDesireBody' style={{paddingTop: 65}}>
             <div dir='rtl' className="add-place-container">
                 {/**Name Input */}
                 <DesireNameInput placeholderText={'اسم المكان'} defaultValue={PlaceData?.name}  submitted={submitted} setValid={setNameValid} onValueChange={onNameChange}/>

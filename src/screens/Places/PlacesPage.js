@@ -99,7 +99,7 @@ export default function Places({ paddingTop, setBackBtn, setAdmin }) {
         items: searchPlaces,
         page: 0,
         searchKey: searchPlaceTerm,
-        displayName: 'name',
+        displayName: 'translations.fields.value',
         isSearching : isSearchingPlaces,
         paginationData: {},
         more: false,
