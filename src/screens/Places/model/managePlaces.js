@@ -14,7 +14,19 @@ function generateRandomPlaces(count) {
 }
 
 export async function addPlace(object) {
-    console.log("AddPlace", object)
+    try {
+        const url = `${BaseURL}/places/add?mLocale=ar_SA`;
+        const headers = {
+            'accept': '*/*',
+            'Content-Type': 'application/json',
+            'Authorization': AUTH_TOKEN
+        }
+
+        const res = await axios.post(url, object, { headers });
+        return res.data;
+    } catch (error) {
+        console.log("Error", error)
+    }
 }
 
 export async function EditPlace(object) {
@@ -22,9 +34,13 @@ export async function EditPlace(object) {
 }
 
 export async function getPlaces({mLocale='ar_SA', page, isAscending=true}) {
-    const url = `${BaseURL}/places/list?mLocale=${mLocale}&page=${page}&itemCount=0&ascending=${isAscending}`;
-    const res = await axios.get(url); 
-    return res.data.output;
+    try {
+        const url = `${BaseURL}/places/list?mLocale=${mLocale}&page=${page}&itemCount=0&ascending=${isAscending}`;
+        const res = await axios.get(url);
+        return res.data;    
+    } catch (error) {
+        console.log("Error", error)
+    }
 }
 
 export async function searchPlacesAPI({searchText, page, sortType}){

@@ -4,9 +4,10 @@ import { getPlaces, DeletePlace } from '../../screens/Places/model/managePlaces.
 import ItemsList from '../../components/ItemsList/ItemsList.js';
 import { usePlacesContext } from '../../context/placesContext.js';
 import LanguagesShimmer from '../../components/ItemsShimmer/ItemsShimmer.js';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 
-export default function Places({ paddingTop, setBackBtn, setAdmin }) {
+export default function Places({ setBackBtn, setAdmin }) {
     const [placeItems, setPlaceItems] = useState(()=>{
         return sessionStorage.getItem('places') ? JSON.parse(sessionStorage.getItem('places')) : []  
     });
@@ -17,7 +18,8 @@ export default function Places({ paddingTop, setBackBtn, setAdmin }) {
     const [isDeletingPlace, setIsDeletingPlace] = useState(false);
     const { SearchPlacesFun, searchPlaces, isSearchingPlaces, isJustSearching, searchPlaceTerm, sortTypePlace } = usePlacesContext();
     const initSort = useRef(sortTypePlace);
-    
+    const parentRef = useRef(null);
+
     useEffect(() => {
         setAdmin(true);
         setBackBtn(true);
@@ -33,12 +35,16 @@ export default function Places({ paddingTop, setBackBtn, setAdmin }) {
         sessionStorage.setItem('placesPage', JSON.stringify(page));
     }, [placeItems, page]);
 
+
     // Fetch places DATA from the server 
     const getPlacesFun = async (paginationData) => {
+        console.log('FETCHING PLACES', paginationData);
         const response = await getPlaces(paginationData);
-        setPlaceItems(prev=> [...prev, ...response]);
-        setPage(prev=> prev + 1);
-        setMore(response.length > 0);
+        if (response.status) {
+            setPlaceItems(prev=> [...prev, ...response.output]);
+            setPage(prev=> prev + 1);
+            setMore(prev=> response.output.length >= 10);
+        }
     };
 
     /// Init Data when start the page or Reset Page
@@ -47,6 +53,7 @@ export default function Places({ paddingTop, setBackBtn, setAdmin }) {
         getPlacesFun({ page: 0, isAscending: sortTypePlace === 'ASCENDING' });
         // eslint-disable-next-line
     }, [page]);
+
 
     /// Change Sort When chnage From the init Sort
     useEffect(() => {
@@ -62,8 +69,8 @@ export default function Places({ paddingTop, setBackBtn, setAdmin }) {
         setIsDeletingPlace(true);
         const response = await DeletePlace(placeId);
         if (response?.status || true) {
-        const newPlaces = placeItems.filter((item) => item.id !== placeId.PlaceID);
-        setPlaceItems(newPlaces);
+            const newPlaces = placeItems.filter((item) => item.id !== placeId.PlaceID);
+            setPlaceItems(newPlaces);
         }
         setIsDeletingPlace(false);
     };
@@ -71,6 +78,7 @@ export default function Places({ paddingTop, setBackBtn, setAdmin }) {
 
     ///** The View Props *///
     const placesData = {
+        itemsFun: getPlacesFun,
         items: placeItems,
         page: page,
         searchKey: searchPlaceTerm,
@@ -78,7 +86,6 @@ export default function Places({ paddingTop, setBackBtn, setAdmin }) {
         isSearching : isSearchingPlaces,
         paginationData: { page: page, isAscending: sortTypePlace === 'ASCENDING' },
         more: more,
-        itemsFun: getPlacesFun,
         dots: true,
         dotsProps: id => ({
         urls: {
@@ -91,7 +98,9 @@ export default function Places({ paddingTop, setBackBtn, setAdmin }) {
         deleteFun: DeletePlaceFun,
         isItem: true,
         deleting: isDeletingPlace
-        })
+        }),
+        window: false,
+        parentScroller: parentRef.current
     }
 
     ///** The Search View Props */
@@ -105,22 +114,24 @@ export default function Places({ paddingTop, setBackBtn, setAdmin }) {
         more: false,
         itemsFun: SearchPlacesFun,
         dotsProps: id => ({
-        urls: {
-            addUrl: `/places/duplicate/${id}`,
-            editUrl: `/places/edit/${id}`,
-        },
-        deleteData: {
-            PlaceID: id
-        },
-        deleteFun: DeletePlaceFun,
-        isItem: true,
-        deleting: isDeletingPlace
-        })
+            urls: {
+                addUrl: `/places/duplicate/${id}`,
+                editUrl: `/places/edit/${id}`,
+            },
+            deleteData: {
+                PlaceID: id
+            },
+            deleteFun: DeletePlaceFun,
+            isItem: true,
+            deleting: isDeletingPlace
+        }),
+        window: false,
+        parentScroller: parentRef.current
     };
 
 
     return (
-        <div dir='rtl' className='Places_body' style={{ paddingTop: `${paddingTop+30}px`, position: 'fixed', top: 0, left: 0}}>
+        <div dir='rtl' ref={parentRef} className='Places_body' style={{ paddingTop: `${115}px`, position: 'fixed', top: 0, left: 0}}>
         {!isSearchingPlaces ?
             <ItemsList {...placesData} />
             :

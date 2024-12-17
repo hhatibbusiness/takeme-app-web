@@ -57,6 +57,7 @@ const SelectPopup = ({
                             <ItemsShimmer dots={dots} />
                         ) : (
                                 <ItemsList
+                                    itemsFun={itemsFun}
                                     items={items}
                                     page={page}
                                     more={more}

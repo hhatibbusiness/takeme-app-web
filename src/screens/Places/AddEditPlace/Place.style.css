@@ -71,9 +71,9 @@
     color: #b5b5b5;
 
     white-space: normal;
-    padding: 15px; /* Add padding for better readability */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    resize: none; /* Prevent resizing if desired */
+    padding: 15px; 
+    box-sizing: border-box; 
+    resize: none;
 }
 
 
@@ -159,6 +159,7 @@
 
     width: 95%;
     height: 13%;
+    min-height: 60px;
     margin: 20px auto;
     border-radius: 10px;
 

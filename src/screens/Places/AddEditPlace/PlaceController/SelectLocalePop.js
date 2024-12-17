@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import SelectPopup from '../../../../components/SelectPopup/SelectPopup';
 import { useSelectContext } from '../../../../context/single.select.context';
-import { searchPlacesAPI } from '../../model/managePlaces';
+import { searchPlacesAPI, getPlaces } from '../../model/managePlaces';
 import '../Place.style.css';
 
 const MyComponent = ({ text }) => {
@@ -25,11 +25,13 @@ const MyComponent = ({ text }) => {
         } else {
             console.log("List Places");
             setMore(true);
-            const data = await searchPlacesAPI(dataProps);
-            Listitems.current = Listitems.current.concat(data);
-            //console.log("List Items", Listitems.current);
-            setItems(Listitems.current);
-            setPage(prev=> prev+1);
+            const data = await getPlaces({page: page});
+            if (data.status) {
+                Listitems.current = Listitems.current.concat(data.output);
+                setItems(Listitems.current);
+                setPage(prev=> prev+1);
+                
+            }
         }
     };
 
@@ -47,7 +49,7 @@ const MyComponent = ({ text }) => {
         searchKey: searchText,
         paginationData: {},
         searchData: {},
-        displayName: 'name',
+        displayName: 'translations.fields.value',
         isSearching: true, /// change
         searching: searching,  /// chnage
 
