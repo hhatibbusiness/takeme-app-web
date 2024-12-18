@@ -4,7 +4,6 @@ import { getPlaces, DeletePlace } from '../../screens/Places/model/managePlaces.
 import ItemsList from '../../components/ItemsList/ItemsList.js';
 import { usePlacesContext } from '../../context/placesContext.js';
 import LanguagesShimmer from '../../components/ItemsShimmer/ItemsShimmer.js';
-import { faL } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function Places({ setBackBtn, setAdmin }) {

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Input from '../../../../components/InputAdmin/Input';
 import { formValidator } from '../../../../utilty/formValidator'; 
 
+
 export default function NameInput ({ defaultValue, submitted, setValid, onValueChange, placeholderText, maxLength=20, Required=true }) {
     const [Name, setName] = useState({
-        value: defaultValue || '',
+        value: '',
         rules: {
             maxLength: {
                 value: maxLength,
@@ -43,9 +44,12 @@ export default function NameInput ({ defaultValue, submitted, setValid, onValueC
         setValid(inputIsValid);
         onValueChange(value);
     }
-    useEffect(()=> {
-        NameChangeHandler(Name.value);
-    }, []);
+
+    useEffect(() => {
+        if (defaultValue) {
+            NameChangeHandler(defaultValue);
+        }
+    }, [defaultValue]);
 
     useEffect(() => {
         setValid(Name.valid);

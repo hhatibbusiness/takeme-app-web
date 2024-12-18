@@ -26,6 +26,23 @@ export default function AddEditPlace( { mode, setBackBtn, setAdmin } ) {
     const [placeType, setPlaceType] = useState('');
     const [placePostalCode, setPlacePostalCode] = useState('');
 
+    /// Get the Place Data
+    useEffect(() => {
+        if (mode === 'edit' || mode === 'duplicate') {
+            const storedPlaces = JSON.parse(sessionStorage.getItem('places')) || [];
+            const place = storedPlaces.find(item => item.id === parseInt(id));
+            if (place) {
+                setPlaceData(place);
+                setPlaceName(place?.translations?.fields?.find(field => field.key === 'name')?.value);
+                setPlaceDescription(place.comments);
+                setPlaceType(place.placeType);
+                setPlacePostalCode(String(place.postalCode));
+            }
+        }
+        // eslint-disable-next-line
+    }, [id]);
+
+
     /// Set up the initial state of the page
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -107,8 +124,9 @@ export default function AddEditPlace( { mode, setBackBtn, setAdmin } ) {
                   ]
                 }
             }
-    
-            if(mode === 'edit'){
+
+            if (mode === 'edit') {
+                data.id = id;
                 const response = await EditPlace(data);
                 handleResponse(response);
             } else {
@@ -122,28 +140,28 @@ export default function AddEditPlace( { mode, setBackBtn, setAdmin } ) {
         <div className='AddDesireBody' style={{paddingTop: 65}}>
             <div dir='rtl' className="add-place-container">
                 {/**Name Input */}
-                <NameInput placeholderText={'اسم المكان'} defaultValue={PlaceData?.name}  submitted={submitted} setValid={setNameValid} onValueChange={onNameChange}/>
+                <NameInput placeholderText={'اسم المكان'} defaultValue={placeName}  submitted={submitted} setValid={setNameValid} onValueChange={onNameChange}/>
 
                 {/**Place Type */}
                 <PlaceType
-                        options={['City', 'Village', 'Place']}
-                        value={placeType}
-                        onChange={handlePlaceTypeChange}
-                        width="100%"
-                        height="60px"
-                        margin="10px auto"
-                        placeholder="نوع المكان"
+                    options={['City', 'Village', 'Place']}
+                    value={placeType}
+                    onChange={handlePlaceTypeChange}
+                    width="100%"
+                    height="60px"
+                    margin="10px auto"
+                    placeholder="نوع المكان"
                 />
 
                 {/* PostCode */}
-                <NameInput placeholderText={'الرمز البريدي'} defaultValue={''}  submitted={submitted} setValid={setNameValid} onValueChange={onPostalCodeChange}/>
+                <NameInput placeholderText={'الرمز البريدي'} defaultValue={placePostalCode} submitted={submitted} setValid={setNameValid} onValueChange={onPostalCodeChange}/>
 
                 {/** Places Pop up  */}
                 <MyComponent text={'اختر المكان'} />
 
         
                 {/** Description Input */}
-                <DesireDescriptionText defaultValue={PlaceData?.description} submitted={submitted} setValid={setDescriptionValid} onValueChange={onDescriptionChange}/>
+                <DesireDescriptionText defaultValue={placeDescription} submitted={submitted} setValid={setDescriptionValid} onValueChange={onDescriptionChange}/>
 
                 {/* Save Or Cancel */}
                 <div dir="rtl" className="save-cancel-buttonsPlace-container"> 

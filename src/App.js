@@ -388,12 +388,12 @@ const App = (props) => {
                                                 <Route
                                                     path='/places/edit/:id'
                                                     exact
-                                                    element={<AddEditPlace setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<AddEditPlace mode={'edit'} setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/places/duplicate/:id'
                                                     exact
-                                                    element={<AddEditPlace setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<AddEditPlace mode={'duplicate'} setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
                                                 />
 
                                             </>
