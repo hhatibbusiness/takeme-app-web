@@ -1,18 +1,7 @@
 import  { BaseURL, AUTH_TOKEN}  from "../../../assets/constants/Base";
 import axios from 'axios';
 
-function generateRandomPlaces(count) {
-    const randomString = (length) => Math.random().toString(36).substring(2, 2 + length);
-    const randomDate = () => new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString();
-
-    return Array.from({ length: count }, () => ({
-        id: Math.floor(Math.random() * 1000),
-        name: randomString(10),
-        description: randomString(20),
-        createdDate: randomDate(),
-    }));
-}
-
+// Add Places API
 export async function addPlace(object) {
     try {
         const url = `${BaseURL}/places/add?mLocale=ar_SA`;
@@ -29,13 +18,10 @@ export async function addPlace(object) {
     }
 }
 
-export async function EditPlace(object) {
-    console.log("EditPlace", object)
-}
-
-export async function getPlaces({mLocale='ar_SA', page, isAscending=true}) {
+// Get the List of Places
+export async function getPlaces({mLocale='ar_SA', page, isAscending=true, itemCount=10}) {
     try {
-        const url = `${BaseURL}/places/list?mLocale=${mLocale}&page=${page}&itemCount=0&ascending=${isAscending}`;
+        const url = `${BaseURL}/places/list?mLocale=${mLocale}&page=${page}&itemCount=${itemCount}&ascending=${isAscending}`;
         const res = await axios.get(url);
         return res.data;    
     } catch (error) {
@@ -43,11 +29,95 @@ export async function getPlaces({mLocale='ar_SA', page, isAscending=true}) {
     }
 }
 
-export async function searchPlacesAPI({searchText, page, sortType}){
-    await new Promise(resolve => setTimeout(resolve, 500));
-    return generateRandomPlaces(10);
+// Search Places API with Search Key
+export async function searchPlacesAPI({ searchkey, page }) {
+    try {
+        const url = `${BaseURL}/places/search?mLocale=ar_SA&page=${page}&itemCount=20&searchKey=${searchkey}`;
+        const res = await axios.get(url);
+        return res.data;
+    } catch (error) {
+        console.log("Error", error)
+    }
 }
 
+// Edit the place API with id and object
+export async function EditPlace({mLocale='ar_SA', object}) {
+    try {
+        const url = `${BaseURL}/places/update?mLocale=${mLocale}`;
+        const headers = {
+            'accept': '*/*',
+            'Content-Type': 'application/json',
+            'Authorization': AUTH_TOKEN
+        }
+
+        console.log("EDIT", object)
+        const res = await axios.put(url, object, { headers });
+        console.log("EDIT Response", res)
+        return res.data;
+    } catch (error) {
+        console.log("Error", error)
+    }
+}
+
+// Delete the Place API with PlaceID
 export async function DeletePlace({ PlaceID }){
-    console.log("Delete", PlaceID)
+    try {
+        const url = `${BaseURL}/places/delete?mLocale=ar_SA&placeId=${PlaceID}`;
+        const headers = {
+            'accept': '*/*',
+            'Content-Type': 'application/json',
+            'Authorization': AUTH_TOKEN
+        }
+
+        const res = await axios.delete(url, { headers });
+        return res.data;
+    } catch (error) {
+        console.log("Error", error)
+    }
+}
+
+
+
+/// Countries APIs
+export async function getCountries({mLocale='ar_SA', page, isAscending=true, itemCount=10}) {
+    try {
+        const url = `${BaseURL}/countries/list?mLocale=${mLocale}&page=${page}&itemCount=${itemCount}&ascending=${isAscending}`;
+        const res = await axios.get(url);
+        return res.data;    
+    } catch (error) {
+        console.log("Error", error)
+    }
+}
+
+export async function searchCountriesAPI({ searchkey, page }) {
+    try {
+        const url = `${BaseURL}/countries/search?mLocale=ar_SA&page=${page}&itemCount=20&searchKey=${searchkey}`;
+        const res = await axios.get(url);
+        return res.data;
+    } catch (error) {
+        console.log("Error", error)
+    }
+}
+
+
+
+/// Locales APIs
+export async function getLocales({mLocale='ar_SA', page, sortType='NEWEST'}) {
+    try {
+        const url = `${BaseURL}/locales/list?mLocale=${mLocale}&page=${page}&sortType=${sortType}`;
+        const res = await axios.get(url);
+        return res.data;
+    } catch (error) {
+        console.log("Error", error)
+    }
+}
+
+export async function searchLocalesAPI({ searchkey, page, sortType='NEWEST' }) {
+    try {
+        const url = `${BaseURL}/locales/search?mLocale=ar_SA&page=${page}&searchKey=${searchkey}&sortType=${sortType}`;
+        const res = await axios.get(url);
+        return res.data;
+    } catch (error) {
+        console.log("Error", error)
+    }
 }

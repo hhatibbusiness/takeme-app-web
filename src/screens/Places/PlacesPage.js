@@ -67,7 +67,7 @@ export default function Places({ setBackBtn, setAdmin }) {
     const DeletePlaceFun = async (placeId) => {
         setIsDeletingPlace(true);
         const response = await DeletePlace(placeId);
-        if (response?.status || true) {
+        if (response?.status) {
             const newPlaces = placeItems.filter((item) => item.id !== placeId.PlaceID);
             setPlaceItems(newPlaces);
         }
@@ -112,6 +112,7 @@ export default function Places({ setBackBtn, setAdmin }) {
         paginationData: {},
         more: false,
         itemsFun: SearchPlacesFun,
+        dots: true,
         dotsProps: id => ({
             urls: {
                 addUrl: `/places/duplicate/${id}`,
@@ -138,7 +139,7 @@ export default function Places({ setBackBtn, setAdmin }) {
             {isJustSearching ? 
                 <LanguagesShimmer />
             :
-                <ItemsList {...placesData} />
+                <ItemsList {...searchPlacesData} />
             }
             </>
         }

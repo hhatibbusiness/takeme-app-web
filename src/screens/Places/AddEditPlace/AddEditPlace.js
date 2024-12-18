@@ -7,7 +7,8 @@ import { addPlace, EditPlace } from '../model/managePlaces.js';
 import { useAlertContext } from "../../../context/alerts.context";
 import NameInput from './PlaceController/PlacesInput'
 import DesireDescriptionText from './PlaceController/PlacesCommentText'
-import MyComponent from './PlaceController/SelectLocalePop'
+import SinglePopupAPI from './PlaceController/SelectLocalePop.js'
+import { searchPlacesAPI, getPlaces, getCountries, searchCountriesAPI, getLocales, searchLocalesAPI } from '../model/managePlaces.js';
 import PlaceType from './PlaceController/PlaceType/PlaceType.js'
 
 
@@ -16,7 +17,6 @@ export default function AddEditPlace( { mode, setBackBtn, setAdmin } ) {
     const { id } = useParams();
     const { addAlert } = useAlertContext();
     const { changeSearchActive } = useNavbarContext();
-    const [PlaceData, setPlaceData] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [namevalid, setNameValid] = useState(false);
     const [descriptionValid, setDescriptionValid] = useState(false);
@@ -25,6 +25,9 @@ export default function AddEditPlace( { mode, setBackBtn, setAdmin } ) {
     const [placeDescription, setPlaceDescription] = useState('');
     const [placeType, setPlaceType] = useState('');
     const [placePostalCode, setPlacePostalCode] = useState('');
+    const [placeParentID, setPlaceParentID] = useState(null);
+    const [placeCountryID, setPlaceCountryID] = useState(null);
+    const [placeLocaleID, setPlaceLocaleID] = useState('');
 
     /// Get the Place Data
     useEffect(() => {
@@ -32,11 +35,12 @@ export default function AddEditPlace( { mode, setBackBtn, setAdmin } ) {
             const storedPlaces = JSON.parse(sessionStorage.getItem('places')) || [];
             const place = storedPlaces.find(item => item.id === parseInt(id));
             if (place) {
-                setPlaceData(place);
                 setPlaceName(place?.translations?.fields?.find(field => field.key === 'name')?.value);
                 setPlaceDescription(place.comments);
                 setPlaceType(place.placeType);
                 setPlacePostalCode(String(place.postalCode));
+                setPlaceParentID(place.parentPlaceId);
+                setPlaceCountryID(place?.country?.id);
             }
         }
         // eslint-disable-next-line
@@ -69,15 +73,28 @@ export default function AddEditPlace( { mode, setBackBtn, setAdmin } ) {
     const onPostalCodeChange = (value) => {
         setPlacePostalCode(value);
     }
+    const handlePlaceParentChange = (value) => {
+        console.log("PlacesValue", value)
+        setPlaceParentID(value.id);
+    }
+    const handleCountryChange = (value) => {
+        console.log("CountryValue", value)
+        setPlaceCountryID(value.id);
+    }
+    const handleLocaleChange = (value) => {
+        console.log("LocaleValue", value)
+        setPlaceLocaleID(value.id);
+    }
+
 
     /// Handle the Local Data Changes
     const handleLocalData = (data) => {
         if (mode === 'edit') {
             const storedDesires = JSON.parse(sessionStorage.getItem('places')) || [];
-            const updatedDesires = storedDesires.map(desire => 
-                desire.id === data.id ? { ...desire, ...data } : desire
+            const updatedDesires = storedDesires.map(place => 
+                place.id === data.id ? { ...place, ...data } : place
             );
-            sessionStorage.setItem('palces', JSON.stringify(updatedDesires));
+            sessionStorage.setItem('places', JSON.stringify(updatedDesires));
         } else {
             const storedDesires = JSON.parse(sessionStorage.getItem('places')) || [];
             storedDesires.unshift(data);
@@ -109,8 +126,8 @@ export default function AddEditPlace( { mode, setBackBtn, setAdmin } ) {
                 "localeId": 1,
                 "placeType": placeType,
                 "postalCode": placePostalCode,
-                "parentPlaceId": null,
-                "countryId": 5,
+                "parentPlaceId": placeParentID,
+                "countryId": placeCountryID,
                 "initSource": "admin", 
                 "initMethod": "manual",
                 "comments": placeDescription,
@@ -127,7 +144,7 @@ export default function AddEditPlace( { mode, setBackBtn, setAdmin } ) {
 
             if (mode === 'edit') {
                 data.id = id;
-                const response = await EditPlace(data);
+                const response = await EditPlace({ object: data });
                 handleResponse(response);
             } else {
                 const response = await addPlace(data);
@@ -154,12 +171,44 @@ export default function AddEditPlace( { mode, setBackBtn, setAdmin } ) {
                 />
 
                 {/* PostCode */}
-                <NameInput placeholderText={'الرمز البريدي'} defaultValue={placePostalCode} submitted={submitted} setValid={setNameValid} onValueChange={onPostalCodeChange}/>
+                <NameInput 
+                    placeholderText={'الرمز البريدي'} 
+                    defaultValue={placePostalCode} 
+                    submitted={submitted} 
+                    setValid={setNameValid} 
+                    onValueChange={onPostalCodeChange} 
+                />
+
 
                 {/** Places Pop up  */}
-                <MyComponent text={'اختر المكان'} />
+                <SinglePopupAPI 
+                    placeHolderText={'اختر المكان'} 
+                    displayName='translations.fields.value' 
+                    SearchFunctionAPI={searchPlacesAPI} 
+                    ListFunctionAPI={getPlaces} 
+                    onSelectItem={handlePlaceParentChange}
+                />
 
-        
+                {/** Countries Pop up  */}
+                <SinglePopupAPI
+                    placeHolderText={'اختر الدوله'} 
+                    displayName='translations.fields.value' 
+                    SearchFunctionAPI={searchCountriesAPI} 
+                    ListFunctionAPI={getCountries} 
+                    onSelectItem={handleCountryChange}
+                />
+
+                {/** Locales Pop up  */}
+                <SinglePopupAPI 
+                    placeHolderText={'اختر اللهجه'} 
+                    displayName='name' 
+                    SearchFunctionAPI={searchLocalesAPI} 
+                    ListFunctionAPI={getLocales} 
+                    onSelectItem={handleLocaleChange}
+                />
+
+
+
                 {/** Description Input */}
                 <DesireDescriptionText defaultValue={placeDescription} submitted={submitted} setValid={setDescriptionValid} onValueChange={onDescriptionChange}/>
 

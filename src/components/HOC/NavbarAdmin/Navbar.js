@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 import { useLanguagesContext } from '../../../context/languages.context';
 import { useLocalesContext } from '../../../context/locales.context';
 import { useCountriesContext } from '../../../context/countries.context';
+import { usePlacesContext } from '../../../context/placesContext';
 
 const Navbar = ({}) => {
     const { details } = useDetailsContext();
@@ -18,6 +19,7 @@ const Navbar = ({}) => {
     const { languages, searchLanguages, closeSearch, openSearch, changeSort } = useLanguagesContext();
     const { locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort } = useLocalesContext();
     const { countries, searchCountries, openSearchCountries, closeSearchCountries } = useCountriesContext();
+    const { SearchPlacesFun, searchPlaces, isSearchingPlaces, searchPlaceTerm, closeSearchPlaces, openSearchPlaces, sortTypePlace, changeSortPlaces } = usePlacesContext();
     const [searchTerm, setSearchTerm] = useState('');
 
     const location = useLocation();
@@ -90,6 +92,29 @@ const Navbar = ({}) => {
                     return {
                         lan: 'ar',
                         searchKey: e?.target?.value || '',
+                        page: 0
+                    }
+                },
+                hasSort: false
+            }
+        } else if (location.pathname.includes('places')) {
+            return {
+                searchFun: SearchPlacesFun,
+                isSearching: isSearchingPlaces,
+                fetchingSearchResults: searchPlaces,
+                closeSearch: closeSearchPlaces, 
+                openSearch: openSearchPlaces,
+                searchTerm,
+                setSearchTerm,
+                sortType: sortTypePlace,
+                urls:  {
+                    addUrl: '/places/add'
+                },
+                changeSort: changeSortPlaces, 
+                baseData: (e) => {
+                    return {
+                        searchkey: e?.target?.value || '',
+                        sortType: sortTypePlace,
                         page: 0
                     }
                 },

@@ -25,6 +25,7 @@ const SelectPopup = ({
     single, // determine if the select is single (true) or multi (false).
     checkClickHandler, // function triggered if the select is multiple and the check is clicked.
     multiSelectFun, // triggered if the select is multiple and the item is clicked.
+    setOpen
 }) => {
     const { closePopup } = useSelectContext();
     const debouncedSearchTerm = useDebounce(searchKey, 500);
@@ -39,10 +40,15 @@ const SelectPopup = ({
         itemsFun(searchData);
     }, [debouncedSearchTerm]);
 
+    const closePopFun = () => {
+        setOpen(false);
+        closePopup();
+    }
+
     return (
         <div className='SelectPopup'>
             <div className='SelectPopup__container'>
-                <div onClick={closePopup} className='SelectPopup__close'>
+                <div onClick={closePopFun} className='SelectPopup__close'>
                     <i class="fa-solid fa-xmark"></i>
                 </div>
                 <div className='SelectPopup__search'>
@@ -64,7 +70,7 @@ const SelectPopup = ({
                                     paginationData={paginationData}
                                     single={single}
                                     select={true}
-                                    closePopup={closePopup}
+                                    closePopup={closePopFun}
                                     parentScroller={parentScroller.current}
                                     multiSelectFun={multiSelectFun || null}
                                     displayName={displayName}
@@ -86,7 +92,7 @@ const SelectPopup = ({
                     )
                 }
             </div>
-            <div onClick={closePopup} className='SelectPopup__backdrop'></div>
+            <div onClick={closePopFun} className='SelectPopup__backdrop'></div>
         </div>
     )
 }
