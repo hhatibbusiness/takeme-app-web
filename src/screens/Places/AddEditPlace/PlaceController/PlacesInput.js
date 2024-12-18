@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import Input from '../../../../components/InputAdmin/Input';
 import { formValidator } from '../../../../utilty/formValidator'; 
 
-export default function DesireNameInput ({ defaultValue, submitted, setValid, onValueChange, placeholderText }) {
-    const [desireName, setDesireName] = useState({
-        value: defaultValue || '',
+
+export default function NameInput ({ defaultValue, submitted, setValid, onValueChange, placeholderText, maxLength=20, Required=true }) {
+    const [Name, setName] = useState({
+        value: '',
         rules: {
             maxLength: {
-                value: 20,
+                value: maxLength,
                 valid: false,
                 message: 'اكبر عدد من الحروف 20 حرف'
             },
             required: {
-                value: true,
+                value: Required,
                 valid: false,
                 message: "هذا الحقل مطلوب"
             },
@@ -21,45 +22,48 @@ export default function DesireNameInput ({ defaultValue, submitted, setValid, on
         valid: false
     });
 
-    const desireNameChangeHandler = value => {
-        const inputIsValid = formValidator(desireName.rules, value);
-        setDesireName({
-            ...desireName,
+    const NameChangeHandler = value => {
+        const inputIsValid = formValidator(Name.rules, value);
+        setName({
+            ...Name,
             touched: true,
             valid: inputIsValid,
             value: value,
             rules: {
-                ...desireName.rules,
+                ...Name.rules,
                 required: {
-                    ...desireName.rules.required,
+                    ...Name.rules.required,
                     valid: value !== ''
                 },
                 maxLength: {
-                    ...desireName.rules.maxLength,
-                    valid: value.length <= desireName.rules.maxLength.value
+                    ...Name.rules.maxLength,
+                    valid: value.length <= Name.rules.maxLength.value
                 }
             }
         });
         setValid(inputIsValid);
         onValueChange(value);
     }
-    useEffect(()=> {
-        desireNameChangeHandler(desireName.value);
-    }, []);
 
     useEffect(() => {
-        setValid(desireName.valid);
-    }, [desireName.valid, setValid]);
+        if (defaultValue) {
+            NameChangeHandler(defaultValue);
+        }
+    }, [defaultValue]);
+
+    useEffect(() => {
+        setValid(Name.valid);
+    }, [Name.valid, setValid]);
 
     return (
         <Input 
-            touched={desireName.touched} 
-            valid={desireName.valid} 
-            rules={desireName.rules} 
+            touched={Name.touched} 
+            valid={Name.valid} 
+            rules={Name.rules} 
             submitted={submitted} 
-            required={desireName.rules.required} 
-            value={desireName.value} 
-            setValue={value => desireNameChangeHandler(value)} 
+            required={Name.rules.required} 
+            value={Name.value} 
+            setValue={value => NameChangeHandler(value)} 
             placeholder={placeholderText} 
         />
     );

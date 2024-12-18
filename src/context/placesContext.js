@@ -26,11 +26,10 @@ export const PlacesProvider = ({ children }) => {
     const SearchPlacesFun = async (BaseData) => {
         setIsJustSearching(true);
         const response = await searchPlacesAPI(BaseData);
-        const NewData = response?.map((item) => item.productType);
+        const NewData = response?.output
         setIsJustSearching(false);
         setSearchPlaces(NewData);
-        setSearchPlacesTerm(BaseData?.name);
-        console.log('Searching...', BaseData?.name, BaseData, NewData);
+        setSearchPlacesTerm(BaseData?.searchkey);
     };
 
     return (

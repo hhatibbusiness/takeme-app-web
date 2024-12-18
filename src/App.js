@@ -40,7 +40,7 @@ import {getUserRoles, getUserProfile} from "./store/actions/auth.actions";
 import {fetchLocales} from "./store/actions/categories.action";
 import ProfilePage from './screens/ProfilePage/ProfilePage.js';
 import Places from './screens/Places/PlacesPage.js';
-
+import AddEditPlace from './screens/Places/AddEditPlace/AddEditPlace.js';
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
 const ProviderScreen = lazy(() => import(/* webpackChunkName: "ProviderScreen" */ "./screens/Provider/ProviderScreen"));
@@ -308,10 +308,6 @@ const App = (props) => {
                                             element={<Forget setBackBtn={setBackBtn} />} setshowMidText={setShowMidText}
                                         />
                                         <Route
-                                            path={'/places'}
-                                            exact element={<Places paddingTop={navHeight} admin={admin} setAdmin={setAdmin}/>}
-                                        />
-                                        <Route
                                             path='/profile'
                                             exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                         />
@@ -379,6 +375,27 @@ const App = (props) => {
                                                     exact
                                                     element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
                                                 />
+                                                <Route
+                                                    path='/places'
+                                                    exact
+                                                    element={<Places setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/places/add'
+                                                    exact
+                                                    element={<AddEditPlace setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/places/edit/:id'
+                                                    exact
+                                                    element={<AddEditPlace mode={'edit'} setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/places/duplicate/:id'
+                                                    exact
+                                                    element={<AddEditPlace mode={'duplicate'} setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                />
+
                                             </>
                                         )
                                     }
