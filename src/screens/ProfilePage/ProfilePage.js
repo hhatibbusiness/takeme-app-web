@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './ProfilePage.css';
-//import FocusableElement from './FocusableElement/FocusableElement';
 import ProfileImage from './ProfileImage/ImageImage';
 import Gender from './Gender/Gender'
 import Name from './Name/Name'
@@ -10,6 +9,7 @@ import Location from './Location/Location';
 import Welcome from '../../assets/images/profile/Welcome.png'
 import { GetProfileData } from './models/manageProfile'
 //import { ImageManager } from '../../common/ImageManager'
+
 
 export default function ProfilePage({ paddingTop, admin, setAdmin }) {
   const [ProfileData, setProfileData] = useState({});
@@ -30,7 +30,7 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
   useEffect(()=> {
     const fetchProfile = async () => {
       setLoading(true)
-      const data = await GetProfileData("en", "en-US")
+      const data = await GetProfileData("ar_SA", "1")
       setProfileData(data)
       CheckData.current = true
       setLoading(false)
@@ -63,7 +63,6 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
       else if (ProfileData?.baseProfile?.profileImg?.url === '') {
         setOpenImageManager(true)
       }
-  
     }
     // eslint-disable-next-line
   }, [CheckData.current, GenderFocused, NameFocused, AgeFocused, LocationFocused])
