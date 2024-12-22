@@ -5,7 +5,7 @@ import Shimmer from "../shimmer/shimmer";
 import { Input } from '../components/Components';
 import Right from '../../../assets/images/profile/Right.png';
 
-export default function Age({ Focused, setFocused, isLoading, ProfileData, setProfileData }) {
+export default function Age({ Focused, FocusHandle, ProfileData, ProfileActions }) {
     const [date, setDate] = useState(ProfileData?.dateOfBirth || {});
     const [age, setAge] = useState(' ');
     const [showedDate, setShowedDate] = useState('');
@@ -38,9 +38,9 @@ export default function Age({ Focused, setFocused, isLoading, ProfileData, setPr
     // Handle the save button
     const handleSave = () => {
         if (date?.year && date?.month && date?.day) {
-            setProfileData(prev => ({...prev, 'dateOfBirth': date}));
+            ProfileActions.updateDateOfBirth(date);
             setAge(CalculateAge(date));
-            setFocused(!Focused);
+            FocusHandle(!Focused);
         }
     };
 
@@ -55,8 +55,8 @@ export default function Age({ Focused, setFocused, isLoading, ProfileData, setPr
 
     return (
         <div className={`AgeContainer ${Focused ? 'focused__Age' : 'focused__Age_closed'}`}>
-            {isLoading ? <Shimmer /> :
-                <div className='Age__Container' onClick={() => setFocused(true)} >
+            {ProfileData.isLoading ? <Shimmer /> :
+                <div className='Age__Container' onClick={() => FocusHandle(true)} >
                     { age }
                 </div>
             }

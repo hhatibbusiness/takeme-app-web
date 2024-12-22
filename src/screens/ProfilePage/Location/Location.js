@@ -14,17 +14,14 @@ export default function Location({ Focused, setFocused, isLoading, ProfileData, 
     const updateCountry = (newCountry) => {
         setProfileData((prevState) => ({
         ...prevState,
-        baseProfile: {
-            ...prevState.baseProfile,
             location: {
             ...prevState.baseProfile.location,
             place: {
                 ...prevState.baseProfile.location.place,
                 country: newCountry,
             }},
-        },
-        }));
-    };
+        })
+    )}
   
   useEffect(() => {
       isFound.current = isCountryFound(ProfileData);
@@ -40,7 +37,7 @@ export default function Location({ Focused, setFocused, isLoading, ProfileData, 
             <div className="Location__DropDown__First">
               <DropDown PlaceHolderTEXT={"اسم الدوله"} height="35%"/>
               <SearchInput PlaceHolderTEXT="اسم البلد"
-                            defualtValue={ProfileData?.baseProfile?.location?.place?.country} 
+                            defualtValue={ProfileData?.location?.place?.country} 
                             searchFun={getListCountry}
                             CheckFun={(v)=>updateCountry(v.name)}
                             height="35%" />

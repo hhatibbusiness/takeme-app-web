@@ -1,113 +1,63 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './ProfilePage.css';
+import useProfileController from './Controllers/ProfileController';
+import useFocusReducer from './Controllers/FocusedController'
 import ProfileImage from './ProfileImage/ImageImage';
 import Gender from './Gender/Gender'
 import Name from './Name/Name'
 import DOT from '../../assets/images/profile/Dot.png'
 import Age from './Age/Age'
-import Location from './Location/Location';
+//import Location from './Location/Location';
 import Welcome from '../../assets/images/profile/Welcome.png'
-import { GetProfileData } from './models/manageProfile'
+//import { GetProfileData } from './models/manageProfile'
 //import { ImageManager } from '../../common/ImageManager'
 
 
 export default function ProfilePage({ paddingTop, admin, setAdmin }) {
-  const [ProfileData, setProfileData] = useState({});
-  const [isLoading, setLoading] = useState(false)
-  const [GenderFocused, setGenderFocused] = useState(false);
-  const [NameFocused, setNameFocused] = useState(false);
-  const [AgeFocused, setAgeFocused] = useState(false);
-  const [LocationFocused, setLocationFocused] = useState(false);
-  const [openImageManager, setOpenImageManager] = useState(false);
-  const CheckData = useRef(false)
+    const { ProfileData, ProfileActions } = useProfileController()
+    const { Focused, FocusedActions} = useFocusReducer();
 
-  const clearFocus =()=>{
-    setGenderFocused(false);
-    setNameFocused(false);
-  }
+    // init the Profile Data From API
+    useEffect(()=>{
+        ProfileActions.fetchProfileData()
+    }, [])
 
-  // Fetch the data from the API
-  useEffect(()=> {
-    const fetchProfile = async () => {
-      setLoading(true)
-      const data = await GetProfileData("ar_SA", "1")
-      setProfileData(data)
-      CheckData.current = true
-      setLoading(false)
-    };
-    fetchProfile();
-  }, [])
+    return (
+        <>
+            {FocusedActions.FocusedAny() ? <div className='overlay'/> : null}
+            <div className="ProfilePage__container" style={{ position: 'absolute', paddingTop: `${paddingTop}px`, left: 0, top: 0}}>
 
-  // Check if the data is Valid or not and force the user to put it.
-  useEffect(()=> {
-    if(CheckData.current){
-      const name = ProfileData?.translationsResponseDto?.translations[1]?.display_name
-      const gender = ProfileData?.gender
-      const age = ProfileData?.dateOfBirth
-  
-      if (!gender) {
-        setGenderFocused(true)
-      }
-      else if (!name) {
-        setNameFocused(true)
-      }
-      else if (!age) {
-        setAgeFocused(true)
-      }
-      else if (!ProfileData?.dateOfBirth.year) {
-        setAgeFocused(true)
-      }
-      else if (!ProfileData?.baseProfile?.location?.place?.country) {
-        setLocationFocused(true)
-      }
-      else if (ProfileData?.baseProfile?.profileImg?.url === '') {
-        setOpenImageManager(true)
-      }
-    }
-    // eslint-disable-next-line
-  }, [CheckData.current, GenderFocused, NameFocused, AgeFocused, LocationFocused])
+                {/** MainProfileImage */}
+                <div dir='rtl' className='ProfileData'>
+                    <div className='firstRow__profileImage'>
+                        <ProfileImage ProfileData={ProfileData} setOpenImageManager={()=>{}} />
+                    </div>
 
-  const handleSaveImages = (images) => {
-    const imageFile = images[0]?.file
-    setProfileData({...ProfileData, baseProfile: {...ProfileData.baseProfile, profileImg: {url: imageFile}}})
-  }
+                    {/** Set Gender, Name and Age */}
+                    <div className='secondRow__Data'>
+                        <Gender Focused={Focused.Gender} GenderFocused={FocusedActions.setGenderFocus} ProfileData={ProfileData} ProfileActions={ProfileActions} />
+                        <Name Focused={Focused.Name} FocusHandle={FocusedActions.setNameFocus} ProfileData={ProfileData} ProfileActions={ProfileActions} />
+                        <img src={DOT} alt='Dot' style={{ width: '5%', margin: '0 5px' }} />
+                        <Age Focused={Focused.Age} FocusHandle={FocusedActions.setAgeFocus} ProfileData={ProfileData} ProfileActions={ProfileActions} />
+                    </div>
+                    <div className='thirdRow__Data'>
+                        <button className='Contact__button'>تواصل</button>
+                    </div>
 
-  return (
-    <div className="ProfilePage__container" style={{ position: 'absolute', paddingTop: `${paddingTop}px`, left: 0, top: 0}}>
-        {/** Check if The Overlay Active */}
-        {(GenderFocused || NameFocused || AgeFocused || LocationFocused) && <div className="overlay" onClick={clearFocus}></div>}
-
-        {/** MainProfileImage */}
-        <div dir='rtl' className='ProfileData'>
-            <div className='firstRow__profileImage'>
-                <ProfileImage ProfileData={ProfileData} setOpenImageManager={setOpenImageManager} />
+                </div>
+                        
+                <div className='Welcome'>
+                    <img src={Welcome} alt='Welcome' />
+                    <div className='WelcomeMessage'>
+                    اهلا بك بعالم تيكمي للسعادة, هنا منصتك للحصول على رغباتك وحاجياتك بسرعة و سهولة.
+                    </div>
+                </div>
+                {/*openImageManager &&
+                    <div className='ImageManagerShow'>
+                        <ImageManager setOpenImageManager={setOpenImageManager} handleSaveImages={handleSaveImages}/>
+                    </div>
+                */}
             </div>
-
-            {/** Set Gender, Name and Age */}
-            <div className='secondRow__Data'>
-                <Gender Focused={GenderFocused} setFocused={setGenderFocused} isLoading={isLoading} ProfileData={ProfileData} setProfileData={setProfileData}/>
-                <Name Focused={NameFocused} setFocused={setNameFocused} isLoading={isLoading}  ProfileData={ProfileData} setProfileData={setProfileData}/>
-                <img src={DOT} alt='Dot' style={{ width: '7%', margin: '0 5px' }} />
-                <Age Focused={AgeFocused} setFocused={setAgeFocused} isLoading={isLoading} ProfileData={ProfileData} setProfileData={setProfileData}/>
-            </div>
-            <div className='thirdRow__Data'>
-                <button className='Contact__button'>تواصل</button>
-            </div>
-
-            <Location Focused={LocationFocused} setFocused={setLocationFocused} isLoading={isLoading} ProfileData={ProfileData} setProfileData={setProfileData} />
-        </div>
-                
-        <div className='Welcome'>
-            <img src={Welcome} alt='Welcome' />
-            <div className='WelcomeMessage'>
-            اهلا بك بعالم تيكمي للسعادة, هنا منصتك للحصول على رغباتك وحاجياتك بسرعة و سهولة.
-            </div>
-        </div>
-        {/*openImageManager &&
-            <div className='ImageManagerShow'>
-                <ImageManager setOpenImageManager={setOpenImageManager} handleSaveImages={handleSaveImages}/>
-            </div>
-        */}
-    </div>
-  );
+        </>
+    );
 }

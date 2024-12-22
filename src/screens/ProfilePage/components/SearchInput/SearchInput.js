@@ -45,7 +45,7 @@ export default function SearchInput({ PlaceHolderTEXT, defualtValue, CheckFun, s
             />
             {value !== '' && !isLoading && isSearch &&
                     <div className="ResultSearch__SeachInput">
-                        {listCountry.length > 0 ? (
+                        {listCountry?.length > 0 ? (
                             listCountry.map((item, index) => (
                                 <div    
                                     className='SearchResultsItem__Location' 
