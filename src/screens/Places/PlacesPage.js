@@ -13,7 +13,7 @@ export default function Places({ setBackBtn, setAdmin }) {
     const [page, setPage] = useState(() => {
         return sessionStorage.getItem('placesPage') ? JSON.parse(sessionStorage.getItem('placesPage')) : 0
     } );
-    const [more, setMore] = useState(true);
+    const [more, setMore] = useState(false);
     const [isDeletingPlace, setIsDeletingPlace] = useState(false);
     const { SearchPlacesFun, searchPlaces, isSearchingPlaces, isJustSearching, searchPlaceTerm, sortTypePlace } = usePlacesContext();
     const initSort = useRef(sortTypePlace);

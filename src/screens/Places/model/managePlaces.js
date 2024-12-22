@@ -1,4 +1,4 @@
-import  { BaseURL, AUTH_TOKEN}  from "../../../assets/constants/Base";
+import  { BaseURL }  from "../../../assets/constants/Base";
 import axios from 'axios';
 
 // Add Places API
@@ -8,7 +8,6 @@ export async function addPlace(object) {
         const headers = {
             'accept': '*/*',
             'Content-Type': 'application/json',
-            'Authorization': AUTH_TOKEN
         }
 
         const res = await axios.post(url, object, { headers });
@@ -47,12 +46,9 @@ export async function EditPlace({mLocale='ar_SA', object}) {
         const headers = {
             'accept': '*/*',
             'Content-Type': 'application/json',
-            'Authorization': AUTH_TOKEN
         }
 
-        console.log("EDIT", object)
         const res = await axios.put(url, object, { headers });
-        console.log("EDIT Response", res)
         return res.data;
     } catch (error) {
         console.log("Error", error)
@@ -66,7 +62,6 @@ export async function DeletePlace({ PlaceID }){
         const headers = {
             'accept': '*/*',
             'Content-Type': 'application/json',
-            'Authorization': AUTH_TOKEN
         }
 
         const res = await axios.delete(url, { headers });
