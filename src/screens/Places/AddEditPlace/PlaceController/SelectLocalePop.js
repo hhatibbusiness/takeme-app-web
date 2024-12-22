@@ -1,45 +1,46 @@
 import React, { useState, useRef } from 'react';
 import SelectPopup from '../../../../components/SelectPopup/SelectPopup';
-import { useSelectContext } from '../../../../context/single.select.context';
-import { searchPlaces } from '../../model/managePlaces';
 import '../Place.style.css';
 
-const MyComponent = ({ text }) => {
-    const { select, openPopup } = useSelectContext();
+const SinglePopupAPI = ({ placeHolderText, SearchFunctionAPI, ListFunctionAPI, displayName, onSelectItem, selectedItems=[] }) => {
     const [items, setItems] = useState([]);
     const Listitems = useRef([]);
     const [page, setPage] = useState(0);
-    const [more, setMore] = useState(true);
+    const [more, setMore] = useState(false);
     const [searchText, setSearchText] = useState('');
     const [searching, setSearching] = useState(false);
+    const [isOpen, setOpen] = useState(false);
 
     /// Search and List Functions if the user make and search text make SearchPlacesFun and if not make a list items.
-    const ListPlacesFun = async (dataProps) => {
+    const ListSearchFun = async (dataProps) => {
         if (searchText) {
-            console.log("Searching Places");
             setSearching(true);
             setMore(false);
-            const data = await searchPlaces(dataProps);
-            setItems(data);
-            setSearching(false);
+            const res = await SearchFunctionAPI({ searchkey: searchText, page: 0 });
+            if (res.status) {
+                const data = res.output;
+                setItems(data);
+                setSearching(false);
+            }
         } else {
-            console.log("List Places");
             setMore(true);
-            const data = await searchPlaces(dataProps);
-            Listitems.current = Listitems.current.concat(data);
-            //console.log("List Items", Listitems.current);
-            setItems(Listitems.current);
-            setPage(prev=> prev+1);
+            const data = await ListFunctionAPI({ page: page });
+            if (data.status) {
+                Listitems.current = Listitems.current.concat(data.output);
+                setItems(Listitems.current);
+                setPage(prev=> prev+1);
+                setMore(data.output.length >= 10);
+            }
         }
     };
 
     /// Item Click Function take the item Selected from the List.
     const itemClickFun = (item) => {
-        console.log("Item Clicked", item)
+        onSelectItem(item);
     };
 
     const SingleProps = {
-        itemsFun: ListPlacesFun,
+        itemsFun: ListSearchFun,
         page: page,
         more: more,
         items: items,
@@ -47,26 +48,25 @@ const MyComponent = ({ text }) => {
         searchKey: searchText,
         paginationData: {},
         searchData: {},
-        displayName: 'name',
-        isSearching: true, /// change
-        searching: searching,  /// chnage
+        displayName: displayName,
+        isSearching: searching,
+        searching: searching,
 
-        dotsProps: id => ({}),  ///// Added in the Components and ItemsList.
-        dots: false,
         window: false,
-        selectedItems: [],
+        selectedItems: selectedItems,
         itemClickFun,
         single: true,
+        setOpen: setOpen,
     };
 
     return (
         <>
-            <button className='singlePopup__button' onClick={openPopup}>{ text }</button>
-            {select.open &&
+            <button className='singlePopup__button' onClick={()=> setOpen(true)}>{ placeHolderText }</button>
+            {isOpen &&
                 <SelectPopup {...SingleProps}  />
             }
         </>
     );
 };
 
-export default MyComponent;
+export default SinglePopupAPI;

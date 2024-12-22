@@ -4,7 +4,7 @@ import { formValidator } from '../../../../utilty/formValidator';
 
 export default function DesireDescriptionText ({ defaultValue, submitted, setValid, onValueChange }) {
     const [desireDescription, setDesireDescription] = useState({
-        value: defaultValue || '',
+        value: '',
         rules: {
             required: false,
             maxLength: {
@@ -35,9 +35,12 @@ export default function DesireDescriptionText ({ defaultValue, submitted, setVal
         setValid(inputIsValid);
         onValueChange(value);
     }
+
     useEffect(()=>{
-        desireDescriptionChangeHandler(desireDescription.value);
-    }, [])
+        if (defaultValue) {
+            desireDescriptionChangeHandler(defaultValue);
+        }
+    }, [defaultValue])
 
     useEffect(() => {
         setValid(desireDescription.valid);
