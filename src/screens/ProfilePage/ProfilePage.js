@@ -12,102 +12,103 @@ import { GetProfileData } from './models/manageProfile'
 
 
 export default function ProfilePage({ paddingTop, admin, setAdmin }) {
-  const [ProfileData, setProfileData] = useState({});
-  const [isLoading, setLoading] = useState(false)
-  const [GenderFocused, setGenderFocused] = useState(false);
-  const [NameFocused, setNameFocused] = useState(false);
-  const [AgeFocused, setAgeFocused] = useState(false);
-  const [LocationFocused, setLocationFocused] = useState(false);
-  const [openImageManager, setOpenImageManager] = useState(false);
-  const CheckData = useRef(false)
+    const [ProfileData, setProfileData] = useState({});
+    const [isLoading, setLoading] = useState(false)
+    const [GenderFocused, setGenderFocused] = useState(false);
+    const [NameFocused, setNameFocused] = useState(false);
+    const [AgeFocused, setAgeFocused] = useState(false);
+    const [LocationFocused, setLocationFocused] = useState(false);
+    const [openImageManager, setOpenImageManager] = useState(false);
+    const CheckData = useRef(false)
 
-  const clearFocus =()=>{
-    setGenderFocused(false);
-    setNameFocused(false);
-  }
-
-  // Fetch the data from the API
-  useEffect(()=> {
-    const fetchProfile = async () => {
-      setLoading(true)
-      const data = await GetProfileData("ar_SA", "1")
-      setProfileData(data)
-      CheckData.current = true
-      setLoading(false)
-    };
-    fetchProfile();
-  }, [])
-
-  // Check if the data is Valid or not and force the user to put it.
-  useEffect(()=> {
-    if(CheckData.current){
-      const name = ProfileData?.translationsResponseDto?.translations[1]?.display_name
-      const gender = ProfileData?.gender
-      const age = ProfileData?.dateOfBirth
-  
-      if (!gender) {
-        setGenderFocused(true)
-      }
-      else if (!name) {
-        setNameFocused(true)
-      }
-      else if (!age) {
-        setAgeFocused(true)
-      }
-      else if (!ProfileData?.dateOfBirth.year) {
-        setAgeFocused(true)
-      }
-      else if (!ProfileData?.baseProfile?.location?.place?.country) {
-        setLocationFocused(true)
-      }
-      else if (ProfileData?.baseProfile?.profileImg?.url === '') {
-        setOpenImageManager(true)
-      }
+    const clearFocus =()=>{
+        setGenderFocused(false);
+        setNameFocused(false);
     }
-    // eslint-disable-next-line
-  }, [CheckData.current, GenderFocused, NameFocused, AgeFocused, LocationFocused])
 
-  const handleSaveImages = (images) => {
-    const imageFile = images[0]?.file
-    setProfileData({...ProfileData, baseProfile: {...ProfileData.baseProfile, profileImg: {url: imageFile}}})
-  }
+    // Fetch the data from the API
+    useEffect(()=> {
+        const fetchProfile = async () => {
+        setLoading(true)
+        const data = await GetProfileData("ar_SA", "1")
+        setProfileData(data)
+        CheckData.current = true
+        setLoading(false)
+        };
+        fetchProfile();
+    }, [])
 
-  return (
-    <div className="ProfilePage__container" style={{ position: 'absolute', paddingTop: `${paddingTop}px`, left: 0, top: 0}}>
-        {/** Check if The Overlay Active */}
-        {(GenderFocused || NameFocused || AgeFocused || LocationFocused) && <div className="overlay" onClick={clearFocus}></div>}
+    // Check if the data is Valid or not and force the user to put it.
+    useEffect(()=> {
+        if(CheckData.current){
+        const name = ProfileData?.translations?.fields[1]?.value
+        const gender = ProfileData?.gender
+        const age = ProfileData?.dateOfBirth
+    
+        if (!gender) {
+            setGenderFocused(true)
+        }
+        else if (!name) {
+            setNameFocused(true)
+        }
+        else if (!age) {
+            setAgeFocused(true)
+        }
+        else if (!ProfileData?.dateOfBirth.year) {
+            setAgeFocused(true)
+        }
+        else if (false) {
+            setLocationFocused(true)
+        }
+        //else if (ProfileData?.profileImg?.url === '') {
+        //    setOpenImageManager(true)
+        //}
+        }
+        // eslint-disable-next-line
+    }, [CheckData.current, GenderFocused, NameFocused, AgeFocused, LocationFocused])
 
-        {/** MainProfileImage */}
-        <div dir='rtl' className='ProfileData'>
-            <div className='firstRow__profileImage'>
-                <ProfileImage ProfileData={ProfileData} setOpenImageManager={setOpenImageManager} />
+    const handleSaveImages = (images) => {
+        const imageFile = images[0]?.file
+        setProfileData({...ProfileData, baseProfile: {...ProfileData.baseProfile, profileImg: {url: imageFile}}})
+    }
+    
+    console.log("profile Date", ProfileData)
+    return (
+        <div className="ProfilePage__container" style={{ position: 'absolute', paddingTop: `${paddingTop}px`, left: 0, top: 0}}>
+            {/** Check if The Overlay Active */}
+            {(GenderFocused || NameFocused || AgeFocused || LocationFocused) && <div className="overlay" onClick={clearFocus}></div>}
+
+            {/** MainProfileImage */}
+            <div dir='rtl' className='ProfileData'>
+                <div className='firstRow__profileImage'>
+                    <ProfileImage ProfileData={ProfileData} setOpenImageManager={setOpenImageManager} />
+                </div>
+
+                {/** Set Gender, Name and Age */}
+                <div className='secondRow__Data'>
+                    <Gender Focused={GenderFocused} setFocused={setGenderFocused} isLoading={isLoading} ProfileData={ProfileData} setProfileData={setProfileData}/>
+                    <Name Focused={NameFocused} setFocused={setNameFocused} isLoading={isLoading}  ProfileData={ProfileData} setProfileData={setProfileData}/>
+                    <img src={DOT} alt='Dot' style={{ width: '7%', margin: '0 5px' }} />
+                    <Age Focused={AgeFocused} setFocused={setAgeFocused} isLoading={isLoading} ProfileData={ProfileData} setProfileData={setProfileData}/>
+                </div>
+                <div className='thirdRow__Data'>
+                    <button className='Contact__button'>تواصل</button>
+                </div>
+
+                <Location Focused={LocationFocused} setFocused={setLocationFocused} isLoading={isLoading} ProfileData={ProfileData} setProfileData={setProfileData} />
             </div>
-
-            {/** Set Gender, Name and Age */}
-            <div className='secondRow__Data'>
-                <Gender Focused={GenderFocused} setFocused={setGenderFocused} isLoading={isLoading} ProfileData={ProfileData} setProfileData={setProfileData}/>
-                <Name Focused={NameFocused} setFocused={setNameFocused} isLoading={isLoading}  ProfileData={ProfileData} setProfileData={setProfileData}/>
-                <img src={DOT} alt='Dot' style={{ width: '7%', margin: '0 5px' }} />
-                <Age Focused={AgeFocused} setFocused={setAgeFocused} isLoading={isLoading} ProfileData={ProfileData} setProfileData={setProfileData}/>
+                    
+            <div className='Welcome'>
+                <img src={Welcome} alt='Welcome' />
+                <div className='WelcomeMessage'>
+                اهلا بك بعالم تيكمي للسعادة, هنا منصتك للحصول على رغباتك وحاجياتك بسرعة و سهولة.
+                </div>
             </div>
-            <div className='thirdRow__Data'>
-                <button className='Contact__button'>تواصل</button>
-            </div>
-
-            <Location Focused={LocationFocused} setFocused={setLocationFocused} isLoading={isLoading} ProfileData={ProfileData} setProfileData={setProfileData} />
+            {/*openImageManager &&
+                <div className='ImageManagerShow'>
+                    <ImageManager setOpenImageManager={setOpenImageManager} handleSaveImages={handleSaveImages}/>
+                </div>
+            */}
         </div>
-                
-        <div className='Welcome'>
-            <img src={Welcome} alt='Welcome' />
-            <div className='WelcomeMessage'>
-            اهلا بك بعالم تيكمي للسعادة, هنا منصتك للحصول على رغباتك وحاجياتك بسرعة و سهولة.
-            </div>
-        </div>
-        {/*openImageManager &&
-            <div className='ImageManagerShow'>
-                <ImageManager setOpenImageManager={setOpenImageManager} handleSaveImages={handleSaveImages}/>
-            </div>
-        */}
-    </div>
-  );
+    );
 }

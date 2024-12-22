@@ -11,7 +11,7 @@ export async function GetProfileData(mLocale, localeId) {
       }
     });
 
-    return response.data;
+    return response.data.output;
   } catch (error) {
     console.error('Error fetching profile data:', error);
     throw error;
