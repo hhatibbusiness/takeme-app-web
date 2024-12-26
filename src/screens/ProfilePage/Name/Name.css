@@ -36,8 +36,17 @@
 
 .Name__Input_Container {
     position: absolute;
-    height: 90%;
-    width: 50%;
+    top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    height: 180%;
+    width: 60%;
     animation: fadeInScale 0.3s ease forwards;
     z-index: 100;
+}
+.Name__Input_Container img {
+    width: auto;
+    height: 30%;
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './ProfilePage.css';
 import useProfileController from './Controllers/ProfileController';
 import useFocusReducer from './Controllers/FocusedController'
@@ -14,17 +15,44 @@ import Welcome from '../../assets/images/profile/Welcome.png'
 
 
 export default function ProfilePage({ paddingTop, admin, setAdmin }) {
+    const navigate = useNavigate()
     const { ProfileData, ProfileActions } = useProfileController()
     const { Focused, FocusedActions} = useFocusReducer();
 
     // init the Profile Data From API
-    useEffect(()=>{
-        ProfileActions.fetchProfileData()
-    }, [])
+    useEffect(() => {
+        const TOKEN = localStorage.getItem("TAKEME_TOKEN")
+        if (!TOKEN) navigate('/login')
+        const navigationType = window.performance.getEntriesByType('navigation')[0]?.type;
+
+        if (navigationType === 'resdsdsdsdsdsdload') {
+            ProfileActions.fetchProfileData()
+        } else {
+            ProfileActions.fetchProfileDataFromRedux()
+        }   
+    }, []);
+
+      
+    const clearFoucse = () => {
+        FocusedActions.setGenderFocus(false);
+        FocusedActions.setNameFocus(false);
+    }
+
+    // Force senario
+    useEffect(() => {
+        if (!ProfileData.isLoading) {
+            if (!ProfileData.gender)
+                FocusedActions.setGenderFocus(true)
+            else if (!ProfileData.translations)
+                FocusedActions.setNameFocus(true)
+            else if (!ProfileData.dateOfBirth)
+                FocusedActions.setAgeFocus(true)
+        }
+    },[ProfileData.isLoading, Focused])
 
     return (
         <>
-            {FocusedActions.FocusedAny() ? <div className='overlay'/> : null}
+            {FocusedActions.FocusedAny() ? <div className='overlay' onClick={()=> clearFoucse()}/> : null}
             <div className="ProfilePage__container" style={{ position: 'absolute', paddingTop: `${paddingTop}px`, left: 0, top: 0}}>
 
                 {/** MainProfileImage */}
@@ -43,7 +71,6 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
                     <div className='thirdRow__Data'>
                         <button className='Contact__button'>تواصل</button>
                     </div>
-
                 </div>
                         
                 <div className='Welcome'>

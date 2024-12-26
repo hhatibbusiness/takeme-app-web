@@ -1,16 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './Name.css';
 import Shimmer from "../shimmer/shimmer";
 import { Input } from '../components/Components'
+import Right from '../../../assets/images/profile/Right.png';
+import { createUserFeedbackEnvelope } from "@sentry/react";
+import useDoubleTap from "../../../utilty/useDoubleClick";
+
 
 export default function Name({ Focused, FocusHandle, ProfileData, ProfileActions }) {
-    
+    const [nameIn, setNameIn] = useState('')
+
+    useEffect(()=> {
+        setNameIn(ProfileData.translations?.fields[1]?.value || '')
+    }, [ProfileData.translations?.fields[1]?.value])
+
+    const handleSave = ()=>{
+        if (nameIn) {
+            ProfileActions.updateName(nameIn)
+            FocusHandle(false)
+        }
+    }
+
+    const doubleTapHandler = useDoubleTap(()=> FocusHandle(!Focused))
+
     return (
         <>
             <div className='NameContainer'>
                 {ProfileData.isLoading ? <Shimmer /> :
-                    <div className={`Name__Container`} onClick={()=> FocusHandle(!Focused)}>
-                        { ProfileData.translations.fields[1].value }
+                    <div className={`Name__Container`} onClick={doubleTapHandler}>
+                        { ProfileData.translations?.fields[1]?.value }
                     </div>
                 }
             </div>
@@ -18,9 +36,10 @@ export default function Name({ Focused, FocusHandle, ProfileData, ProfileActions
                 <div className='Name__Input_Container'>
                     <Input
                         PlaceHolderTEXT={'شو اسمك الكامل'}
-                        value={ProfileData.translations.fields[1].value}
-                        onChange={name=> ProfileActions.updateName(name)}
+                        value={nameIn}
+                        onChange={n => setNameIn(n)}
                     />
+                    <img src={Right} alt="Right" onClick={()=> handleSave()}/>
                 </div>
             }
         </>

@@ -1,8 +1,11 @@
 import { useReducer } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { GetProfileData, UpdateGenderAPI, UpdateNameAPI, UpdateBirthDateAPI } from '../models/manageProfile'
+import waitForReduxValue from '../../../utilty/useDelayValue'
+
 
 const initialState = {
-    id: 1,
+    id: 2,
     type: "Person",
     imageAttachment: {
       id: 1,
@@ -20,11 +23,11 @@ const initialState = {
     translations: {
       localeId: null,
       fields: [
-        { key: "name", value: "مينا سمير لبيب" },
-        { key: "display_name", value: "مينا سمير لبيب" },
+        { key: "name", value: "" },
+        { key: "display_name", value: "" },
       ],
     },
-    userId: 1,
+    userId: 2,
     dateOfBirth: { day: null, month: null, year: null, display: null },
     gender: null,
     isLoading: true,
@@ -84,8 +87,28 @@ function reducer(state, action) {
 
 
 /// Main Hook that contains the Methods to Update
-export default function useProfileController() {
+function useProfileController() {
     const [ProfileData, dispatch] = useReducer(reducer, initialState);
+    const authProfile = useSelector((state) => state.auth?.profile);
+    const dispatchRedux = useDispatch();
+
+
+    // Fetch Profile Data from Redux and wait for it
+    const fetchProfileDataFromRedux = async () => {
+        dispatch({ type: "START_FETCH_PROFILE" });
+        try {
+            const profile = await waitForReduxValue(() => authProfile, (value) => value !== undefined && value !== null, 5000);
+            console.log("PROFILE DATA REDUX`", profile)
+            dispatch({type: "FETCH_PROFILE", payload: profile})
+        } catch (error) {
+            console.error("Error waiting for Redux value:", error.message);
+            console.log("Start Fetching...")
+            const profile = await fetchProfileData()
+            dispatch({type: "FETCH_PROFILE", payload: profile})
+        } finally {
+            dispatch({type: "END_FETCH_PROFILE"})
+        }
+    };
 
     // Fetch Profile Data
     const fetchProfileData = async () => {
@@ -93,6 +116,10 @@ export default function useProfileController() {
         const response = await GetProfileData({ mLocale: "ar_SA", localeId: 1});
         if (response?.status) {
             dispatch({ type: "FETCH_PROFILE", payload: response.output });
+            dispatchRedux({type: "GET_USER_PROFILE", profile: response.output})
+        } else {
+            const profile = await fetchProfileDataFromRedux()
+            dispatch({type: "FETCH_PROFILE", payload: profile})
         }
         dispatch({ type: "END_FETCH_PROFILE" })
     };
@@ -125,10 +152,12 @@ export default function useProfileController() {
         ProfileData,
         ProfileActions: {
         fetchProfileData,
+        fetchProfileDataFromRedux,
         updateGender,
         updateName,
         updateDateOfBirth,
       },
     };
-  }
-  
+}
+
+export default useProfileController;
