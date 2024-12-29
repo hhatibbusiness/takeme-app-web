@@ -59,3 +59,14 @@ export async function UpdateBirthDateAPI({ mLocale, userId, BirthOfDate }) {
     }
     
 }
+
+export async function DeleteProfile({mLocale, userId}) {
+    const url = `${BaseURL}/users/delete?mLocale=${mLocale}&userId=${userId}`
+    try {
+        const response = await axios.delete(url)
+        return response
+    } catch (error) {
+        console.log("ERROR IN DELETE : ", error)
+    }
+
+}

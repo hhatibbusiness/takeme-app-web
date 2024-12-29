@@ -113,6 +113,7 @@
     overflow-y: scroll;
     border-radius: 10px 10px 0 0;
     animation: slideUp 0.3s ease-out;
+    z-index: 10000;
 }
 
 @keyframes slideUp {

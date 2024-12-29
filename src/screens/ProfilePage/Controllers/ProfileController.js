@@ -5,10 +5,10 @@ import waitForReduxValue from '../../../utilty/useDelayValue'
 
 
 const initialState = {
-    id: 2,
+    id: null,
     type: "Person",
     imageAttachment: {
-      id: 1,
+      id: null,
       path: "/images/example.png",
       title: "Example Title",
       type: "image/png",
@@ -27,7 +27,7 @@ const initialState = {
         { key: "display_name", value: "" },
       ],
     },
-    userId: 2,
+    userId: null,
     dateOfBirth: { day: null, month: null, year: null, display: null },
     gender: null,
     isLoading: true,
@@ -65,11 +65,7 @@ function reducer(state, action) {
                 ...state,
                 translations: {
                     ...state.translations,
-                    fields: state.translations.fields.map((field) =>
-                    ["name", "display_name"].includes(field.key)
-                        ? { ...field, value: action.payload }
-                        : field
-                    ),
+                    fields: [{"key": "name", "value": action.payload}, {"key": "display_name", "value": action.payload}]
                 },
             };
         
@@ -114,6 +110,7 @@ function useProfileController() {
     const fetchProfileData = async () => {
         dispatch({ type: "START_FETCH_PROFILE" });
         const response = await GetProfileData({ mLocale: "ar_SA", localeId: 1});
+        console.log("=====> RESPONSE FETCH PROFILE : ", response)
         if (response?.status) {
             dispatch({ type: "FETCH_PROFILE", payload: response.output });
             dispatchRedux({type: "GET_USER_PROFILE", profile: response.output})
@@ -134,17 +131,15 @@ function useProfileController() {
     
     const updateName = async (name) => {
         dispatch({ type: "START_UPDATE_NAME"})
+        dispatch({ type: "UPDATE_NAME", payload: name });
         const response = await UpdateNameAPI({mLocale: 'ar_SA', LocaleId:1, userId: ProfileData.id, name: name})
-        if (response?.status == 200)
-            dispatch({ type: "UPDATE_NAME", payload: name });
         dispatch({ type: "END_UPDATE_NAME"})
     }
     
     const updateDateOfBirth = async (dateOfBirth) => {
         dispatch({ type: "START_UPDATE_DATE_OF_BIRTH"})
+        dispatch({ type: "UPDATE_DATE_OF_BIRTH", payload: dateOfBirth });
         const response = await UpdateBirthDateAPI({ mLocale: "ar_SA", userId: ProfileData.id, BirthOfDate: dateOfBirth})
-        if (response?.status == 200)
-            dispatch({ type: "UPDATE_DATE_OF_BIRTH", payload: dateOfBirth });
         dispatch({ type: "END_UPDATE_DATE_OF_BIRTH"})
     }
 

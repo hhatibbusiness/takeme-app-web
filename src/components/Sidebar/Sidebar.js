@@ -18,11 +18,16 @@ import localesImage from '../../assets/images/locales.png';
 import countries from '../../assets/images/countries.png';
 import aboutImg from '../../assets/images/about.png';
 import outImg from '../../assets/images/out.png';
+import deleteImg from '../../assets/images/delete.png';
+
 import Img from "../../screens/Home/Body/BodyContainer/ProductList/Products/Product/Img/Img";
 import logo from "../../assets/images/defaults/logo-default-image.svg";
 import ProviderPreview from "./ProviderPreview/ProviderPreview";
 import Install from "../HOC/NavbarWebsite/Install/Install";
 import {logUserOut} from "../../store/actions/auth.actions";
+
+import WarningAlarm from '../WarningAlarm/WarningAlarmPop'
+import { DeleteProfile } from '../../screens/ProfilePage/models/manageProfile'
 
 const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, changeCurrentSelectedLocale, store, user, locales, selectedLocale, takemeProviderData, sidebar, isAuthenticated, logout, changeFilter, filter, lan, changeLan, categories}) => {
     const [langShow, setLanShow] = useState(false);
@@ -37,6 +42,7 @@ const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, chang
     const imgRefDub = useRef(null);
     const [containerLoaded, setContainerLoaded] = useState(false);
     const [imgLoaded, setImgLoaded] = useState(true);
+    const [ openWarning, setOpenWarning ] = useState(false)
 
     const {t} = useTranslation();
 
@@ -111,6 +117,7 @@ const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, chang
     // }, [sidebar]);
 
     return (
+        <>
         <div id={'Sidebar'} style={{zIndex: `${backBtn ? 0 : 5000}`}} className={`Sidebar ${sidebar && 'Sidebar__active'}`}>
             <div id={'Sidebar__container'} className="Sidebar__container">
 
@@ -289,9 +296,29 @@ const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, chang
                     </Link>
                     {
                         (isAuthenticated) ? (
-                            <p id={'Sidebar__logout'} onClick={e => logUserOut()}
-                               className="Sidebar__link Sidebar__register Sidebar__logout"><img
-                                src={outImg}/>{t('logout')}</p>
+                            <>
+                            <p id={'Sidebar__logout'} 
+                                onClick={e => {
+                                    logUserOut();
+                                    setSidebar(false);
+                                    navigate('/')}
+                                }
+                                className="Sidebar__link Sidebar__register Sidebar__logout">
+                                <img src={outImg}/>
+                                {t('logout')}
+                            </p>
+                            {/** Delete the Profile Data */}
+                            <div id={'Sidebar__deleteProfile'} 
+                                onClick={e => { 
+                                    //setSidebar(false)
+                                    setOpenWarning(true)
+                                }}
+                                className="Sidebar__link Sidebar__register Sidebar__logout">
+                                <img src={deleteImg}/>
+                                {"حذف البروفايل"}
+                            </div>
+                            </>
+
                         ) : (
                             <Link id={'Sidebar__login'}
                                   className={'Sidebar__link Sidebar__register'} to={'/login'}>
@@ -308,6 +335,23 @@ const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, chang
                 </div>
             </div>
         </div>
+        {isAuthenticated && openWarning &&
+            <WarningAlarm
+                CloseFun={()=> setOpenWarning(false)}
+                SaveFun={async () => {
+                    console.log("delete data...");
+                    await DeleteProfile({mLocale: 'ar_SA', userId: profile.id});
+                    logUserOut();
+                    console.log("Data Deleted!");
+                    setSidebar(false);
+                    navigate('/');
+                    setOpenWarning(false)
+                }}
+                typeSrc={'alarm'}
+                message={"do you want"}
+            />
+        }
+        </>
     );
 };
 

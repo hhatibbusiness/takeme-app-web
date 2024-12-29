@@ -11,31 +11,38 @@ import Age from './Age/Age'
 //import Location from './Location/Location';
 import Welcome from '../../assets/images/profile/Welcome.png'
 //import { GetProfileData } from './models/manageProfile'
-//import { ImageManager } from '../../common/ImageManager'
+import { ImageManagerWrapped } from '../../comman/ImageManager'
 
 
 export default function ProfilePage({ paddingTop, admin, setAdmin }) {
     const navigate = useNavigate()
     const { ProfileData, ProfileActions } = useProfileController()
     const { Focused, FocusedActions} = useFocusReducer();
+    const [ openImageManager, setOpenImageManager ] = useState(false)
+
 
     // init the Profile Data From API
     useEffect(() => {
         const TOKEN = localStorage.getItem("TAKEME_TOKEN")
         if (!TOKEN) navigate('/login')
         const navigationType = window.performance.getEntriesByType('navigation')[0]?.type;
+        ProfileActions.fetchProfileData()
 
-        if (navigationType === 'resdsdsdsdsdsdload') {
+        /*if (navigationType === 'resdsdsdsdsdsdload') {
             ProfileActions.fetchProfileData()
         } else {
             ProfileActions.fetchProfileDataFromRedux()
-        }   
+        }*/ 
     }, []);
 
       
     const clearFoucse = () => {
         FocusedActions.setGenderFocus(false);
         FocusedActions.setNameFocus(false);
+    }
+
+    const handleSaveImages = (props)=> {
+        console.log("PROPS IMAGE", props)
     }
 
     // Force senario
@@ -58,7 +65,7 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
                 {/** MainProfileImage */}
                 <div dir='rtl' className='ProfileData'>
                     <div className='firstRow__profileImage'>
-                        <ProfileImage ProfileData={ProfileData} setOpenImageManager={()=>{}} />
+                        <ProfileImage ProfileData={ProfileData} setOpenImageManager={setOpenImageManager} />
                     </div>
 
                     {/** Set Gender, Name and Age */}
@@ -79,11 +86,16 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
                     اهلا بك بعالم تيكمي للسعادة, هنا منصتك للحصول على رغباتك وحاجياتك بسرعة و سهولة.
                     </div>
                 </div>
-                {/*openImageManager &&
+                {openImageManager &&
                     <div className='ImageManagerShow'>
-                        <ImageManager setOpenImageManager={setOpenImageManager} handleSaveImages={handleSaveImages}/>
+                        <ImageManagerWrapped
+                            DefFileDir= {'resources/categories/image'}
+                            DefLocale={'ar_SA'}
+                            DefSelected={''}
+                            setOpenImageManager={setOpenImageManager} 
+                            handleSaveImages={handleSaveImages}/>
                     </div>
-                */}
+                }
             </div>
         </>
     );
