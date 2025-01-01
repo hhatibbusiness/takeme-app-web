@@ -11,7 +11,7 @@ import Age from './Age/Age'
 //import Location from './Location/Location';
 import Welcome from '../../assets/images/profile/Welcome.png'
 //import { GetProfileData } from './models/manageProfile'
-import { ImageManagerWrapped } from '../../comman/ImageManager'
+//import { ImageManagerWrapped } from '../../comman/ImageManager'
 
 
 export default function ProfilePage({ paddingTop, admin, setAdmin }) {
@@ -26,13 +26,13 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
         const TOKEN = localStorage.getItem("TAKEME_TOKEN")
         if (!TOKEN) navigate('/login')
         const navigationType = window.performance.getEntriesByType('navigation')[0]?.type;
-        ProfileActions.fetchProfileData()
 
-        /*if (navigationType === 'resdsdsdsdsdsdload') {
+        console.log(navigationType)
+        if (navigationType === 'reload') {
             ProfileActions.fetchProfileData()
         } else {
             ProfileActions.fetchProfileDataFromRedux()
-        }*/ 
+        }
     }, []);
 
       
@@ -86,7 +86,7 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
                     اهلا بك بعالم تيكمي للسعادة, هنا منصتك للحصول على رغباتك وحاجياتك بسرعة و سهولة.
                     </div>
                 </div>
-                {openImageManager &&
+                {/*openImageManager &&
                     <div className='ImageManagerShow'>
                         <ImageManagerWrapped
                             DefFileDir= {'resources/categories/image'}
@@ -95,7 +95,7 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
                             setOpenImageManager={setOpenImageManager} 
                             handleSaveImages={handleSaveImages}/>
                     </div>
-                }
+                */}
             </div>
         </>
     );

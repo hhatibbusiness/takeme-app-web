@@ -47,11 +47,7 @@ export async function UpdateNameAPI({ mLocale, LocaleId, userId, name }) {
 export async function UpdateBirthDateAPI({ mLocale, userId, BirthOfDate }) {
     const url = `${BaseURL}/personal/profiles/update-date-of-birth?mLocale=${mLocale}&userId=${userId}`
     try {
-        const response = await axios.put(url, BirthOfDate, {
-            headers: {
-              'Authorization': AUTH_TOKEN
-            }
-        })
+        const response = await axios.put(url, BirthOfDate)
 
         return response
     } catch (error) {

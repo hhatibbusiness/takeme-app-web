@@ -30,20 +30,20 @@
 .ConfirmEmail__btns {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 5px;
     margin-top: 40px;
     margin-bottom: 40px;
     direction: ltr;
 }
 
 .ConfirmEmail__btn input {
-    width: 70px;
-    height: 70px;
+    width: 55px;
+    height: 55px;
     border: 2px solid #8DD8C6;
     border-radius: 10px;
-    padding: 20px;
+    padding: 18px;
     color: #FFC56E;
-    font-size: 40px;
+    font-size: 30px;
 }
 
 .ConfirmEmail__confirm {

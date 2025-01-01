@@ -7,18 +7,23 @@ import LoginButton from '../../../components/LoginButton/LoginButton';
 import axios from 'axios';
 import { BASE_URL } from '../../../utls/assets';
 import {connect} from "react-redux";
+import { use } from 'react';
 
 const ConfirmEmail = ({ paddingTop, locale, setBackBtn, setShowIcons, confirmHandler }) => {
     const [first, setFirst] = useState('');
     const [second, setSecond] = useState('');
     const [third, setThird] = useState('');
     const [forth, setForth] = useState('');
+    const [fifth, setFifth] = useState('');
+    const [sixth, setSixth] = useState('');
     
     const params = useParams();
     const firstRef = useRef();
     const secondRef = useRef();
     const thirdRef = useRef();
     const forthRef = useRef();
+    const fifthRef = useRef();
+    const sixthRef = useRef()
 
     useEffect(() => {
         setBackBtn(true);
@@ -92,9 +97,35 @@ const ConfirmEmail = ({ paddingTop, locale, setBackBtn, setShowIcons, confirmHan
                             return e.target.value.length > 1 ? prevState : e.target.value;
                         })
                         if (e.target.value.length > forth) {
-
+                            fifthRef.current?.focus();
                         } else if (e.target.value.length < forth) {
                             thirdRef.current?.focus();
+                        }
+                    }} />
+                </div>
+                <div className='ConfirmEmail__btn'>
+                    <input ref={fifthRef} type='text' value={fifth} onChange={e => {
+                        setFifth(prevState => {
+                            console.log('Reached!');
+                            return e.target.value.length > 1 ? prevState : e.target.value;
+                        })
+                        if (e.target.value.length > fifth) {
+                            sixthRef.current?.focus();
+                        } else if(e.target.value.length < fifth) {
+                            forthRef.current?.focus();
+                        }
+                    }} />
+                </div>
+                <div className='ConfirmEmail__btn'>
+                    <input ref={sixthRef} type='text' value={sixth} onChange={e => {
+                        setSixth(prevState => {
+                            console.log('Reached!');
+                            return e.target.value.length > 1 ? prevState : e.target.value;
+                        })
+                        if (e.target.value.length > sixth) {
+                            
+                        } else if(e.target.value.length < sixth) {
+                            fifthRef.current?.focus()
                         }
                     }} />
                 </div>
@@ -110,11 +141,11 @@ const ConfirmEmail = ({ paddingTop, locale, setBackBtn, setShowIcons, confirmHan
                     separatorColor={'white'}
                     fontWeight={700}
                     clickFun={() => {
-                        if (!first || !second || !third || !forth) return;
+                        if (!first || !second || !third || !forth || !fifth || !sixth) return;
                         const data = {
                             email: params.email,
                             password: params.password,
-                            code: `${first}${second}${third}${forth}`,
+                            code: `${first}${second}${third}${forth}${fifth}${sixth}`,
                             authType: 'email',
                             localeId: locale?.id
                         }

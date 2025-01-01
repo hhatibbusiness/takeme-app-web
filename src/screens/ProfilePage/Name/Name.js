@@ -12,7 +12,7 @@ export default function Name({ Focused, FocusHandle, ProfileData, ProfileActions
 
     useEffect(()=> {
         setNameIn(ProfileData.translations?.fields[1]?.value || '')
-    }, [ProfileData.translations?.fields[1]?.value])
+    }, [ProfileData.translations?.fields[1]?.value, Focused])
 
     const handleSave = ()=>{
         if (nameIn) {

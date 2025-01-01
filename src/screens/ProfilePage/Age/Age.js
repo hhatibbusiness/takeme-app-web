@@ -6,73 +6,49 @@ import { Input } from '../components/Components';
 import Right from '../../../assets/images/profile/Right.png';
 
 export default function Age({ Focused, FocusHandle, ProfileData, ProfileActions }) {
-    const [date, setDate] = useState(ProfileData?.dateOfBirth || {});
-    const [tempDate, setTempDate] = useState(ProfileData?.dateOfBirth || {}); // Temporary state for editing
-    const [age, setAge] = useState(' ');
-    const [showedDate, setShowedDate] = useState('');
+    const [ dateOfBirth , setDateBirth ] = useState({})
+    const [ value, setValue ] = useState(null)
+    const [ display, setDisplay ] = useState(null)
 
-    /// Update the temporary date of birth for editing
+    /// Update the date of birth for editing
     const handleInputChange = (name) => {
         let value = name.replace(/[^\d]/g, "");
         if (value.length > 8) value = value.slice(0, 8);
-    
         if (value.length > 4) value = `${value.slice(0, 4)}/${value.slice(4)}`;
         if (value.length > 7) value = `${value.slice(0, 7)}/${value.slice(7)}`;
-        setShowedDate(value);
-
-        if (value.length === 10) {
-            let speDate = value.split("/");
-            let year = parseInt(speDate[0]);
-            let month = parseInt(speDate[1]);
-            let day = parseInt(speDate[2]);
-            if (year > 0 && month > 0 && month < 13 && day > 0 && day < 32) {
-                let newDate = { 'year': year, 'month': month, 'day': day };
-                setTempDate({...tempDate, ...newDate}); // Update temporary date
-            } else {
-                setTempDate({ ...tempDate, 'year': '', 'month': '', 'day': '' });
-            }
-        } else {
-            setTempDate({...tempDate, 'year': '', 'month': '', 'day': '' });
-        }
+        setValue(value);
     };
 
-    // Handle the save button
-    const handleSave = () => {
-        if (tempDate?.year && tempDate?.month && tempDate?.day) {
-            ProfileActions.updateDateOfBirth(tempDate);
-            setDate(tempDate); // Update actual date
-            setAge(CalculateAge(tempDate)); // Update displayed age
-            FocusHandle(!Focused);
+    // Save Data
+    const handleSave = ()=>{
+        let valueData = value.split("/");
+        if (valueData?.length == 3 ) {
+            const data = { "year": valueData[0], "month": valueData[1] , "day": valueData[2], "display": display}
+            setDateBirth(data)
+            ProfileActions.updateDateOfBirth(data)
+            FocusHandle(false)
         }
-    };
+    }
 
-    // Handle discard action
-    const handleDiscard = () => {
-        setTempDate(date); // Revert to saved date
-        //if (ProfileData?.dateOfBirth?.year && ProfileData?.dateOfBirth?.month && ProfileData?.dateOfBirth?.day)
-            //setShowedDate(`${date?.year || ''}/${date?.month || ''}/${date?.day || ''}`);
-    };
-
-    /// Load saved date of birth on component mount or profile data change
-    useEffect(() => {
-        setDate(ProfileData?.dateOfBirth);
-        setTempDate(ProfileData?.dateOfBirth); // Initialize tempDate
-        if (ProfileData?.dateOfBirth?.year && ProfileData?.dateOfBirth?.month && ProfileData?.dateOfBirth?.day) {
-            setAge(CalculateAge(ProfileData?.dateOfBirth));
-            setShowedDate(`${ProfileData?.dateOfBirth?.year}/${ProfileData?.dateOfBirth?.month}/${ProfileData?.dateOfBirth?.day}`);
-        }
-    }, [ProfileData?.dateOfBirth]);
-
+    /// Handle Change data
+    useEffect(()=>{
+        setDateBirth(ProfileData?.dateOfBirth || {})
+    }, [ProfileData.isLoading])
 
     useEffect(()=> {
-        handleDiscard()
-    }, [Focused])
+        setDisplay(dateOfBirth?.display)
+        if (dateOfBirth?.year && dateOfBirth?.month && dateOfBirth?.day) {
+            setValue(`${dateOfBirth.year}/${dateOfBirth.month}/${dateOfBirth.day}`)
+        } else {
+            setValue(null)
+        }
+    }, [Focused, ProfileData.isLoading])
 
     return (
         <div className={`AgeContainer ${Focused ? 'focused__Age' : 'focused__Age_closed'}`}>
             {ProfileData.isLoading ? <Shimmer /> :
                 <div className='Age__Container' onClick={() => FocusHandle(true)}>
-                    {age}
+                    {CalculateAge(dateOfBirth)}
                 </div>
             }
             {/* Conditionally render the input field */}
@@ -82,7 +58,7 @@ export default function Age({ Focused, FocusHandle, ProfileData, ProfileActions 
                         <Input
                             type="text" 
                             PlaceHolderTEXT="YYYY/MM/DD"
-                            value={showedDate}
+                            value={value}
                             onChange={(name) => handleInputChange(name)}
                         />
                     </div>
@@ -92,8 +68,8 @@ export default function Age({ Focused, FocusHandle, ProfileData, ProfileActions 
                                 type="checkbox" 
                                 id="ageCheckbox" 
                                 name="ageCheckbox" 
-                                checked={tempDate?.display || false} 
-                                onChange={() => setTempDate(prev => ({ ...prev, 'display': !prev?.display }))}
+                                checked={display} 
+                                onChange={() => setDisplay(!display)}
                             />
                             <label>اخفاء</label>
                         </div>

@@ -339,16 +339,14 @@ const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, chang
             <WarningAlarm
                 CloseFun={()=> setOpenWarning(false)}
                 SaveFun={async () => {
-                    console.log("delete data...");
                     await DeleteProfile({mLocale: 'ar_SA', userId: profile.id});
                     logUserOut();
-                    console.log("Data Deleted!");
                     setSidebar(false);
                     navigate('/');
                     setOpenWarning(false)
                 }}
                 typeSrc={'alarm'}
-                message={"do you want"}
+                message={"هل تريد حذف البروفابل الخاص بيك \n\n سوف تقوم بمسح جميع البيانات الخاصه بك"}
             />
         }
         </>
