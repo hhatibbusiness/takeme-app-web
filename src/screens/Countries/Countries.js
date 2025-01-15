@@ -31,10 +31,10 @@ const Countries = ({ setBackBtn, setAdmin }) => {
 
 
     const itemsListPropsSearch = {
-        itemsFun: searchCountries,
-        page: countries.searchResultsPage,
-        more: countries.moreSearchResults,
-        items: countries.searchResults,
+        itemsFun: searchCountries || (() => {}),
+        page: countries.searchResultsPage || 0,
+        more: countries.moreSearchResults || true,
+        items: countries.searchResults || [],
         paginationData: {
             lan: 'ar_SA',
             page: countries.searchResultsPage,
@@ -61,10 +61,10 @@ const Countries = ({ setBackBtn, setAdmin }) => {
     }
 
     const itemsListPropsMain = {
-        itemsFun: fetchCountries,
-        page: countries.page,
-        more: countries.more,
-        items: countries.countries,
+        itemsFun: fetchCountries || (() => {}),
+        page: countries.page || 0,
+        more: countries.more || true,
+        items: countries.countries || [],
         paginationData: {
             lan: 'ar_SA',
             page: countries.page,
@@ -91,7 +91,7 @@ const Countries = ({ setBackBtn, setAdmin }) => {
     }
 
     return (
-        <div className='Countries' ref={parentRef} style={{paddingTop: `${paddingTop}px`}}>
+        <div id={'Countries'} className='Countries' ref={parentRef} style={{paddingTop: `${paddingTop}px`}}>
             {
                 countries.search ? (
                     countries.searching ? (
@@ -99,7 +99,7 @@ const Countries = ({ setBackBtn, setAdmin }) => {
                     ) : (
                         <ItemsList window={true} {...itemsListPropsSearch} />
                     )
-                ): (
+                ) : (
                     countries.fetchingCountries ? (
                         <CountriesShimmer />
                     ) : (

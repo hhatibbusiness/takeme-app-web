@@ -11,13 +11,14 @@ import { useSelectContext } from '../../../context/single.select.context';
 import { useNavbarContext } from '../../../context/navbar.context';
 import SelectPopup from '../../../components/SelectPopup/SelectPopup';
 import { useCountriesContext } from '../../../context/countries.context';
+import {connect} from "react-redux";
 
-const CountriesAdd = ({setAdmin, setBackBtn}) => {
+const CountriesAdd = ({setAdmin, setBackBtn, locale}) => {
     const { select, openPopup } = useSelectContext();
     const { changeSearchActive } = useNavbarContext();
     const { countries, fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale } = useCountriesContext();
     const [paddingTop, setPaddingTop] = useState(0);
-
+    const [open, setOpen] = useState(false);
     const [selectSearchKey, setSelectSearchKey] = useState('');
 
     useEffect(() => {
@@ -261,13 +262,13 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
                 countryCode: code.value,
                 comments: notes.value,
                 translations: {
-                    localeId: 1,
+                    localeId: locale.id,
                     fields: [ { 
                         key: "name",
                         value: conName.value
                     } ]
                 },
-                lan: 'ar_SA',
+                lan: locale.locale,
                 //locale: `${countries?.selectedLanguage?.code}_${code?.value}`,
                 //languageId: countries?.selectedLanguage?.id
             };
@@ -290,7 +291,7 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
             });
         }
         if (res?.status == 200) {
-            navigate(-1);
+            navigate('/countries');
         }
         setSubmitted(false);
     }
@@ -355,7 +356,8 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
         window: false,
         selectedItem: countries.selectedLocale,
         itemClickFun,
-        single: true
+        single: true,
+        setOpen
     }
 
     function itemClickFun(locale) {
@@ -363,7 +365,7 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
     }
 
     return (
-        <div className='LocalesAdd' style={{paddingTop: `${paddingTop}px`}}>
+        <div id={"CountriesAdd"} className='LocalesAdd' style={{paddingTop: `${paddingTop}px`}}>
             <div className='LocalesAdd__contianer'>
                 <Input
                     touched={conName.touched}
@@ -374,6 +376,7 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
                     value={conName.value}
                     setValue={value => conNameChangeHandler(value)}
                     placeholder={'اسم الدولة'}
+                    id={'Country__name'}
                 />
                 <Input
                     touched={code.touched}
@@ -384,6 +387,7 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
                     value={code.value}
                     setValue={value => codeChangeHandler(value)}
                     placeholder={'كود البلد'}
+                    id={'Country__code'}
                 />
                 <PopupInput
                     data={{
@@ -397,6 +401,7 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
                     inputClickHandler={inputClickHandler}
                     selectedItem={countries.selectedLocale}
                     displayName="locale"
+                    setOpen={setOpen}
                 />
                 <TextArea
                     touched={notes.touched}
@@ -407,11 +412,13 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
                     value={notes.value}
                     setValue={value => notesChangeHandler(value)}
                     placeholder={'ملاحظات'}
+                    id={'Country__notes'}
                 />
                 <div className='LocalesAdd__btns--container'>
                     <SaveButton
                         saving={params.editId ? countries.editing : countries.adding}
                         saveClickHanlder={addLocaleHandler}
+                        id={'Country__save'}
                     />
                     <CancelButton
                         handleCancelClick={ e => {
@@ -422,10 +429,14 @@ const CountriesAdd = ({setAdmin, setBackBtn}) => {
 
             </div>
             {
-                select.open && <SelectPopup {...selectPopupProps} />
+                open && <SelectPopup {...selectPopupProps} />
             }
         </div>
     )
 }
 
-export default CountriesAdd;
+const mapStateToProps = state => ({
+    locale: state.categories.selectedLocale
+})
+
+export default connect(mapStateToProps) (CountriesAdd);

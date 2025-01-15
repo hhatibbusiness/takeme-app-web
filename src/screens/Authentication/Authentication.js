@@ -256,7 +256,7 @@ const Authentication = ({
                 بسرعة وسهولة، ولتزيد من سعادتك</p>
             </div>
             <div className='Authentication__container'>
-                <div className='Authentication__element'>
+                <div id={'Authentication__email'} className='Authentication__element'>
                     <InputComponent
                         icon={emailImage}
                         type='text'
@@ -279,7 +279,7 @@ const Authentication = ({
                         ) 
                     }
                 </div>
-                <div className='Authentication__element'>
+                <div id={'Authentication__password'} className='Authentication__element'>
                     <InputComponent
                         icon={lockImage}
                         type='password'
@@ -303,7 +303,7 @@ const Authentication = ({
                     }
 
                 </div>
-                <div style={{marginTop: '40px'}} className='Authentication__button'>
+                <div id={'Authentication__button'} style={{marginTop: '40px'}} className='Authentication__button'>
                     <LoginButton
                         value={'ادخل باستخدام تيكمي'}
                         icon={logoImage}
