@@ -42,7 +42,7 @@ const Item = ({
     const itemValue = getValueFromNestedObject(item, displayName);
 
     return (
-        <div onClick={(e) => {
+        <div data-id={item.id} onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
             if (itemClickFun) {

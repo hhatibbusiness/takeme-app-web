@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import './TextArea.css';
 import InputError from '../Input/InputError/InputError';
 
-const TextArea = ({ touched, rules, valid, value, setValue, submitted, required, placeholder }) => {
+const TextArea = ({ id, touched, rules, valid, value, setValue, submitted, required, placeholder }) => {
     const [height, setHeight] = useState(100); // Default height
     // const [width, setWidth] = useState(300);   // Default width
 
@@ -48,6 +48,7 @@ const TextArea = ({ touched, rules, valid, value, setValue, submitted, required,
                 style={{height: `${height}px`}}
                 onChange={e => setValue(e.target.value)}
                 className={`TextArea ${required && submitted && !value ? 'TextArea__invalid' : ''}`}
+                id={id}
             />
             {/* <div
                 className="TextArea__resize--handler"

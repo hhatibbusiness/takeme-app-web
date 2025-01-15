@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './Languages.css';
 import { useLanguagesContext } from '../../context/languages.context.js';
 import KeepAlive from 'react-activation';
@@ -9,12 +9,18 @@ import ItemsList from '../../components/ItemsListAdmin/ItemsList.js';
 function Languages({setBackBtn, admin, setAdmin}) {
     const { languages, fetchLanguages, searchLanguage, deleteLanguage } = useLanguagesContext();
     const [paddingTop, setPaddingTop] = useState(0);
+    const parentRef = useRef(null);
+
+
+    useEffect(() => {
+        console.log(languages);
+    })
 
     const itemsListPropsMain = {
-        itemsFun: fetchLanguages,
-        page: languages.page,
-        more: languages.more,
-        items: languages.languages,
+        itemsFun: fetchLanguages || (() => {}),
+        page: languages.page || 0,
+        more: languages.more || true,
+        items: languages.languages || [],
         paginationData: {
             lan: 'ar',
             page: languages.page,
@@ -37,14 +43,16 @@ function Languages({setBackBtn, admin, setAdmin}) {
             deleting: languages?.deleting
         }),
         isSearching: languages.search,
-        dots: true
+        dots: true,
+        parentScroller: parentRef.current
+
     }
 
     const itemsListPropsSearch = {
-        itemsFun: searchLanguage,
-        page: languages.searchResultsPage,
-        more: languages.moreSearchResults,
-        items: languages.searchResults,
+        itemsFun: searchLanguage || (() => {}),
+        page: languages.searchResultsPage || 0,
+        more: languages.moreSearchResults || true,
+        items: languages.searchResults || [],
         paginationData: {
             lan: 'ar',
             page: languages.searchResultsPage,
@@ -89,24 +97,23 @@ function Languages({setBackBtn, admin, setAdmin}) {
 
     return (
         <KeepAlive>
-            <div className='Languages' style={{paddingTop: `${paddingTop}px`}}>
-                <div className='Languages__contianer'>
-                    {
-                        languages.search ? (
-                            languages.searching ? (
-                                <LanguagesShimmer />
-                            ) : (
-                                <ItemsList window={true} {...itemsListPropsSearch} />
-                            )
+            <div id={'Languages'} ref={parentRef} className='Languages' style={{paddingTop: `${paddingTop}px`}}>
+                {
+                    languages.search ? (
+                        languages.searching ? (
+                            <LanguagesShimmer />
                         ) : (
-                            languages.fetchingLanguages ? (
-                                <LanguagesShimmer />
-                            ) : (
-                                <ItemsList window={true} {...itemsListPropsMain} />
-                            )
+                            <ItemsList window={false} {...itemsListPropsSearch} />
                         )
-                    }
-                </div>
+                    ) : (
+                        languages.fetchingLanguages ? (
+                            <LanguagesShimmer />
+                        ) : (
+                            <ItemsList window={false} {...itemsListPropsMain} />
+                        )
+                    )
+                }
+
             </div>
         </KeepAlive>
     );

@@ -140,7 +140,7 @@ const initialState = {
     sortType: "NEWEST",
     adding: false,
     editing: false,
-    more: true,
+    more: false,
     deleting: false,
     search: false,
     searchResults: [],
@@ -378,7 +378,7 @@ const languagesActions = {
     searchLanguages: async (dispatch, data, addAlert) => {
         try {
             if(data.page == 0) dispatch({ type: actionTypes.START_SEARCHING_LANGUAGES });
-            const res = await axios.get(`${BASE_URL}endpoints/languages/search?mLocale=${data.lan}&searchKey=${data.searchKey}&sortType=${data.sortType}&page=${data.page}`, { headers: { 'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': AUTH_TOKEN } });
+            const res = await axios.get(`${BASE_URL}endpoints/languages/search?mLocale=${data.lan}&searchKey=${data.searchKey}&sortType=${data.sortType}&page=${data.page}`, { headers: { 'accept': '*/*', 'Content-Type': 'application/json'} });
             dispatch({ type: actionTypes.SEARCH_LANGUAGES, searchResults: res.data.output, searchKey: data.searchKey, page: data.page });
             
             dispatch({ type: actionTypes.END_SEARCHING_LANGUAGES });

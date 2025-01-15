@@ -36,7 +36,7 @@ const SubBar = ({searchFun, hasSort, isSearching, urls, baseData, changeSort, fe
                             }} className='SubBar__box--close'><i class="fa-solid fa-xmark"></i></span>
                         </div>
                     ): (
-                        <div onClick={e => {
+                        <div id={'SubBar__search--icon'} onClick={e => {
                             openSearch();
                         }} className='SubBar__right--search'>
                             <img className='SubBar__icon' src={searchImage} />
@@ -54,7 +54,7 @@ const SubBar = ({searchFun, hasSort, isSearching, urls, baseData, changeSort, fe
                 }
                 {
                     !isSearching && (
-                        <Link to={urls?.addUrl} className='SubBar__left--add'>
+                        <Link id={'SubBar__left--add'} to={urls?.addUrl} className='SubBar__left--add'>
                             <img className='SubBar__icon' src={addImage} />
                         </Link>
 

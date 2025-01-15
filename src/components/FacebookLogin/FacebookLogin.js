@@ -23,6 +23,7 @@ const FacebookLoginButton = ({
 
     const navigate = useNavigate();
     const responseFacebook = (response) => {
+        console.log(response);
         if (response.id) {
             const data = {
                 email: response.email,
