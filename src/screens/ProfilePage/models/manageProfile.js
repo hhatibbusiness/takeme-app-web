@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AUTH_TOKEN, BaseURL } from "../../../assets/constants/Base";
+import { BaseURL } from "../../../assets/constants/Base";
 
 
 export async function GetProfileData({mLocale, localeId}) {
@@ -16,11 +16,7 @@ export async function GetProfileData({mLocale, localeId}) {
 export async function UpdateGenderAPI({mLocale, userId, gender}) {
     const url = `${BaseURL}/personal/profiles/update-gender?mLocale=${mLocale}&userId=${userId}&gender=${gender}`
     try {
-        const response = await axios.put(url, {
-            headers: {
-              'Authorization': AUTH_TOKEN
-            }
-        })
+        const response = await axios.put(url)
 
         return response
     } catch (error) {
@@ -29,17 +25,21 @@ export async function UpdateGenderAPI({mLocale, userId, gender}) {
     
 }
 
-export async function UpdateNameAPI({ mLocale, LocaleId, userId, name }) {
+export async function UpdateNameAPI({ mLocale, LocaleId, userId, name, addAlert }) {
     const url = `${BaseURL}/base/profiles/update-name?mLocale=${mLocale}&localeId=${LocaleId}&baseProfileId=${userId}&name=${name}`
+    let response;
+
     try {
-        const response = await axios.put(url, {
-            headers: {
-              'Authorization': AUTH_TOKEN
-            }
-        })
+        response = await axios.put(url)
         return response
     } catch (error) {
         console.log("ERROR UPDATE Name", error)
+        const alertData = {
+            alertType: 'danger',
+            msg: error.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
+        };
+        addAlert(alertData);
+        console.log("ALERT ADDED")
     }
     
 }

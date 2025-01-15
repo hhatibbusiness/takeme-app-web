@@ -2,6 +2,7 @@ import { useReducer } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { GetProfileData, UpdateGenderAPI, UpdateNameAPI, UpdateBirthDateAPI } from '../models/manageProfile'
 import waitForReduxValue from '../../../utilty/useDelayValue'
+import { addAlert } from '../../../store/actions/alert.actions';
 
 
 const initialState = {
@@ -88,12 +89,16 @@ function useProfileController() {
     const authProfile = useSelector((state) => state.auth?.profile);
     const dispatchRedux = useDispatch();
 
+    const handleAlert = (alertMessage) =>{
+        dispatchRedux(addAlert(alertMessage))
+        console.log(alertMessage)
+    }
 
     // Fetch Profile Data from Redux and wait for it
     const fetchProfileDataFromRedux = async () => {
         dispatch({ type: "START_FETCH_PROFILE" });
         try {
-            const profile = await waitForReduxValue(() => authProfile, (value) => value !== undefined && value !== null, 5000);
+            const profile = await waitForReduxValue(() => authProfile, (value) => value?.id !== undefined, 5000);
             console.log("PROFILE DATA REDUX`", profile)
             dispatch({type: "FETCH_PROFILE", payload: profile})
         } catch (error) {
@@ -132,7 +137,7 @@ function useProfileController() {
     const updateName = async (name) => {
         dispatch({ type: "START_UPDATE_NAME"})
         dispatch({ type: "UPDATE_NAME", payload: name });
-        const response = await UpdateNameAPI({mLocale: 'ar_SA', LocaleId:1, userId: ProfileData.id, name: name})
+        const response = await UpdateNameAPI({mLocale: 'ar_SA', LocaleId:1, userId: ProfileData.id, name: name, addAlert: handleAlert})
         dispatch({ type: "END_UPDATE_NAME"})
     }
     
