@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { GetProfileData, UpdateGenderAPI, UpdateNameAPI, UpdateBirthDateAPI } from '../models/manageProfile'
+import { GetProfileData, UpdateGenderAPI, UpdateNameAPI, UpdateBirthDateAPI, UpdateProfileImage } from '../models/manageProfile'
 import waitForReduxValue from '../../../utilty/useDelayValue'
 import { addAlert } from '../../../store/actions/alert.actions';
 
@@ -9,13 +9,11 @@ const initialState = {
     id: null,
     type: "Person",
     imageAttachment: {
-      id: null,
-      path: "/images/example.png",
-      title: "Example Title",
-      type: "image/png",
-      comments: "This is a dummy comment.",
-      createdDate: "2024-11-29T12:34:56",
-      updatedDate: "2024-11-29T14:00:00",
+        id: null,
+        path: null,
+        title: "",
+        type: "image",
+        comments: "",
     },
     description: null,
     location: null,
@@ -35,6 +33,7 @@ const initialState = {
     isUpdateGender: false,
     isUpdateName: false,
     isUpdateDateOfBirth: false,
+    isUpdateImage: false,
 };
 
 
@@ -77,6 +76,17 @@ function reducer(state, action) {
             return {...state, isUpdateDateOfBirth: false}
         case "UPDATE_DATE_OF_BIRTH":
             return { ...state, dateOfBirth: action.payload };
+
+        /// Update Profile Image
+        case "START_UPDATE_IMAGE":
+            return { ...state, isUpdateImage: true}
+        case "END_UPDATE_IMAGE":
+            return {...state, isUpdateImage: false}
+        case "UPDATE_IMAGE":
+            return {
+                ...state,
+                imageAttachment: { ...state.imageAttachment, ...action.payload }
+            };
         default:
             throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -148,15 +158,24 @@ function useProfileController() {
         dispatch({ type: "END_UPDATE_DATE_OF_BIRTH"})
     }
 
+    // Update Gender Function
+    const updateProfileImage = async (props) => {
+        dispatch({ type: "START_UPDATE_IMAGE"})
+        dispatch({ type: "UPDATE_IMAGE", payload: props });
+        await UpdateProfileImage({ mLocale: 'ar_SA', localeId: 4, userId: ProfileData.id, bodyData: props })
+        dispatch({ type: "END_UPDATE_IMAGE" })
+    }
+
     return {
         ProfileData,
         ProfileActions: {
-        fetchProfileData,
-        fetchProfileDataFromRedux,
-        updateGender,
-        updateName,
-        updateDateOfBirth,
-      },
+            fetchProfileData,
+            fetchProfileDataFromRedux,
+            updateGender,
+            updateName,
+            updateDateOfBirth,
+            updateProfileImage,
+        },
     };
 }
 

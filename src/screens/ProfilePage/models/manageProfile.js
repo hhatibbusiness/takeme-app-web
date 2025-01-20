@@ -66,3 +66,13 @@ export async function DeleteProfile({mLocale, userId}) {
     }
 
 }
+
+export async function UpdateProfileImage({mLocale, localeId, userId, bodyData}) {
+    const url = `${BaseURL}/base/profiles/update-profile-image?mLocale=${mLocale}&localeId=${localeId}&baseProfileId=${userId}`
+    try {
+        const response = await axios.put(url, bodyData)
+        return response
+    } catch (error) {
+        console.log("ERROR UPDATE Image", error)
+    }    
+}

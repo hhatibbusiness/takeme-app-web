@@ -11,7 +11,7 @@ import Age from './Age/Age'
 //import Location from './Location/Location';
 import Welcome from '../../assets/images/profile/Welcome.png'
 //import { GetProfileData } from './models/manageProfile'
-//import { ImageManagerWrapped } from '../../comman/ImageManager'
+import { ImageManagerWrapped } from '../../common/ImageManager'
 
 
 export default function ProfilePage({ paddingTop, admin, setAdmin }) {
@@ -41,8 +41,9 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
         FocusedActions.setNameFocus(false);
     }
 
-    const handleSaveImages = (props)=> {
-        console.log("PROPS IMAGE", props)
+    const handleSaveImages = async (props)=> {
+        const data = props[0]
+        ProfileActions.updateProfileImage({id: null, path: data?.imageUrl, title: data?.id, comment: data?.id, type:"image"})
     }
 
     // Force senario
@@ -86,16 +87,17 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
                     اهلا بك بعالم تيكمي للسعادة, هنا منصتك للحصول على رغباتك وحاجياتك بسرعة و سهولة.
                     </div>
                 </div>
-                {/*openImageManager &&
+                {openImageManager &&
                     <div className='ImageManagerShow'>
                         <ImageManagerWrapped
-                            DefFileDir= {'resources/categories/image'}
+                            DefFileDir= {'/resources/images/profile'}
                             DefLocale={'ar_SA'}
                             DefSelected={''}
                             setOpenImageManager={setOpenImageManager} 
-                            handleSaveImages={handleSaveImages}/>
+                            handleSaveImages={handleSaveImages}
+                        />
                     </div>
-                */}
+                }
             </div>
         </>
     );
