@@ -33,7 +33,7 @@ const Countries = ({ setBackBtn, setAdmin }) => {
     const itemsListPropsSearch = {
         itemsFun: searchCountries || (() => {}),
         page: countries.searchResultsPage || 0,
-        more: countries.moreSearchResults || true,
+        more: countries.moreSearchResults ,
         items: countries.searchResults || [],
         paginationData: {
             lan: 'ar_SA',
@@ -63,7 +63,7 @@ const Countries = ({ setBackBtn, setAdmin }) => {
     const itemsListPropsMain = {
         itemsFun: fetchCountries || (() => {}),
         page: countries.page || 0,
-        more: countries.more || true,
+        more: countries.more,
         items: countries.countries || [],
         paginationData: {
             lan: 'ar_SA',

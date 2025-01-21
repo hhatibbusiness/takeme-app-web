@@ -70,6 +70,7 @@ const countriesReducer = (state, action) => {
                 fetchingCountries: false
             }
         case actionTypes.FETCH_COUNTRIES:
+            console.log(action.countries);
             return {
                 ...state,
                 countries: [...state.countries, ...action.countries],

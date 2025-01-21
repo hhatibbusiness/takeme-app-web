@@ -238,17 +238,20 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale}) => {
         let res;
 
         if (params.editId) {
+            console.log(conName.value);
             const data = {
                 id: params.editId,
                 localeId: 1,
                 countryCode: code.value,
                 comments: notes.value,
                 translations: {
-                    localeId: 1,
-                    fields: [ { 
-                        key: "name",
-                        value: conName.value
-                    } ]
+                    localeId: locale.id,
+                    fields: [
+                        {
+                            key: "name",
+                            value: conName.value
+                        }
+                    ]
                 },
                 lan: 'ar_SA',
                 //locale: `${countries?.selectedLanguage?.code}_${code?.value}`,
