@@ -19,7 +19,7 @@ function Languages({setBackBtn, admin, setAdmin}) {
     const itemsListPropsMain = {
         itemsFun: fetchLanguages || (() => {}),
         page: languages.page || 0,
-        more: languages.more || true,
+        more: languages.more ,
         items: languages.languages || [],
         paginationData: {
             lan: 'ar',
@@ -51,7 +51,7 @@ function Languages({setBackBtn, admin, setAdmin}) {
     const itemsListPropsSearch = {
         itemsFun: searchLanguage || (() => {}),
         page: languages.searchResultsPage || 0,
-        more: languages.moreSearchResults || true,
+        more: languages.moreSearchResults ,
         items: languages.searchResults || [],
         paginationData: {
             lan: 'ar',

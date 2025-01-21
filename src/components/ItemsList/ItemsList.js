@@ -28,6 +28,7 @@ const ItemsList = ({
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        console.log(more);
         setMoreLoading(more);
     }, [more]);
 
@@ -38,13 +39,21 @@ const ItemsList = ({
                 page={page}
                 loadMore={async () => {
                     if (items.length == 0 && page == 0) return;
-                    if (!moreLoading) return;
-                    if (!more) return;
-                    setLoading(true);
-                    if (loading) return;
+                    // if (!moreLoading) return;
+                    // if (!more) return;
+                    // setLoading(true);
+                    // if (loading) return;
+                    //
+                    // await itemsFun(paginationData);
+                    // setLoading(false);
+                    if (!moreLoading || loading || !more) return;
 
-                    await itemsFun(paginationData);
-                    setLoading(false);
+                    setLoading(true);
+                    try {
+                        await itemsFun(paginationData);
+                    } finally {
+                        setLoading(false);
+                    }
                 }}
                 hasMore={moreLoading}
                 loader={<ItemsShimmer />}
