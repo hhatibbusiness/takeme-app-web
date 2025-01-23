@@ -3,7 +3,7 @@ import './SearchInput.css'
 import SearchIcon from '../../../../assets/images/profile/SearchIcon.png'
 import { getListCountry } from './../../models/manageCountry'
 
-export default function SearchInput({ PlaceHolderTEXT, defualtValue, CheckFun, searchFun, width='100%', height='100%' }){
+export default function SearchInput({ PlaceHolderTEXT, defualtValue, selectFunc, searchFun, width='100%', height='100%' }){
     const [value, setValue] = useState(defualtValue || '');
     const [listCountry, setListCountry] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -13,9 +13,9 @@ export default function SearchInput({ PlaceHolderTEXT, defualtValue, CheckFun, s
         setValue(name)
     }
     const handleCheckItem = (item)=> {
-        setValue(item.name);
+        setValue(item.translations.fields[0].value);
         setIsSearch(false);
-        CheckFun(item);
+        selectFunc(item)
     }
 
     useEffect(() => {
@@ -50,7 +50,7 @@ export default function SearchInput({ PlaceHolderTEXT, defualtValue, CheckFun, s
                                 <div    
                                     className='SearchResultsItem__Location' 
                                     key={index}
-                                    onClick={()=> handleCheckItem(item)} >{highlightText(item.name, value)}</div>
+                                    onClick={()=> handleCheckItem(item)} >{highlightText(item.translations.fields[0].value, value)}</div>
                             ))
                         ) : (
                             <div className="SearchResultsNoItem__Location">

@@ -16,7 +16,30 @@ const initialState = {
         comments: "",
     },
     description: null,
-    location: null,
+    location: {
+        id: 0,
+        locationName: null,
+        address: null,
+        postalCode: null,
+        latitude: 0,
+        longitude: 0,
+        buildingNumber: null,
+        floorNumber: null,
+        roomNumber: null,
+        placeId: null,
+        comments: null,
+        navigationList: [
+            {
+                id: 0,
+                url: null,
+                name: null,
+                displayName: null,
+                icon: null,
+                locationId: null,
+                comments: null
+            }
+        ]
+    },
     urlPostfix: null,
     comments: null,
     translations: {
@@ -86,6 +109,18 @@ function reducer(state, action) {
             return {
                 ...state,
                 imageAttachment: { ...state.imageAttachment, ...action.payload }
+            };
+
+
+        /// Update Profile Location
+        case "START_UPDATE_LOCATION":
+            return { ...state, isUpdateImage: true}
+        case "END_UPDATE_LOCATION":
+            return {...state, isUpdateImage: false}
+        case "UPDATE_LOCATION":
+            return {
+                ...state,
+                location: { ...state.location, ...action.payload }
             };
         default:
             throw new Error(`Unhandled action type: ${action.type}`);
@@ -166,6 +201,14 @@ function useProfileController() {
         dispatch({ type: "END_UPDATE_IMAGE" })
     }
 
+    const UpdateLocation = async (props) => {
+        console.log("TEST", ProfileData.location)
+        dispatch({ type: "START_UPDATE_LOCATION"})
+        dispatch({ type: "UPDATE_LOCATION", payload: props });
+        console.log("TEST", ProfileData.location)
+        dispatch({ type: "END_UPDATE_LOCATION" })
+    }
+
     return {
         ProfileData,
         ProfileActions: {
@@ -175,6 +218,7 @@ function useProfileController() {
             updateName,
             updateDateOfBirth,
             updateProfileImage,
+            UpdateLocation,
         },
     };
 }

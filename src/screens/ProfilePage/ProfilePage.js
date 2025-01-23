@@ -8,7 +8,7 @@ import Gender from './Gender/Gender'
 import Name from './Name/Name'
 import DOT from '../../assets/images/profile/Dot.png'
 import Age from './Age/Age'
-//import Location from './Location/Location';
+import Location from './Location/Location';
 import Welcome from '../../assets/images/profile/Welcome.png'
 //import { GetProfileData } from './models/manageProfile'
 import { ImageManagerWrapped } from '../../common/ImageManager'
@@ -39,6 +39,7 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
     const clearFoucse = () => {
         FocusedActions.setGenderFocus(false);
         FocusedActions.setNameFocus(false);
+        FocusedActions.setLocationFocus(false)
     }
 
     const handleSaveImages = async (props)=> {
@@ -79,6 +80,7 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
                     <div className='thirdRow__Data'>
                         <button className='Contact__button'>تواصل</button>
                     </div>
+                    <Location Focused={Focused.Location} setFocused={FocusedActions.setLocationFocus} ProfileData={ProfileData} UpdateLocation={ProfileActions.UpdateLocation} />
                 </div>
                         
                 <div className='Welcome'>
