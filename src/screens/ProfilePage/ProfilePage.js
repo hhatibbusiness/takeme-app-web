@@ -20,7 +20,7 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
     const { Focused, FocusedActions} = useFocusReducer();
     const [ openImageManager, setOpenImageManager ] = useState(false)
 
-
+    console.log("PROFILE DATA", ProfileData)
     // init the Profile Data From API
     useEffect(() => {
         const TOKEN = localStorage.getItem("TAKEME_TOKEN")
@@ -35,7 +35,7 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
         }
     }, []);
 
-      
+    
     const clearFoucse = () => {
         FocusedActions.setGenderFocus(false);
         FocusedActions.setNameFocus(false);
@@ -56,6 +56,8 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
                 FocusedActions.setNameFocus(true)
             else if (!ProfileData.dateOfBirth)
                 FocusedActions.setAgeFocus(true)
+            else if (!ProfileData.location)
+                FocusedActions.setLocationFocus(true)
         }
     },[ProfileData.isLoading, Focused])
 

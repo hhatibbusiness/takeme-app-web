@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './SearchInput.css'
 import SearchIcon from '../../../../assets/images/profile/SearchIcon.png'
-import { getListCountry } from './../../models/manageCountry'
+import { SearchPlaces } from './../../models/manageCountry'
 
 export default function SearchInput({ PlaceHolderTEXT, defualtValue, selectFunc, searchFun, width='100%', height='100%' }){
     const [value, setValue] = useState(defualtValue || '');
@@ -23,7 +23,7 @@ export default function SearchInput({ PlaceHolderTEXT, defualtValue, selectFunc,
             if (value === '' && !isLoading ) return;
             setIsLoading(prev => true);
             try {
-                const res = await getListCountry(value);
+                const res = await SearchPlaces({searchKey: value});
                 setListCountry(res);
             } catch (error) {
                 console.error(error);
@@ -35,7 +35,9 @@ export default function SearchInput({ PlaceHolderTEXT, defualtValue, selectFunc,
     }, [value])
 
     return(
-        <div className="SearchInput__Location" style={{ width: width, height: height}}>
+        <>
+        {isSearch && <div className='overlaySearch' onClick={()=> setIsSearch(false)}/>}
+        <div className={`SearchInput__Location ${isSearch ? "focused__SearchElement" : "focused__SearchElement_closed"}`} style={{ width: width, height: height}}>
             <img src={SearchIcon} alt="SEARCHICON" />
             <input type="text"
                     placeholder={PlaceHolderTEXT} 
@@ -60,6 +62,7 @@ export default function SearchInput({ PlaceHolderTEXT, defualtValue, selectFunc,
                     </div>
             }
         </div>
+        </>
     )
 }
 

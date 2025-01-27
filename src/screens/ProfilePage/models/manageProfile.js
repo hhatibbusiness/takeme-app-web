@@ -76,3 +76,14 @@ export async function UpdateProfileImage({mLocale, localeId, userId, bodyData}) 
         console.log("ERROR UPDATE Image", error)
     }    
 }
+
+
+export async function UpdateLocationAPI({mLocale, localeId, userId, bodyData}) {
+    const url = `${BaseURL}/base/profiles/location/update?mLocale=${mLocale}&localeId=${localeId}&baseProfileId=${userId}`
+    try {
+        const response = await axios.put(url, bodyData)
+        return response
+    } catch (error) {
+        console.log("ERROR UPDATE Image", error)
+    }    
+}

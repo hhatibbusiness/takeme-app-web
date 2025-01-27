@@ -36,7 +36,9 @@ function focusReducer(state, action) {
                 return state
             return { Age: action.payload}
         case actionTypes.SET_LOCATION:
-            return { ...state, Location: action.payload };
+            if (state.Location == action.payload)
+                return state
+            return { Location: action.payload}
         case actionTypes.TOGGLE_GENDER:
             return { ...state, Gender: !state.Gender };
         case actionTypes.TOGGLE_NAME:

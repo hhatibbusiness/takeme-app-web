@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { GetProfileData, UpdateGenderAPI, UpdateNameAPI, UpdateBirthDateAPI, UpdateProfileImage } from '../models/manageProfile'
+import { GetProfileData, UpdateGenderAPI, UpdateNameAPI, UpdateBirthDateAPI, UpdateProfileImage, UpdateLocationAPI } from '../models/manageProfile'
 import waitForReduxValue from '../../../utilty/useDelayValue'
 import { addAlert } from '../../../store/actions/alert.actions';
 
@@ -202,10 +202,22 @@ function useProfileController() {
     }
 
     const UpdateLocation = async (props) => {
-        console.log("TEST", ProfileData.location)
+        console.log("PROPS", props)
+        const data = {
+            ...props,
+            placeId: props?.placesResponseDto?.id,
+            id: 0,
+            navigationList: [
+                {
+                    id : null
+                }
+            ]
+        }
+
         dispatch({ type: "START_UPDATE_LOCATION"})
         dispatch({ type: "UPDATE_LOCATION", payload: props });
-        console.log("TEST", ProfileData.location)
+        const response = await UpdateLocationAPI({ mLocale: 'ar_SA', localeId: 4, userId: ProfileData.id, bodyData: data })
+        console.log("RESPONSE UPDATE: ", response)
         dispatch({ type: "END_UPDATE_LOCATION" })
     }
 
