@@ -342,8 +342,9 @@ const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, chang
                     await DeleteProfile({mLocale: 'ar_SA', userId: profile.id});
                     logUserOut();
                     setSidebar(false);
-                    navigate('/');
                     setOpenWarning(false)
+                    navigate('/');
+                    window.location.reload();
                 }}
                 typeSrc={'alarm'}
                 message={"هل تريد حذف البروفابل الخاص بيك \n\n سوف تقوم بمسح جميع البيانات الخاصه بك"}

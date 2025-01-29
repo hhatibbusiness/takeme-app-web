@@ -3,7 +3,7 @@ import './SearchInput.css'
 import SearchIcon from '../../../../assets/images/profile/SearchIcon.png'
 import { SearchPlaces } from './../../models/manageCountry'
 
-export default function SearchInput({ PlaceHolderTEXT, defualtValue, selectFunc, searchFun, width='100%', height='100%' }){
+export default function SearchInput({ PlaceHolderTEXT, defualtValue, selectFunc, searchFun, width='100%', height='100%', shadow=false }){
     const [value, setValue] = useState(defualtValue || '');
     const [listCountry, setListCountry] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +36,7 @@ export default function SearchInput({ PlaceHolderTEXT, defualtValue, selectFunc,
 
     return(
         <>
-        {isSearch && <div className='overlaySearch' onClick={()=> setIsSearch(false)}/>}
+        {isSearch && shadow && <div className='overlaySearch' onClick={()=> setIsSearch(false)}/>}
         <div className={`SearchInput__Location ${isSearch ? "focused__SearchElement" : "focused__SearchElement_closed"}`} style={{ width: width, height: height}}>
             <img src={SearchIcon} alt="SEARCHICON" />
             <input type="text"

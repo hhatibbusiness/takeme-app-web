@@ -17,7 +17,7 @@
 .focused__SearchElement {
     position: relative;
     z-index: 10000;
-    transform: scale(1.03);
+    transform: scale(1);
     transition: all 0.3s ease-in-out;
 }
 .focused__SearchElement_closed {

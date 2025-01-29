@@ -22,10 +22,25 @@ export default function PopUpLocation ({ setFocused, ProfileData, handleSave }) 
                             defualtValue={locationData?.placesResponseDto?.translations?.fields.find(item => item.key === 'name')?.value} 
                             searchFun={SearchPlaces}
                             selectFunc={(v)=> setLocationData(prev => ({...prev, placesResponseDto: v}))}
-                            height={'10%'} />
+                            height={'10%'} 
+                            shadow={true}
+                />
                 <Input PlaceHolderTEXT={'اسم الشارع'}  value={locationData?.address || ""}        onChange={(v)=> setLocationData(prev => ({...prev, address: v}))} height={'10%'} />
                 <Input PlaceHolderTEXT={'رقم البيت'}   value={locationData?.buildingNumber || ""} onChange={(v)=> setLocationData(prev => ({...prev, buildingNumber: v}))} height={'10%'}/>
-                <Input PlaceHolderTEXT={" رقم الطابق"} value={locationData?.floorNumber || ""}    onChange={(v)=> setLocationData(prev => ({...prev, floorNumber: v}))} height={'10%'}/>
+                
+                <div className="RowAdd_InputData">
+                    <Input PlaceHolderTEXT={" رقم الطابق"} 
+                            value={locationData?.floorNumber || ""}    
+                            onChange={(v)=> setLocationData(prev => ({...prev, floorNumber: v}))} 
+                            style={{border: "none", borderRadius: "0px" }} 
+                    />
+                    <Input PlaceHolderTEXT={" رقم الغرفه"} 
+                            value={locationData?.roomNumber || ""} 
+                            onChange={(v)=> setLocationData(prev => ({...prev, roomNumber: v}))}
+                            style={{border: "none", borderRadius: "0px" ,borderRight: "1px solid #E5E5E5"}}
+                    />
+                </div>
+                
                 <Input PlaceHolderTEXT={"الرقم البريدي"} value={locationData?.postalCode || ""}   onChange={(v)=> setLocationData(prev => ({...prev, postalCode: v}))} height={'10%'}/>
                 <TextArea PlaceHolderTEXT={"ملاحظات"} value={locationData?.comments || ""}         onChange={(v)=> setLocationData(prev => ({...prev, comments: v}))}/>
             </div>
