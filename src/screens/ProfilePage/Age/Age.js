@@ -2,84 +2,46 @@ import React, { useEffect, useState } from "react";
 import './Age.css';
 import { CalculateAge } from "./utility/utility";
 import Shimmer from "../shimmer/shimmer";
-import { Input } from '../components/Components';
-import Right from '../../../assets/images/profile/Right.png';
+import AgePopup from "./Popup/Popup";
 
-export default function Age({ Focused, setFocused, isLoading, ProfileData, setProfileData }) {
-    const [date, setDate] = useState(ProfileData?.dateOfBirth || {});
-    const [age, setAge] = useState(' ');
-    const [showedDate, setShowedDate] = useState('');
 
-    /// Update the date of birth in the profile data after changing
-    const handleInputChange = (name) => {
-        let value = name.replace(/[^\d]/g, "");
-        if (value.length > 8) value = value.slice(0, 8);
-    
-        if (value.length > 4) value = `${value.slice(0, 4)}/${value.slice(4)}`;
-        if (value.length > 7) value = `${value.slice(0, 7)}/${value.slice(7)}`;
-        setShowedDate(value);
+export default function Age({ Focused, FocusHandle, ProfileData, ProfileActions }) {
+    const [ dateOfBirth , setDateBirth ] = useState({})
 
-        if (value.length === 10) {
-            let speDate = value.split("/");
-            let year = parseInt(speDate[0]);
-            let month = parseInt(speDate[1]);
-            let day = parseInt(speDate[2]);
-            if (year > 0 && month > 0 && month < 13 && day > 0 && day < 32) {
-                let newDate = { 'year': year, 'month': month, 'day': day };
-                setDate(prev => ({...prev, ...newDate}));
-                setAge(CalculateAge(newDate));
-            };
-        } else {
-            setDate(prev => ({...prev, 'year': '', 'month': '', 'day': ''}));
-            setAge(' ');
+    // Save Data
+    const handleSave = (value, display)=>{
+        let valueData = value.split("/");
+        if (valueData?.length == 3 ) {
+            const data = { "year": valueData[0], "month": valueData[1] , "day": valueData[2], "display": display}
+            console.log(data)
+            if (Number(data?.month) <= 12 && Number(data?.month) >= 1 && Number(data?.day) <= 31 && Number(data?.day) >= 1 ) {
+                setDateBirth(data)
+                ProfileActions.updateDateOfBirth(data)
+                FocusHandle(false)    
+            }
         }
-    };
+    }
 
-    // Handle the save button
-    const handleSave = () => {
-        if (date?.year && date?.month && date?.day) {
-            setProfileData(prev => ({...prev, 'dateOfBirth': date}));
-            setAge(CalculateAge(date));
-            setFocused(!Focused);
-        }
-    };
+    /// Handle Change data
+    useEffect(()=>{
+        setDateBirth(ProfileData?.dateOfBirth || {})
+    }, [ProfileData.isLoading])
 
-    /// Update the date of birth in the profile data after Loading
-    useEffect(() => {
-        setDate(ProfileData?.dateOfBirth);
-        if (ProfileData?.dateOfBirth?.year && ProfileData?.dateOfBirth?.month && ProfileData?.dateOfBirth?.day) {
-            setAge(CalculateAge(ProfileData?.dateOfBirth));
-            setShowedDate(`${ProfileData?.dateOfBirth?.year}/${ProfileData?.dateOfBirth?.month}/${ProfileData?.dateOfBirth?.day}`);
-        }
-    }, [ProfileData?.dateOfBirth]);
 
     return (
+        <>
         <div className={`AgeContainer ${Focused ? 'focused__Age' : 'focused__Age_closed'}`}>
-            {isLoading ? <Shimmer /> :
-                <div className='Age__Container' onClick={() => setFocused(true)} >
-                    { age }
+            {ProfileData.isLoading ? <Shimmer /> :
+                <div className='Age__Container' onClick={() => FocusHandle(true)}>
+                    {CalculateAge(dateOfBirth)}
                 </div>
             }
-            {/* Conditionally render the input field */}
-            {Focused && (
-                <div className="Input-Age__Container">
-                    <div className="Input__Age">
-                        <Input
-                            type="text" 
-                            PlaceHolderTEXT="YYYY/MM/DD"
-                            value={showedDate}
-                            onChange={(name)=> handleInputChange(name)}
-                        />
-                    </div>
-                    <div className="UnderInput__Age">
-                        <div className="UnderInputChecked__Age">
-                            <input type="checkbox" id="ageCheckbox" name="ageCheckbox" checked={date?.isDisabled} onChange={()=> setDate(prev=> ({...prev, 'isDisabled': !prev.isDisabled}))}/>
-                            <label>اخفاء</label>
-                        </div>
-                        <img src={Right} alt="Right" onClick={()=> handleSave()}/>
-                    </div>
-                </div>
-            )}
         </div>
+        {Focused && (
+            <div className="PopupContainer">
+                <AgePopup handleSave={handleSave} dateOfBirth={dateOfBirth} />
+            </div>
+        )}
+        </>
     );
 }

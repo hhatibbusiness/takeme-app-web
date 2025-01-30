@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import './SearchInput.css'
 import SearchIcon from '../../../../assets/images/profile/SearchIcon.png'
-import { getListCountry } from './../../models/manageCountry'
+import { SearchPlaces } from './../../models/manageCountry'
 
-export default function SearchInput({ PlaceHolderTEXT, defualtValue, CheckFun, searchFun, width='100%', height='100%' }){
+export default function SearchInput({ PlaceHolderTEXT, defualtValue, selectFunc, searchFun, width='100%', height='100%', shadow=false }){
     const [value, setValue] = useState(defualtValue || '');
     const [listCountry, setListCountry] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -13,9 +13,9 @@ export default function SearchInput({ PlaceHolderTEXT, defualtValue, CheckFun, s
         setValue(name)
     }
     const handleCheckItem = (item)=> {
-        setValue(item.name);
+        setValue(item.translations.fields[0].value);
         setIsSearch(false);
-        CheckFun(item);
+        selectFunc(item)
     }
 
     useEffect(() => {
@@ -23,7 +23,7 @@ export default function SearchInput({ PlaceHolderTEXT, defualtValue, CheckFun, s
             if (value === '' && !isLoading ) return;
             setIsLoading(prev => true);
             try {
-                const res = await getListCountry(value);
+                const res = await SearchPlaces({searchKey: value});
                 setListCountry(res);
             } catch (error) {
                 console.error(error);
@@ -35,7 +35,9 @@ export default function SearchInput({ PlaceHolderTEXT, defualtValue, CheckFun, s
     }, [value])
 
     return(
-        <div className="SearchInput__Location" style={{ width: width, height: height}}>
+        <>
+        {isSearch && shadow && <div className='overlaySearch' onClick={()=> setIsSearch(false)}/>}
+        <div className={`SearchInput__Location ${isSearch ? "focused__SearchElement" : "focused__SearchElement_closed"}`} style={{ width: width, height: height}}>
             <img src={SearchIcon} alt="SEARCHICON" />
             <input type="text"
                     placeholder={PlaceHolderTEXT} 
@@ -45,12 +47,12 @@ export default function SearchInput({ PlaceHolderTEXT, defualtValue, CheckFun, s
             />
             {value !== '' && !isLoading && isSearch &&
                     <div className="ResultSearch__SeachInput">
-                        {listCountry.length > 0 ? (
+                        {listCountry?.length > 0 ? (
                             listCountry.map((item, index) => (
                                 <div    
                                     className='SearchResultsItem__Location' 
                                     key={index}
-                                    onClick={()=> handleCheckItem(item)} >{highlightText(item.name, value)}</div>
+                                    onClick={()=> handleCheckItem(item)} >{highlightText(item.translations.fields[0].value, value)}</div>
                             ))
                         ) : (
                             <div className="SearchResultsNoItem__Location">
@@ -60,6 +62,7 @@ export default function SearchInput({ PlaceHolderTEXT, defualtValue, CheckFun, s
                     </div>
             }
         </div>
+        </>
     )
 }
 

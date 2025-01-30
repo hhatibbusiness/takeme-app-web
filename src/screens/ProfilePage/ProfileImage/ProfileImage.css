@@ -9,5 +9,6 @@
 .ProfileImage__container img {
     width: 100%;
     height: 100%;
-    object-fit: stretch;
+    object-fit: cover;
+    image-rendering: crisp-edges;
 }

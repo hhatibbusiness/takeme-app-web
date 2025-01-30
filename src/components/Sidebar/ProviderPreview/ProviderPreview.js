@@ -20,7 +20,7 @@ const ProviderPreview = ({provider, setSidebar, takemeProviderToken, takemeProvi
     const {t} = useTranslation();
 
     return (
-        <Link onClick={e => setSidebar(false)} to={`/provider/${provider.providerId}`} className={"ProviderPreview"}>
+        <Link onClick={e => setSidebar(false)} to={`/profile`} className={"ProviderPreview"}>
             <div className="ProviderPreview__container">
                 <div className="ProviderPreview__avatar">
                     <div className="ProviderPreview__avatar--img">

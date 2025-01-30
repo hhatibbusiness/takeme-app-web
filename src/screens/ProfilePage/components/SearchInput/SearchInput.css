@@ -11,13 +11,25 @@
     margin: 5px 0;
     padding: 0 10px;
     box-sizing: border-box;
-    z-index: 200;
+    z-index: 10000;
+}
+
+.focused__SearchElement {
+    position: relative;
+    z-index: 10000;
+    transform: scale(1);
+    transition: all 0.3s ease-in-out;
+}
+.focused__SearchElement_closed {
+    position: relative;
+    transform: scale(1);
+    transition: all 0.3s ease-in-out;
 }
 
 .SearchInput__Location img {
     height: 50%;
     width: auto;
-    z-index: 200;
+    z-index: 100000;
 }
 
 .SearchInput__Location input {
@@ -34,7 +46,7 @@
     line-height: 22px;
     text-align: right;
     color: #dfdfdf;
-    z-index: 200;
+    z-index: 10000000;
 }
 
 .SearchInput__Location input::placeholder {
@@ -45,11 +57,13 @@
     line-height: 22px;
     text-align: right;
     color: #dfdfdf;
+    z-index: 1000000;
 }
 
 .SearchInput__Location input:focus {
     border: none; 
-    outline: none;            
+    outline: none;
+    z-index: 1000000;        
 }
 
 
@@ -61,7 +75,7 @@
     align-items: center;
     max-height: 400%;
     overflow-y: scroll;
-    top: 103%;
+    top: 95%;
     left: 0;
     right: 0;
     padding: 5px;
@@ -69,7 +83,7 @@
     border: 1px solid #E5E5E5;
     border-radius: 0 0 10px 10px;
     background-color: #ffffff;
-    z-index: 150;
+    z-index: 100;
     animation: slideDown 0.3s ease-in-out;
 }
 @keyframes slideDown {

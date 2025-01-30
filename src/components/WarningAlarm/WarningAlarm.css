@@ -1,0 +1,86 @@
+.PopUp-Warning-container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 10000;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.PopUp-Warning{
+    width: 95%;
+    height: 50%;
+    margin: auto;
+    background-color: white;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.PopUp-Warning-img {
+    height: 35%;
+    aspect-ratio: 1/1;
+    background-color: #FFFFFF;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.PopUp-Warning-text{
+    margin-top: 5%;
+    padding: 5px;
+    box-sizing: border-box;
+    font-family: 'DIN Next LT Arabic';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 22px;
+    text-align: center;
+    color: #989898;
+}
+
+.warning-save-cancel-button-container{
+    margin-top: 20%;
+    width: 100%;
+    height: 20%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden; 
+}
+
+.warning-save-cancel-button{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'DIN Next LT Arabic';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 22px;
+    text-align: center;
+}
+
+.warning__save-button{
+    background: #F5FDF9;
+    color: #FFB74A;
+}
+.warning__cancel-button{
+    background: #FFF5E6;
+    color: #ADADAD;
+}

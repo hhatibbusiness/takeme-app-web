@@ -1,4 +1,4 @@
-.LocationContainer{
+.LocationElementContainer{
     position: absolute;
     top: 10px;
     left: 10px;
@@ -7,7 +7,6 @@
     align-items: center;
     justify-content: center;
     height: 20%;
-    min-height: fit-content;
     aspect-ratio: 1/1;
 }
 
@@ -36,7 +35,7 @@
     justify-content: center;
     align-items: flex-end;
     border-radius: 15px;
-    width: 60vw;
+    width: 70vw;
     height: 17vh;
     padding: 0 5px;
     box-sizing: border-box;

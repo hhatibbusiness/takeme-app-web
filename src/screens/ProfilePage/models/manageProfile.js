@@ -1,64 +1,89 @@
-export async function GetProfileData(mLocale, localeId) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const response = {
-        id: 12345, // Personal profile ID
-        baseProfile: {
-          id: 67890, // Profile ID
-          type: "Person",
-          profileImg: {
-            id: "img123",
-            url: "",
-            fileName: "profile.jpg",
-            mimeType: "image/jpeg",
-            size: 12345, // size in bytes
-          },
-          description: {
-            id: "desc123",
-            text: `This is a description for the profile in ${mLocale}`,
-            language: mLocale,
-          },
-          location: {
-            id: "loc123",
-            place: {
-              id: "place123",
-              name: `Sample Place in ${mLocale}`,
-              country: "مصر",
-              city: `City (${mLocale})`,
-            },
-            buildingNumber: "101",
-            floorNumber: "2",
-            roomNumber: "202",
-            latitude: 37.7749, // Example coordinate
-            longitude: -122.4194, // Example coordinate
-            postalCode: "12345",
-            translationsResponseDto: {
-              localeId: localeId,
-              sourceId: "loc123",
-              translationsInitMethod: "MANUAL",
-              translations: [
-                { street_name: `Street in ${mLocale}` },
-                { comments: `Comments in ${mLocale}` },
-              ],
-            },
-          },
-          urlPostfix: `/profiles/67890`,
-        },
-        dateOfBirth: {'year': '2000', 'month': '08', 'day': '21', 'isDisabled': true},
-        gender: 1,
-        translationsResponseDto: {
-          localeId: localeId,
-          sourceId: "67890",
-          translationsInitMethod: "AUTO",
-          translations: [
-            { name: `Hussien Khateb` },
-            { display_name: 'حسين خطيب' },
-          ],
-        },
-        availableTranslations: ["en", "es", "fr"],
-      };
+import axios from "axios";
+import { BaseURL } from "../../../assets/constants/Base";
 
-      resolve(response);
-    }, 2000);
-  });
+
+export async function GetProfileData({mLocale, localeId}) {
+    const url = `${BaseURL}/users/personal/profile?mLocale=${mLocale}&localeId=${localeId}`;
+    try {
+        const response = await axios.get(url);
+
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching profile data:', error);
+    }
+}
+
+export async function UpdateGenderAPI({mLocale, userId, gender}) {
+    const url = `${BaseURL}/personal/profiles/update-gender?mLocale=${mLocale}&userId=${userId}&gender=${gender}`
+    try {
+        const response = await axios.put(url)
+
+        return response
+    } catch (error) {
+        console.log("ERROR UPDATE GENDER", error)
+    }
+    
+}
+
+export async function UpdateNameAPI({ mLocale, LocaleId, userId, name, addAlert }) {
+    const url = `${BaseURL}/base/profiles/update-name?mLocale=${mLocale}&localeId=${LocaleId}&baseProfileId=${userId}&name=${name}`
+    let response;
+
+    try {
+        response = await axios.put(url)
+        return response
+    } catch (error) {
+        console.log("ERROR UPDATE Name", error)
+        const alertData = {
+            alertType: 'danger',
+            msg: error.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
+        };
+        addAlert(alertData);
+        console.log("ALERT ADDED")
+    }
+    
+}
+
+export async function UpdateBirthDateAPI({ mLocale, userId, BirthOfDate }) {
+    const url = `${BaseURL}/personal/profiles/update-date-of-birth?mLocale=${mLocale}&userId=${userId}`
+    try {
+        const response = await axios.put(url, BirthOfDate)
+
+        return response
+    } catch (error) {
+        console.log("ERROR UPDATE BirthDate", error)
+    }
+    
+}
+
+export async function DeleteProfile({mLocale, userId}) {
+    const url = `${BaseURL}/users/delete?mLocale=${mLocale}&userId=${userId}`
+    try {
+        const response = await axios.delete(url)
+        return response
+    } catch (error) {
+        console.log("ERROR IN DELETE : ", error)
+    }
+
+}
+
+export async function UpdateProfileImage({mLocale, localeId, userId, bodyData}) {
+    const url = `${BaseURL}/base/profiles/update-profile-image?mLocale=${mLocale}&localeId=${localeId}&baseProfileId=${userId}`
+    try {
+        const response = await axios.put(url, bodyData)
+        return response
+    } catch (error) {
+        console.log("ERROR UPDATE Image", error)
+    }    
+}
+
+
+export async function UpdateLocationAPI({mLocale, localeId, userId, bodyData}) {
+    const url = `${BaseURL}/base/profiles/location/update?mLocale=${mLocale}&localeId=${localeId}&baseProfileId=${userId}`
+    try {
+        const response = await axios.put(url, bodyData)
+        return response
+    } catch (error) {
+        console.log("ERROR UPDATE Image", error)
+    }    
 }
