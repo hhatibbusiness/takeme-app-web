@@ -1,0 +1,10 @@
+export const TakeMeConstants = Object.freeze({
+    PRIMARY_COLOR: '#07AB83',
+    SECONDNARY_COLOR: '#97EDC5',
+    LIGHT_COLOR: '#F9FFF9',
+    ALERT_COLOR: '#F44336',
+    SECONDARY_TEXT_COLOR: '#808080',
+    CLICKABLE_TEXT_COLOR: '#6699FF',
+    SMALL_TEXT_SIZE: '15px',
+    LARGE_TEXT_SIZE: '20px',
+});

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigationType, useNavigate } from 'react-router-dom';
 import './ProfilePage.css';
 import useProfileController from './Controllers/ProfileController';
 import useFocusReducer from './Controllers/FocusedController'
@@ -10,7 +10,6 @@ import DOT from '../../assets/images/profile/Dot.png'
 import Age from './Age/Age'
 import Location from './Location/Location';
 import Welcome from '../../assets/images/profile/Welcome.png'
-//import { GetProfileData } from './models/manageProfile'
 import { ImageManagerWrapped } from '../../common/ImageManager'
 
 
@@ -19,13 +18,12 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
     const { ProfileData, ProfileActions } = useProfileController()
     const { Focused, FocusedActions} = useFocusReducer();
     const [ openImageManager, setOpenImageManager ] = useState(false)
+    const navigationType = useNavigationType();
 
-    console.log("PROFILE DATA", ProfileData)
     // init the Profile Data From API
     useEffect(() => {
         const TOKEN = localStorage.getItem("TAKEME_TOKEN")
         if (!TOKEN) navigate('/login')
-        const navigationType = window.performance.getEntriesByType('navigation')[0]?.type;
 
         console.log(navigationType)
         if (navigationType === 'reload') {
@@ -35,13 +33,14 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
         }
     }, []);
 
-    
+    // Remove the Overlay Layer
     const clearFoucse = () => {
         FocusedActions.setGenderFocus(false);
         FocusedActions.setNameFocus(false);
         FocusedActions.setLocationFocus(false)
     }
 
+    // Handle Update Image 
     const handleSaveImages = async (props)=> {
         const data = props[0]
         ProfileActions.updateProfileImage({id: null, path: data?.imageUrl, title: data?.id, comment: data?.id, type:"image"})
@@ -50,14 +49,10 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
     // Force senario
     useEffect(() => {
         if (!ProfileData.isLoading) {
-            if (!ProfileData.gender)
-                FocusedActions.setGenderFocus(true)
-            else if (!ProfileData.translations)
-                FocusedActions.setNameFocus(true)
-            else if (!ProfileData.dateOfBirth)
-                FocusedActions.setAgeFocus(true)
-            else if (!ProfileData.location)
-                FocusedActions.setLocationFocus(true)
+            if (!ProfileData.gender) FocusedActions.setGenderFocus(true)
+            else if (!ProfileData.translations) FocusedActions.setNameFocus(true)
+            else if (!ProfileData.dateOfBirth) FocusedActions.setAgeFocus(true)
+            else if (!ProfileData.location) FocusedActions.setLocationFocus(true)
         }
     },[ProfileData.isLoading, Focused])
 
@@ -96,7 +91,7 @@ export default function ProfilePage({ paddingTop, admin, setAdmin }) {
                         <ImageManagerWrapped
                             DefFileDir= {'/resources/images/profile'}
                             DefLocale={'ar_SA'}
-                            DefSelected={''}
+                            DefSelected={[ProfileData?.imageAttachment?.path]}
                             setOpenImageManager={setOpenImageManager} 
                             handleSaveImages={handleSaveImages}
                         />

@@ -5,6 +5,28 @@ import waitForReduxValue from '../../../utilty/useDelayValue'
 import { addAlert } from '../../../store/actions/alert.actions';
 
 
+// Constants for action types
+const ACTION_TYPES = {
+    START_FETCH_PROFILE: 'START_FETCH_PROFILE',
+    END_FETCH_PROFILE: 'END_FETCH_PROFILE',
+    FETCH_PROFILE: 'FETCH_PROFILE',
+    START_UPDATE_GENDER: 'START_UPDATE_GENDER',
+    END_UPDATE_GENDER: 'END_UPDATE_GENDER',
+    UPDATE_GENDER: 'UPDATE_GENDER',
+    START_UPDATE_NAME: 'START_UPDATE_NAME',
+    END_UPDATE_NAME: 'END_UPDATE_NAME',
+    UPDATE_NAME: 'UPDATE_NAME',
+    START_UPDATE_DATE_OF_BIRTH: 'START_UPDATE_DATE_OF_BIRTH',
+    END_UPDATE_DATE_OF_BIRTH: 'END_UPDATE_DATE_OF_BIRTH',
+    UPDATE_DATE_OF_BIRTH: 'UPDATE_DATE_OF_BIRTH',
+    START_UPDATE_IMAGE: 'START_UPDATE_IMAGE',
+    END_UPDATE_IMAGE: 'END_UPDATE_IMAGE',
+    UPDATE_IMAGE: 'UPDATE_IMAGE',
+    START_UPDATE_LOCATION: 'START_UPDATE_LOCATION',
+    END_UPDATE_LOCATION: 'END_UPDATE_LOCATION',
+    UPDATE_LOCATION: 'UPDATE_LOCATION',
+};
+
 const initialState = {
     id: null,
     type: "Person",
@@ -63,27 +85,27 @@ const initialState = {
 function reducer(state, action) {
     switch (action.type) {
         // Fetch Profile Data
-        case "START_FETCH_PROFILE":
+        case ACTION_TYPES.START_FETCH_PROFILE:
             return { ...state, isLoading: true };
-        case "END_FETCH_PROFILE":
+        case ACTION_TYPES.END_FETCH_PROFILE:
             return { ...state, isLoading: false };
-        case "FETCH_PROFILE":
+        case ACTION_TYPES.FETCH_PROFILE:
             return { ...state, ...action.payload };
         
         /// Update Gender
-        case "START_UPDATE_GENDER":
+        case ACTION_TYPES.START_UPDATE_GENDER:
             return { ...state, isUpdateGender: true}
-        case "END_UPDATE_GENDER":
+        case ACTION_TYPES.END_UPDATE_GENDER:
             return {...state, isUpdateGender: false}
-        case "UPDATE_GENDER":
+        case ACTION_TYPES.UPDATE_GENDER:
             return { ...state, gender: action.payload };
         
         /// Update Name
-        case "START_UPDATE_NAME":
+        case ACTION_TYPES.START_UPDATE_NAME:
             return { ...state, isUpdateName: true}
-        case "END_UPDATE_NAME":
+        case ACTION_TYPES.END_UPDATE_NAME:
             return {...state, isUpdateName: false}
-        case "UPDATE_NAME":
+        case ACTION_TYPES.UPDATE_NAME:
             return {
                 ...state,
                 translations: {
@@ -93,19 +115,19 @@ function reducer(state, action) {
             };
         
         /// Update DateOFBirth
-        case "START_UPDATE_DATE_OF_BIRTH":
+        case ACTION_TYPES.START_UPDATE_DATE_OF_BIRTH:
             return { ...state, isUpdateDateOfBirth: true}
-        case "END_UPDATE_DATE_OF_BIRTH":
+        case ACTION_TYPES.END_UPDATE_DATE_OF_BIRTH:
             return {...state, isUpdateDateOfBirth: false}
-        case "UPDATE_DATE_OF_BIRTH":
+        case ACTION_TYPES.UPDATE_DATE_OF_BIRTH:
             return { ...state, dateOfBirth: action.payload };
 
         /// Update Profile Image
-        case "START_UPDATE_IMAGE":
+        case ACTION_TYPES.START_UPDATE_IMAGE:
             return { ...state, isUpdateImage: true}
-        case "END_UPDATE_IMAGE":
+        case ACTION_TYPES.END_UPDATE_IMAGE:
             return {...state, isUpdateImage: false}
-        case "UPDATE_IMAGE":
+        case ACTION_TYPES.UPDATE_IMAGE:
             return {
                 ...state,
                 imageAttachment: { ...state.imageAttachment, ...action.payload }
@@ -113,11 +135,11 @@ function reducer(state, action) {
 
 
         /// Update Profile Location
-        case "START_UPDATE_LOCATION":
+        case ACTION_TYPES.START_UPDATE_LOCATION:
             return { ...state, isUpdateImage: true}
-        case "END_UPDATE_LOCATION":
+        case ACTION_TYPES.END_UPDATE_LOCATION:
             return {...state, isUpdateImage: false}
-        case "UPDATE_LOCATION":
+        case ACTION_TYPES.UPDATE_LOCATION:
             return {
                 ...state,
                 location: { ...state.location, ...action.payload }
@@ -136,71 +158,71 @@ function useProfileController() {
 
     const handleAlert = (alertMessage) =>{
         dispatchRedux(addAlert(alertMessage))
-        console.log(alertMessage)
     }
 
     // Fetch Profile Data from Redux and wait for it
     const fetchProfileDataFromRedux = async () => {
-        dispatch({ type: "START_FETCH_PROFILE" });
+        dispatch({ type: ACTION_TYPES.START_FETCH_PROFILE });
         try {
             const profile = await waitForReduxValue(() => authProfile, (value) => value?.id !== undefined, 5000);
-            console.log("PROFILE DATA REDUX`", profile)
-            dispatch({type: "FETCH_PROFILE", payload: profile})
+            dispatch({type: ACTION_TYPES.FETCH_PROFILE, payload: profile})
         } catch (error) {
-            console.error("Error waiting for Redux value:", error.message);
-            console.log("Start Fetching...")
             const profile = await fetchProfileData()
-            dispatch({type: "FETCH_PROFILE", payload: profile})
+            dispatch({type: ACTION_TYPES.FETCH_PROFILE, payload: profile})
         } finally {
-            dispatch({type: "END_FETCH_PROFILE"})
+            dispatch({type: ACTION_TYPES.END_FETCH_PROFILE})
         }
     };
 
     // Fetch Profile Data
     const fetchProfileData = async () => {
-        dispatch({ type: "START_FETCH_PROFILE" });
+        dispatch({ type: ACTION_TYPES.START_FETCH_PROFILE });
         const response = await GetProfileData({ mLocale: "ar_SA", localeId: 1});
-        console.log("=====> RESPONSE FETCH PROFILE : ", response)
+
+        // CHECK THE RESPONSE TO UPDATE AND GET THE REDUX
         if (response?.status) {
-            dispatch({ type: "FETCH_PROFILE", payload: response.output });
+            dispatch({ type: ACTION_TYPES.FETCH_PROFILE, payload: response.output });
             dispatchRedux({type: "GET_USER_PROFILE", profile: response.output})
         } else {
             const profile = await fetchProfileDataFromRedux()
-            dispatch({type: "FETCH_PROFILE", payload: profile})
+            dispatch({type: ACTION_TYPES.FETCH_PROFILE, payload: profile})
         }
-        dispatch({ type: "END_FETCH_PROFILE" })
+        dispatch({ type: ACTION_TYPES.END_FETCH_PROFILE })
     };
 
     // Update Gender Function
     const updateGender = async (gender) => {
-        dispatch({ type: "START_UPDATE_GENDER"})
-        dispatch({ type: "UPDATE_GENDER", payload: gender });
-        const response = await UpdateGenderAPI({ mLocale: 'ar_SA', userId: ProfileData.id, gender: gender })
-        dispatch({ type: "END_UPDATE_GENDER" })
+        dispatch({ type: ACTION_TYPES.START_UPDATE_GENDER})
+        dispatch({ type: ACTION_TYPES.UPDATE_GENDER, payload: gender });
+        await UpdateGenderAPI({ mLocale: 'ar_SA', userId: ProfileData.id, gender: gender })
+        dispatch({ type: ACTION_TYPES.END_UPDATE_GENDER })
     }
     
+    // Update Name
     const updateName = async (name) => {
-        dispatch({ type: "START_UPDATE_NAME"})
-        dispatch({ type: "UPDATE_NAME", payload: name });
-        const response = await UpdateNameAPI({mLocale: 'ar_SA', LocaleId:1, userId: ProfileData.id, name: name, addAlert: handleAlert})
-        dispatch({ type: "END_UPDATE_NAME"})
+        dispatch({ type: ACTION_TYPES.START_UPDATE_NAME})
+        dispatch({ type: ACTION_TYPES.UPDATE_NAME, payload: name });
+        await UpdateNameAPI({mLocale: 'ar_SA', LocaleId:1, userId: ProfileData.id, name: name, addAlert: handleAlert})
+        dispatch({ type: ACTION_TYPES.END_UPDATE_NAME})
     }
     
+    // Update DateOfBirth
     const updateDateOfBirth = async (dateOfBirth) => {
-        dispatch({ type: "START_UPDATE_DATE_OF_BIRTH"})
-        dispatch({ type: "UPDATE_DATE_OF_BIRTH", payload: dateOfBirth });
-        const response = await UpdateBirthDateAPI({ mLocale: "ar_SA", userId: ProfileData.id, BirthOfDate: dateOfBirth})
-        dispatch({ type: "END_UPDATE_DATE_OF_BIRTH"})
+        dispatch({ type: ACTION_TYPES.START_UPDATE_DATE_OF_BIRTH})
+        dispatch({ type: ACTION_TYPES.UPDATE_DATE_OF_BIRTH, payload: dateOfBirth });
+        await UpdateBirthDateAPI({ mLocale: "ar_SA", userId: ProfileData.id, BirthOfDate: dateOfBirth})
+        dispatch({ type: ACTION_TYPES.END_UPDATE_DATE_OF_BIRTH})
     }
 
     // Update Gender Function
     const updateProfileImage = async (props) => {
-        dispatch({ type: "START_UPDATE_IMAGE"})
-        dispatch({ type: "UPDATE_IMAGE", payload: props });
+        dispatch({ type: ACTION_TYPES.START_UPDATE_IMAGE})
+        dispatch({ type: ACTION_TYPES.UPDATE_IMAGE, payload: props });
         await UpdateProfileImage({ mLocale: 'ar_SA', localeId: 4, userId: ProfileData.id, bodyData: props })
-        dispatch({ type: "END_UPDATE_IMAGE" })
+        dispatch({ type: ACTION_TYPES.END_UPDATE_IMAGE })
     }
 
+    // Update Location
     const UpdateLocation = async (props) => {
         const data = {
             ...props,
@@ -212,13 +234,11 @@ function useProfileController() {
                 }
             ]
         }
-        console.log("*********PROPS", data)
 
-        dispatch({ type: "START_UPDATE_LOCATION"})
-        dispatch({ type: "UPDATE_LOCATION", payload: props });
-        const response = await UpdateLocationAPI({ mLocale: 'ar_SA', localeId: 4, userId: ProfileData.id, bodyData: data })
-        console.log("**********RESPONSE UPDATE: ", response)
-        dispatch({ type: "END_UPDATE_LOCATION" })
+        dispatch({ type: ACTION_TYPES.START_UPDATE_LOCATION})
+        dispatch({ type: ACTION_TYPES.UPDATE_LOCATION, payload: props });
+        await UpdateLocationAPI({ mLocale: 'ar_SA', localeId: 4, userId: ProfileData.id, bodyData: data })
+        dispatch({ type: ACTION_TYPES.END_UPDATE_LOCATION })
     }
 
     return {
