@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer } from 'react'
-import { BaseURL, AUTH_TOKEN } from '../assets/constants/Base'
+import { BaseURL } from '../assets/constants/Base'
 import axios from 'axios';
 import { useAlertContext } from './alerts.context';
 
