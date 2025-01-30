@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
-import logoImage from '../../assets/images/defaults/logo.png';
 import LoginButton from '../LoginButton/LoginButton';
-import GoogleImage from '../../assets/images/defaults/google.png';
 import axios from 'axios';
 import { authenticateUser } from '../../store/actions/auth.actions';
 import { connect } from 'react-redux';
@@ -33,9 +31,8 @@ function LoginButtonComponent({
   const navigate = useNavigate();
   
   const login = useGoogleLogin({
-    //* onSucess and OnError Must take Function to what happened for both */
+    //* onSuccess and OnError Must take Function to what happened for both */
     onSuccess: async (tokenResponse) => {
-      console.log('Login successful:', tokenResponse);
       try {
         const res = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
           headers: {
@@ -43,7 +40,6 @@ function LoginButtonComponent({
           }
         });
         if (res.status == 200) {
-
           const data = {
             email: res.data.email,
             password: res.data.sub,
@@ -53,8 +49,6 @@ function LoginButtonComponent({
             localeId: locale?.id,
             accessToken: tokenResponse.access_token
           }
-
-          console.log(data)
 
           googleAction(data);
         }
@@ -90,7 +84,7 @@ const mapStateToProps = state => ({
 //// Main Wrapped Compomet
 export default connect(mapStateToProps, { authenticateUser })(function GoogleLogin({ locale, authenticateUser, loginUserUsingGoogle, icon, value, color, backColor, borderColor, separatorColor, fontWeight, hasImage, login }) {
   //// this Client Id must chnage with TakeMe API Client Id
-  const CLIENT_ID = '411892016185-u17l10r5t0p7t2ovov351mkugufj0uh4.apps.googleusercontent.com'
+  const CLIENT_ID = '535326779667-n3hrspqimhq7meia56fpnvad3a3putsp.apps.googleusercontent.com'
   return (
     <GoogleOAuthProvider clientId={CLIENT_ID}>
       <LoginButtonComponent
