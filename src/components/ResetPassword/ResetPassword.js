@@ -6,8 +6,11 @@ import lockImage from '../../assets/images/defaults/lock.png';
 import './ResetPassword.css';
 import LoginButton from '../LoginButton/LoginButton';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import {BASE_URL} from "../../utls/assets";
+import {addAlert} from "../../store/actions/alert.actions";
 
-const ResetPassword = ({ email, resetting, setResetting }) => {
+const ResetPassword = ({ email, params, addAlert, resetting, setResetting, locale }) => {
     const [password, setPassword] = useState({
         value: '',
         rules: {
@@ -22,6 +25,7 @@ const ResetPassword = ({ email, resetting, setResetting }) => {
         touched: false,
         valid: false
     });
+
     const [confirmPassword, setConfirmPassword] = useState({
         value: '',
         rules: {
@@ -125,18 +129,31 @@ const ResetPassword = ({ email, resetting, setResetting }) => {
         }
     }
 
-    const resetClickHandler = () => {
+    const resetClickHandler = async () => {
         setSubmitted(true);
         if (!valid) return;
+        try {
+            const data = {
+                localeId: locale.id,
+                userAuthenticationRequestDto: {
+                    authType: 'email',
+                    authValue: await params.get('email'),
+                    password: password.value
+                }
+            }
 
-        const data = {
-            password: password.value,
-            email
+            const res = await axios.post(`${BASE_URL}endpoints/users/verify-email-code-and-change-password?mLocale=${locale.locale}&code=${await params.get('code')}`, data);
+            if(res.status === 200) {
+                setResetting(false);
+                navigate('/login');
+            }
+        } catch (e) {
+            addAlert({
+                msg: e?.response?.data?.error,
+                alertType: 'danger'
+            })
         }
-
-        navigate(`/confirm/email/change/password/${email}/${password.value}`);
     }
-
     return (
         <div className='ResetPassword'>
             <div className='ResetPassword__container'>
@@ -218,7 +235,8 @@ const ResetPassword = ({ email, resetting, setResetting }) => {
 }
 
 const mapStateToProps = state => ({
-    email: state.auth.resetPasswordEmail
+    email: state.auth.resetPasswordEmail,
+    locale: state.categories.selectedLocale
 })
 
-export default connect(mapStateToProps, {}) (ResetPassword);
+export default connect(mapStateToProps, {addAlert}) (ResetPassword);
