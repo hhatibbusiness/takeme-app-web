@@ -2,12 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import './ConfirmEmail.css';
 import { useParams } from 'react-router-dom';
 import emailConfirm from '../../../assets/images/auth/email-confirm.png';
-import { useSSR } from 'react-i18next';
 import LoginButton from '../../../components/LoginButton/LoginButton';
-import axios from 'axios';
-import { BASE_URL } from '../../../utls/assets';
 import {connect} from "react-redux";
-import { use } from 'react';
 
 const ConfirmEmail = ({ paddingTop, locale, setBackBtn, setShowIcons, confirmHandler }) => {
     const [first, setFirst] = useState('');
@@ -34,6 +30,10 @@ const ConfirmEmail = ({ paddingTop, locale, setBackBtn, setShowIcons, confirmHan
             setShowIcons(true);
         }
     }, []);
+
+    const resendEmailVerificationCode = () => {
+
+    }
 
     return (
         <div
@@ -156,7 +156,7 @@ const ConfirmEmail = ({ paddingTop, locale, setBackBtn, setShowIcons, confirmHan
             <div className='ConfirmEmail__resend'>
                 <p className='ConfirmEmail__resend--message'>
                     <span className='ConfirmEmail__resend--regular'>إذا لم تستلم الرمز يمكنك طلب </span>
-                    <span className='ConfirmEmail__resend--link'>إعادة ارسال الرمز.</span>
+                    <span onClick={resendEmailVerificationCode} className='ConfirmEmail__resend--link'>إعادة ارسال الرمز.</span>
                 </p>
             </div>
         </div>

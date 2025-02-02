@@ -6,8 +6,10 @@ import lockImage from '../../assets/images/defaults/lock.png';
 import './ResetPassword.css';
 import LoginButton from '../LoginButton/LoginButton';
 import { useNavigate } from 'react-router-dom';
+import {BASE_URL} from "../../utls/assets";
+import axios from "axios";
 
-const ResetPassword = ({ email, resetting, setResetting }) => {
+const ResetPassword = ({ params, email, locale, resetting, setResetting }) => {
     const [password, setPassword] = useState({
         value: '',
         rules: {
@@ -125,16 +127,23 @@ const ResetPassword = ({ email, resetting, setResetting }) => {
         }
     }
 
-    const resetClickHandler = () => {
+    const resetClickHandler = async () => {
         setSubmitted(true);
         if (!valid) return;
 
         const data = {
-            password: password.value,
-            email
+            localeId: locale.id,
+            userAuthenticationRequestDto: {
+                authType: 'email',
+                authValue: await params.get('email'),
+                password: password.value
+            }
         }
 
-        navigate(`/confirm/email/change/password/${email}/${password.value}`);
+        const res = await axios.post(`${BASE_URL}endpoints/users/verify-email-code-and-change-password?mLocale=${locale.locale}&code=${await params.get('code')}`, data);
+        if(res.status === 200) {
+            setResetting(false);
+        }
     }
 
     return (
@@ -218,7 +227,8 @@ const ResetPassword = ({ email, resetting, setResetting }) => {
 }
 
 const mapStateToProps = state => ({
-    email: state.auth.resetPasswordEmail
+    email: state.auth.resetPasswordEmail,
+    locale: state.categories.selectedLocale
 })
 
 export default connect(mapStateToProps, {}) (ResetPassword);

@@ -35,15 +35,9 @@ const FacebookLoginButton = ({
                 accessToken: response.accessToken
             }
 
-            console.log(response);
-            
             authenticateUser(data);
         }
     };
-
-    useEffect(() => {
-
-    }, [])
         
     return (
         <div className='FacebookLogin'>
@@ -57,7 +51,6 @@ const FacebookLoginButton = ({
                 ref={facebookDefaultRef}
             />
             <div onClick={e => {
-                console.log(facebookDefaultRef?.current);
                 // facebookDefaultRef?.current?.click();
                 document.querySelector('.facebook-button').click();
             }} className='FacebookLogin__custom'>

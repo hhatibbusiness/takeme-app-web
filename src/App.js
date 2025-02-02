@@ -177,17 +177,18 @@ const App = (props) => {
 
     const confirmEmailAndChangePassword = async data => {
         try {
-            const res = await axios.post(`${BASE_URL}endpoints/users/verify-email-code-and-change-password?mLocale=${props.locale?.locale}`, data);
-            // this will be the setting token in the local storage.
-            if (res.status == 200 && res.data.status) {
-                const token = res.data.output.authToken;
-                localStorage.setItem('TAKEME_TOKEN', token);
-                setToken(token);
-            } else {
-                props.addAlert({
-                    msg: res.data.message
-                });
-            }
+            navigate(`/login?email=${data.email}&code=${data.code}&reset=${true}`);
+            // const res = await axios.post(`${BASE_URL}endpoints/users/verify-email-code-and-change-password?mLocale=${props.locale?.locale}`, data);
+            // // this will be the setting token in the local storage.
+            // if (res.status == 200 && res.data.status) {
+            //     const token = res.data.output.authToken;
+            //     localStorage.setItem('TAKEME_TOKEN', token);
+            //     setToken(token);
+            // } else {
+            //     props.addAlert({
+            //         msg: res.data.message
+            //     });
+            // }
         } catch (e) {
             props.addAlert({
                 msg: e?.response?.data?.error,
@@ -277,7 +278,7 @@ const App = (props) => {
                                             <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                         </Route>
                                         <Route path='/confirm/email/register/:email/:password' exact element={<ConfirmEmail confirmHandler={confirmEmailAndRegister} paddingTop={navHeight} setBackBtn={setBackBtn} showIcons={showIcons} setShowIcons={setShowIcons} />} />
-                                        <Route path='/confirm/email/change/password/:email/:password' exact element={<ConfirmEmail confirmHandler={confirmEmailAndChangePassword} paddingTop={navHeight} setBackBtn={setBackBtn} showIcons={showIcons} setShowIcons={setShowIcons} />} />
+                                        <Route path='/confirm/email/change/password/:email/' exact element={<ConfirmEmail confirmHandler={confirmEmailAndChangePassword} paddingTop={navHeight} setBackBtn={setBackBtn} showIcons={showIcons} setShowIcons={setShowIcons} />} />
                                         <Route path={'/login'} exact element={<Authentication setBackBtn={setBackBtn} paddingTop={navHeight} showIcons={showIcons} setShowIcons={setShowIcons} />} />
                                         <Route
                                             path={`product/popup/:id`}
