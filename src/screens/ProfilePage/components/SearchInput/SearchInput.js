@@ -3,7 +3,7 @@ import './SearchInput.css'
 import SearchIcon from '../../../../assets/images/profile/SearchIcon.png'
 import { SearchPlaces } from './../../models/manageCountry'
 
-export default function SearchInput({ PlaceHolderTEXT, defualtValue, selectFunc, searchFun, width='100%', height='100%', shadow=false }){
+export default function SearchInput({ PlaceHolderTEXT, defualtValue, selectFunc, searchFun, width='100%', height='100%', shadow=false, countryId }){
     const [value, setValue] = useState(defualtValue || '');
     const [listCountry, setListCountry] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +23,7 @@ export default function SearchInput({ PlaceHolderTEXT, defualtValue, selectFunc,
             if (value === '' && !isLoading ) return;
             setIsLoading(prev => true);
             try {
-                const res = await SearchPlaces({searchKey: value});
+                const res = await SearchPlaces({searchKey: value, countryID: countryId});
                 setListCountry(res);
             } catch (error) {
                 console.error(error);
