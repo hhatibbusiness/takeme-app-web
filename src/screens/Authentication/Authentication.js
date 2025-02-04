@@ -249,15 +249,13 @@ const Authentication = ({
     }
 
     useEffect( () => {
-        console.log(window.location);
-        const getParamsFun = async () => {
-            const getParams = new URLSearchParams(window.location.search);
-            console.log(getParams);
-            const resetV = await getParams.get('reset');
-            setReset(resetV);
-        }
-
-        getParamsFun();
+        // const getParamsFun = async () => {
+        //     const getParams = new URLSearchParams(window.location.search);
+        //     const resetV = await getParams.get('reset');
+        //     setReset(resetV);
+        // }
+        //
+        // getParamsFun();
     }, [window.location]);
 
     const getParams = () => {
@@ -376,14 +374,14 @@ const Authentication = ({
                     <span>الخاصة بنا.</span>
                 </p>
             </div>
-            {
-                reset && <ResetPassword params={getParams()} email={params?.get('email')} setResetting={setReset} resetting={reset} />
-            }
-            {
-                reset && <div onClick={e => {
-                    setReset(false);
-                }} className='Authentication__backdrop'></div>
-            }
+            {/*{*/}
+            {/*    reset && <ResetPassword params={getParams()} email={params?.get('email')} setResetting={setReset} resetting={reset} />*/}
+            {/*}*/}
+            {/*{*/}
+            {/*    reset && <div onClick={e => {*/}
+            {/*        setReset(false);*/}
+            {/*    }} className='Authentication__backdrop'></div>*/}
+            {/*}*/}
         </div>
     )
 }

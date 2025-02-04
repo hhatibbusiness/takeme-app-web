@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import FacebookLogin from 'react-facebook-login';
 import LoginButton from '../LoginButton/LoginButton';
 import { connect } from 'react-redux';
@@ -18,12 +18,13 @@ const FacebookLoginButton = ({
     hasImage,
     authenticateUser
 }) => {
+    const [triggerLogin, setTriggerLogin] = useState(false); // Control when login happens
+
     const facebookDefaultRef = useRef();
     const facebookCustomRef = useRef();
 
     const navigate = useNavigate();
     const responseFacebook = (response) => {
-        console.log(response);
         if (response.id) {
             const data = {
                 email: response.email,
@@ -35,31 +36,27 @@ const FacebookLoginButton = ({
                 accessToken: response.accessToken
             }
 
-            console.log(response);
-            
             authenticateUser(data);
         }
     };
 
-    useEffect(() => {
-
-    }, []);
-        
     return (
         <div className='FacebookLogin'>
-            <FacebookLogin
-                appId="1097750034778649"
-                fields="name,email"
-                callback={responseFacebook}
-                autoLoad={false}
-                isMobile={false}
-                cssClass="facebook-button"
-                ref={facebookDefaultRef}
-            />
+            {triggerLogin && ( // Only render FacebookLogin when user clicks
+                <FacebookLogin
+                    appId="1097750034778649"
+                    fields="name,email"
+                    callback={responseFacebook}
+                    autoLoad={false} // Ensure autoLoad is disabled
+                    isMobile={false}
+                    cssClass="facebook-button"
+                />
+            )}
             <div onClick={e => {
-                console.log(facebookDefaultRef?.current);
-                // facebookDefaultRef?.current?.click();
-                document.querySelector('.facebook-button').click();
+                // console.log(facebookDefaultRef?.current);
+                // // facebookDefaultRef?.current?.click();
+                setTriggerLogin(true);
+                // document.querySelector('.facebook-button').click();
             }} className='FacebookLogin__custom'>
                 <LoginButton
                     icon={icon}
