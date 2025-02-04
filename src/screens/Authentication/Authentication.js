@@ -374,14 +374,14 @@ const Authentication = ({
                     <span>الخاصة بنا.</span>
                 </p>
             </div>
-            {/*{*/}
-            {/*    reset && <ResetPassword params={getParams()} email={params?.get('email')} setResetting={setReset} resetting={reset} />*/}
-            {/*}*/}
-            {/*{*/}
-            {/*    reset && <div onClick={e => {*/}
-            {/*        setReset(false);*/}
-            {/*    }} className='Authentication__backdrop'></div>*/}
-            {/*}*/}
+            {
+                reset && <ResetPassword params={getParams()} email={params?.get('email')} setResetting={setReset} resetting={reset} />
+            }
+            {
+                reset && <div onClick={e => {
+                    setReset(false);
+                }} className='Authentication__backdrop'></div>
+            }
         </div>
     )
 }
