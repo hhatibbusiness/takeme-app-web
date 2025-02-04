@@ -249,13 +249,13 @@ const Authentication = ({
     }
 
     useEffect( () => {
-        // const getParamsFun = async () => {
-        //     const getParams = new URLSearchParams(window.location.search);
-        //     const resetV = await getParams.get('reset');
-        //     setReset(resetV);
-        // }
-        //
-        // getParamsFun();
+        const getParamsFun = async () => {
+            const getParams = new URLSearchParams(window.location.search);
+            const resetV = await getParams.get('reset');
+            setReset(resetV);
+        }
+
+        getParamsFun();
     }, [window.location]);
 
     const getParams = () => {
