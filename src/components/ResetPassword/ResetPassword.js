@@ -46,7 +46,6 @@ const ResetPassword = ({ email, params, addAlert, resetting, setResetting, local
     const [passwordErrors, setPasswordErrors] = useState({});
     const [confirmPasswordErrors, setConfirmPasswordErrors] = useState({});
 
-
     const navigate = useNavigate();
 
     const inputValidator = (value, rules) => {
@@ -106,7 +105,7 @@ const ResetPassword = ({ email, params, addAlert, resetting, setResetting, local
     const ConfirmPasswordChangeHandler = value => {
         setSubmitted(false);
 
-        const isValid = inputValidator(value, confirmPassword?.rules);
+        const isValid = inputValidator(value, confirmPassword?.rules) && value == password.value;
 
         setConfirmPassword({
             ...confirmPassword,
@@ -119,7 +118,7 @@ const ResetPassword = ({ email, params, addAlert, resetting, setResetting, local
 
         setConfirmPasswordErrors({});
 
-        if (confirmPassword.value !== password.value) {
+        if (value !== password.value) {
             setConfirmPasswordErrors({
                 ...confirmPasswordErrors,
                 match: {

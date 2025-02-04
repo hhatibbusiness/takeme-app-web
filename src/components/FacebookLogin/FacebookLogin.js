@@ -43,7 +43,7 @@ const FacebookLoginButton = ({
 
     useEffect(() => {
 
-    }, [])
+    }, []);
         
     return (
         <div className='FacebookLogin'>
