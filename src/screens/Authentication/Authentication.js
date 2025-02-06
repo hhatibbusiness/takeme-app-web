@@ -25,7 +25,6 @@ const Authentication = ({
     locale,
     addAlert
 }) => {
-
     const [email, setEmail] = useState({
         value: '',
         rules: {
