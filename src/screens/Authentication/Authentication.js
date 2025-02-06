@@ -222,7 +222,7 @@ const Authentication = ({
             const doesExist = await axios.post(`${BASE_URL}endpoints/users/verify-email-and-send-code?mLocale=${locale?.locale}`, data);
 
             if (doesExist.status == 200) {
-                navigate(`/confirm/email/change/password/${email.value}/${password.value}`);
+                navigate(`/confirm/email/change/password/${email.value}`);
             }
         } catch (e) {
             console.log(e.response);
