@@ -6,37 +6,44 @@ import { usePlacesContext } from '../../context/placesContext.js';
 import LanguagesShimmer from '../../components/ItemsShimmer/ItemsShimmer.js';
 
 
-export default function Places({ paddingTop, admin, setAdmin }) {
+export default function Places({ setBackBtn, setAdmin }) {
     const [placeItems, setPlaceItems] = useState(()=>{
-        console.log(sessionStorage.getItem('places') ? JSON.parse(sessionStorage.getItem('places')) : [])
         return sessionStorage.getItem('places') ? JSON.parse(sessionStorage.getItem('places')) : []  
     });
     const [page, setPage] = useState(() => {
         return sessionStorage.getItem('placesPage') ? JSON.parse(sessionStorage.getItem('placesPage')) : 0
     } );
-    const [more, setMore] = useState(true);
+    const [more, setMore] = useState(false);
     const [isDeletingPlace, setIsDeletingPlace] = useState(false);
     const { SearchPlacesFun, searchPlaces, isSearchingPlaces, isJustSearching, searchPlaceTerm, sortTypePlace } = usePlacesContext();
     const initSort = useRef(sortTypePlace);
-    
+    const parentRef = useRef(null);
+
     useEffect(() => {
         setAdmin(true);
+        setBackBtn(true);
         return () => {
             setAdmin(false);
+            setBackBtn(false);
         }
     }, []);
+
     /// Cashe Data For The places Page
     useEffect(() => {
         sessionStorage.setItem('places', JSON.stringify(placeItems));
         sessionStorage.setItem('placesPage', JSON.stringify(page));
     }, [placeItems, page]);
 
+
     // Fetch places DATA from the server 
     const getPlacesFun = async (paginationData) => {
+        console.log('FETCHING PLACES', paginationData);
         const response = await getPlaces(paginationData);
-        setPlaceItems(prev=> [...prev, ...response]);
-        setPage(prev=> prev + 1);
-        setMore(response.length > 0);
+        if (response.status) {
+            setPlaceItems(prev=> [...prev, ...response.output]);
+            setPage(prev=> prev + 1);
+            setMore(prev=> response.output.length >= 10);
+        }
     };
 
     /// Init Data when start the page or Reset Page
@@ -45,6 +52,7 @@ export default function Places({ paddingTop, admin, setAdmin }) {
         getPlacesFun({ page: 0, isAscending: sortTypePlace === 'ASCENDING' });
         // eslint-disable-next-line
     }, [page]);
+
 
     /// Change Sort When chnage From the init Sort
     useEffect(() => {
@@ -59,9 +67,9 @@ export default function Places({ paddingTop, admin, setAdmin }) {
     const DeletePlaceFun = async (placeId) => {
         setIsDeletingPlace(true);
         const response = await DeletePlace(placeId);
-        if (response?.status || true) {
-        const newPlaces = placeItems.filter((item) => item.id !== placeId.PlaceID);
-        setPlaceItems(newPlaces);
+        if (response?.status) {
+            const newPlaces = placeItems.filter((item) => item.id !== placeId.PlaceID);
+            setPlaceItems(newPlaces);
         }
         setIsDeletingPlace(false);
     };
@@ -69,6 +77,7 @@ export default function Places({ paddingTop, admin, setAdmin }) {
 
     ///** The View Props *///
     const placesData = {
+        itemsFun: getPlacesFun,
         items: placeItems,
         page: page,
         searchKey: searchPlaceTerm,
@@ -76,7 +85,6 @@ export default function Places({ paddingTop, admin, setAdmin }) {
         isSearching : isSearchingPlaces,
         paginationData: { page: page, isAscending: sortTypePlace === 'ASCENDING' },
         more: more,
-        itemsFun: getPlacesFun,
         dots: true,
         dotsProps: id => ({
         urls: {
@@ -89,7 +97,9 @@ export default function Places({ paddingTop, admin, setAdmin }) {
         deleteFun: DeletePlaceFun,
         isItem: true,
         deleting: isDeletingPlace
-        })
+        }),
+        window: false,
+        parentScroller: parentRef.current
     }
 
     ///** The Search View Props */
@@ -102,23 +112,26 @@ export default function Places({ paddingTop, admin, setAdmin }) {
         paginationData: {},
         more: false,
         itemsFun: SearchPlacesFun,
+        dots: true,
         dotsProps: id => ({
-        urls: {
-            addUrl: `/places/duplicate/${id}`,
-            editUrl: `/places/edit/${id}`,
-        },
-        deleteData: {
-            PlaceID: id
-        },
-        deleteFun: DeletePlaceFun,
-        isItem: true,
-        deleting: isDeletingPlace
-        })
+            urls: {
+                addUrl: `/places/duplicate/${id}`,
+                editUrl: `/places/edit/${id}`,
+            },
+            deleteData: {
+                PlaceID: id
+            },
+            deleteFun: DeletePlaceFun,
+            isItem: true,
+            deleting: isDeletingPlace
+        }),
+        window: false,
+        parentScroller: parentRef.current
     };
 
 
     return (
-        <div dir='rtl' className='Places_body' style={{ paddingTop: `${paddingTop+50}px`, position: 'fixed', top: 0, left: 0}}>
+        <div dir='rtl' ref={parentRef} className='Places_body' style={{ paddingTop: `${115}px`, position: 'fixed', top: 0, left: 0}}>
         {!isSearchingPlaces ?
             <ItemsList {...placesData} />
             :
@@ -126,7 +139,7 @@ export default function Places({ paddingTop, admin, setAdmin }) {
             {isJustSearching ? 
                 <LanguagesShimmer />
             :
-                <ItemsList {...placesData} />
+                <ItemsList {...searchPlacesData} />
             }
             </>
         }

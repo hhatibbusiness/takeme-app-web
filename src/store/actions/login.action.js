@@ -129,21 +129,21 @@ export const loadUser = (navigate, lan) => async dispatch => {
     const takemeUserData = JSON.parse(localStorage.getItem('takemeUserData'));
     console.log(takemeUserData);
     const takemeUserToken = localStorage.getItem('takemeUserToken');
-    if (!takemeUserData) {
-        const data = {
-            phoneOrEmail:"anonymous@gmail.com",
-            password:"123456"
-        };
-
-        await dispatch(login(data, navigate, lan));
-    }else {
-        dispatch({
-            type: LOAD_USER_DATA,
-            takemeUserData,
-            takemeUserToken
-        });
-
-    }
+    // if (!takemeUserData) {
+    //     const data = {
+    //         phoneOrEmail:"anonymous@gmail.com",
+    //         password:"123456"
+    //     };
+    //
+    //     await dispatch(login(data, navigate, lan));
+    // }else {
+    //     dispatch({
+    //         type: LOAD_USER_DATA,
+    //         takemeUserData,
+    //         takemeUserToken
+    //     });
+    //
+    // }
 }
 
 export const loadProvider = data => async dispatch => {

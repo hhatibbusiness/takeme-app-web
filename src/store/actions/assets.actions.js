@@ -16,16 +16,16 @@ export const endLoadingAssets = {
 export const fetchAssets = (navigate, localeId) => async dispatch => {
     try {
         dispatch(startLoadingAssets)
+        dispatch(getUserProfile({
+            locale: 'ar_SA',
+            localeId: localeId
+        }))
         const res = await axios.get(`${BASE_URL}endpoints/details?mLocale=ar_SA`);
         dispatch({
             type: FETCH_TAKE_ME_ASSETS,
             assets: res.data
         });
         console.log(localeId);
-        dispatch(getUserProfile({
-            locale: 'ar_SA',
-            localeId: localeId
-        }))
         dispatch(endLoadingAssets);
         dispatch(errorInactive);
     } catch (err) {

@@ -340,20 +340,62 @@ const LanguagesAdd = ({setBackBtn, setAdmin}) => {
             });
         }
         if (res?.status == 200) {
-            navigate(-1);
+            navigate('/languages');
         }
         setSubmitted(false);
     }
     
     return (
-        <div className='LanguagesAdd' style={{paddingTop: `${paddingTop}px`}}>
+        <div id={'LanguagesAdd'} className='LanguagesAdd' style={{paddingTop: `${paddingTop}px`}}>
             <div className='LanguagesAdd__container'>
-                <Input touched={lanName.touched} valid={lanName.valid} rules={lanName.rules} submitted={submitted} required={lanName.rules.required} value={lanName.value} setValue={value => lanNameChangeHandler(value)} placeholder={'اسم اللغة'} />
-                <Input touched={engName.touched} valid={engName.valid} rules={engName.rules} submitted={submitted} required={engName.rules.required} value={engName.value} setValue={value => engNameChangeHandler(value)} placeholder={'اسم اللغة بالانكليزي'} />
-                <Input touched={code.touched} valid={code.valid} rules={code.rules} submitted={submitted}  required={true} value={code.value} setValue={value => codeChangeHandler(value)} placeholder={'كود اللغة (مثال (Eng))'} />
-                <TextArea touched={notes.touched} valid={notes.valid} rules={notes.rules} value={notes.value} setValue={value => notesChangeHandler(value)} placeholder={'ملاحظات'} />
+                <Input
+                    id={'languageName'}
+                    touched={lanName.touched}
+                    valid={lanName.valid}
+                    rules={lanName.rules}
+                    submitted={submitted}
+                    required={lanName.rules.required}
+                    value={lanName.value}
+                    setValue={value => lanNameChangeHandler(value)}
+                    placeholder={'اسم اللغة'}
+                />
+                <Input
+                    id={'languageEngName'}
+                   touched={engName.touched}
+                   valid={engName.valid}
+                    rules={engName.rules}
+                    submitted={submitted}
+                    required={engName.rules.required}
+                    value={engName.value}
+                    setValue={value => engNameChangeHandler(value)}
+                    placeholder={'اسم اللغة بالانكليزي'}
+                />
+                <Input
+                    id={'languageCode'}
+                    touched={code.touched}
+                    valid={code.valid}
+                    rules={code.rules}
+                    submitted={submitted}
+                    required={true}
+                    value={code.value}
+                    setValue={value => codeChangeHandler(value)}
+                    placeholder={'كود اللغة (مثال (Eng))'}
+                />
+                <TextArea
+                    id={'languageNotes'}
+                    touched={notes.touched}
+                    valid={notes.valid}
+                    rules={notes.rules}
+                    value={notes.value}
+                    setValue={value => notesChangeHandler(value)}
+                    placeholder={'ملاحظات'}
+                />
                 <div className='LanguagesAdd__btns--container'>
-                    <SaveButton saving={params.editId ? languages.editing : languages.adding} saveClickHanlder={addLanuageHanlder} />
+                    <SaveButton
+                        saving={params.editId ? languages.editing : languages.adding}
+                        saveClickHanlder={addLanuageHanlder}
+                        id={"LanguagesAdd__save"}
+                    />
                     <CancelButton handleCancelClick={e => {
                         navigate(-1);
                     }} />

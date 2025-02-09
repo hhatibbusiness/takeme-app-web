@@ -3,9 +3,9 @@ import './SaveButton.css';
 import SpinnerSmall from '../SpinnerSmall/SpinnerSmall';
 
 
-const SaveButton = ({saveClickHanlder, saving}) => {
+const SaveButton = ({id, saveClickHanlder, saving}) => {
     return (
-        <div onClick={saveClickHanlder} className='SaveButton'>
+        <div id={id} onClick={saveClickHanlder} className='SaveButton'>
             {
                 saving ? (
                     <SpinnerSmall />

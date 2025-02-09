@@ -25,7 +25,6 @@ const Authentication = ({
     locale,
     addAlert
 }) => {
-
     const [email, setEmail] = useState({
         value: '',
         rules: {
@@ -62,6 +61,7 @@ const Authentication = ({
     const [passwordErrors, setPasswordErrors] = useState({});
     const [submitted, setSubmitted] = useState(true);
     const [reset, setReset] = useState(false);
+    const [params, setParams] = useState(null);
 
     const navigate = useNavigate();
     
@@ -209,22 +209,20 @@ const Authentication = ({
     const changePasswordClickHandler = async () => {
         try {
             setSubmitted(true);
-            if (!email.valid) return;
+            // if (!email.valid) return;
             const data = {
-                email: email.value
+                localeId: locale?.id,
+                userAuthenticationRequestDto: {
+                    authType: 'email',
+                    authValue: email.value,
+                    password: 'fldjakdl'
+                }
             }
-    
-            const doesExist = await axios.post(`${BASE_URL}endpoints/users/verify-email-exists&mLocale=${locale?.locale}`, data);
-            
+
+            const doesExist = await axios.post(`${BASE_URL}endpoints/users/verify-email-and-send-code?mLocale=${locale?.locale}`, data);
+
             if (doesExist.status == 200) {
-                setReset(true);
-                const emailData = {
-                    email: email.value
-                }
-                const verifyEmail = await axios.post(`${BASE_URL}endpoints/users/send-email-verify-code?mLocale=${locale?.locale}`, emailData);
-                if (verifyEmail.status == 200) {
-                    setReset(true);
-                }
+                navigate(`/confirm/email/change/password/${email.value}`);
             }
         } catch (e) {
             console.log(e.response);
@@ -249,6 +247,20 @@ const Authentication = ({
         }
     }
 
+    useEffect( () => {
+        const getParamsFun = async () => {
+            const getParams = new URLSearchParams(window.location.search);
+            const resetV = await getParams.get('reset');
+            setReset(resetV);
+        }
+
+        getParamsFun();
+    }, [window.location]);
+
+    const getParams = () => {
+        return new URLSearchParams(window.location.search);
+    }
+
     return (
         <div style={{paddingTop: `${paddingTop + 40}px`}} className='Authentication'>
             <div className='Authentication__message'>
@@ -256,7 +268,7 @@ const Authentication = ({
                 بسرعة وسهولة، ولتزيد من سعادتك</p>
             </div>
             <div className='Authentication__container'>
-                <div className='Authentication__element'>
+                <div id={'Authentication__email'} className='Authentication__element'>
                     <InputComponent
                         icon={emailImage}
                         type='text'
@@ -279,7 +291,7 @@ const Authentication = ({
                         ) 
                     }
                 </div>
-                <div className='Authentication__element'>
+                <div id={'Authentication__password'} className='Authentication__element'>
                     <InputComponent
                         icon={lockImage}
                         type='password'
@@ -303,7 +315,7 @@ const Authentication = ({
                     }
 
                 </div>
-                <div style={{marginTop: '40px'}} className='Authentication__button'>
+                <div id={'Authentication__button'} style={{marginTop: '40px'}} className='Authentication__button'>
                     <LoginButton
                         value={'ادخل باستخدام تيكمي'}
                         icon={logoImage}
@@ -362,7 +374,7 @@ const Authentication = ({
                 </p>
             </div>
             {
-                reset && <ResetPassword email={email.value} setResetting={setReset} resetting={reset} />
+                reset && <ResetPassword params={getParams()} email={params?.get('email')} setResetting={setReset} resetting={reset} />
             }
             {
                 reset && <div onClick={e => {

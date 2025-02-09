@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer } from 'react'
-import { BaseURL, AUTH_TOKEN } from '../assets/constants/Base'
+import { BaseURL } from '../assets/constants/Base'
 import axios from 'axios';
 import { useAlertContext } from './alerts.context';
 
@@ -39,7 +39,7 @@ const initialState = {
     sortType: "NEWEST",
     adding: false,
     editing: false,
-    more: true,
+    more: false,
     deleting: false,
     search: false,
     searchResults: [],
@@ -70,6 +70,7 @@ const countriesReducer = (state, action) => {
                 fetchingCountries: false
             }
         case actionTypes.FETCH_COUNTRIES:
+            console.log(action.countries);
             return {
                 ...state,
                 countries: [...state.countries, ...action.countries],
@@ -260,7 +261,7 @@ const countriesActions = {
     addCountry: async (dispatch, data, addAlert) => {
         try {
             dispatch({ type: actionTypes.START_ADDING_COUNTRY });
-            const res = await axios.post(`${BaseURL}/countries/add?mLocale=${data.lan}`, data, { headers: { 'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': AUTH_TOKEN } });
+            const res = await axios.post(`${BaseURL}/countries/add?mLocale=${data.lan}`, data, { headers: { 'accept': '*/*', 'Content-Type': 'application/json'} });
             dispatch({type: actionTypes.ADD_COUNTRY, country: res.data})
             dispatch({ type: actionTypes.END_ADDING_COUNTRY });
             return res;
@@ -278,7 +279,7 @@ const countriesActions = {
     editCountry: async (dispatch, data, addAlert) => {
         try {
             dispatch({ type: actionTypes.START_EDITING_COUNTRY });
-            const res = await axios.put(`${BaseURL}/countries/update?mLocale=${data.lan}`, data, { headers: { 'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': AUTH_TOKEN } });
+            const res = await axios.put(`${BaseURL}/countries/update?mLocale=${data.lan}`, data, { headers: { 'accept': '*/*', 'Content-Type': 'application/json'} });
             dispatch({ type: actionTypes.EDIT_COUNTRY, country: res.data });
             dispatch({ type: actionTypes.END_EDITING_COUNTRY });
             return res;
@@ -296,7 +297,7 @@ const countriesActions = {
     deleteCountry: async (dispatch, data, addAlert) => {
         try {
             dispatch({ type: actionTypes.START_DELETING_COUNTRY });
-            const res = await axios.delete(`${BaseURL}/countries/delete?Mlocale=${data.lan}&countryId=${data.countryId}`, { headers: { 'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': AUTH_TOKEN } });
+            const res = await axios.delete(`${BaseURL}/countries/delete?Mlocale=${data.lan}&countryId=${data.countryId}`, { headers: { 'accept': '*/*', 'Content-Type': 'application/json'} });
 
             dispatch({
                 type: actionTypes.DELETE_COUNTRY,
@@ -316,7 +317,7 @@ const countriesActions = {
     searchCountries: async (dispatch, data, addAlert) => {
         try {
             if(data.page == 0) dispatch({ type: actionTypes.START_SEARCHING_COUNTRIES });
-            const res = await axios.get(`${BaseURL}/countries/search?mLocale=${data.lan}&searchKey=${data.searchKey}&page=${data.page}`, { headers: { 'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': AUTH_TOKEN } });
+            const res = await axios.get(`${BaseURL}/countries/search?mLocale=${data.lan}&searchKey=${data.searchKey}&page=${data.page}`, { headers: { 'accept': '*/*', 'Content-Type': 'application/json'} });
             dispatch({ type: actionTypes.SEARCH_COUNTRIES, searchResults: res.data.output, searchKey: data.searchKey, page: data.page });
             
             dispatch({ type: actionTypes.END_SEARCHING_COUNTRIES });

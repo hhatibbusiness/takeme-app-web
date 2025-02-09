@@ -7,7 +7,7 @@ const Dots = ({ item, deleteFun, urls, isItem, deleting, deleteData }) => {
 
     return (
         <div className='Dots'>
-            <div onClick={e => setOpen(true)} className='Dots__container'>
+            <div id={'Dots__dots'} onClick={e => setOpen(true)} className='Dots__container'>
                 <div></div>
                 <div></div>
                 <div></div>

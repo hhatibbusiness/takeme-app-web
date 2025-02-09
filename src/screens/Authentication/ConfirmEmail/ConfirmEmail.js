@@ -2,28 +2,57 @@ import React, { useEffect, useRef, useState } from 'react';
 import './ConfirmEmail.css';
 import { useParams } from 'react-router-dom';
 import emailConfirm from '../../../assets/images/auth/email-confirm.png';
-import { useSSR } from 'react-i18next';
 import LoginButton from '../../../components/LoginButton/LoginButton';
-import axios from 'axios';
-import { BASE_URL } from '../../../utls/assets';
 import {connect} from "react-redux";
-import { use } from 'react';
+import {addAlert} from "../../../store/actions/alert.actions";
+import axios from "axios";
+import {BASE_URL} from "../../../utls/assets";
 
-const ConfirmEmail = ({ paddingTop, locale, setBackBtn, setShowIcons, confirmHandler }) => {
+const ConfirmEmail = ({ paddingTop, locale, addAlert, setBackBtn, setShowIcons, confirmHandler }) => {
+    const [counter, setCounter] = useState(0);
+    const [counterDate, setCounterDate] = useState(() => {
+        // Retrieve stored date and parse correctly
+        const storedDate = localStorage.getItem('TAKEME_COUNTER_DATE');
+        return storedDate ? new Date(storedDate) : null;
+    });
+
+    useEffect(() => {
+        if (!counterDate || isNaN(counterDate.getTime())) return;
+
+        const now = new Date();
+        const elapsedTime = Math.floor((now - counterDate) / 1000);
+        const remainingTime = Math.max(30 - elapsedTime, 0);
+        setCounter(remainingTime);
+
+        if (remainingTime > 0) {
+            const interval = setInterval(() => {
+                setCounter(prev => {
+                    if (prev <= 1) {
+                        clearInterval(interval);
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+
+            return () => clearInterval(interval);
+        }
+    }, [counterDate]);
+
     const [first, setFirst] = useState('');
     const [second, setSecond] = useState('');
     const [third, setThird] = useState('');
     const [forth, setForth] = useState('');
     const [fifth, setFifth] = useState('');
     const [sixth, setSixth] = useState('');
-    
+
     const params = useParams();
     const firstRef = useRef();
     const secondRef = useRef();
     const thirdRef = useRef();
     const forthRef = useRef();
     const fifthRef = useRef();
-    const sixthRef = useRef()
+    const sixthRef = useRef();
 
     useEffect(() => {
         setBackBtn(true);
@@ -34,6 +63,7 @@ const ConfirmEmail = ({ paddingTop, locale, setBackBtn, setShowIcons, confirmHan
             setShowIcons(true);
         }
     }, []);
+
 
     return (
         <div
@@ -155,8 +185,45 @@ const ConfirmEmail = ({ paddingTop, locale, setBackBtn, setShowIcons, confirmHan
             </div>
             <div className='ConfirmEmail__resend'>
                 <p className='ConfirmEmail__resend--message'>
-                    <span className='ConfirmEmail__resend--regular'>إذا لم تستلم الرمز يمكنك طلب </span>
-                    <span className='ConfirmEmail__resend--link'>إعادة ارسال الرمز.</span>
+                    {
+                        counterDate && ((new Date().getTime() - new Date(counterDate).getTime()) / 1000 <= 30) ? (
+                            <>
+                                <p className={'ConfirmEmail__counter--message'}>يمكنك اعادة الارسال بعد </p>
+                                <p className={'ConfirmEmail__counter--count'}>{counter} ثانية</p>
+                            </>
+                        ) : (
+                            <>
+                                <span className='ConfirmEmail__resend--regular'>إذا لم تستلم الرمز يمكنك طلب </span>
+                                <span onClick={async () => {
+                                    try {
+                                        const data = {
+                                            localeId: locale?.id,
+                                            userAuthenticationRequestDto: {
+                                                authType: 'email',
+                                                authValue: params.email,
+                                                password: 'fldjakdl'
+                                            }
+                                        }
+                                        const res = await axios.post(`${BASE_URL}endpoints/users/verify-email-and-send-code?mLocale=${locale?.locale}`, data);
+                                        if(res.status == 200) {
+                                            const currentDate = new Date();
+                                            localStorage.setItem('TAKEME_COUNTER_DATE', currentDate);
+                                            setCounterDate(currentDate);
+                                            addAlert({
+                                                msg: 'تم ارسال الكود بنجاح',
+                                                alertType: 'success'
+                                            });
+                                        }
+                                    } catch (e) {
+                                        addAlert({
+                                            msg: e?.response?.data?.error,
+                                            alertType: 'danger'
+                                        })
+                                    }
+                                }} className='ConfirmEmail__resend--link'>إعادة ارسال الرمز.</span>
+                            </>
+                        )
+                    }
                 </p>
             </div>
         </div>
@@ -167,4 +234,4 @@ const mapStateToProps = state => ({
     locale: state.categories.selectedLocale
 })
 
-export default connect(mapStateToProps) (ConfirmEmail);
+export default connect(mapStateToProps, {addAlert}) (ConfirmEmail);
