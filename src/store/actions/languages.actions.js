@@ -5,8 +5,7 @@ import {addAlert} from "./alert.actions";
 
 export const changeSortType = (data) => async dispatch => {
     try{
-        dispatch({ type: actionTypes.CHANGE_SORT, sortType: data.sortType });
-        console.log('this is working!')
+        dispatch({ type: actionTypes.CHANGE_SORT_LANGUAGES, sortType: data.sortType });
         const fetchingData = {
             lan: 'ar',
             page: 0,
@@ -122,9 +121,9 @@ export const searchLanguages = data => async dispatch => {
 }
 
 export const openSearch = () => {
-    return {type: actionTypes.OPEN_SEARCH}
+    return {type: actionTypes.OPEN_SEARCH_LANGUAGES}
 }
 
 export const closeSearch = () => {
-    return {type: actionTypes.CLOSE_SEARCH}
+    return {type: actionTypes.CLOSE_SEARCH_LANGUAGES}
 }

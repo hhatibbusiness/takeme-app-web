@@ -14,6 +14,7 @@ import ratingsReducer from "./ratings.reducer";
 import alertReducer from "./alert.reducer";
 import authReducer from "./auth.reducer";
 import languagesReducer from "./languages.reducer";
+import countriesReducer from "./countries.reducer";
 
 const initialState = {
     message: 'Hello from the store'
@@ -40,4 +41,5 @@ export default combineReducers({
     alert: alertReducer,
     auth: authReducer,
     languages: languagesReducer,
+    countries: countriesReducer,
 });

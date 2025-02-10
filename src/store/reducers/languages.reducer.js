@@ -204,7 +204,7 @@ export default (state = initialState, action) => {
                 languages: [...JSON.parse(JSON.stringify(stateCopy))],
                 searchResults: [...JSON.parse(JSON.stringify(searchResultsCopy))]
             }
-        case actionTypes.CHANGE_SORT:
+        case actionTypes.CHANGE_SORT_LANGUAGES:
             return {
                 ...state,
                 languages: [],
@@ -234,12 +234,12 @@ export default (state = initialState, action) => {
                 searchResultsPage: state.searchResultsPage + 1,
                 searchKey: action.searchKey
             }
-        case actionTypes.OPEN_SEARCH:
+        case actionTypes.OPEN_SEARCH_LANGUAGES:
             return {
                 ...state,
                 search: true
             }
-        case actionTypes.CLOSE_SEARCH:
+        case actionTypes.CLOSE_SEARCH_LANGUAGES:
             return {
                 ...state,
                 search: false

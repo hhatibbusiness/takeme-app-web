@@ -2,11 +2,11 @@ import React from 'react';
 import backBtn from '../../../../assets/defaults/Back button.png';
 import { useNavigate } from 'react-router-dom';
 
-const Backbtn = () => {
+const Backbtn = ({backURL}) => {
     const navigate = useNavigate();
     return (
         <div onClick={e => {
-            navigate(-1);
+            navigate(backURL);
         }} className='Backbtn'>
             <img src={backBtn} />
         </div>
