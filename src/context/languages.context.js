@@ -414,7 +414,7 @@ export const LanguagesProvider = ({ children }) => {
             sortType: 'NEWEST',
         };
 
-        languagesActions.fetchLanguages( dispatch, data, addAlert);
+        // languagesActions.fetchLanguages( dispatch, data, addAlert);
     }, [dispatch]);
 
     useEffect(() => {

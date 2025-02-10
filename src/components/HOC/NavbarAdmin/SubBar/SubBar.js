@@ -19,10 +19,10 @@ const SubBar = ({searchFun, hasSort, isSearching, urls, baseData, changeSort, fe
     }
 
     useEffect(() => {
-        if (baseData) {
+        if (baseData && isSearching) {
             searchFun(baseData(event));
         }
-    }, [debouncedSearchTerm]);
+    }, [debouncedSearchTerm, isSearching]);
 
     return (
         <div className='SubBar'>

@@ -12,11 +12,12 @@ import { useLanguagesContext } from '../../../context/languages.context';
 import { useLocalesContext } from '../../../context/locales.context';
 import { useCountriesContext } from '../../../context/countries.context';
 import { usePlacesContext } from '../../../context/placesContext';
+import {connect} from "react-redux";
+import {searchLanguages, closeSearch, openSearch, deleteLanguage, changeSortType} from "../../../store/actions/languages.actions";
 
-const Navbar = ({}) => {
+const Navbar = ({languages, searchLanguages, closeSearch, openSearch, deleteLanguage, changeSortType}) => {
     const { details } = useDetailsContext();
     const { state } = useNavbarContext();
-    const { languages, searchLanguages, closeSearch, openSearch, changeSort } = useLanguagesContext();
     const { locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort } = useLocalesContext();
     const { countries, searchCountries, openSearchCountries, closeSearchCountries } = useCountriesContext();
     const { SearchPlacesFun, searchPlaces, isSearchingPlaces, searchPlaceTerm, closeSearchPlaces, openSearchPlaces, sortTypePlace, changeSortPlaces } = usePlacesContext();
@@ -38,7 +39,7 @@ const Navbar = ({}) => {
                 urls: {
                     addUrl: '/languages/add'
                 },
-                changeSort, 
+                changeSort: changeSortType,
                 baseData: (e) => {
                     return {
                         lan: 'ar',
@@ -139,4 +140,8 @@ const Navbar = ({}) => {
     )
 }
 
-export default Navbar;
+const mapStateToProps = state => ({
+    languages: state.languages
+})
+
+export default connect(mapStateToProps, {closeSearch, openSearch, deleteLanguage, changeSortType, searchLanguages}) (Navbar);
