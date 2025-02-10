@@ -157,7 +157,7 @@ export const fetchCountryById = (data) => async dispatch => {
     }
 };
 
-export const searchForLocales = (data) => async dispatch => {
+export const searchLocales = (data) => async dispatch => {
     try {
         if (data.page == 0) dispatch({ type: actionTypes.START_SEARCHING_FOR_LOCALES });
         const res = await axios.get(`${BaseURL}/locales/search?mLocale=${data.lan}&searchKey=${data.searchKey}&page=${data.page}&sortType=NEWEST`);
