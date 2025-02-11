@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import './DotsDropDown.css';
 import { useNavigate } from 'react-router-dom';
 import SpinnerSmall from '../SpinnerSmall/SpinnerSmall';
+import {connect} from "react-redux";
+import {changeSortType} from "../../store/actions/languages.actions";
 
-const DotsDropDown = ({ urls, deleteData, isItem, sortType, changeSort, setOpen, deleteFun, deleting, sort, searchKey }) => {
+const DotsDropDown = ({ urls, deleteData, changeSortType, isItem, sortType, setOpen, deleteFun, deleting, sort, searchKey }) => {
     const navigate = useNavigate();
 
     return (
@@ -51,7 +53,7 @@ const DotsDropDown = ({ urls, deleteData, isItem, sortType, changeSort, setOpen,
                                     sortType: 'ASCENDING',
                                     searchKey: searchKey
                                 }
-                                changeSort(data);
+                                changeSortType(data);
                                 setOpen(false)
                             }} className={`DotsDropDown__element ${sortType == 'ASCENDING' ? 'SotsDropDown__element--active' : ''}`}>
                                 <span>تصاعدي</span>
@@ -65,7 +67,7 @@ const DotsDropDown = ({ urls, deleteData, isItem, sortType, changeSort, setOpen,
                                 }
                                 console.log(searchKey);
                                 
-                                changeSort(data);
+                                changeSortType(data);
                                 setOpen(false)
                             }} className={`DotsDropDown__element ${sortType == 'DESCENDING' ? 'SotsDropDown__element--active' : ''}`}>
                                 <span>تنازلي</span>
@@ -76,12 +78,11 @@ const DotsDropDown = ({ urls, deleteData, isItem, sortType, changeSort, setOpen,
                                     sortType: 'NEWEST',
                                     searchKey: searchKey
                                 }
-                                changeSort(data);
+                                changeSortType(data);
                                 setOpen(false)
                             }} className={`DotsDropDown__element ${sortType == 'NEWEST' ? 'SotsDropDown__element--active' : ''}`}>
                                 <span>الاحدث</span>
                             </div>
-
                         </>
                     )
                 }
@@ -90,4 +91,4 @@ const DotsDropDown = ({ urls, deleteData, isItem, sortType, changeSort, setOpen,
     )
 }
 
-export default DotsDropDown;
+export default connect(null, {changeSortType}) (DotsDropDown);

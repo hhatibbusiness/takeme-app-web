@@ -4,17 +4,26 @@ import { useLanguagesContext } from '../../context/languages.context.js';
 import KeepAlive from 'react-activation';
 import LanguagesShimmer from '../../components/ItemsShimmerAdmin/ItemsShimmer.js';
 import ItemsList from '../../components/ItemsListAdmin/ItemsList.js';
+import {connect} from "react-redux";
+import {fetchLanguages, searchLanguages, deleteLanguage} from "../../store/actions/languages.actions";
 
 
-function Languages({setBackBtn, admin, setAdmin}) {
-    const { languages, fetchLanguages, searchLanguage, deleteLanguage } = useLanguagesContext();
+function Languages({setBackBtn, admin, setAdmin, searchLanguages, deleteLanguage, languages, fetchLanguages}) {
     const [paddingTop, setPaddingTop] = useState(0);
     const parentRef = useRef(null);
 
 
     useEffect(() => {
         console.log(languages);
-    })
+        const data = {
+            lan: 'ar',
+            page: 0,
+            sortType: 'NEWEST',
+        };
+
+        if(languages.languages.length !== 0) return;
+        fetchLanguages(data);
+    }, [])
 
     const itemsListPropsMain = {
         itemsFun: fetchLanguages || (() => {}),
@@ -49,7 +58,7 @@ function Languages({setBackBtn, admin, setAdmin}) {
     }
 
     const itemsListPropsSearch = {
-        itemsFun: searchLanguage || (() => {}),
+        itemsFun: searchLanguages || (() => {}),
         page: languages.searchResultsPage || 0,
         more: languages.moreSearchResults ,
         items: languages.searchResults || [],
@@ -75,7 +84,9 @@ function Languages({setBackBtn, admin, setAdmin}) {
             deleting: languages?.deleting
         }),
         isSearching: languages.search,
-        dots: true
+        dots: true,
+        parentScroller: parentRef.current
+
     }
 
     useEffect(() => {
@@ -113,10 +124,13 @@ function Languages({setBackBtn, admin, setAdmin}) {
                         )
                     )
                 }
-
             </div>
         </KeepAlive>
     );
 }
 
-export default Languages;
+const mapStateToProps = (state) => ({
+    languages: state.languages
+})
+
+export default connect(mapStateToProps, {searchLanguages, deleteLanguage, fetchLanguages}) (Languages);

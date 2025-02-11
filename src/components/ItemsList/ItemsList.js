@@ -58,7 +58,7 @@ const ItemsList = ({
                 hasMore={moreLoading}
                 loader={<ItemsShimmer />}
                 initialLoad={false}
-                useWindow={window}
+                useWindow={true}
                 getScrollParent={() => parentScroller}
             >
                 {

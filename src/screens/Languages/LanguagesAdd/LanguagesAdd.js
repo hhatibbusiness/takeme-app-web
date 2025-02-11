@@ -8,9 +8,10 @@ import { useLanguagesContext } from '../../../context/languages.context';
 import { useNavigate, useParams } from 'react-router-dom';
 import { formValidator } from '../../../utilty/formValidator';
 import {useNavbarContext} from "../../../context/navbar.context";
+import {connect} from "react-redux";
+import {addLanguage, editLanguage} from "../../../store/actions/languages.actions";
 
-const LanguagesAdd = ({setBackBtn, setAdmin}) => {
-    const { languages, addLanguage, editLanguage } = useLanguagesContext();
+const LanguagesAdd = ({addLanguage, setBackBtn, setAdmin, languages, editLanguage}) => {
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
 
@@ -405,4 +406,8 @@ const LanguagesAdd = ({setBackBtn, setAdmin}) => {
     );
 }
 
-export default LanguagesAdd;
+const mapStateToProps = state => ({
+    languages: state.languages
+})
+
+export default connect(mapStateToProps, {addLanguage, editLanguage}) (LanguagesAdd);

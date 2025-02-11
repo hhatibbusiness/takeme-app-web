@@ -3,9 +3,10 @@ import { useCountriesContext } from '../../context/countries.context';
 import CountriesShimmer from '../../components/ItemsShimmer/ItemsShimmer';
 import ItemsList from '../../components/ItemsList/ItemsList';
 import './Countries.css';
+import {connect} from "react-redux";
+import {fetchCountries, editCountry, deleteCountry, searchCountries} from "../../store/actions/countries.actions";
 
-const Countries = ({ setBackBtn, setAdmin }) => {
-    const { countries, fetchCountries, searchCountries, deleteCountry } = useCountriesContext();
+const Countries = ({ fetchCountries, editCountry, searchCountries, deleteCountry, setBackBtn, setAdmin, countries }) => {
     const [paddingTop, setPaddingTop] = useState(0);
 
     const parentRef = useRef(null);
@@ -29,6 +30,15 @@ const Countries = ({ setBackBtn, setAdmin }) => {
         console.log(countries);
     });
 
+    useEffect(() => {
+        const data = {
+            lan: 'ar_SA',
+            page: 0,
+            sortType: 'NEWEST',
+        };
+
+        fetchCountries(data);
+    }, [])
 
     const itemsListPropsSearch = {
         itemsFun: searchCountries || (() => {}),
@@ -111,4 +121,8 @@ const Countries = ({ setBackBtn, setAdmin }) => {
     )
 }
 
-export default Countries;
+const mapStateToProps = state => ({
+    countries: state.countries
+})
+
+export default connect(mapStateToProps, {searchCountries, fetchCountries, editCountry, deleteCountry}) (Countries);

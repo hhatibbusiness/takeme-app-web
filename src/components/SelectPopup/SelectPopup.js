@@ -37,6 +37,7 @@ const SelectPopup = ({
     const parentScroller = useRef();
 
     useEffect(() => {
+        console.log(itemsFun);
         itemsFun(searchData);
     }, [debouncedSearchTerm]);
 

@@ -8,17 +8,16 @@ import Backbtn from './Backbtn/Backbtn';
 import SubBar from './SubBar/SubBar';
 import { useNavbarContext } from '../../../context/navbar.context';
 import { useLocation } from 'react-router-dom';
-import { useLanguagesContext } from '../../../context/languages.context';
 import { useLocalesContext } from '../../../context/locales.context';
-import { useCountriesContext } from '../../../context/countries.context';
 import { usePlacesContext } from '../../../context/placesContext';
+import {connect} from "react-redux";
+import {searchLanguages, closeSearch, openSearch, deleteLanguage, changeSortType} from "../../../store/actions/languages.actions";
+import {searchCountries, fetchCountries, deleteCountry, closeSearchCountries, openSearchCountries } from "../../../store/actions/countries.actions";
 
-const Navbar = ({}) => {
+const Navbar = ({openSearchCountries, countries, searchCountries, closeSearchCountries, languages, searchLanguages, closeSearch, openSearch, deleteLanguage, changeSortType}) => {
     const { details } = useDetailsContext();
     const { state } = useNavbarContext();
-    const { languages, searchLanguages, closeSearch, openSearch, changeSort } = useLanguagesContext();
     const { locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort } = useLocalesContext();
-    const { countries, searchCountries, openSearchCountries, closeSearchCountries } = useCountriesContext();
     const { SearchPlacesFun, searchPlaces, isSearchingPlaces, searchPlaceTerm, closeSearchPlaces, openSearchPlaces, sortTypePlace, changeSortPlaces } = usePlacesContext();
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -38,7 +37,7 @@ const Navbar = ({}) => {
                 urls: {
                     addUrl: '/languages/add'
                 },
-                changeSort, 
+                changeSort: changeSortType,
                 baseData: (e) => {
                     return {
                         lan: 'ar',
@@ -128,7 +127,7 @@ const Navbar = ({}) => {
             <div className='Navbar__container'>
                 <Logo imgUrl={details.logoPath || logoDefaultImage} />
                 <MidText />
-                <Backbtn />
+                <Backbtn backURL={'/'} />
             </div>
             {
                 state.searchActive && (
@@ -139,4 +138,9 @@ const Navbar = ({}) => {
     )
 }
 
-export default Navbar;
+const mapStateToProps = state => ({
+    languages: state.languages,
+    countries: state.countries
+})
+
+export default connect(mapStateToProps, {openSearchCountries, closeSearchCountries, deleteCountry, fetchCountries, searchCountries, closeSearch, openSearch, deleteLanguage, changeSortType, searchLanguages}) (Navbar);
