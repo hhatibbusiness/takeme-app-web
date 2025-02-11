@@ -9,18 +9,22 @@ import SubBar from './SubBar/SubBar';
 import { useNavbarContext } from '../../../context/navbar.context';
 import { useLocation } from 'react-router-dom';
 import { useLocalesContext } from '../../../context/locales.context';
-import { usePlacesContext } from '../../../context/placesContext';
 import {connect} from "react-redux";
 import {searchLanguages, closeSearch, openSearch, deleteLanguage, changeSortType} from "../../../store/actions/languages.actions";
-import {searchCountries, fetchCountries, deleteCountry, closeSearchCountries, openSearchCountries } from "../../../store/actions/countries.actions";
+import {searchCountries, fetchCountries, closeSearchCountries, openSearchCountries } from "../../../store/actions/countries.actions";
+import {searchPlaces, fetchPlaces, closeSearchPlaces, openSearchPlaces} from '../../../store/actions/places.actions';
 
-const Navbar = ({openSearchCountries, countries, searchCountries, closeSearchCountries, languages, searchLanguages, closeSearch, openSearch, deleteLanguage, changeSortType}) => {
+
+const Navbar = ({
+        openSearchCountries, countries, searchCountries, closeSearchCountries, 
+        languages, searchLanguages, closeSearch, openSearch, changeSortType,
+        openSearchPlaces, places, searchPlaces, closeSearchPlaces
+    }) => {
+    
     const { details } = useDetailsContext();
     const { state } = useNavbarContext();
     const { locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort } = useLocalesContext();
-    const { SearchPlacesFun, searchPlaces, isSearchingPlaces, searchPlaceTerm, closeSearchPlaces, openSearchPlaces, sortTypePlace, changeSortPlaces } = usePlacesContext();
     const [searchTerm, setSearchTerm] = useState('');
-
     const location = useLocation();
 
     const subBarProps = () => {
@@ -98,22 +102,22 @@ const Navbar = ({openSearchCountries, countries, searchCountries, closeSearchCou
             }
         } else if (location.pathname.includes('places')) {
             return {
-                searchFun: SearchPlacesFun,
-                isSearching: isSearchingPlaces,
-                fetchingSearchResults: searchPlaces,
+                searchFun: searchPlaces,
+                isSearching: places.search,
+                fetchingSearchResults: places.searching,
                 closeSearch: closeSearchPlaces, 
                 openSearch: openSearchPlaces,
                 searchTerm,
                 setSearchTerm,
-                sortType: sortTypePlace,
+                sortType: null,
                 urls:  {
                     addUrl: '/places/add'
                 },
-                changeSort: changeSortPlaces, 
+                changeSort: null, 
                 baseData: (e) => {
                     return {
-                        searchkey: e?.target?.value || '',
-                        sortType: sortTypePlace,
+                        lan: 'ar',
+                        searchKey: e?.target?.value || '',
                         page: 0
                     }
                 },
@@ -127,7 +131,7 @@ const Navbar = ({openSearchCountries, countries, searchCountries, closeSearchCou
             <div className='Navbar__container'>
                 <Logo imgUrl={details.logoPath || logoDefaultImage} />
                 <MidText />
-                <Backbtn backURL={'/'} />
+                <Backbtn backURL={state.searchActive ? '/' : -1} />
             </div>
             {
                 state.searchActive && (
@@ -140,7 +144,12 @@ const Navbar = ({openSearchCountries, countries, searchCountries, closeSearchCou
 
 const mapStateToProps = state => ({
     languages: state.languages,
-    countries: state.countries
+    countries: state.countries,
+    places: state.places
 })
 
-export default connect(mapStateToProps, {openSearchCountries, closeSearchCountries, deleteCountry, fetchCountries, searchCountries, closeSearch, openSearch, deleteLanguage, changeSortType, searchLanguages}) (Navbar);
+export default connect(mapStateToProps, {
+        openSearchCountries, closeSearchCountries, fetchCountries, searchCountries, 
+        closeSearch, openSearch, deleteLanguage, changeSortType, searchLanguages,
+        searchPlaces, closeSearchPlaces, openSearchPlaces, fetchPlaces,
+    }) (Navbar);

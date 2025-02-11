@@ -2,7 +2,7 @@
 
 const Server = "app"
 
-export const BaseURL = `http://191.96.1.25:8080/app_test/endpoints`
+export const BaseURL = `http://191.96.1.25:8080/${Server}/endpoints`
 
 export const AUTH_TOKEN = `Bearer ${localStorage.getItem('TAKEME_TOKEN')}`
 
