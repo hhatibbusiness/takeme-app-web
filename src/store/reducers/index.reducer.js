@@ -16,6 +16,7 @@ import authReducer from "./auth.reducer";
 import languagesReducer from "./languages.reducer";
 import countriesReducer from "./countries.reducer";
 import placesReducer from "./places.reducer";
+import localeReducer from "./locales.reducers";
 
 const initialState = {
     message: 'Hello from the store'
@@ -44,4 +45,5 @@ export default combineReducers({
     languages: languagesReducer,
     countries: countriesReducer,
     places: placesReducer,
+    locales: localeReducer,
 });

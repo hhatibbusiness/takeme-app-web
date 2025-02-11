@@ -11,9 +11,10 @@ import PopupInput from '../../../components/PopupInput/PopupInput';
 import { useSelectContext } from '../../../context/single.select.context';
 import { useNavbarContext } from '../../../context/navbar.context';
 import SelectPopup from '../../../components/SelectPopup/SelectPopup';
+//import { changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguages } from '../../../store/actions/locales.actions';
 
 const LocalesAdd = ({ setBackBtn, setAdmin}) => {
-    const { locales, changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, locale, searchLanguages, language } = useLocalesContext();
+    const { locales, changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguages } = useLocalesContext();
     const { select, openPopup, closePopup, changeProps } = useSelectContext();
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
