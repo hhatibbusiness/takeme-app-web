@@ -43,7 +43,7 @@ const TextArea = ({ id, touched, rules, valid, value, setValue, submitted, requi
         <div className='TextArea__wrapper'>
             <div className="TextArea__container">
                 <label
-                    className={`TextArea__label ${focused ? 'TextArea__label--focused' : ''}`}
+                    className={`TextArea__label ${(focused || value) ? 'TextArea__label--focused' : ''}`}
                 >
                     {placeholder}
                 </label>

@@ -8,7 +8,7 @@ const Input = ({id, placeholder, disabled, submitted, required, value, setValue,
     return (
         <div className='Input__container'>
             <div className="Input__container--container">
-                <label className={`Input__label ${focused ? 'Input__label--focused' : ''}`}>{placeholder}</label>
+                <label className={`Input__label ${(focused || value) ? 'Input__label--focused' : ''}`}>{placeholder}</label>
                 <input
                     onFocus={e => {
                         setFocused(true);
