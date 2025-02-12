@@ -5,6 +5,7 @@ import InputError from '../Input/InputError/InputError';
 const TextArea = ({ id, touched, rules, valid, value, setValue, submitted, required, placeholder }) => {
     const [height, setHeight] = useState(100); // Default height
     // const [width, setWidth] = useState(300);   // Default width
+    const [focused, setFocused] = useState(false);
 
     const textAreaRef = useRef();
 
@@ -40,16 +41,28 @@ const TextArea = ({ id, touched, rules, valid, value, setValue, submitted, requi
 
     return (
         <div className='TextArea__wrapper'>
-            <textarea
-                ref={textAreaRef}
-                required={required}
-                value={value}
-                placeholder={placeholder}
-                style={{height: `${height}px`}}
-                onChange={e => setValue(e.target.value)}
-                className={`TextArea ${required && submitted && !value ? 'TextArea__invalid' : ''}`}
-                id={id}
-            />
+            <div className="TextArea__container">
+                <label
+                    className={`TextArea__label ${focused ? 'TextArea__label--focused' : ''}`}
+                >
+                    {placeholder}
+                </label>
+                <textarea
+                    ref={textAreaRef}
+                    required={required}
+                    value={value}
+                    style={{height: `${height}px`}}
+                    onChange={e => setValue(e.target.value)}
+                    className={`TextArea ${required && submitted && !value ? 'TextArea__invalid' : ''}`}
+                    id={id}
+                    onFocus={e => {
+                        setFocused(true);
+                    }}
+                    onBlur={e => {
+                        setFocused(false);
+                    }}
+                />
+            </div>
             {/* <div
                 className="TextArea__resize--handler"
                 onTouchStart={startResize}
