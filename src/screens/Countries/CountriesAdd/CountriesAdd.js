@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from '../../../components/InputAdmin/Input';
 import { formValidator } from '../../../utilty/formValidator';
 import './CountriesAdd.css';
@@ -368,7 +368,7 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
     }
 
     return (
-        <div id={"CountriesAdd"} className='LocalesAdd' style={{paddingTop: `${paddingTop}px`}}>
+        <div id={"CountriesAdd"} className='LocalesAdd' style={{paddingTop: `${paddingTop + 20}px`}}>
             <div className='LocalesAdd__contianer'>
                 <Input
                     touched={conName.touched}
@@ -380,6 +380,7 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
                     setValue={value => conNameChangeHandler(value)}
                     placeholder={'اسم الدولة'}
                     id={'Country__name'}
+                    key={1}
                 />
                 <Input
                     touched={code.touched}
@@ -391,6 +392,7 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
                     setValue={value => codeChangeHandler(value)}
                     placeholder={'كود البلد'}
                     id={'Country__code'}
+                    key={2}
                 />
                 <PopupInput
                     data={{
