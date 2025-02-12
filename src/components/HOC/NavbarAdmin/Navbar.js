@@ -13,17 +13,18 @@ import {connect} from "react-redux";
 import {searchLanguages, closeSearch, openSearch, deleteLanguage, changeSortType} from "../../../store/actions/languages.actions";
 import {searchCountries, fetchCountries, closeSearchCountries, openSearchCountries } from "../../../store/actions/countries.actions";
 import {searchPlaces, fetchPlaces, closeSearchPlaces, openSearchPlaces} from '../../../store/actions/places.actions';
+import {searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort } from '../../../store/actions/locales.actions';
 
 
 const Navbar = ({
         openSearchCountries, countries, searchCountries, closeSearchCountries, 
         languages, searchLanguages, closeSearch, openSearch, changeSortType,
-        openSearchPlaces, places, searchPlaces, closeSearchPlaces
+        openSearchPlaces, places, searchPlaces, closeSearchPlaces,
+        locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort,
     }) => {
     
     const { details } = useDetailsContext();
     const { state } = useNavbarContext();
-    const { locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort } = useLocalesContext();
     const [searchTerm, setSearchTerm] = useState('');
     const location = useLocation();
 
@@ -145,11 +146,13 @@ const Navbar = ({
 const mapStateToProps = state => ({
     languages: state.languages,
     countries: state.countries,
-    places: state.places
+    places: state.places,
+    locales: state.locales,
 })
 
 export default connect(mapStateToProps, {
         openSearchCountries, closeSearchCountries, fetchCountries, searchCountries, 
         closeSearch, openSearch, deleteLanguage, changeSortType, searchLanguages,
         searchPlaces, closeSearchPlaces, openSearchPlaces, fetchPlaces,
+        searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort,
     }) (Navbar);

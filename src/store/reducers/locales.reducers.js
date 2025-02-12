@@ -161,7 +161,7 @@ const localesReducer = (state = initialState, action) => {
                 ...state,
                 selectedLanguage: action.language
             };
-        case actionTypes.SEARCH_LANGUAGES:
+        case actionTypes.SEARCH_LANGUAGES_LOCALES:
             return {
                 ...state,
                 languages: action.page === 0 ? [...action.languages] : [...state.languages, ...action.languages],
@@ -169,12 +169,12 @@ const localesReducer = (state = initialState, action) => {
                 languagesPage: state.languagesPage + 1,
                 languagesSearchKey: action.searchKey
             };
-        case actionTypes.START_SEARCHING_LANGUAGES:
+        case actionTypes.START_SEARCHING_LANGUAGES_LOCALES:
             return {
                 ...state,
                 fetchingLanguages: true
             };
-        case actionTypes.END_SEARCHING_LANGUAGES:
+        case actionTypes.END_SEARCHING_LANGUAGES_LOCALES:
             return {
                 ...state,
                 fetchingLanguages: false

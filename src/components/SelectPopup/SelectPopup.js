@@ -25,7 +25,7 @@ const SelectPopup = ({
     single, // determine if the select is single (true) or multi (false).
     checkClickHandler, // function triggered if the select is multiple and the check is clicked.
     multiSelectFun, // triggered if the select is multiple and the item is clicked.
-    setOpen
+    setOpen = () => {},
 }) => {
     const { closePopup } = useSelectContext();
     const debouncedSearchTerm = useDebounce(searchKey, 500);
@@ -37,7 +37,6 @@ const SelectPopup = ({
     const parentScroller = useRef();
 
     useEffect(() => {
-        console.log(itemsFun);
         itemsFun(searchData);
     }, [debouncedSearchTerm]);
 

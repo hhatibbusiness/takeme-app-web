@@ -28,6 +28,8 @@ const PlacesPage = ({ fetchPlaces, searchPlaces, deletePlace, setBackBtn, setAdm
     });
 
     useEffect(() => {
+        if (places.page > 0) return
+
         const data = {
             lan: 'ar_SA',
             page: 0,
@@ -38,10 +40,10 @@ const PlacesPage = ({ fetchPlaces, searchPlaces, deletePlace, setBackBtn, setAdm
     }, [])
 
     const itemsListPropsSearch = {
-        itemsFun: searchPlaces || (() => {}),
-        page: places.searchResultsPage || 0,
+        itemsFun: searchPlaces,
+        page: places.searchResultsPage,
         more: places.moreSearchResults ,
-        items: places.searchResults || [],
+        items: places.searchResults,
         paginationData: {
             lan: 'ar_SA',
             page: places.searchResultsPage,
@@ -68,10 +70,10 @@ const PlacesPage = ({ fetchPlaces, searchPlaces, deletePlace, setBackBtn, setAdm
     }
 
     const itemsListPropsMain = {
-        itemsFun: fetchPlaces || (() => {}),
-        page: places.page || 0,
+        itemsFun: fetchPlaces,
+        page: places.page,
         more: places.more,
-        items: places.places || [],
+        items: places.places,
         paginationData: {
             lan: 'ar_SA',
             page: places.page,

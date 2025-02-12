@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import ItemsList from '../../components/ItemsList/ItemsList';
 import Input from '../InputAdmin/Input';
 import './PopupInput.css';
 
-const PopupInput = ({ selectedItem, displayName, placeholder, inputClickHandler, setOpen }) => {
+const PopupInput = ({ selectedItem, displayName, placeholder, inputClickHandler, setOpen=()=>{} }) => {
     return (
         <div onClick={e => setOpen(true)} className='PopupInput'>
             <div className='PopupInput__contianer'>

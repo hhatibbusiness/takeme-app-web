@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { BaseURL } from "../../assets/constants/Base";
 import * as actionTypes from '../actions/action.types'
+import { addAlert } from './alert.actions';
 
-export const fetchLocales = async (dispatch, data=null, addAlert) => {
+
+export const fetchLocales = (data) => async dispatch => {
     try {
         if(data.page == 0) dispatch({ type: actionTypes.START_FETCHING_LOCALES });
         const res = await axios.get(`${BaseURL}/locales/list?mLocale=${data.lan}&sortType=${data.sortType}&page=${data.page}`);
@@ -19,7 +21,7 @@ export const fetchLocales = async (dispatch, data=null, addAlert) => {
     }
 };
 
-export const addLocale = async (dispatch, data, addAlert) => {
+export const addLocale = (data) => async dispatch => {
     try {
         const postData = {
             name: data.name,
@@ -46,7 +48,7 @@ export const addLocale = async (dispatch, data, addAlert) => {
     }
 };
 
-export const editLocale = async (dispatch, data, addAlert) => {
+export const editLocale = (data) => async dispatch => {
     try {
         dispatch({ type: actionTypes.START_EDITING_LOCALE });
         const res = await axios.put(`${BaseURL}/locales/update?mLocale=${data.lan}`, data, { headers: { 'accept': '*/*', 'Content-Type': 'application/json'} });
@@ -65,7 +67,7 @@ export const editLocale = async (dispatch, data, addAlert) => {
     }
 };
 
-export const deleteLocale = async (dispatch, data, addAlert) => {
+export const deleteLocale = (data) => async dispatch => {
     try {
         dispatch({ type: actionTypes.START_DELETING_LOCALE });
         const res = await axios.delete(`${BaseURL}/locales/delete?Mlocale=${data.lan}&localeId=${data.localeId}`, { headers: { 'accept': '*/*', 'Content-Type': 'application/json' } });
@@ -84,7 +86,7 @@ export const deleteLocale = async (dispatch, data, addAlert) => {
     }
 };
 
-export const changeSortType = async (dispatch, data, addAlert) => {
+export const changeLocalesSort = (data) => async dispatch => {
     try {
         dispatch({ type: actionTypes.CHANGE_SORT, sortType: data.sortType });
         const fetchingData = {
@@ -106,7 +108,7 @@ export const changeSortType = async (dispatch, data, addAlert) => {
     }
 };
 
-export const searchLocales = async (dispatch, data, addAlert) => {
+export const searchLocales = (data) => async dispatch => {
     try {
         if(data.page == 0) dispatch({ type: actionTypes.START_SEARCHING_LOCALES });
         const res = await axios.get(`${BaseURL}/locales/search?mLocale=${data.lan}&searchKey=${data.searchKey}&sortType=${data.sortType}&page=${data.page}`, { headers: { 'accept': '*/*', 'Content-Type': 'application/json' } });
@@ -123,15 +125,15 @@ export const searchLocales = async (dispatch, data, addAlert) => {
     }
 };
 
-export const openSearch = (dispatch) => {
+export const openLocalesSearch = () => async dispatch => {
     dispatch({type: actionTypes.OPEN_SEARCH});
 };
 
-export const closeSearch = (dispatch) => {
+export const closeLocalesSearch = () => async dispatch => {
     dispatch({type: actionTypes.CLOSE_SEARCH});
 };
 
-export const fetchLocaleById = async (dispatch, data, addAlert) => {
+export const fetchLocaleById = (data) => async dispatch => {
     try {
         dispatch({ type: actionTypes.START_FETCHING_LOCALE_BY_ID });
         const res = await axios.get(`${BaseURL}/locales/get?mLocale=${data.lan}&localeId=${data.localeId}`);
@@ -149,7 +151,7 @@ export const fetchLocaleById = async (dispatch, data, addAlert) => {
     }
 };
 
-export const fetchLanguages = async (dispatch, data, addAlert) => {
+export const fetchLanguages = (data) => async dispatch => {
     try {
         if (data.page == 0) dispatch({ type: actionTypes.START_FETCHING_LANGUAGES });
         const res = await axios.get(`${BaseURL}/languages/list?mLocale=${data.lan}&sortType=${data.sortType}&page=${data.page}`);
@@ -166,12 +168,13 @@ export const fetchLanguages = async (dispatch, data, addAlert) => {
     }
 };
 
-export const searchLanguages = async (dispatch, data, addAlert, props, changeProps) => {
+export const searchLanguagesLocales = (data) => async dispatch => {
     try {
-        if (data.page == 0) dispatch({ type: actionTypes.START_FETCHING_LANGUAGES });
+        if (data.page == 0) dispatch({ type: actionTypes.START_SEARCHING_LANGUAGES_LOCALES });
         const res = await axios.get(`${BaseURL}/languages/search?mLocale=${data.lan}&searchKey=${data.searchKey}&sortType=${data.sortType}&page=${data.page}`);
-        dispatch({ type: actionTypes.SEARCH_LANGUAGES, languages: res.data.output, searchKey: data.searchKey, page: data.page });
-        dispatch({ type: actionTypes.END_SEARCHING_LANGUAGES });
+        console.log("FROM SEARCH RESULTS", res.data.output, data)
+        dispatch({ type: actionTypes.SEARCH_LANGUAGES_LOCALES, languages: res.data.output, searchKey: data.searchKey, page: data.page });
+        dispatch({ type: actionTypes.END_SEARCHING_LANGUAGES_LOCALES });
         return res;
     } catch (e) {
         console.error(e.message);
@@ -184,6 +187,6 @@ export const searchLanguages = async (dispatch, data, addAlert, props, changePro
     }
 };
 
-export const changeSelectedLanguage = (dispatch, language) => {
+export const changeSelectedLanguage = (language) => async dispatch => {
     dispatch({type: actionTypes.CHANGE_SELECTED_LANGUAGE, language});
 };

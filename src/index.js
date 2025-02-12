@@ -15,7 +15,6 @@ import './i18n';
 import AlertProvider from './context/alerts.context';
 import { DetailsProvider } from './context/details.context';
 import { NavbarProvider } from './context/navbar.context';
-import {LocalesProvider} from "./context/locales.context";
 import {SelectContextProvider} from "./context/single.select.context";
 import {CountriesProvider} from "./context/countries.context";
 import {PlacesProvider} from './context/placesContext';
@@ -30,17 +29,13 @@ root.render(
                 <DetailsProvider>
                     <SelectContextProvider>
                         <AlertProvider>
-                            <LocalesProvider>
                                 <NavbarProvider>
                                     <LanguagesProvider>
                                         <CountriesProvider>
-                                            <PlacesProvider>
                                                 <App />
-                                            </PlacesProvider>
                                         </CountriesProvider>
                                     </LanguagesProvider>
                                 </NavbarProvider>
-                            </LocalesProvider>
                         </AlertProvider>
                     </SelectContextProvider>
                 </DetailsProvider>
