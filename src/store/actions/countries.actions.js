@@ -21,7 +21,7 @@ export const changeSortType = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
     }
 };
 
@@ -38,7 +38,7 @@ export const fetchCountries = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
     }
 };
 
@@ -58,7 +58,7 @@ export const addCountry = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
         dispatch({ type: actionTypes.END_ADDING_COUNTRY });
     }
 };
@@ -79,7 +79,7 @@ export const editCountry = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
         dispatch({ type: actionTypes.END_EDITING_COUNTRY });
     }
 };
@@ -102,7 +102,7 @@ export const deleteCountry = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
         dispatch({ type: actionTypes.END_DELETING_COUNTRY });
     }
 };
@@ -128,7 +128,7 @@ export const searchCountries = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
     }
 };
 
@@ -153,7 +153,7 @@ export const fetchCountryById = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
     }
 };
 
@@ -169,7 +169,7 @@ export const searchLocales = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
     }
 };
 

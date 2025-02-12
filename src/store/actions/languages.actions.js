@@ -20,7 +20,7 @@ export const changeSortType = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
     }
 }
 
@@ -36,7 +36,7 @@ export const fetchLanguages = data => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
     }
 }
 
@@ -53,7 +53,7 @@ export const addLanguage = data => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
         dispatch({ type: actionTypes.END_ADDING_LANGUAGE });
     }
 }
@@ -79,7 +79,7 @@ export const editLanguage = data => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
         dispatch({ type: actionTypes.END_EDITING_LANGUAGE });
     }
 }
@@ -97,7 +97,7 @@ export const deleteLanguage = data => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
         dispatch({ type: actionTypes.END_DELETING_LANGUAGE });
     }
 }
@@ -116,7 +116,7 @@ export const searchLanguages = data => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
     }
 }
 
