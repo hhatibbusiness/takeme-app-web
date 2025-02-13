@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import "./Place.style.css";
-
 import { useNavbarContext } from "../../../context/navbar.context";
-import { addPlace as addPlaceAPI, EditPlace } from '../model/managePlaces.js';
-import { useAlertContext } from "../../../context/alerts.context";
 import NameInput from './PlaceController/PlacesInput'
 import DesireDescriptionText from './PlaceController/PlacesCommentText'
 import SinglePopupAPI from './PlaceController/SelectLocalePop.js'
@@ -17,7 +14,6 @@ import { editPlace, addPlace } from "../../../store/actions/places.actions.js";
 function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, addPlace } ) {
     const navigate = useNavigate()
     const { id } = useParams();
-    const { addAlert } = useAlertContext();
     const { changeSearchActive } = useNavbarContext();
     const [submitted, setSubmitted] = useState(false);
     const [namevalid, setNameValid] = useState(false);
@@ -89,36 +85,12 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
     }
 
 
-    /// Handle the Local Data Changes
-    const handleLocalData = (data) => {
-        if (mode === 'edit') {
-            editPlace(data);
-        } else {
-            console.log("MODE", mode)
-            addPlace(data);
-        }
-    };
-
-    /// Handle the Response from the API
-    const handleResponse = (response) => {
-        if (response?.status) {
-            console.log("Response", response)
-            handleLocalData(response.output);
-            navigate('/places');
-        } else {
-            const alertData = {
-                alertType: 'danger',
-                msg: response?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
-            };
-            addAlert(alertData);
-        }
-    }
-
     /// Handle the Save Button Click
     const handleSave = async() => {
         setSubmitted(true);
         if (namevalid && descriptionValid) {
             const data = {
+                "lan": "ar_SA",
                 "id": null,	
                 "localeId": 1,
                 "placeType": placeType,
@@ -141,11 +113,11 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
 
             if (mode === 'edit') {
                 data.id = id;
-                const response = await EditPlace({ object: data });
-                handleResponse(response);
+                const isDONE = await editPlace(data);
+                if (isDONE) navigate(-1);
             } else {
-                const response = await addPlaceAPI(data);
-                handleResponse(response);
+                const isDONE = await addPlace(data);
+                if (isDONE) navigate(-1);
             }
         }
     }

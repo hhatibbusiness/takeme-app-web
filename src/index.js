@@ -17,7 +17,6 @@ import { DetailsProvider } from './context/details.context';
 import { NavbarProvider } from './context/navbar.context';
 import {SelectContextProvider} from "./context/single.select.context";
 import {CountriesProvider} from "./context/countries.context";
-import {PlacesProvider} from './context/placesContext';
 
 const store = configureReducer(reducer);
 const root = ReactDOM.createRoot(document.getElementById('root'));
