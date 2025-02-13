@@ -7,7 +7,7 @@ import { createUserFeedbackEnvelope } from "@sentry/react";
 import useDoubleTap from "../../../utilty/useDoubleClick";
 
 
-export default function Name({ Focused, FocusHandle, ProfileData, ProfileActions }) {
+export default function Name({ Focused, FocusHandle, ProfileData, updateName }) {
     const [nameIn, setNameIn] = useState('')
 
     useEffect(()=> {
@@ -16,7 +16,7 @@ export default function Name({ Focused, FocusHandle, ProfileData, ProfileActions
 
     const handleSave = ()=>{
         if (nameIn) {
-            ProfileActions.updateName(nameIn)
+            updateName(ProfileData.id, nameIn)
             FocusHandle(false)
         }
     }

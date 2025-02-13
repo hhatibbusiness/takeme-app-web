@@ -17,6 +17,8 @@ import languagesReducer from "./languages.reducer";
 import countriesReducer from "./countries.reducer";
 import placesReducer from "./places.reducer";
 import localeReducer from "./locales.reducers";
+import profileReducer from './profile.reducer'
+
 
 const initialState = {
     message: 'Hello from the store'
@@ -46,4 +48,5 @@ export default combineReducers({
     countries: countriesReducer,
     places: placesReducer,
     locales: localeReducer,
+    profile: profileReducer,
 });

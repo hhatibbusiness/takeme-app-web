@@ -7,12 +7,12 @@ import FemaleLogo from '../../../assets/images/profile/FemaleLogo.png'
 import OrangeVLine from '../../../assets/images/profile/OrangeVLine.png'
 import useDoubleTap from "../../../utilty/useDoubleClick";
 
-export default function Gender({ Focused, GenderFocused, ProfileData, ProfileActions }) {
+export default function Gender({ Focused, GenderFocused, ProfileData, updateGender }) {
     const genderList = translation.genderList
     const Logo = (ProfileData?.gender === 1 ) ?  MaleLogo : FemaleLogo
 
     const handleGender = (Gender) => {
-        ProfileActions.updateGender(Gender)
+        updateGender(ProfileData.id, Gender)
         GenderFocused(false)
     }
 
