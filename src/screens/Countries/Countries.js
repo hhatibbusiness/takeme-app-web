@@ -37,8 +37,10 @@ const Countries = ({ fetchCountries, editCountry, searchCountries, deleteCountry
             sortType: 'NEWEST',
         };
 
+        if(countries.countries.length > 0) return;
+
         fetchCountries(data);
-    }, [])
+    }, []);
 
     const itemsListPropsSearch = {
         itemsFun: searchCountries || (() => {}),

@@ -9,7 +9,7 @@
 .LocalesAdd__contianer {
     display: flex;
     flex-direction: column;
-    gap: 35px;
+    gap: 30px;
 }
 
 .LocalesAdd__btns--container {

@@ -3,6 +3,7 @@ import { ADD_ALERT, REMOVE_ALERT } from './action.types';
 
 export const addAlert = data => {
     const id = uuid();
+    console.log(id);
     return {
         type: ADD_ALERT,
         alert: {

@@ -112,6 +112,15 @@ const App = (props) => {
         };
     }, []);
 
+    // useEffect(() => {
+    //     const alert = {
+    //         msg: 'lfjdlkasjfdlkja',
+    //         alertType: 'success'
+    //     }
+    //
+    //     props.addAlert(alert);
+    // }, []);
+
     useEffect(() => {
         let timeOut;
         if(logoStart != '1') {
