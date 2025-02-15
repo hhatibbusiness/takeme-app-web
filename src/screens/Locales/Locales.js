@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import { useLocalesContext } from '../../context/locales.context';
+import { connect } from 'react-redux';
 import LocalesShimmer from '../../components/ItemsShimmer/ItemsShimmer';
 import ItemsList from '../../components/ItemsList/ItemsList';
 import './Locales.css';
+import { fetchLocales, searchLocales, deleteLocale } from '../../store/actions/locales.actions';
 
-const Locales = ({ setBackBtn, setAdmin }) => {
-    const { locales, fetchLocales, searchLocales, deleteLocale } = useLocalesContext();
+
+const Locales = ({ setBackBtn, setAdmin, locales, fetchLocales, searchLocales, deleteLocale }) => {
     const [paddingTop, setPaddingTop] = useState(0);
 
     useEffect(() => {
@@ -109,4 +110,8 @@ const Locales = ({ setBackBtn, setAdmin }) => {
     )
 }
 
-export default Locales;
+const mapStateToProps = state => ({
+    locales: state.locales
+});
+
+export default connect(mapStateToProps, { fetchLocales, searchLocales, deleteLocale })(Locales);

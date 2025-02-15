@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { useLocalesContext } from '../../../context/locales.context';
+import { connect } from 'react-redux';
 import Input from '../../../components/InputAdmin/Input';
 import { formValidator } from '../../../utilty/formValidator';
 import './LocalesAdd.css';
@@ -11,14 +11,19 @@ import PopupInput from '../../../components/PopupInput/PopupInput';
 import { useSelectContext } from '../../../context/single.select.context';
 import { useNavbarContext } from '../../../context/navbar.context';
 import SelectPopup from '../../../components/SelectPopup/SelectPopup';
+import { changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguagesLocales } from '../../../store/actions/locales.actions';
 
-const LocalesAdd = ({ setBackBtn, setAdmin}) => {
-    const { locales, changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, locale, searchLanguages, language } = useLocalesContext();
+
+const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguagesLocales }) => {
     const { select, openPopup, closePopup, changeProps } = useSelectContext();
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
-
     const [selectSearchKey, setSelectSearchKey] = useState('');
+    const [valid, setValid] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+    const params = useParams();
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         changeSearchActive(false);
@@ -57,6 +62,7 @@ const LocalesAdd = ({ setBackBtn, setAdmin}) => {
         touched: false,
         valid: false
     });
+    
     const [code, setCode] = useState({
         value: '',
         rules: {
@@ -134,9 +140,6 @@ const LocalesAdd = ({ setBackBtn, setAdmin}) => {
         valid: false
     });
 
-    const params = useParams();
-    const navigate = useNavigate();
-
     useEffect(() => {
         if (params.lanId) {
             const data = {
@@ -179,11 +182,6 @@ const LocalesAdd = ({ setBackBtn, setAdmin}) => {
         }
     }, [locales.locale]);
 
-
-
-    const [valid, setValid] = useState(false);
-
-    const [submitted, setSubmitted] = useState(false);
 
     const locNameChangeHandler = value => {
         setSubmitted(false);
@@ -258,7 +256,6 @@ const LocalesAdd = ({ setBackBtn, setAdmin}) => {
 
         setValid(locName.valid && inputIsValid && code.valid && notes.valid);
     }
-
 
     const notesChangeHandler = value => {
         setSubmitted(false);
@@ -347,7 +344,7 @@ const LocalesAdd = ({ setBackBtn, setAdmin}) => {
     }
 
     const selectPopupProps = {
-        itemsFun: searchLanguages,
+        itemsFun: searchLanguagesLocales,
         page: locales.languagesPage,
         more: locales.moreLanguages,
         items: locales.languages,
@@ -392,7 +389,7 @@ const LocalesAdd = ({ setBackBtn, setAdmin}) => {
                         page: 0,
                         searchKey: ''
                     }}
-                    searchItems={searchLanguages}
+                    searchItems={searchLanguagesLocales}
                     items={locales.languages}
                     placeholder={'اختار اللغة'}
                     inputClickHandler={inputClickHandler}
@@ -415,4 +412,8 @@ const LocalesAdd = ({ setBackBtn, setAdmin}) => {
     )
 }
 
-export default LocalesAdd;
+const mapStateToProps = state => ({
+    locales: state.locales
+});
+
+export default connect(mapStateToProps, { changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguagesLocales })(LocalesAdd);

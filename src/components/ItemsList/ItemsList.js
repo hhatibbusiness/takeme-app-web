@@ -28,7 +28,6 @@ const ItemsList = ({
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        console.log(more);
         setMoreLoading(more);
     }, [more]);
 
@@ -58,7 +57,7 @@ const ItemsList = ({
                 hasMore={moreLoading}
                 loader={<ItemsShimmer />}
                 initialLoad={false}
-                useWindow={true}
+                useWindow={window}
                 getScrollParent={() => parentScroller}
             >
                 {

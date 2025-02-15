@@ -12,7 +12,7 @@ export default function Location({ Focused, setFocused, ProfileData, UpdateLocat
     const logo = ProfileData.location ? No_Location : LocationLogo
 
     const handleSave = (props)=> {
-        UpdateLocation(props)
+        UpdateLocation(ProfileData.id, props)
         setFocused(false)
     }
 
