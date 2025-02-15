@@ -27,15 +27,15 @@ root.render(
             <AliveScope>
                 <DetailsProvider>
                     <SelectContextProvider>
-                        <AlertProvider>
+                {/*        <AlertProvider>*/}
                                 <NavbarProvider>
-                                    <LanguagesProvider>
-                                        <CountriesProvider>
+                {/*                    <LanguagesProvider>*/}
+                {/*                        <CountriesProvider>*/}
                                                 <App />
-                                        </CountriesProvider>
-                                    </LanguagesProvider>
+                {/*                        </CountriesProvider>*/}
+                {/*                    </LanguagesProvider>*/}
                                 </NavbarProvider>
-                        </AlertProvider>
+                        {/*</AlertProvider>*/}
                     </SelectContextProvider>
                 </DetailsProvider>
             </AliveScope>
