@@ -6,6 +6,25 @@
     width: 100%;
 }
 
+.TextArea__container {
+    position: relative;
+}
+
+.TextArea__label {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 15px;
+    color: #E5E5E5;
+    transition: 0.2s;
+}
+
+.TextArea__label--focused {
+    top: -25px;
+    right: 0;
+
+}
+
 .TextArea {
     border: 1px solid #E5E5E5;
     padding: 10px 15px;

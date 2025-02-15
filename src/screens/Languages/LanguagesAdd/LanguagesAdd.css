@@ -1,26 +1,21 @@
 .LanguagesAdd {
-    /*width: 100%;*/
     direction: rtl;
-    /*position: fixed;*/
-    /*top: 0;*/
-    /*left: 0;*/
     background-color: white;
     width: 100vw;
     height: 100vh;
 }
 
 .LanguagesAdd__container {
-    /* width: 100%; */
     padding: 10px 20px;
     display: flex;
     flex-direction: column;
-    gap: 10px;;
+    gap: 30px;
 }
 
 .LanguagesAdd__btns--container {
     display: flex;
     flex-direction: row;
-    margin-top: 50px;;
+    margin-top: 50px;
 }
 
 .LanguagesAdd__error--list {

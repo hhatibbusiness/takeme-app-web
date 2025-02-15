@@ -12,9 +12,7 @@ function Languages({setBackBtn, admin, setAdmin, searchLanguages, deleteLanguage
     const [paddingTop, setPaddingTop] = useState(0);
     const parentRef = useRef(null);
 
-
     useEffect(() => {
-        console.log(languages);
         const data = {
             lan: 'ar',
             page: 0,
@@ -23,7 +21,7 @@ function Languages({setBackBtn, admin, setAdmin, searchLanguages, deleteLanguage
 
         if(languages.languages.length !== 0) return;
         fetchLanguages(data);
-    }, [])
+    }, []);
 
     const itemsListPropsMain = {
         itemsFun: fetchLanguages || (() => {}),

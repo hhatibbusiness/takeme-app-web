@@ -9,6 +9,6 @@ export default (state = initialState, action) => {
         case actionTypes.REMOVE_ALERT:
             return null;
         default:
-            return initialState
+            return state
     }
 }

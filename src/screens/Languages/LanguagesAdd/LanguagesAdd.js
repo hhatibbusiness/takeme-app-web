@@ -347,7 +347,7 @@ const LanguagesAdd = ({addLanguage, setBackBtn, setAdmin, languages, editLanguag
     }
     
     return (
-        <div id={'LanguagesAdd'} className='LanguagesAdd' style={{paddingTop: `${paddingTop}px`}}>
+        <div id={'LanguagesAdd'} className='LanguagesAdd' style={{paddingTop: `${paddingTop + 20}px`}}>
             <div className='LanguagesAdd__container'>
                 <Input
                     id={'languageName'}
@@ -359,6 +359,7 @@ const LanguagesAdd = ({addLanguage, setBackBtn, setAdmin, languages, editLanguag
                     value={lanName.value}
                     setValue={value => lanNameChangeHandler(value)}
                     placeholder={'اسم اللغة'}
+                    key={1}
                 />
                 <Input
                     id={'languageEngName'}
@@ -370,6 +371,7 @@ const LanguagesAdd = ({addLanguage, setBackBtn, setAdmin, languages, editLanguag
                     value={engName.value}
                     setValue={value => engNameChangeHandler(value)}
                     placeholder={'اسم اللغة بالانكليزي'}
+                    key={2}
                 />
                 <Input
                     id={'languageCode'}
@@ -381,6 +383,7 @@ const LanguagesAdd = ({addLanguage, setBackBtn, setAdmin, languages, editLanguag
                     value={code.value}
                     setValue={value => codeChangeHandler(value)}
                     placeholder={'كود اللغة (مثال (Eng))'}
+                    key={3}
                 />
                 <TextArea
                     id={'languageNotes'}

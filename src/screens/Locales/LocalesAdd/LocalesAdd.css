@@ -2,9 +2,6 @@
     direction: rtl;
     padding: 20px;
     background: white;
-    /*position: fixed;*/
-    /*top: 0;*/
-    /*left: 0;*/
     width: 100vw;
     height: 100vh;
 }
@@ -12,12 +9,11 @@
 .LocalesAdd__contianer {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 30px;
 }
 
 .LocalesAdd__btns--container {
     display: flex;
     flex-direction: row;
-    margin-top: 50px;;
-
+    margin-top: 50px;
 }

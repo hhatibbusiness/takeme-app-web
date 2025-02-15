@@ -1,7 +1,30 @@
 .Input__container {
     display: flex;
     flex-direction: column;
-    /* gap: 5px; */
+}
+
+.Input__container--container {
+    position: relative;
+    width: 100%;
+    display: flex;
+}
+
+.Input__label--focused {
+    right: 0 !important;
+    top: -30px !important;
+    transform: scale(0.8) !important;
+}
+
+.Input__label {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: 0.2s;
+    z-index: 1;
+    font-size: 15px;
+    /*line-height: 22.05;*/
+    color: #E5E5E5;
 }
 
 .Input {
@@ -9,7 +32,16 @@
     border: 1px solid #E5E5E5;
     padding: 10px 15px;
     outline: none;
-    border-radius: 10px;;
+    border-radius: 10px;
+    width: 100%;
+    z-index: 2;
+    background: transparent;
+}
+
+.Input:focus > .Input__label {
+    right: 0 !important;
+    top: -25px !important;
+    transform: scale(0.8) !important;
 }
 
 .Input::placeholder {
