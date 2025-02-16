@@ -17,7 +17,7 @@ export const fetchLocales = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
     }
 };
 
@@ -43,7 +43,7 @@ export const addLocale = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
         dispatch({ type: actionTypes.END_ADDING_LOCALE });
     }
 };
@@ -62,7 +62,7 @@ export const editLocale = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
         dispatch({ type: actionTypes.END_EDITING_LOCALE });
     }
 };
@@ -81,22 +81,22 @@ export const deleteLocale = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
         dispatch({ type: actionTypes.END_DELETING_LOCALE });
     }
 };
 
 export const changeLocalesSort = (data) => async dispatch => {
     try {
-        dispatch({ type: actionTypes.CHANGE_SORT, sortType: data.sortType });
+        dispatch({ type: actionTypes.CHANGE_SORT_LOCALES, sortType: data.sortType });
         const fetchingData = {
-            lan: 'ar',
+            lan: 'ar_SA',
             page: 0,
             sortType: data.sortType,
             searchKey: data.searchKey || ''
         };
-        fetchLocales(dispatch, fetchingData, addAlert);
-        searchLocales(dispatch, fetchingData, addAlert);
+        await dispatch(fetchLocales(fetchingData));
+        await dispatch(searchLocales(fetchingData));
     } catch (e) {
         console.error(e.message);
         const alertData = {
@@ -104,7 +104,7 @@ export const changeLocalesSort = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
     }
 };
 
@@ -121,7 +121,7 @@ export const searchLocales = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
     }
 };
 
@@ -147,7 +147,7 @@ export const fetchLocaleById = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
     }
 };
 
@@ -164,7 +164,7 @@ export const fetchLanguages = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
     }
 };
 
@@ -183,7 +183,7 @@ export const searchLanguagesLocales = (data) => async dispatch => {
             msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
         };
 
-        addAlert(alertData);
+        dispatch(addAlert(alertData));
     }
 };
 

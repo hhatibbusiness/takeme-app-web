@@ -5,6 +5,7 @@ const initialState = {
     places: [],
     fetchingPlaces: false,
     page: 0,
+    adding: false,
     sortType: "NEWEST",
     more: false,
     deleting: false,
@@ -34,6 +35,16 @@ export default (state = initialState, action) => {
                 places: [...state.places, ...action.places],
                 page: state.page + 1,
                 more: action.places.length >= 10
+            }
+        case actionTypes.START_ADDING_PLACE:
+            return {
+                ...state,
+                adding: true
+            }
+        case actionTypes.END_ADDING_PLACE:
+            return {
+                ...state,
+                adding: false
             }
         case actionTypes.ADD_PLACE:
             return {
@@ -100,7 +111,7 @@ export default (state = initialState, action) => {
                 ...state,
                 search: true
             }
-        case actionTypes.CLOSE_SEARCH_COUNTRIES:
+        case actionTypes.CLOSE_SEARCH_PLACES:
             return {
                 ...state,
                 search: false

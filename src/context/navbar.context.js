@@ -39,7 +39,7 @@ const navbarActions = {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'اضافة لغة'})
         } else if (pathname.includes('/languages/edit')) {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل لغة'})
-        } else if (pathname == '/locales') {
+        } else if (pathname == '/locales' || pathname == '/locales/') {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'اللهجات'})
         } else if (pathname == '/locales/add') {
             return dispatch({ type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'اضافة لهجة' })

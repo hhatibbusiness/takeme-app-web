@@ -4,9 +4,10 @@ import ItemsList from '../../components/ItemsList/ItemsList';
 import './PlacesPage.style.css';
 import {connect} from "react-redux";
 import {fetchPlaces, deletePlace, searchPlaces} from "../../store/actions/places.actions";
+import KeepAlive from 'react-activation';
 
 const PlacesPage = ({ fetchPlaces, searchPlaces, deletePlace, setBackBtn, setAdmin, places }) => {
-    const [paddingTop, setPaddingTop] = useState(0);
+    const [paddingTop, setPaddingTop] = useState(105);
     const parentRef = useRef(null);
 
 
@@ -100,23 +101,25 @@ const PlacesPage = ({ fetchPlaces, searchPlaces, deletePlace, setBackBtn, setAdm
     }
 
     return (
-        <div className='Places_body' ref={parentRef} style={{paddingTop: `${paddingTop}px`}}>
-            {
-                places.search ? (
-                    places.searching ? (
-                        <CountriesShimmer />
+        <KeepAlive>
+            <div className='Places_body' ref={parentRef} style={{paddingTop: `${paddingTop}px`}}>
+                {
+                    places.search ? (
+                        places.searching ? (
+                            <CountriesShimmer />
+                        ) : (
+                            <ItemsList window={false} {...itemsListPropsSearch} />
+                        )
                     ) : (
-                        <ItemsList window={false} {...itemsListPropsSearch} />
+                        places.fetchingPlaces ? (
+                            <CountriesShimmer />
+                        ) : (
+                            <ItemsList window={false}  {...itemsListPropsMain} />
+                        )
                     )
-                ) : (
-                    places.fetchingPlaces ? (
-                        <CountriesShimmer />
-                    ) : (
-                        <ItemsList window={false}  {...itemsListPropsMain} />
-                    )
-                )
-            }
-        </div>
+                }
+            </div>
+        </KeepAlive>
     )
 }
 

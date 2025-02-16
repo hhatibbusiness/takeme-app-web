@@ -1,8 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import SelectPopup from '../../../../components/SelectPopup/SelectPopup';
 import '../Place.style.css';
 
-const SinglePopupAPI = ({ placeHolderText, SearchFunctionAPI, ListFunctionAPI, displayName, onSelectItem, selectedItems=[] }) => {
+const SinglePopupAPI = ({ placeHolderText, SearchFunctionAPI, ListFunctionAPI, displayName, onSelectItem, selectedItems={} }) => {
     const [items, setItems] = useState([]);
     const Listitems = useRef([]);
     const [page, setPage] = useState(0);
@@ -10,6 +10,10 @@ const SinglePopupAPI = ({ placeHolderText, SearchFunctionAPI, ListFunctionAPI, d
     const [searchText, setSearchText] = useState('');
     const [searching, setSearching] = useState(false);
     const [isOpen, setOpen] = useState(false);
+
+    useEffect(()=> {
+        setItems([]);
+    }, [isOpen]);
 
     /// Search and List Functions if the user make and search text make SearchPlacesFun and if not make a list items.
     const ListSearchFun = async (dataProps) => {
@@ -53,7 +57,7 @@ const SinglePopupAPI = ({ placeHolderText, SearchFunctionAPI, ListFunctionAPI, d
         searching: searching,
 
         window: false,
-        selectedItems: selectedItems,
+        selectedItem: selectedItems,
         itemClickFun,
         single: true,
         setOpen: setOpen,

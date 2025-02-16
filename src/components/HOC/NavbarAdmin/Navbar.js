@@ -8,9 +8,8 @@ import Backbtn from './Backbtn/Backbtn';
 import SubBar from './SubBar/SubBar';
 import { useNavbarContext } from '../../../context/navbar.context';
 import { useLocation } from 'react-router-dom';
-import { useLocalesContext } from '../../../context/locales.context';
 import {connect} from "react-redux";
-import {searchLanguages, closeSearch, openSearch, deleteLanguage, changeSortType} from "../../../store/actions/languages.actions";
+import {searchLanguages, closeSearch, openSearch, deleteLanguage, changeLanguagesSort} from "../../../store/actions/languages.actions";
 import {searchCountries, fetchCountries, closeSearchCountries, openSearchCountries } from "../../../store/actions/countries.actions";
 import {searchPlaces, fetchPlaces, closeSearchPlaces, openSearchPlaces} from '../../../store/actions/places.actions';
 import {searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort } from '../../../store/actions/locales.actions';
@@ -18,7 +17,7 @@ import {searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort 
 
 const Navbar = ({
         openSearchCountries, countries, searchCountries, closeSearchCountries, 
-        languages, searchLanguages, closeSearch, openSearch, changeSortType,
+        languages, searchLanguages, closeSearch, openSearch, changeLanguagesSort,
         openSearchPlaces, places, searchPlaces, closeSearchPlaces,
         locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort,
     }) => {
@@ -42,7 +41,7 @@ const Navbar = ({
                 urls: {
                     addUrl: '/languages/add'
                 },
-                changeSort: changeSortType,
+                changeSort: changeLanguagesSort,
                 baseData: (e) => {
                     return {
                         lan: 'ar',
@@ -152,7 +151,7 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
         openSearchCountries, closeSearchCountries, fetchCountries, searchCountries, 
-        closeSearch, openSearch, deleteLanguage, changeSortType, searchLanguages,
+        closeSearch, openSearch, deleteLanguage, changeLanguagesSort, searchLanguages,
         searchPlaces, closeSearchPlaces, openSearchPlaces, fetchPlaces,
         searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort,
     }) (Navbar);
