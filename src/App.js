@@ -275,9 +275,9 @@ const App = (props) => {
                                     <Route path={`main/popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} >
                                         <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                     </Route>
-                                    <Route path='/confirm/email/register/:email/:password' exact element={<ConfirmEmail confirmHandler={confirmEmailAndRegister} paddingTop={navHeight} setBackBtn={setBackBtn} showIcons={showIcons} setShowIcons={setShowIcons} />} />
-                                    <Route path='/confirm/email/change/password/:email' exact element={<ConfirmEmail confirmHandler={confirmEmailAndChangePassword} paddingTop={navHeight} setBackBtn={setBackBtn} showIcons={showIcons} setShowIcons={setShowIcons} />} />
-                                    <Route path={'/login'} exact element={<Authentication setBackBtn={setBackBtn} paddingTop={navHeight} showIcons={showIcons} setShowIcons={setShowIcons} />} />
+                                    <Route path='/confirm/email/register/:email/:password' exact element={<ConfirmEmail bodyContainerRef={bodyContainerRef} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} navHeight={navHeight} confirmHandler={confirmEmailAndRegister} paddingTop={navHeight} setBackBtn={setBackBtn} showIcons={showIcons} setShowIcons={setShowIcons} />} />
+                                    <Route path='/confirm/email/change/password/:email' exact element={<ConfirmEmail bodyContainerRef={bodyContainerRef} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} navHeight={navHeight} confirmHandler={confirmEmailAndChangePassword} paddingTop={navHeight} setBackBtn={setBackBtn} showIcons={showIcons} setShowIcons={setShowIcons} />} />
+                                    <Route path={'/login'} exact element={<Authentication bodyContainerRef={bodyContainerRef} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} navHeight={navHeight}  setBackBtn={setBackBtn} paddingTop={navHeight} showIcons={showIcons} setShowIcons={setShowIcons} />} />
                                     <Route
                                         path={`product/popup/:id`}
                                         element={<ProductPopup gallery={gallery} setGallery={setGallery} />}

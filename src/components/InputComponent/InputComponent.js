@@ -4,7 +4,7 @@ import invisibleImage from '../../assets/images/defaults/invisible.png';
 
 const InputComponent = ({ icon, type, placeholder, value, setValue, touched, valid, submitted }) => {
     const [inputType, setInputType] = useState('');
-
+    const [visible, setVisible] = useState(false);
     useEffect(() => {
         setInputType(type);
     }, [type]);
@@ -34,15 +34,28 @@ const InputComponent = ({ icon, type, placeholder, value, setValue, touched, val
             />
             {
                 type == 'password' && (
-                    <img
-                        onClick={e => {
-                            setInputType(t => {
-                                return t == 'text' ? 'password' : 'text'
-                            })
-                        }}
-                        className='InputComponent__password'
-                        src={invisibleImage}
-                    />
+                    visible ? (
+                        <img
+                            onClick={e => {
+                                setInputType(t => {
+                                    return t == 'text' ? 'password' : 'text'
+                                })
+                            }}
+                            className='InputComponent__password'
+                            src={invisibleImage}
+                        />
+                    ) : (
+                        <img
+                            onClick={e => {
+                                setInputType(t => {
+                                    return t == 'text' ? 'password' : 'text'
+                                })
+                            }}
+                            className='InputComponent__password'
+                            src={invisibleImage}
+                        />
+
+                    )
                 )
             }
         </div>

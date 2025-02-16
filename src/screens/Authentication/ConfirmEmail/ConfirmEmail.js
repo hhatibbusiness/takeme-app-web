@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import './ConfirmEmail.css';
 import { useParams } from 'react-router-dom';
 import emailConfirm from '../../../assets/images/auth/email-confirm.png';
@@ -8,13 +8,47 @@ import {addAlert} from "../../../store/actions/alert.actions";
 import axios from "axios";
 import {BASE_URL} from "../../../utls/assets";
 
-const ConfirmEmail = ({ paddingTop, locale, addAlert, setBackBtn, setShowIcons, confirmHandler }) => {
+const ConfirmEmail = ({ paddingTop,    y, setY, topValue,setTopValue, navHeight, bodyContainerRef, locale, addAlert, setBackBtn, setShowIcons, confirmHandler }) => {
     const [counter, setCounter] = useState(0);
     const [counterDate, setCounterDate] = useState(() => {
         // Retrieve stored date and parse correctly
         const storedDate = localStorage.getItem('TAKEME_COUNTER_DATE');
         return storedDate ? new Date(storedDate) : null;
     });
+
+    const handleWindowScroll = useCallback( e => {
+        if(Math.floor(y) > Math.floor(window.scrollY)) {
+            setY(window.scrollY);
+            if(topValue + (y - window.scrollY) > 0) {
+                return setTopValue(0);
+            }
+            setTopValue(topValue + (y - window.scrollY));
+        } else if(Math.floor(y) < Math.floor(window.scrollY)) {
+            if(window.scrollY - y > Math.abs(navHeight) - Math.abs(topValue)) {
+                setY(window.scrollY);
+                return setTopValue(-navHeight);
+            };
+            if(window.scrollY - y + topValue < -navHeight) {
+                setY(window.scrollY);
+                return setTopValue(-navHeight);
+            };
+            setTopValue(topValue - (window.scrollY - y));
+            setY(window.scrollY);
+        }
+    }, [y]);
+
+    useEffect(() => {
+        const container = bodyContainerRef.current;
+        if(container) {
+            setY(window.scrollY);
+            window.addEventListener('scroll', handleWindowScroll);
+        }
+
+        return () => {
+            window.removeEventListener('scroll', handleWindowScroll);
+        }
+    }, [handleWindowScroll, bodyContainerRef.current]);
+
 
     useEffect(() => {
         if (!counterDate || isNaN(counterDate.getTime())) return;

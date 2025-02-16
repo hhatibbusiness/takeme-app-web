@@ -8,7 +8,7 @@ import Store from "./Store/Store";
 import Items from "./Items/Items";
 import ItemShimmer from "../../../../components/ItemShimmer/ItemShimmer";
 
-const BodyContainerComponent = ({y, setY, selectedLocale, topValue, setTopValue, bodyContainerRef, navHeight, moreItems, itemsPage, fetchingItems, curItemTypeId, items, fetchProductsMarket, coverLoaded, fetchingStores, store, setCoverLoaded, setCurrentProduct, id, value}) => {
+const BodyContainerComponent = ({y, setY, topValue, setTopValue, bodyContainerRef, navHeight, moreItems, itemsPage, fetchingItems, curItemTypeId, items, fetchProductsMarket, coverLoaded, fetchingStores, store, setCoverLoaded, setCurrentProduct, id, value}) => {
     const spacerRef = useRef();
     const containerRef = useRef();
     const mainRef = useRef();

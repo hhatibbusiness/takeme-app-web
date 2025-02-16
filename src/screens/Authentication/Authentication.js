@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './Authentication.css';
 import InputComponent from '../../components/InputComponent/InputComponent';
 import emailImage from '../../assets/images/defaults/email.png'
@@ -23,7 +23,8 @@ const Authentication = ({
     setBackBtn,
     setShowIcons,
     locale,
-    addAlert
+    addAlert,
+    y, setY, topValue,setTopValue, navHeight, bodyContainerRef
 }) => {
     const [email, setEmail] = useState({
         value: '',
@@ -64,7 +65,45 @@ const Authentication = ({
     const [params, setParams] = useState(null);
 
     const navigate = useNavigate();
-    
+
+    const handleWindowScroll = useCallback( e => {
+        if(Math.floor(y) > Math.floor(window.scrollY)) {
+            setY(window.scrollY);
+            if(topValue + (y - window.scrollY) > 0) {
+                return setTopValue(0);
+            }
+            setTopValue(topValue + (y - window.scrollY));
+        } else if(Math.floor(y) < Math.floor(window.scrollY)) {
+            if(window.scrollY - y > Math.abs(navHeight) - Math.abs(topValue)) {
+                setY(window.scrollY);
+                return setTopValue(-navHeight);
+            };
+            if(window.scrollY - y + topValue < -navHeight) {
+                setY(window.scrollY);
+                return setTopValue(-navHeight);
+            };
+            setTopValue(topValue - (window.scrollY - y));
+            setY(window.scrollY);
+        }
+    }, [y]);
+
+    useEffect(() => {
+        const container = bodyContainerRef.current;
+        if(container) {
+            setY(window.scrollY);
+            window.addEventListener('scroll', handleWindowScroll);
+        }
+
+        return () => {
+            window.removeEventListener('scroll', handleWindowScroll);
+        }
+    }, [handleWindowScroll, bodyContainerRef.current]);
+
+    const itemsContainerStyles = {
+        paddingTop: `${navHeight}px`
+    }
+
+
     useEffect(() => {
         setShowIcons(false);
         setBackBtn(true);
