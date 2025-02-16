@@ -1,8 +1,12 @@
-.Locales {
-    /*position: fixed;*/
-    /*top: 0;*/
-    /*left: 0;*/
-    background: white;
-    width: 100vw;
+.Locales_body{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     height: 100vh;
+    width: 100vw;
+    background-color: #FFFFFF;
+    overflow-y: scroll;
+    position: fixed;
+    top: 0;
+    left: 0;
 }

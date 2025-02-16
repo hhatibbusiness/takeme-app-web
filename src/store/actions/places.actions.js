@@ -30,10 +30,10 @@ export const addPlace = (data) => async dispatch => {
 };
 
 export const editPlace = (data) => async dispatch => {
-    dispatch({ type: actionTypes.START_EDITING_PLACE });
+    dispatch({ type: actionTypes.START_ADDING_PLACE });
     const res = await FetchAPI(`${BaseURL}/places/update?mLocale=${data.lan}`, {method: 'PUT', body: data}, dispatch);
     if (res) dispatch({ type: actionTypes.EDIT_PLACE, place: data });
-    dispatch({ type: actionTypes.END_EDITING_PLACE });
+    dispatch({ type: actionTypes.END_ADDING_PLACE });
     return res;
 };
 

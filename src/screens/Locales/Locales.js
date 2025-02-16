@@ -1,20 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { connect } from 'react-redux';
 import LocalesShimmer from '../../components/ItemsShimmer/ItemsShimmer';
 import ItemsList from '../../components/ItemsList/ItemsList';
 import './Locales.css';
 import { fetchLocales, searchLocales, deleteLocale } from '../../store/actions/locales.actions';
-
+import KeepAlive from 'react-activation';
 
 const Locales = ({ setBackBtn, setAdmin, locales, fetchLocales, searchLocales, deleteLocale }) => {
-    const [paddingTop, setPaddingTop] = useState(0);
-
+    const [paddingTop, setPaddingTop] = useState(105);
+    const parentRef = useRef(null);
+    
     useEffect(() => {
-        setBackBtn(true);
         setAdmin(true);
+        setBackBtn(true);
         return () => {
-            setBackBtn(false);
             setAdmin(false);
+            setBackBtn(false);
         }
     }, []);
 
@@ -26,14 +27,13 @@ const Locales = ({ setBackBtn, setAdmin, locales, fetchLocales, searchLocales, d
         }
     });
 
-
     const itemsListPropsMain = {
         itemsFun: fetchLocales,
         page: locales.page,
         more: locales.more,
         items: locales.locales,
         paginationData: {
-            lan: 'ar',
+            lan: 'ar_SA',
             page: locales.page,
             sortType: locales.sortType,
             searchKey: locales.searchKey
@@ -46,7 +46,7 @@ const Locales = ({ setBackBtn, setAdmin, locales, fetchLocales, searchLocales, d
                 editUrl: `/locales/edit/${id}`,
             },
             deleteData: {
-                lan: 'ar',
+                lan: 'ar_SA',
                 localeId: id
             },
             deleteFun: deleteLocale,
@@ -54,7 +54,8 @@ const Locales = ({ setBackBtn, setAdmin, locales, fetchLocales, searchLocales, d
             deleting: locales?.deleting
         }),
         isSearching: locales.search,
-        dots: true
+        dots: true,
+        parentScroller: parentRef.current
     }
 
     const itemsListPropsSearch = {
@@ -63,7 +64,7 @@ const Locales = ({ setBackBtn, setAdmin, locales, fetchLocales, searchLocales, d
         more: locales.moreSearchResults,
         items: locales.searchResults,
         paginationData: {
-            lan: 'ar',
+            lan: 'ar_SA',
             page: locales.searchResultsPage,
             sortType: locales.sortType,
             searchKey: locales.searchKey
@@ -76,7 +77,7 @@ const Locales = ({ setBackBtn, setAdmin, locales, fetchLocales, searchLocales, d
                 editUrl: `/locales/edit/${id}`
             },
             deleteData: {
-                lan: 'ar',
+                lan: 'ar_SA',
                 localeId: id
             },
             deleteFun: deleteLocale,
@@ -84,29 +85,30 @@ const Locales = ({ setBackBtn, setAdmin, locales, fetchLocales, searchLocales, d
             deleting: locales?.deleting
         }),
         isSearching: locales.search,
-        dots: true
+        dots: true,
+        parentScroller: parentRef.current
     }
 
     return (
-        <div className="Locales" style={{paddingTop: `${paddingTop}px`}}>
-            <div className='Locales__container'>
+        <KeepAlive>
+            <div className='Locales_body' ref={parentRef} style={{paddingTop: `${paddingTop}px`}}>
                 {
                     locales.search ? (
                         locales.searching ? (
                             <LocalesShimmer />
                         ) : (
-                            <ItemsList window={true} {...itemsListPropsSearch} />
+                            <ItemsList window={false} {...itemsListPropsSearch} />
                         )
                     ) : (
-                        locales.fetchingLocales ? (
+                        locales.fetchingPlaces ? (
                             <LocalesShimmer />
                         ) : (
-                            <ItemsList window={true} {...itemsListPropsMain} />
+                            <ItemsList window={false}  {...itemsListPropsMain} />
                         )
                     )
                 }
             </div>
-        </div>
+        </KeepAlive>
     )
 }
 

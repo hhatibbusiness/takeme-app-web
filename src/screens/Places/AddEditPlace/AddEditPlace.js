@@ -6,6 +6,8 @@ import { useNavbarContext } from "../../../context/navbar.context";
 import NameInput from './PlaceController/PlacesInput'
 import DesireDescriptionText from './PlaceController/PlacesCommentText'
 import SinglePopupAPI from './PlaceController/SelectLocalePop.js'
+import SaveButton from '../../../components/SaveButton/SaveButton';
+import CancelButton from '../../../components/CancelButton/CancelButton';
 import { searchPlacesAPI, getPlaces, getCountries, searchCountriesAPI, getLocales, searchLocalesAPI } from '../model/managePlaces.js';
 import PlaceType from './PlaceController/PlaceType/PlaceType.js'
 import { editPlace, addPlace } from "../../../store/actions/places.actions.js";
@@ -72,15 +74,12 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
         setPlacePostalCode(value);
     }
     const handlePlaceParentChange = (value) => {
-        console.log("PlacesValue", value)
         setPlaceParentID(value.id);
     }
     const handleCountryChange = (value) => {
-        console.log("CountryValue", value)
         setPlaceCountryID(value.id);
     }
     const handleLocaleChange = (value) => {
-        console.log("LocaleValue", value)
         setPlaceLocaleID(value.id);
     }
 
@@ -155,6 +154,7 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
                     SearchFunctionAPI={searchPlacesAPI} 
                     ListFunctionAPI={getPlaces} 
                     onSelectItem={handlePlaceParentChange}
+                    selectedItems={{id: placeParentID}}
                 />
 
                 {/** Countries Pop up  */}
@@ -164,6 +164,7 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
                     SearchFunctionAPI={searchCountriesAPI} 
                     ListFunctionAPI={getCountries} 
                     onSelectItem={handleCountryChange}
+                    selectedItems={{id: placeCountryID}}
                 />
 
                 {/** Locales Pop up  */}
@@ -173,15 +174,16 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
                     SearchFunctionAPI={searchLocalesAPI} 
                     ListFunctionAPI={getLocales} 
                     onSelectItem={handleLocaleChange}
+                    selectedItems={{id: placeLocaleID}}
                 />
 
                 {/** Description Input */}
                 <DesireDescriptionText defaultValue={placeDescription} submitted={submitted} setValid={setDescriptionValid} onValueChange={onDescriptionChange}/>
 
                 {/* Save Or Cancel */}
-                <div dir="rtl" className="save-cancel-buttonsPlace-container"> 
-                    <button className="save-cancel-button save" onClick={handleSave}>حفظ</button>
-                    <button className="save-cancel-button cancel" onClick={()=> navigate(-1)}>الغاء</button>                        
+                <div className='PlacesAdd__btns--container'>
+                    <SaveButton saving={places.adding}  saveClickHanlder={handleSave} />
+                    <CancelButton handleCancelClick={e => {navigate(-1)}} />
                 </div>
             </div>
         </div>

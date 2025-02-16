@@ -377,7 +377,7 @@ const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, edi
     }
 
     return (
-        <div className='LocalesAdd' style={{paddingTop: `${paddingTop}px`}}>
+        <div className='LocalesAdd' style={{paddingTop: `${paddingTop+30}px`}}>
             <div className='LocalesAdd__contianer'>
                 <Input touched={locName.touched} valid={locName.valid} rules={locName.rules} submitted={submitted} required={locName.rules.required} value={locName.value} setValue={value => locNameChangeHandler(value)} placeholder={'اسم اللهجة'} />
                 <Input touched={engName.touched} valid={engName.valid} rules={engName.rules} submitted={submitted} required={engName.rules.required} value={engName.value} setValue={value => engNameChangeHandler(value)} placeholder={'اسم اللهجة بالانجليزية'} />

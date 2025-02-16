@@ -3,7 +3,7 @@ import {BASE_URL} from "../../utls/assets";
 import * as actionTypes from "../actions/action.types";
 import {addAlert} from "./alert.actions";
 
-export const changeSortType = (data) => async dispatch => {
+export const changeLanguagesSort = (data) => async dispatch => {
     try{
         dispatch({ type: actionTypes.CHANGE_SORT_LANGUAGES, sortType: data.sortType });
         const fetchingData = {

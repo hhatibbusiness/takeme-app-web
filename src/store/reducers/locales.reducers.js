@@ -38,9 +38,10 @@ const localesReducer = (state = initialState, action) => {
                 fetchingLocales: false
             };
         case actionTypes.FETCH_LOCALES:
+            const newData = state.locales.some(existingItem => existingItem.id === action.payload[0]?.id) ? [] : action.locales;
             return {
                 ...state,
-                locales: [...state.locales, ...action.locales],
+                locales: [...state.locales, ...newData],
                 page: state.page + 1,
                 more: action.locales.length >= 10
             };
@@ -120,7 +121,7 @@ const localesReducer = (state = initialState, action) => {
                 locales: [...JSON.parse(JSON.stringify(stateCopy))],
                 searchResults: [...JSON.parse(JSON.stringify(searchResultsCopy))]
             };
-        case actionTypes.CHANGE_SORT:
+        case actionTypes.CHANGE_SORT_LOCALES:
             return {
                 ...state,
                 locales: [],
