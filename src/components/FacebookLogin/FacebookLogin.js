@@ -56,7 +56,7 @@ const FacebookLoginButton = ({
                 // console.log(facebookDefaultRef?.current);
                 // // facebookDefaultRef?.current?.click();
                 setTriggerLogin(true);
-                // document.querySelector('.facebook-button').click();
+                document.querySelector('.facebook-button').click();
             }} className='FacebookLogin__custom'>
                 <LoginButton
                     icon={icon}

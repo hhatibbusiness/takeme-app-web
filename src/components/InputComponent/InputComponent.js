@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './InputComponent.css';
 import invisibleImage from '../../assets/images/defaults/invisible.png';
+import visibleImage from '../../assets/images/defaults/visible.jpg';
 
 const InputComponent = ({ icon, type, placeholder, value, setValue, touched, valid, submitted }) => {
     const [inputType, setInputType] = useState('');
@@ -30,26 +31,22 @@ const InputComponent = ({ icon, type, placeholder, value, setValue, touched, val
                     setValue(e.target.value)
                 }}
                 placeholder={placeholder}
-                type={inputType}
+                type={inputType == 'password' && !visible ? 'password' : 'text'}
             />
             {
                 type == 'password' && (
                     visible ? (
                         <img
                             onClick={e => {
-                                setInputType(t => {
-                                    return t == 'text' ? 'password' : 'text'
-                                })
+                                setVisible(!visible)
                             }}
                             className='InputComponent__password'
-                            src={invisibleImage}
+                            src={visibleImage}
                         />
                     ) : (
                         <img
                             onClick={e => {
-                                setInputType(t => {
-                                    return t == 'text' ? 'password' : 'text'
-                                })
+                                setVisible(!visible);
                             }}
                             className='InputComponent__password'
                             src={invisibleImage}
