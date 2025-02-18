@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { authenticateUser } from '../../store/actions/auth.actions';
 import { useNavigate } from 'react-router-dom';
 import './FacebookLogin.css';
+import {removeAlert} from "../../store/actions/alert.actions";
 
 const FacebookLoginButton = ({
     icon, 
@@ -16,7 +17,8 @@ const FacebookLoginButton = ({
     separatorColor,
     fontWeight,
     hasImage,
-    authenticateUser
+    authenticateUser,
+    removeAlert
 }) => {
     const [triggerLogin, setTriggerLogin] = useState(false); // Control when login happens
 
@@ -55,6 +57,7 @@ const FacebookLoginButton = ({
             <div onClick={e => {
                 // console.log(facebookDefaultRef?.current);
                 // // facebookDefaultRef?.current?.click();
+                removeAlert();
                 setTriggerLogin(true);
                 document.querySelector('.facebook-button').click();
             }} className='FacebookLogin__custom'>
@@ -78,4 +81,4 @@ const mapStateToProps = (state) => ({
     locale: state.categories.selectedLocale,
 });
 
-export default connect(mapStateToProps, {authenticateUser})(FacebookLoginButton);
+export default connect(mapStateToProps, {removeAlert, authenticateUser})(FacebookLoginButton);

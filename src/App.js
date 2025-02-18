@@ -189,11 +189,10 @@ const App = (props) => {
             navigate(`/login?email=${data.email}&code=${data.code}&reset=${true}`);
         } catch (e) {
             props.addAlert({
-                msg: e?.response?.data?.error,
+                msg: e?.response?.data?.message,
                 alertType: 'danger'
 
             });
-            console.log(e.response.data.error);
         }
     }
 
@@ -228,11 +227,19 @@ const App = (props) => {
             }
         } catch (e) {
             props.addAlert({
-                msg: e?.response?.data?.error,
+                msg: e?.response?.data?.message,
                 alertType: 'danger'
             });
         }
     }
+
+    useEffect(() => {
+        return () => {
+            addAlert({
+
+            })
+        }
+    }, []);
 
     return (
         <div className={'App'} style={{overflowY: `${(!logoStart && !coverLoaded) ? 'hidden' : 'auto'}`}} >

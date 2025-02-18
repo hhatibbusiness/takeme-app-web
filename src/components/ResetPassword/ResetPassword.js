@@ -5,12 +5,12 @@ import InputComponent from '../InputComponent/InputComponent';
 import lockImage from '../../assets/images/defaults/lock.png';
 import './ResetPassword.css';
 import LoginButton from '../LoginButton/LoginButton';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 import {BASE_URL} from "../../utls/assets";
 import {addAlert} from "../../store/actions/alert.actions";
 
-const ResetPassword = ({ email, params, addAlert, resetting, setResetting, locale }) => {
+const ResetPassword = ({ params, addAlert, resetting, setResetting, locale }) => {
     const [password, setPassword] = useState({
         value: '',
         rules: {
@@ -25,7 +25,7 @@ const ResetPassword = ({ email, params, addAlert, resetting, setResetting, local
         touched: false,
         valid: false
     });
-
+    const [email, setEmail] = useState('');
     const [confirmPassword, setConfirmPassword] = useState({
         value: '',
         rules: {
@@ -153,6 +153,14 @@ const ResetPassword = ({ email, params, addAlert, resetting, setResetting, local
             })
         }
     }
+
+    useEffect(() => {
+        (async () => {
+            const currentEmail = await params.get('email');
+            setEmail(currentEmail);
+        })();
+    }, []);
+
     return (
         <div className='ResetPassword'>
             <div className='ResetPassword__container'>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './Authentication.css';
 import InputComponent from '../../components/InputComponent/InputComponent';
 import emailImage from '../../assets/images/defaults/email.png';
@@ -10,7 +10,7 @@ import facebookImage from '../../assets/images/defaults/facebook.png';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { authenticateUser } from '../../store/actions/auth.actions';
-import { addAlert } from '../../store/actions/alert.actions';
+import { addAlert, removeAlert } from '../../store/actions/alert.actions';
 import GoogleLogin from '../../components/GoogleLogin/GoogleLogin';
 import FacebookLogin from '../../components/FacebookLogin/FacebookLogin';
 import {BASE_URL} from "../../utls/assets";
@@ -18,13 +18,20 @@ import axios from "axios";
 import ResetPassword from "../../components/ResetPassword/ResetPassword";
 
 const Authentication = ({
-                            paddingTop,
-                            authenticateUser,
-                            setBackBtn,
-                            setShowIcons,
-                            locale,
-                            addAlert,
-                        }) => {
+    paddingTop,
+    authenticateUser,
+    setBackBtn,
+    setShowIcons,
+    locale,
+    addAlert,
+    removeAlert,
+    y,
+    setY,
+    topValue,
+    setTopValue,
+    navHeight,
+    bodyContainerRef
+}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [submitted, setSubmitted] = useState(false);
@@ -34,15 +41,61 @@ const Authentication = ({
     const [reset, setReset] = useState(false);
     const [params, setParams] = useState(null);
 
-
     const navigate = useNavigate();
 
+    useEffect(() => {
+        setShowIcons(false);
+        setBackBtn(true);
+
+        return () => {
+            setShowIcons(true);
+            setBackBtn(false);
+        }
+    }, []);
+
+    const handleWindowScroll = useCallback( e => {
+        if(Math.floor(y) > Math.floor(window.scrollY)) {
+            setY(window.scrollY);
+            if(topValue + (y - window.scrollY) > 0) {
+                return setTopValue(0);
+            }
+            setTopValue(topValue + (y - window.scrollY));
+        } else if(Math.floor(y) < Math.floor(window.scrollY)) {
+            if(window.scrollY - y > Math.abs(navHeight) - Math.abs(topValue)) {
+                setY(window.scrollY);
+                return setTopValue(-navHeight);
+            };
+            if(window.scrollY - y + topValue < -navHeight) {
+                setY(window.scrollY);
+                return setTopValue(-navHeight);
+            };
+            setTopValue(topValue - (window.scrollY - y));
+            setY(window.scrollY);
+        }
+    }, [y]);
+
+    useEffect(() => {
+        const container = bodyContainerRef.current;
+        if(container) {
+            setY(window.scrollY);
+            window.addEventListener('scroll', handleWindowScroll);
+        }
+
+        return () => {
+            window.removeEventListener('scroll', handleWindowScroll);
+        }
+    }, [handleWindowScroll, bodyContainerRef.current]);
+
+
+
     const emailChangeHandler = (value) => {
+        removeAlert();
         setEmail(value);
         setEmailError('');
     };
 
     const passwordChangeHandler = (value) => {
+        removeAlert();
         setPassword(value);
         setPasswordError('');
     };
@@ -74,6 +127,7 @@ const Authentication = ({
     };
 
     const emailButtonClickHandler = async () => {
+        removeAlert();
         setSubmitted(true);
         if (!validateInputs()) return;
 
@@ -101,6 +155,7 @@ const Authentication = ({
 
     const changePasswordClickHandler = async () => {
         try {
+            removeAlert();
             setSubmitted(true);
             let validEmail = true;
             if (!email.trim()) {
@@ -163,6 +218,11 @@ const Authentication = ({
         return new URLSearchParams(window.location.search);
     }
 
+    useEffect(() => {
+        return () => {
+            removeAlert();
+        }
+    }, []);
 
     return (
         <div style={{paddingTop: `${paddingTop + 40}px`}} className='Authentication'>
@@ -275,4 +335,4 @@ const mapStateToProps = state => ({
     locale: state.categories.selectedLocale
 });
 
-export default connect(mapStateToProps, {authenticateUser, addAlert})(Authentication);
+export default connect(mapStateToProps, {removeAlert, authenticateUser, addAlert})(Authentication);

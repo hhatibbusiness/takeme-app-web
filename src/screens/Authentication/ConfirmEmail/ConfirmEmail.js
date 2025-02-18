@@ -4,11 +4,11 @@ import { useParams } from 'react-router-dom';
 import emailConfirm from '../../../assets/images/auth/email-confirm.png';
 import LoginButton from '../../../components/LoginButton/LoginButton';
 import {connect} from "react-redux";
-import {addAlert} from "../../../store/actions/alert.actions";
+import {addAlert, removeAlert} from "../../../store/actions/alert.actions";
 import axios from "axios";
 import {BASE_URL} from "../../../utls/assets";
 
-const ConfirmEmail = ({ paddingTop,    y, setY, topValue,setTopValue, navHeight, bodyContainerRef, locale, addAlert, setBackBtn, setShowIcons, confirmHandler }) => {
+const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, navHeight, bodyContainerRef, locale, addAlert, setBackBtn, setShowIcons, confirmHandler }) => {
     const [counter, setCounter] = useState(0);
     const [counterDate, setCounterDate] = useState(() => {
         // Retrieve stored date and parse correctly
@@ -98,6 +98,11 @@ const ConfirmEmail = ({ paddingTop,    y, setY, topValue,setTopValue, navHeight,
         }
     }, []);
 
+    useEffect(() => {
+        return () => {
+            removeAlert();
+        }
+    }, []);
 
     return (
         <div
@@ -106,11 +111,13 @@ const ConfirmEmail = ({ paddingTop,    y, setY, topValue,setTopValue, navHeight,
         >
             <p className='ConfirmEmail__title'>تأكيد الايميل</p>
             <img
+                className={'ConfirmEmail__image'}
                 src={emailConfirm}
             />
             <p className='ConfirmEmail__message'>
                 <span className='ConfirmEmail__message--first'>للتأكد من ايميلك ارسلنا لك رمز للايميل </span>
-                <a className='ConfirmEmail__email' href={`mailto:${params.email}`}>{params.email} </a>
+                <a className='ConfirmEmail__email' target={'_blank'} href={`https://mail.google.com`}>{params.email} </a>
+                {/*<a className='ConfirmEmail__email' href={`mailto:${params.email}`}>{params.email} </a>*/}
                 <span>اذا ممكن انسخ الرمز و ضعه هنا.</span>
             </p>
             <div className='ConfirmEmail__btns'>
@@ -238,19 +245,19 @@ const ConfirmEmail = ({ paddingTop,    y, setY, topValue,setTopValue, navHeight,
                                                 password: 'fldjakdl'
                                             }
                                         }
-                                        const res = await axios.post(`${BASE_URL}endpoints/users/verify-email-and-send-code?mLocale=${locale?.locale}`, data);
+                                        const res = await axios.post(`${BASE_URL}endpoints/users/send-email-verify-code?mLocale=${locale?.locale}&email=${params.email}`);
                                         if(res.status == 200) {
                                             const currentDate = new Date();
                                             localStorage.setItem('TAKEME_COUNTER_DATE', currentDate);
                                             setCounterDate(currentDate);
-                                            addAlert({
-                                                msg: 'تم ارسال الكود بنجاح',
-                                                alertType: 'success'
-                                            });
+                                            // addAlert({
+                                            //     msg: 'تم ارسال الكود بنجاح',
+                                            //     alertType: 'success'
+                                            // });
                                         }
                                     } catch (e) {
                                         addAlert({
-                                            msg: e?.response?.data?.error,
+                                            msg: e?.response?.data?.message,
                                             alertType: 'danger'
                                         })
                                     }
@@ -268,4 +275,4 @@ const mapStateToProps = state => ({
     locale: state.categories.selectedLocale
 })
 
-export default connect(mapStateToProps, {addAlert}) (ConfirmEmail);
+export default connect(mapStateToProps, {addAlert, removeAlert}) (ConfirmEmail);

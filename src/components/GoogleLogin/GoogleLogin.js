@@ -5,6 +5,7 @@ import axios from 'axios';
 import { authenticateUser } from '../../store/actions/auth.actions';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import {removeAlert} from "../../store/actions/alert.actions";
 
 /**   MUST READ THIS BEFORE START:
  * @component This Component is Default and must not take params for Security issues.
@@ -26,7 +27,8 @@ function LoginButtonComponent({
   separatorColor,
   fontWeight,
   hasImage,
-  authenticateUser
+  authenticateUser,
+    removeAlert
 }) {
   const navigate = useNavigate();
   
@@ -34,6 +36,7 @@ function LoginButtonComponent({
     //* onSuccess and OnError Must take Function to what happened for both */
     onSuccess: async (tokenResponse) => {
       try {
+        removeAlert();
         const res = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
           headers: {
             Authorization: `Bearer ${tokenResponse.access_token}`
@@ -72,7 +75,10 @@ function LoginButtonComponent({
       separatorColor={separatorColor}
       fontWeight={fontWeight}
       hasImage={hasImage}
-      clickFun={login}
+      clickFun={() => {
+        removeAlert();
+        login()
+      }}
     />
   );
 }
@@ -82,7 +88,7 @@ const mapStateToProps = state => ({
 })
 
 //// Main Wrapped Compomet
-export default connect(mapStateToProps, { authenticateUser })(function GoogleLogin({ locale, authenticateUser, loginUserUsingGoogle, icon, value, color, backColor, borderColor, separatorColor, fontWeight, hasImage, login }) {
+export default connect(mapStateToProps, { authenticateUser, removeAlert })(function GoogleLogin({ locale, authenticateUser, loginUserUsingGoogle, icon, value, color, backColor, borderColor, separatorColor, fontWeight, hasImage, login }) {
   //// this Client Id must chnage with TakeMe API Client Id
   const CLIENT_ID = '535326779667-n3hrspqimhq7meia56fpnvad3a3putsp.apps.googleusercontent.com'
   return (
@@ -99,6 +105,7 @@ export default connect(mapStateToProps, { authenticateUser })(function GoogleLog
         login={login}
         googleAction={authenticateUser}
         locale={locale}
+        removeAlert={removeAlert}
       />
     </GoogleOAuthProvider>
   )

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './InputComponent.css';
-import invisibleImage from '../../assets/images/defaults/invisible.png';
-import visibleImage from '../../assets/images/defaults/visible.jpg';
+import invisibleImage from '../../assets/images/defaults/invisible.svg';
+import visibleImage from '../../assets/images/defaults/visible.svg';
 
 const InputComponent = ({ icon, type, placeholder, value, setValue, touched, valid, submitted }) => {
     const [inputType, setInputType] = useState('');
