@@ -21,6 +21,7 @@ const FacebookLoginButton = ({
     removeAlert
 }) => {
     const [triggerLogin, setTriggerLogin] = useState(false); // Control when login happens
+    const [ourButton, setOurButton] = useState(null);
 
     const facebookDefaultRef = useRef();
     const facebookCustomRef = useRef();
@@ -42,6 +43,15 @@ const FacebookLoginButton = ({
         }
     };
 
+    const facebookButtonRef = useRef();
+
+    useEffect(() => {
+        const facebookButton = document.querySelector('.facebook-button');
+        if(facebookButton) {
+            setOurButton(facebookButton);
+        }
+    });
+
     return (
         <div className='FacebookLogin'>
             {triggerLogin && ( // Only render FacebookLogin when user clicks
@@ -59,7 +69,8 @@ const FacebookLoginButton = ({
                 // // facebookDefaultRef?.current?.click();
                 removeAlert();
                 setTriggerLogin(true);
-                document.querySelector('.facebook-button').click();
+                // ourButton?.click();
+                document.querySelector('.facebook-button')?.click();
             }} className='FacebookLogin__custom'>
                 <LoginButton
                     icon={icon}

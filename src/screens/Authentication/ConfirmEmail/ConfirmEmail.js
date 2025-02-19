@@ -16,6 +16,8 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
         return storedDate ? new Date(storedDate) : null;
     });
 
+    const [inputText, setInputText] = useState('');
+
     const handleWindowScroll = useCallback( e => {
         if(Math.floor(y) > Math.floor(window.scrollY)) {
             setY(window.scrollY);
@@ -104,6 +106,22 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
         }
     }, []);
 
+    useEffect(() => {
+        const listener = e => {
+            console.log(e.clipboardData.getData('text'));
+            const text = e.clipboardData.getData('text');
+            setFirst(text.charAt(0));
+            setSecond(text.charAt(1));
+            setThird(text.charAt(2));
+            setForth(text.charAt(3));
+            setFifth(text.charAt(4));
+            setSixth(text.charAt(5));
+
+        }
+
+        window.addEventListener('paste', listener);
+    }, []);
+
     return (
         <div
             style={{ paddingTop: `${paddingTop }px`}}
@@ -122,10 +140,11 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
             </p>
             <div className='ConfirmEmail__btns'>
                 <div className='ConfirmEmail__btn'>
-                    <input ref={firstRef} type='text' value={first} onChange={e => {
+                    <input ref={firstRef} type='number' value={first || inputText.charAt(0)} onChange={e => {
+                        removeAlert();
                         setFirst(prevState => {
                             console.log('Reached!');
-                            return e.target.value.length > 1 ? prevState : e.target.value;
+                            return e.target.value.length > 1 ? prevState : (e.target.value || inputText.charAt(0));
                         })
                         if (e.target.value.length > first) {
                             secondRef.current?.focus();
@@ -135,7 +154,9 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                     }} />
                 </div>
                 <div className='ConfirmEmail__btn'>
-                    <input ref={secondRef} type='text' value={second} onChange={e => {
+                    <input ref={secondRef} type='number' value={second || inputText.charAt(1)} onChange={e => {
+                        removeAlert();
+
                         setSecond(prevState => {
                             console.log('Reached!');
                             
@@ -144,12 +165,14 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                         if (e.target.value.length > second) {
                             thirdRef.current?.focus();
                         } else if(e.target.value.length < second) {
-                            firstRef.current?.focus();
+                            // firstRef.current?.focus();
                         }
                     }} />
                 </div>
                 <div className='ConfirmEmail__btn'>
-                    <input ref={thirdRef} type='text' value={third} onChange={e => {
+                    <input ref={thirdRef} type='number' value={third || inputText.charAt(2)} onChange={e => {
+                        removeAlert();
+
                         setThird(prevState => {
                             console.log('Reached!');
                             
@@ -158,24 +181,28 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                         if (e.target.value.length > third) {
                             forthRef.current?.focus();
                         } else if(e.target.value.length < third) {
-                            secondRef.current?.focus();
+                            // secondRef.current?.focus();
                         }
                     }} />
                 </div>
                 <div className='ConfirmEmail__btn'>
-                    <input ref={forthRef} type='text' value={forth} onChange={e => {
-                        setForth(prevState => {                            
+                    <input ref={forthRef} type='number' value={forth || inputText.charAt(3)} onChange={e => {
+                        removeAlert();
+
+                        setForth(prevState => {
                             return e.target.value.length > 1 ? prevState : e.target.value;
                         })
                         if (e.target.value.length > forth) {
                             fifthRef.current?.focus();
                         } else if (e.target.value.length < forth) {
-                            thirdRef.current?.focus();
+                            // thirdRef.current?.focus();
                         }
                     }} />
                 </div>
                 <div className='ConfirmEmail__btn'>
-                    <input ref={fifthRef} type='text' value={fifth} onChange={e => {
+                    <input ref={fifthRef} type='number' value={fifth || inputText.charAt(4)} onChange={e => {
+                        removeAlert();
+
                         setFifth(prevState => {
                             console.log('Reached!');
                             return e.target.value.length > 1 ? prevState : e.target.value;
@@ -183,12 +210,14 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                         if (e.target.value.length > fifth) {
                             sixthRef.current?.focus();
                         } else if(e.target.value.length < fifth) {
-                            forthRef.current?.focus();
+                            // forthRef.current?.focus();
                         }
                     }} />
                 </div>
                 <div className='ConfirmEmail__btn'>
-                    <input ref={sixthRef} type='text' value={sixth} onChange={e => {
+                    <input ref={sixthRef} type='number' value={sixth || inputText.charAt(5)} onChange={e => {
+                        removeAlert();
+
                         setSixth(prevState => {
                             console.log('Reached!');
                             return e.target.value.length > 1 ? prevState : e.target.value;
@@ -196,7 +225,7 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                         if (e.target.value.length > sixth) {
                             
                         } else if(e.target.value.length < sixth) {
-                            fifthRef.current?.focus()
+                            // fifthRef.current?.focus()
                         }
                     }} />
                 </div>
@@ -212,7 +241,10 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                     separatorColor={'white'}
                     fontWeight={700}
                     clickFun={() => {
-                        if (!first || !second || !third || !forth || !fifth || !sixth) return;
+                        if (!first || !second || !third || !forth || !fifth || !sixth) return addAlert({
+                            alertType: 'danger',
+                            msg: 'من فضك ادخل كود التأكيد!'
+                        });
                         const data = {
                             email: params.email,
                             password: params.password,

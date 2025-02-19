@@ -47,6 +47,11 @@
     padding: 18px;
     color: #FFC56E;
     font-size: 30px;
+    outline: none;
+}
+
+.ConfirmEmail__btn input:focus {
+    border: 2px solid #ffd08a;
 }
 
 .ConfirmEmail__confirm {

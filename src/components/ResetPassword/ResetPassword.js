@@ -17,7 +17,7 @@ const ResetPassword = ({ params, addAlert, resetting, setResetting, locale }) =>
             required: {
                 valid: false
             },
-            maxLength: {
+            minLength: {
                 valid: false,
                 value: 6
             }
@@ -32,7 +32,7 @@ const ResetPassword = ({ params, addAlert, resetting, setResetting, locale }) =>
             required: {
                 valid: false
             },
-            maxLength: {
+            minLength: {
                 valid: false,
                 value: 6
             }
@@ -55,8 +55,8 @@ const ResetPassword = ({ params, addAlert, resetting, setResetting, locale }) =>
             inputIsValid = value.trim() != '' && inputIsValid;
         }
 
-        if (rules.maxLength) {
-            inputIsValid = value.length <= rules.maxLength.value && inputIsValid;
+        if (rules.minLength) {
+            inputIsValid = value.length >= rules.minLength.value && inputIsValid;
         }
 
         if (rules.isEmail) {
@@ -83,7 +83,7 @@ const ResetPassword = ({ params, addAlert, resetting, setResetting, locale }) =>
 
         setPasswordErrors({});
 
-        const maxValid = value.length <= password.rules.maxLength.value;
+        const maxValid = value.length >= password.rules.minLength.value;
 
         if (password.rules.required && value.trim().length == 0) {
             setPasswordErrors({
@@ -92,11 +92,11 @@ const ResetPassword = ({ params, addAlert, resetting, setResetting, locale }) =>
                     message: 'ادخل كلمة المرور'
                 }
             });
-        } else if (password.rules.maxLength && !maxValid) {
+        } else if (password.rules.minLength && !maxValid) {
             setPasswordErrors({
                 ...passwordErrors,
-                maxLength: {
-                    message: 'أكبر طول هو 6 حروف '
+                minLength: {
+                    message: 'اقل طول هو 6 حروف '
                 }
             })
         }
