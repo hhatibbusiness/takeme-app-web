@@ -17,6 +17,8 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
     });
 
     const [inputText, setInputText] = useState('');
+    const [spin, setSpin] = useState(false);
+    const [resendSpin, setResendSpin] = useState(false);
 
     const handleWindowScroll = useCallback( e => {
         if(Math.floor(y) > Math.floor(window.scrollY)) {
@@ -143,7 +145,6 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                     <input ref={firstRef} type='number' value={first || inputText.charAt(0)} onChange={e => {
                         removeAlert();
                         setFirst(prevState => {
-                            console.log('Reached!');
                             return e.target.value.length > 1 ? prevState : (e.target.value || inputText.charAt(0));
                         })
                         if (e.target.value.length > first) {
@@ -154,12 +155,16 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                     }} />
                 </div>
                 <div className='ConfirmEmail__btn'>
-                    <input ref={secondRef} type='number' value={second || inputText.charAt(1)} onChange={e => {
+                    <input onKeyDown={e => {
+                        if ((e.key === "Backspace" || e.key === "Delete") && second === "") {
+                            firstRef.current?.focus();
+                        }
+
+                    }} ref={secondRef} type='number' value={second || inputText.charAt(1)} onChange={e => {
                         removeAlert();
 
                         setSecond(prevState => {
-                            console.log('Reached!');
-                            
+
                             return e.target.value.length > 1 ? prevState : e.target.value;
                         })
                         if (e.target.value.length > second) {
@@ -170,12 +175,16 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                     }} />
                 </div>
                 <div className='ConfirmEmail__btn'>
-                    <input ref={thirdRef} type='number' value={third || inputText.charAt(2)} onChange={e => {
+                    <input onKeyDown={e => {
+                        if ((e.key === "Backspace" || e.key === "Delete") && third === "") {
+                            secondRef.current?.focus();
+                        }
+
+                    }} ref={thirdRef} type='number' value={third || inputText.charAt(2)} onChange={e => {
                         removeAlert();
 
                         setThird(prevState => {
-                            console.log('Reached!');
-                            
+
                             return e.target.value.length > 1 ? prevState : e.target.value;
                         })
                         if (e.target.value.length > third) {
@@ -186,7 +195,13 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                     }} />
                 </div>
                 <div className='ConfirmEmail__btn'>
-                    <input ref={forthRef} type='number' value={forth || inputText.charAt(3)} onChange={e => {
+                    <input onKeyDown={e => {
+                        if ((e.key === "Backspace" || e.key === "Delete") && forth === "") {
+                            console.log("User is trying to delete but the input is empty!");
+                            thirdRef.current?.focus();
+                        }
+
+                    }} ref={forthRef} type='number' value={forth || inputText.charAt(3)} onChange={e => {
                         removeAlert();
 
                         setForth(prevState => {
@@ -200,11 +215,14 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                     }} />
                 </div>
                 <div className='ConfirmEmail__btn'>
-                    <input ref={fifthRef} type='number' value={fifth || inputText.charAt(4)} onChange={e => {
-                        removeAlert();
+                    <input onKeyDown={e => {
+                        if ((e.key === "Backspace" || e.key === "Delete") && fifth === "") {
+                            forthRef.current?.focus();
+                        }
 
+                    }} ref={fifthRef} type='number' value={fifth || inputText.charAt(4)} onChange={e => {
+                        removeAlert();
                         setFifth(prevState => {
-                            console.log('Reached!');
                             return e.target.value.length > 1 ? prevState : e.target.value;
                         })
                         if (e.target.value.length > fifth) {
@@ -215,11 +233,16 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                     }} />
                 </div>
                 <div className='ConfirmEmail__btn'>
-                    <input ref={sixthRef} type='number' value={sixth || inputText.charAt(5)} onChange={e => {
+                    <input onKeyDown={e => {
+                        if ((e.key === "Backspace" || e.key === "Delete") && sixth === "") {
+                            console.log("User is trying to delete but the input is empty!");
+                            fifthRef.current?.focus();
+                        }
+
+                    }} ref={sixthRef} type='number' value={sixth || inputText.charAt(5)} onChange={e => {
                         removeAlert();
 
                         setSixth(prevState => {
-                            console.log('Reached!');
                             return e.target.value.length > 1 ? prevState : e.target.value;
                         })
                         if (e.target.value.length > sixth) {
@@ -240,7 +263,7 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                     borderColor={'transparent'}
                     separatorColor={'white'}
                     fontWeight={700}
-                    clickFun={() => {
+                    clickFun={async () => {
                         if (!first || !second || !third || !forth || !fifth || !sixth) return addAlert({
                             alertType: 'danger',
                             msg: 'من فضك ادخل كود التأكيد!'
@@ -252,8 +275,11 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                             authType: 'email',
                             localeId: locale?.id
                         }
-                        confirmHandler(data);
+                        setSpin(true);
+                        await confirmHandler(data);
+                        setSpin(false)
                     }}
+                    spin={spin}
                 />
             </div>
             <div className='ConfirmEmail__resend'>
@@ -269,6 +295,7 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                                 <span className='ConfirmEmail__resend--regular'>إذا لم تستلم الرمز يمكنك طلب </span>
                                 <span onClick={async () => {
                                     try {
+                                        setResendSpin(true);
                                         const data = {
                                             localeId: locale?.id,
                                             userAuthenticationRequestDto: {
@@ -287,13 +314,16 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                                             //     alertType: 'success'
                                             // });
                                         }
+                                        setResendSpin(false);
                                     } catch (e) {
                                         addAlert({
                                             msg: e?.response?.data?.message,
                                             alertType: 'danger'
-                                        })
+                                        });
+                                        setResendSpin(false);
                                     }
-                                }} className='ConfirmEmail__resend--link'>إعادة ارسال الرمز.</span>
+                                }} className='ConfirmEmail__resend--link'>إعادة ارسال الرمز.{resendSpin &&
+                                    <span><i className="fa-solid fa-circle-notch"></i></span>}</span>
                             </>
                         )
                     }

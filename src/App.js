@@ -233,14 +233,6 @@ const App = (props) => {
         }
     }
 
-    useEffect(() => {
-        return () => {
-            addAlert({
-
-            })
-        }
-    }, []);
-
     return (
         <div className={'App'} style={{overflowY: `${(!logoStart && !coverLoaded) ? 'hidden' : 'auto'}`}} >
             {

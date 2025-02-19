@@ -58,6 +58,10 @@
     text-decoration: underline;
 }
 
+.Authentication__password--reset i {
+    animation: spin 1s infinite linear;
+}
+
 .Authentication__or {
     display: flex;
     flex-direction: row;
@@ -111,4 +115,8 @@
     background-color: rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(10px);
+}
+
+.Authentication__password--reset-click {
+    margin-left: 5px;
 }

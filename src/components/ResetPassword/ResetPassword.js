@@ -45,6 +45,7 @@ const ResetPassword = ({ params, addAlert, resetting, setResetting, locale }) =>
     const [valid, setValid] = useState(false);
     const [passwordErrors, setPasswordErrors] = useState({});
     const [confirmPasswordErrors, setConfirmPasswordErrors] = useState({});
+    const [spin, setSpin] = useState(false);
 
     const navigate = useNavigate();
 
@@ -132,6 +133,7 @@ const ResetPassword = ({ params, addAlert, resetting, setResetting, locale }) =>
         setSubmitted(true);
         if (!valid) return;
         try {
+            setSpin(true);
             const data = {
                 localeId: locale.id,
                 userAuthenticationRequestDto: {
@@ -146,11 +148,13 @@ const ResetPassword = ({ params, addAlert, resetting, setResetting, locale }) =>
                 setResetting(false);
                 navigate('/login');
             }
+            setSpin(false);
         } catch (e) {
             addAlert({
                 msg: e?.response?.data?.error,
                 alertType: 'danger'
             })
+            setSpin(false);
         }
     }
 
@@ -234,6 +238,7 @@ const ResetPassword = ({ params, addAlert, resetting, setResetting, locale }) =>
                         fontWeight={700}
                         clickFun={resetClickHandler}
                         hasImage={false}
+                        spin={spin}
                     />
                 </div>
             </div>

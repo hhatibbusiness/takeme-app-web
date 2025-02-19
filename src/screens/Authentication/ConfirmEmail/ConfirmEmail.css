@@ -84,3 +84,8 @@
     color: #989898;
     font-weight: 700;
 }
+
+.ConfirmEmail__resend--link i {
+    animation: spin 1s linear infinite;
+    margin-right: 5px;
+}

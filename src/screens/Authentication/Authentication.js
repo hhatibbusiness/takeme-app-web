@@ -40,6 +40,8 @@ const Authentication = ({
     const [valid, setValid] = useState(false);
     const [reset, setReset] = useState(false);
     const [params, setParams] = useState(null);
+    const [resetClickSpin, setResetClickSpin] = useState(false);
+    const [registerClickSpin, setRegisterClickSpin] = useState(false);
 
     const navigate = useNavigate();
 
@@ -131,6 +133,8 @@ const Authentication = ({
         setSubmitted(true);
         if (!validateInputs()) return;
 
+        setRegisterClickSpin(true);
+
         const userData = {
             email: email,
             password: password,
@@ -151,6 +155,8 @@ const Authentication = ({
                 alertType: 'danger'
             });
         }
+
+        setRegisterClickSpin(false);
     };
 
     const changePasswordClickHandler = async () => {
@@ -168,6 +174,8 @@ const Authentication = ({
 
             if(!validEmail) return;
 
+            setResetClickSpin(true);
+
             // if (!email.valid) return;
             const data = {
                 localeId: locale?.id,
@@ -183,6 +191,7 @@ const Authentication = ({
             if (doesExist.status == 200) {
                 navigate(`/confirm/email/change/password/${email}`);
             }
+            setResetClickSpin(false);
         } catch (e) {
             console.log(e.response);
             if (e?.response?.status == 404 || e?.response?.status == 404) {
@@ -201,6 +210,7 @@ const Authentication = ({
                     msg: e?.response?.data?.message
                 });
             }
+            setResetClickSpin(false);
         }
     }
 
@@ -273,11 +283,13 @@ const Authentication = ({
                         fontWeight={700}
                         clickFun={emailButtonClickHandler}
                         hasImage={true}
+                        spin={registerClickSpin}
                     />
                 </div>
             </div>
             <div className='Authentication__password--reset'>
-                <p>في حال لديك حساب يمكنك <span onClick={changePasswordClickHandler}>تغيير كلمة المرور</span></p>
+                <p>في حال لديك حساب يمكنك <span className={'Authentication__password--reset-click'} onClick={changePasswordClickHandler}>تغيير كلمة المرور</span>{resetClickSpin &&
+                    <i className="fa-solid fa-circle-notch"></i>}</p>
             </div>
             <div className='Authentication__or'>
                 <div className='Authentication__hl'></div>
