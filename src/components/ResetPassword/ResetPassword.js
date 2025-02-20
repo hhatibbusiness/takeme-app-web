@@ -5,19 +5,19 @@ import InputComponent from '../InputComponent/InputComponent';
 import lockImage from '../../assets/images/defaults/lock.png';
 import './ResetPassword.css';
 import LoginButton from '../LoginButton/LoginButton';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 import {BASE_URL} from "../../utls/assets";
 import {addAlert} from "../../store/actions/alert.actions";
 
-const ResetPassword = ({ email, params, addAlert, resetting, setResetting, locale }) => {
+const ResetPassword = ({ params, addAlert, resetting, setResetting, locale }) => {
     const [password, setPassword] = useState({
         value: '',
         rules: {
             required: {
                 valid: false
             },
-            maxLength: {
+            minLength: {
                 valid: false,
                 value: 6
             }
@@ -25,14 +25,14 @@ const ResetPassword = ({ email, params, addAlert, resetting, setResetting, local
         touched: false,
         valid: false
     });
-
+    const [email, setEmail] = useState('');
     const [confirmPassword, setConfirmPassword] = useState({
         value: '',
         rules: {
             required: {
                 valid: false
             },
-            maxLength: {
+            minLength: {
                 valid: false,
                 value: 6
             }
@@ -45,6 +45,7 @@ const ResetPassword = ({ email, params, addAlert, resetting, setResetting, local
     const [valid, setValid] = useState(false);
     const [passwordErrors, setPasswordErrors] = useState({});
     const [confirmPasswordErrors, setConfirmPasswordErrors] = useState({});
+    const [spin, setSpin] = useState(false);
 
     const navigate = useNavigate();
 
@@ -55,8 +56,8 @@ const ResetPassword = ({ email, params, addAlert, resetting, setResetting, local
             inputIsValid = value.trim() != '' && inputIsValid;
         }
 
-        if (rules.maxLength) {
-            inputIsValid = value.length <= rules.maxLength.value && inputIsValid;
+        if (rules.minLength) {
+            inputIsValid = value.length >= rules.minLength.value && inputIsValid;
         }
 
         if (rules.isEmail) {
@@ -83,7 +84,7 @@ const ResetPassword = ({ email, params, addAlert, resetting, setResetting, local
 
         setPasswordErrors({});
 
-        const maxValid = value.length <= password.rules.maxLength.value;
+        const maxValid = value.length >= password.rules.minLength.value;
 
         if (password.rules.required && value.trim().length == 0) {
             setPasswordErrors({
@@ -92,11 +93,11 @@ const ResetPassword = ({ email, params, addAlert, resetting, setResetting, local
                     message: 'ادخل كلمة المرور'
                 }
             });
-        } else if (password.rules.maxLength && !maxValid) {
+        } else if (password.rules.minLength && !maxValid) {
             setPasswordErrors({
                 ...passwordErrors,
-                maxLength: {
-                    message: 'أكبر طول هو 6 حروف '
+                minLength: {
+                    message: 'اقل طول هو 6 حروف '
                 }
             })
         }
@@ -132,6 +133,7 @@ const ResetPassword = ({ email, params, addAlert, resetting, setResetting, local
         setSubmitted(true);
         if (!valid) return;
         try {
+            setSpin(true);
             const data = {
                 localeId: locale.id,
                 userAuthenticationRequestDto: {
@@ -146,13 +148,23 @@ const ResetPassword = ({ email, params, addAlert, resetting, setResetting, local
                 setResetting(false);
                 navigate('/login');
             }
+            setSpin(false);
         } catch (e) {
             addAlert({
                 msg: e?.response?.data?.error,
                 alertType: 'danger'
             })
+            setSpin(false);
         }
     }
+
+    useEffect(() => {
+        (async () => {
+            const currentEmail = await params.get('email');
+            setEmail(currentEmail);
+        })();
+    }, []);
+
     return (
         <div className='ResetPassword'>
             <div className='ResetPassword__container'>
@@ -226,6 +238,7 @@ const ResetPassword = ({ email, params, addAlert, resetting, setResetting, local
                         fontWeight={700}
                         clickFun={resetClickHandler}
                         hasImage={false}
+                        spin={spin}
                     />
                 </div>
             </div>

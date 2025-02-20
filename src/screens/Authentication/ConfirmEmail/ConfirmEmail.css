@@ -1,7 +1,5 @@
 .ConfirmEmail {
     height: 100vh;
-    width: 100vw;
-    position: fixed;
     top: 0;
     left: 0;;
     background-color: white;
@@ -10,6 +8,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
+}
+
+.ConfirmEmail__image {
+    width: 60%;
 }
 
 .ConfirmEmail__title {
@@ -44,6 +47,11 @@
     padding: 18px;
     color: #FFC56E;
     font-size: 30px;
+    outline: none;
+}
+
+.ConfirmEmail__btn input:focus {
+    border: 2px solid #ffd08a;
 }
 
 .ConfirmEmail__confirm {
@@ -60,7 +68,6 @@
     color: #B9B9B9;
     display: flex;
     flex-direction: row;
-    align-items: center;
     gap: 5px;
 }
 
@@ -76,4 +83,9 @@
 .ConfirmEmail__email {
     color: #989898;
     font-weight: 700;
+}
+
+.ConfirmEmail__resend--link i {
+    animation: spin 1s linear infinite;
+    margin-right: 5px;
 }

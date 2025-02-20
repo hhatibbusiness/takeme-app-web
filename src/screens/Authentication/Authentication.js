@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './Authentication.css';
 import InputComponent from '../../components/InputComponent/InputComponent';
-import emailImage from '../../assets/images/defaults/email.png'
+import emailImage from '../../assets/images/defaults/email.png';
 import lockImage from '../../assets/images/defaults/lock.png';
 import LoginButton from '../../components/LoginButton/LoginButton';
 import logoImage from '../../assets/images/defaults/logo.png';
@@ -10,12 +10,12 @@ import facebookImage from '../../assets/images/defaults/facebook.png';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { authenticateUser } from '../../store/actions/auth.actions';
-import ResetPassword from '../../components/ResetPassword/ResetPassword';
-import axios from 'axios';
-import { BASE_URL } from '../../utls/assets';
-import { addAlert } from '../../store/actions/alert.actions';
+import { addAlert, removeAlert } from '../../store/actions/alert.actions';
 import GoogleLogin from '../../components/GoogleLogin/GoogleLogin';
-import FacebookLogin from '../../components/FacebookLogin/FacebookLogin'
+import FacebookLogin from '../../components/FacebookLogin/FacebookLogin';
+import {BASE_URL} from "../../utls/assets";
+import axios from "axios";
+import ResetPassword from "../../components/ResetPassword/ResetPassword";
 
 const Authentication = ({
     paddingTop,
@@ -23,48 +23,28 @@ const Authentication = ({
     setBackBtn,
     setShowIcons,
     locale,
-    addAlert
+    addAlert,
+    removeAlert,
+    y,
+    setY,
+    topValue,
+    setTopValue,
+    navHeight,
+    bodyContainerRef
 }) => {
-    const [email, setEmail] = useState({
-        value: '',
-        rules: {
-            required: {
-                valid: false
-            },
-            isEmail: {
-                valid: false
-            }
-        },
-        touched: false,
-        errors: [],
-        valid: false
-    });
-
-    const [password, setPassword] = useState({
-        value: '',
-        rules: {
-            required: {
-                valid: false
-            },
-            minLength: {
-                valid: false,
-                value: 6
-            }
-        },
-        touched: false,
-        valid: false
-    });
-
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [submitted, setSubmitted] = useState(false);
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const [valid, setValid] = useState(false);
-
-    const [emailErrors, setEmailErrors] = useState({});
-    const [passwordErrors, setPasswordErrors] = useState({});
-    const [submitted, setSubmitted] = useState(true);
     const [reset, setReset] = useState(false);
     const [params, setParams] = useState(null);
+    const [resetClickSpin, setResetClickSpin] = useState(false);
+    const [registerClickSpin, setRegisterClickSpin] = useState(false);
 
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         setShowIcons(false);
         setBackBtn(true);
@@ -75,146 +55,133 @@ const Authentication = ({
         }
     }, []);
 
+    const handleWindowScroll = useCallback( e => {
+        if(Math.floor(y) > Math.floor(window.scrollY)) {
+            setY(window.scrollY);
+            if(topValue + (y - window.scrollY) > 0) {
+                return setTopValue(0);
+            }
+            setTopValue(topValue + (y - window.scrollY));
+        } else if(Math.floor(y) < Math.floor(window.scrollY)) {
+            if(window.scrollY - y > Math.abs(navHeight) - Math.abs(topValue)) {
+                setY(window.scrollY);
+                return setTopValue(-navHeight);
+            };
+            if(window.scrollY - y + topValue < -navHeight) {
+                setY(window.scrollY);
+                return setTopValue(-navHeight);
+            };
+            setTopValue(topValue - (window.scrollY - y));
+            setY(window.scrollY);
+        }
+    }, [y]);
+
+    useEffect(() => {
+        const container = bodyContainerRef.current;
+        if(container) {
+            setY(window.scrollY);
+            window.addEventListener('scroll', handleWindowScroll);
+        }
+
+        return () => {
+            window.removeEventListener('scroll', handleWindowScroll);
+        }
+    }, [handleWindowScroll, bodyContainerRef.current]);
+
+
+
+    const emailChangeHandler = (value) => {
+        removeAlert();
+        setEmail(value);
+        setEmailError('');
+    };
+
+    const passwordChangeHandler = (value) => {
+        removeAlert();
+        setPassword(value);
+        setPasswordError('');
+    };
+
+    const validateInputs = () => {
+        let validEmail = true;
+        let validPassword = true;
+
+        // Email validation
+        if (!email.trim()) {
+            validEmail = false;
+            setEmailError('الرجاء إدخال البريد الإلكتروني');
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            validEmail = false;
+            setEmailError('الرجاء إدخال بريد إلكتروني صحيح');
+        }
+
+        // Password validation
+        if (!password.trim()) {
+            validPassword = false;
+            setPasswordError('الرجاء إدخال كلمة المرور');
+        } else if (password.length < 6) {
+            validPassword = false;
+            setPasswordError('أقل طول لكلمة المرور هو 6 حروف');
+        }
+
+        setValid(validEmail && validPassword);
+        return validEmail && validPassword;
+    };
+
     const emailButtonClickHandler = async () => {
+        removeAlert();
         setSubmitted(true);
-        if (!valid) return;
-        console.log(locale);
+        if (!validateInputs()) return;
+
+        setRegisterClickSpin(true);
+
         const userData = {
-            email: email.value,
-            password: password.value,
+            email: email,
+            password: password,
             navigate,
             locale: locale?.locale,
             authType: 'email',
             localeId: locale?.id
         };
 
-        console.log(password)
-
         const res = await authenticateUser(userData);
 
-        console.log(res);
-
-        if(res?.response?.status == 401) {
-            setEmail({
-                ...email,
-                valid: false
-            });
-            setPassword({
-                ...password,
-                valid: false
-            })
-        } else if(res?.response?.status == 500) {
+        if (res?.response?.status === 401) {
+            setEmailError('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+            setPasswordError('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+        } else if (res?.response?.status === 500) {
             addAlert({
                 msg: res.response.data.message,
                 alertType: 'danger'
             });
         }
-    }
 
-    const inputValidator = (value, rules) => {
-        let inputIsValid = true;
-
-        if (rules.required) {
-            inputIsValid = value.trim() != '' && inputIsValid;
-        }
-
-        if (rules.maxLength) {
-            inputIsValid = value.length <= rules.maxLength.value && inputIsValid;
-        }
-
-        if(rules.minLength) {
-            inputIsValid = value?.length >= rules?.minLength.value && inputIsValid;
-        }
-
-
-        if (rules.isEmail) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            inputIsValid = emailRegex.test(value) && inputIsValid;
-        }
-
-        return inputIsValid;
-    }
-
-    const emailChangeHandler = value => {
-        setSubmitted(false);
-
-        const isValid = inputValidator(value, email.rules);
-
-
-        setEmail({
-            ...email,
-            value: value,
-            touched: true,
-            valid: inputValidator(value, email.rules),
-            
-        });
-
-        setValid(isValid && password.valid);
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        setEmailErrors({})
-        if (email.rules.required && value.trim().length == 0) {
-            setEmailErrors({
-                ...emailErrors,
-                required: {
-                    message: 'ادخل الايميل'
-                }
-            });
-        } else if (email.rules.isEmail && !emailRegex.test(value)) {
-            setEmailErrors({
-                ...emailErrors,
-                isEmail: {
-                    message: 'مطلوب ايميل'
-                }
-            })
-        }
-    }
-
-    const passwordChangeHandler = value => {
-        setSubmitted(false);
-
-        const isValid = inputValidator(value, password?.rules);
-
-        setPassword({
-            ...password,
-            value: value,
-            touched: true,
-            valid: isValid
-        });
-
-        setValid(isValid && email.valid);
-
-        setPasswordErrors({});
-
-        const minLength = value?.length >= password.rules.minLength.value;
-
-        if (password.rules.required && value?.trim().length == 0) {
-            setPasswordErrors({
-                ...passwordErrors,
-                required: {
-                    message: 'ادخل كلمة المرور'
-                }
-            });
-        } else if (password.rules.minLength && !minLength) {
-            setPasswordErrors({
-                ...passwordErrors,
-                minLength: {
-                    message: 'أقل طول هو 6 حروف '
-                }
-            })
-        }
-    }
+        setRegisterClickSpin(false);
+    };
 
     const changePasswordClickHandler = async () => {
         try {
+            removeAlert();
             setSubmitted(true);
+            let validEmail = true;
+            if (!email.trim()) {
+                validEmail = false;
+                setEmailError('الرجاء إدخال البريد الإلكتروني');
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                validEmail = false;
+                setEmailError('الرجاء إدخال بريد إلكتروني صحيح');
+            }
+
+            if(!validEmail) return;
+
+            setResetClickSpin(true);
+
             // if (!email.valid) return;
             const data = {
                 localeId: locale?.id,
                 userAuthenticationRequestDto: {
                     authType: 'email',
-                    authValue: email.value,
+                    authValue: email,
                     password: 'fldjakdl'
                 }
             }
@@ -222,28 +189,28 @@ const Authentication = ({
             const doesExist = await axios.post(`${BASE_URL}endpoints/users/verify-email-and-send-code?mLocale=${locale?.locale}`, data);
 
             if (doesExist.status == 200) {
-                navigate(`/confirm/email/change/password/${email.value}`);
+                navigate(`/confirm/email/change/password/${email}`);
             }
+            setResetClickSpin(false);
         } catch (e) {
             console.log(e.response);
             if (e?.response?.status == 404 || e?.response?.status == 404) {
-                setEmailErrors({
-                    ...emailErrors,
-                    backend: {
-                        message: e?.response?.data?.error
-                    }
-                });
-                setEmail({
-                    ...email,
-                    valid: false
-                })
+                setEmailError(
+                        e?.response?.data?.message
+                    );
+                // setEmail({
+                //     ...email,
+                //     valid: false
+                // })
                 setSubmitted(true);
             } else {
+                console.log(e?.response?.data?.message);
                 addAlert({
                     alertType: 'danger',
-                    msg: e?.response?.data?.error
+                    msg: e?.response?.data?.message
                 });
             }
+            setResetClickSpin(false);
         }
     }
 
@@ -261,11 +228,16 @@ const Authentication = ({
         return new URLSearchParams(window.location.search);
     }
 
+    useEffect(() => {
+        return () => {
+            removeAlert();
+        }
+    }, []);
+
     return (
         <div style={{paddingTop: `${paddingTop + 40}px`}} className='Authentication'>
             <div className='Authentication__message'>
-                <p>انضم لنا لتحصل على ما ترغب به و تحتاجه
-                بسرعة وسهولة، ولتزيد من سعادتك</p>
+                <p>انضم لنا لتحصل على ما ترغب به و تحتاجه بسرعة وسهولة، ولتزيد من سعادتك</p>
             </div>
             <div className='Authentication__container'>
                 <div id={'Authentication__email'} className='Authentication__element'>
@@ -273,47 +245,32 @@ const Authentication = ({
                         icon={emailImage}
                         type='text'
                         placeholder={'الايميل للدخول او الانضمام'}
-                        value={email.value}
+                        value={email}
                         setValue={emailChangeHandler}
-                        touched={email.touched}
-                        valid={email.valid}
-                        submitted={submitted}
+                        touched={submitted}
+                        valid={!emailError}
                     />
-                    {
-                        Object.keys(emailErrors).length > 0 && submitted && (
-                            <ul className='Authentication__errors--list'>
-                                {
-                                    Object.keys(emailErrors).map((error) => (
-                                        <li>{ emailErrors[error].message }</li>
-                                    ))
-                                }
-                            </ul>
-                        ) 
-                    }
+                    {submitted && emailError && (
+                        <ul className='Authentication__errors--list'>
+                            <li>{emailError}</li>
+                        </ul>
+                    )}
                 </div>
                 <div id={'Authentication__password'} className='Authentication__element'>
                     <InputComponent
                         icon={lockImage}
                         type='password'
                         placeholder={'كلمة المرور'}
-                        value={password.value}
+                        value={password}
                         setValue={passwordChangeHandler}
-                        touched={password.touched}
-                        valid={password.valid}
-                        submitted={submitted}
+                        touched={submitted}
+                        valid={!passwordError}
                     />
-                    {
-                        Object.keys(passwordErrors).length > 0 && submitted && (
-                            <ul className='Authentication__errors--list'>
-                                {
-                                    Object.keys(passwordErrors).map((error) => (
-                                        <li>{ passwordErrors[error].message }</li>
-                                    ))
-                                }
-                            </ul>
-                        ) 
-                    }
-
+                    {submitted && passwordError && (
+                        <ul className='Authentication__errors--list'>
+                            <li>{passwordError}</li>
+                        </ul>
+                    )}
                 </div>
                 <div id={'Authentication__button'} style={{marginTop: '40px'}} className='Authentication__button'>
                     <LoginButton
@@ -326,17 +283,18 @@ const Authentication = ({
                         fontWeight={700}
                         clickFun={emailButtonClickHandler}
                         hasImage={true}
+                        spin={registerClickSpin}
                     />
                 </div>
-            </div> 
+            </div>
             <div className='Authentication__password--reset'>
-                <p>في حال لديك حساب يمكنك <span onClick={changePasswordClickHandler}>تغيير كلمة المرور</span> </p>
+                <p>في حال لديك حساب يمكنك <span className={'Authentication__password--reset-click'} onClick={changePasswordClickHandler}>تغيير كلمة المرور</span>{resetClickSpin &&
+                    <i className="fa-solid fa-circle-notch"></i>}</p>
             </div>
             <div className='Authentication__or'>
                 <div className='Authentication__hl'></div>
                 <span>أو</span>
                 <div className='Authentication__hl'></div>
-
             </div>
             <div className='Authentication__button'>
                 <GoogleLogin
@@ -362,12 +320,12 @@ const Authentication = ({
                     hasImage={true}
                 />
             </div>
+
             <div className='Authentication__conditions'>
                 <p>
                     <span>عند انضمامك لنا أو تسجيلك معنا, فإنك توافق على </span>
-                    <span onClick={e => {
-                        navigate('/contract')
-                    }} className='Authentication__conditions--link'>شروط الخدمة </span>
+                    <span onClick={() => navigate('/contract')}
+                          className='Authentication__conditions--link'>شروط الخدمة </span>
                     <span>و</span>
                     <span className='Authentication__conditions--link'>سياسية الخصوصية </span>
                     <span>الخاصة بنا.</span>
@@ -382,11 +340,11 @@ const Authentication = ({
                 }} className='Authentication__backdrop'></div>
             }
         </div>
-    )
-}
+    );
+};
 
 const mapStateToProps = state => ({
     locale: state.categories.selectedLocale
 });
 
-export default connect(mapStateToProps, {authenticateUser, addAlert}) (Authentication);
+export default connect(mapStateToProps, {removeAlert, authenticateUser, addAlert})(Authentication);

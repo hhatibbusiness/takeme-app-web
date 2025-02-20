@@ -28,10 +28,11 @@
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
+    height: 30px;
+    width: 30px;
 }
 
 .InputComponent input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px white inset; /* Removes the color */
+    -webkit-box-shadow: 0 0 0 1000px white inset; /* Removes the color */
     -webkit-text-fill-color: black; /* Sets text color */
 }
-  

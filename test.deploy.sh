@@ -1,13 +1,20 @@
+#!/bin/bash
+
 USER="root"
 HOST="191.96.1.25"
 REMOTE_DIR="/var/www/react-app"
 LOCAL_DIR="./build"
 
-echo "starting deployment process"
+echo "Starting deployment process"
 
-echo "uploading files...."
+echo "Removing existing files from the server..."
+ssh $USER@$HOST "rm -rf $REMOTE_DIR"
 
-scp -r $LOCAL_DIR $USER@$HOST:$REMOTE_DIR
+# Ensure the directory exists before uploading new files
+ssh $USER@$HOST "mkdir -p $REMOTE_DIR"
+
+echo "Uploading files..."
+scp -r $LOCAL_DIR/* $USER@$HOST:$REMOTE_DIR
 
 # Check if scp was successful
 if [ $? -eq 0 ]; then

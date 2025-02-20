@@ -10,6 +10,28 @@
     cursor: pointer;;
 }
 
+.LoginButton__image {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    height: 100%;
+    width: 50px;
+}
+
+.LoginButton i {
+    font-size: 25px;
+    animation: spin 1s linear infinite;
+    height: fit-content;
+    margin: 0 auto;
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+
+}
+
 .LoginButton__icon {
     width: 40px;
     height: 40px;
@@ -25,4 +47,5 @@
     text-align: center;
     font-size: 20px;
     font-weight: 700;
+    width: 80%;
 }

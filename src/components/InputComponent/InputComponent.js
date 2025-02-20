@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './InputComponent.css';
-import invisibleImage from '../../assets/images/defaults/invisible.png';
+import invisibleImage from '../../assets/images/defaults/invisible.svg';
+import visibleImage from '../../assets/images/defaults/visible.svg';
 
 const InputComponent = ({ icon, type, placeholder, value, setValue, touched, valid, submitted }) => {
     const [inputType, setInputType] = useState('');
-
+    const [visible, setVisible] = useState(false);
     useEffect(() => {
         setInputType(type);
     }, [type]);
@@ -30,19 +31,28 @@ const InputComponent = ({ icon, type, placeholder, value, setValue, touched, val
                     setValue(e.target.value)
                 }}
                 placeholder={placeholder}
-                type={inputType}
+                type={inputType == 'password' && !visible ? 'password' : 'text'}
             />
             {
                 type == 'password' && (
-                    <img
-                        onClick={e => {
-                            setInputType(t => {
-                                return t == 'text' ? 'password' : 'text'
-                            })
-                        }}
-                        className='InputComponent__password'
-                        src={invisibleImage}
-                    />
+                    visible ? (
+                        <img
+                            onClick={e => {
+                                setVisible(!visible)
+                            }}
+                            className='InputComponent__password'
+                            src={visibleImage}
+                        />
+                    ) : (
+                        <img
+                            onClick={e => {
+                                setVisible(!visible);
+                            }}
+                            className='InputComponent__password'
+                            src={invisibleImage}
+                        />
+
+                    )
                 )
             }
         </div>

@@ -84,35 +84,45 @@ const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItem
     return (
         <div ref={navRef} className={`NavbarWebsite`} style={{top: `${topValue}px`}}>
             <div className={'Navbar__container'}>
-                <div onClick={() =>  navigate('/')} style={{cursor: `${data?.backBtn && 'pointer'}`}} className="Navbar__logo">
-                    <Img logo={true} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={(assets?.logoPath && assets.logoPath) || logo}/>
-                </div>
-                {
-                    searchShow && <Search currentParams={currentParams} searching={searchShow} setSearching={setSearching} inputFocus={inputFocus} setInputFocus={setInputFocus} loadingSearchResults={data?.loadingSearchResults} searchResults={data?.searchResults} term={data?.term} search={data?.search} searchPage={data?.searchPage} />
-                }
-                {
-                    showMidText && <Mid midText={data?.midText} />
-                }
-                <div className={'Navbar__left--container'}>
+                <div onClick={() => navigate('/')} style={{cursor: `${data?.backBtn && 'pointer'}`}}
+                     className="Navbar__logo">
+                    <div className="NavbarWebsite__overlay"></div>
+                    <div className="Navbar__logo-background">
+                        <Img logo={true} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded}
+                             imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded}
+                             imgUrl={(assets?.logoPath && assets.logoPath) || logo}/>
+                    </div>
+                    </div>
                     {
-                        backBtn ? (
-                            <>
-                                <BackBtn step={data?.step} setStep={data?.setStep} />
-                            </>
-                        ) : (
-                            <>
-                                <Burger setSidebar={setSidebar} />
-                            </>
-                        )
+                        searchShow &&
+                        <Search currentParams={currentParams} searching={searchShow} setSearching={setSearching}
+                                inputFocus={inputFocus} setInputFocus={setInputFocus}
+                                loadingSearchResults={data?.loadingSearchResults} searchResults={data?.searchResults}
+                                term={data?.term} search={data?.search} searchPage={data?.searchPage}/>
                     }
-                    {/*<Install />*/}
+                    {
+                        showMidText && <Mid midText={data?.midText}/>
+                    }
+                    <div className={'Navbar__left--container'}>
+                        {
+                            backBtn ? (
+                                <>
+                                    <BackBtn step={data?.step} setStep={data?.setStep}/>
+                                </>
+                            ) : (
+                                <>
+                                    <Burger setSidebar={setSidebar}/>
+                                </>
+                            )
+                        }
+                        {/*<Install />*/}
+                    </div>
+                    {
+                        viewOpen && <div onClick={e => setViewOpen(false)} className={'Navbar__view--backdrop'}></div>
+                    }
                 </div>
                 {
-                    viewOpen && <div onClick={e => setViewOpen(false)} className={'Navbar__view--backdrop'}></div>
-                }
-            </div>
-            {
-                showIcons &&
+                    showIcons &&
                     <div className="IconsBar__container">
                     {/*<div className="IconsBar__container" style={{boxShadow: `${!separatorActive ? '0 1px 1px rgba(0, 0, 0, 0.15)' : '0 1px 1px #07ab83'}`}}>*/}
                         <IconsBar currentParams={currentParams} switchMarketStore={switchMarketStore} personActive={personActive} setPersonActive={setPersonActive} pseronAva={personAva} separatorActive={separatorActive} searchActive={searchActive} eyeDis={eyeDis} backupFilter={backupFilters} setBackupFilters={setBackupFilters} showEye={showEye} filtersActive={filtersActive} setFiltersActive={setFiltersActive} eyeOpen={eyeOpen} setEyeOpen={setEyeOpen} viewOpen={viewOpen} setViewOpen={setViewOpen} />
