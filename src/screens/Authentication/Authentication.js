@@ -16,6 +16,7 @@ import FacebookLogin from '../../components/FacebookLogin/FacebookLogin';
 import {BASE_URL} from "../../utls/assets";
 import axios from "axios";
 import ResetPassword from "../../components/ResetPassword/ResetPassword";
+import Overlay from "../../components/Overlay/Overlay";
 
 const Authentication = ({
     paddingTop,
@@ -338,6 +339,11 @@ const Authentication = ({
                 reset && <div onClick={e => {
                     setReset(false);
                 }} className='Authentication__backdrop'></div>
+            }
+            {
+                (resetClickSpin || registerClickSpin) && (
+                    <Overlay />
+                )
             }
         </div>
     );
