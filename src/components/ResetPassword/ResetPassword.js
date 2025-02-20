@@ -9,6 +9,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 import {BASE_URL} from "../../utls/assets";
 import {addAlert} from "../../store/actions/alert.actions";
+import Overlay from "../Overlay/Overlay";
 
 const ResetPassword = ({ params, addAlert, resetting, setResetting, locale }) => {
     const [password, setPassword] = useState({
@@ -242,6 +243,11 @@ const ResetPassword = ({ params, addAlert, resetting, setResetting, locale }) =>
                     />
                 </div>
             </div>
+            {
+                spin && (
+                    <Overlay />
+                )
+            }
         </div>
     )
 }

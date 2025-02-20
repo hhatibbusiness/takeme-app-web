@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 
 const longPressDuration = 10;
 
-const IconsBar = ({ eyeOpen, currentParams, eyeDis, switchMarketStore, personActive, setPersonActive, pseronAva, separatorActive, searchActive, backupFilter, setBackupFilters, showEye, store, setFiltersActive, filtersActive, setEyeOpen, viewOpen, setViewOpen }) => {
+const IconsBar = ({ isAuthenticated, eyeOpen, currentParams, eyeDis, switchMarketStore, personActive, setPersonActive, pseronAva, separatorActive, searchActive, backupFilter, setBackupFilters, showEye, store, setFiltersActive, filtersActive, setEyeOpen, viewOpen, setViewOpen }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [showPersonPopup, setShowPersonPopup] = useState(false);
     const [showGlassPopup, setShowGlassPopup] = useState(false);
@@ -81,20 +81,27 @@ const IconsBar = ({ eyeOpen, currentParams, eyeDis, switchMarketStore, personAct
     return (
         <div className={'IconsBar'}>
             <div className="IconsBar__outer--container">
-                <div className={'IconsBar__icon--container'}>
-                    <Icon icon={<i className="fa-solid fa-user"></i>} personActive={personActive} disabled={!pseronAva} iconClickHandler={personIconClickHandler} />
-                    {
-                        showPersonPopup && (
-                            <>
-                                <div onClick={e => setShowPersonPopup(false)} className="IconsBar__backdrop"></div>
-                                <div className="IconsBar__popup IconsBar__popup--person">
-                                    <div className="IconsBar__popup--triangle"></div>
-                                    <p>{t('underbuilding')}</p>
-                                </div>
-                            </>
-    
-                        )
+                <div onClick={e => {
+                    if(isAuthenticated) {
+                        navigate('/profile');
+                    } else {
+                        navigate('/login');
                     }
+                }} className={'IconsBar__icon--container'}>
+                    <Icon icon={<i className="fa-solid fa-user"></i>} personActive={personActive} disabled={false} />
+                    {/*<Icon icon={<i className="fa-solid fa-user"></i>} personActive={personActive} disabled={!pseronAva} iconClickHandler={personIconClickHandler} />*/}
+                    {/*{*/}
+                    {/*    showPersonPopup && (*/}
+                    {/*        <>*/}
+                    {/*            <div onClick={e => setShowPersonPopup(false)} className="IconsBar__backdrop"></div>*/}
+                    {/*            <div className="IconsBar__popup IconsBar__popup--person">*/}
+                    {/*                <div className="IconsBar__popup--triangle"></div>*/}
+                    {/*                <p>{t('underbuilding')}</p>*/}
+                    {/*            </div>*/}
+                    {/*        </>*/}
+
+                    {/*    )*/}
+                    {/*}*/}
     
                 </div>
 
@@ -129,6 +136,7 @@ const IconsBar = ({ eyeOpen, currentParams, eyeDis, switchMarketStore, personAct
                 </div>
                 <div className="IconsBar__icon--container">
                     <Icon icon={<i className="fa-solid fa-cart-shopping"></i>} disabled={true} iconClickHandler={disabledIconClickHandler} />
+                    {/*<Icon icon={<i className="fa-solid fa-cart-shopping"></i>} disabled={false} />*/}
                     {
                         showPopup && <>
                             <div onClick={e => setShowPopup(false)} className="IconsBar__backdrop"></div>
@@ -147,7 +155,8 @@ const IconsBar = ({ eyeOpen, currentParams, eyeDis, switchMarketStore, personAct
 };
 
 const mapStateToProps = state => ({
-    store: state.categories.store
+    store: state.categories.store,
+    isAuthenticated: state.auth.isAuthenticated
 })
 
 export default connect(mapStateToProps) (IconsBar);
