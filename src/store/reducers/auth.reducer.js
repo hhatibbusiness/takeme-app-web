@@ -1,8 +1,6 @@
-import token from '../../utls/set.axios.headers';
 import setToken from '../../utls/set.axios.headers';
 import * as actionTypes from '../actions/action.types';
 import { jwtDecode } from "jwt-decode";
-import {GET_USER_ROLE} from "../actions/action.types";
 
 const initialState = {
     profile: {},

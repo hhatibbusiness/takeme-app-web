@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {addAlert, removeAlert} from "../../../store/actions/alert.actions";
 import axios from "axios";
 import {BASE_URL} from "../../../utls/assets";
+import Overlay from "../../../components/Overlay/Overlay";
 
 const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, navHeight, bodyContainerRef, locale, addAlert, setBackBtn, setShowIcons, confirmHandler }) => {
     const [counter, setCounter] = useState(0);
@@ -329,6 +330,11 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
                     }
                 </p>
             </div>
+            {
+                spin && (
+                    <Overlay />
+                )
+            }
         </div>
     )
 }
