@@ -9,9 +9,10 @@ import ListItemDefault from '../../../../../../../../assets/images/defaults/list
 import 'react-medium-image-zoom/dist/styles.css'
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import coverDefaultImage from '../../../../../../../../assets/images/defaults/cover.gif';
+import Icon from "../../../../../../../../components/HOC/NavbarWebsite/IconsBar/Icon/Icon";
+import profileDefaultImage from '../../../../../../../../assets/images/defaults/default-provider-image.png';
 
-
-const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gallery, setError, setHidden, setLoaded, setImgLoaded, imgRefDub: imgRef, activeIndex, provider, product}) => {
+const Img = ({value, logo, profile, search, popup, category, cover, isCover, imgUrl, gallery, setError, setHidden, setLoaded, setImgLoaded, imgRefDub: imgRef, activeIndex, provider, product}) => {
     const [transform, setTransform] = useState('');
     const [defaultImage, setDefaultImage] = useState(null);
     const [zooming, setZooming] = useState(false);
@@ -19,6 +20,7 @@ const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gall
     const [startDistance, setStartDistance] = useState(0);
     const [isDefaultWorking, setIsDefaultWorking] = useState(false);
     const [midPoint, setMidPoint] = useState({ x: 0, y: 0 });
+    const [profileError, setProfileError] = useState(false);
 
     const getDistance = touches => {
         const [touch1, touch2] = touches;
@@ -122,6 +124,8 @@ const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gall
                             setDefaultImage(categoryDefault);
                         } else if(popup){
                             setDefaultImage(ListItemDefault)
+                        } else if(profile) {
+                            setDefaultImage(profileDefaultImage);
                         }
 
                         setLoaded(true);
@@ -160,6 +164,8 @@ const Img = ({value, logo, search, popup, category, cover, isCover, imgUrl, gall
                         setDefaultImage(ListItemDefault);
                     } else if(isCover) {
                         setDefaultImage(coverDefaultImage);
+                    } else if(profile) {
+                        setDefaultImage(profileDefaultImage);
                     }
                 }} className={'Img'} style={{width: `${(value < 100 && !search) && '100%'}`}} onClick={() => {
                     // setGalleryOpen(true);

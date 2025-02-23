@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/action.types';
 import { jwtDecode } from "jwt-decode";
 
 const initialState = {
-    profile: {},
+    profile: null,
     isAuthenticated: false,
     authenticatingUser: false,
     token: null,
@@ -46,7 +46,7 @@ export default (state=initialState, action) => {
                 token: null,
                 isAuthenticated: false,
                 roles: null,
-                profile: {}
+                profile: null
             }
         case actionTypes.GET_USER_PROFILE:
             return {

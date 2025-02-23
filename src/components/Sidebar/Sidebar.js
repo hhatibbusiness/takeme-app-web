@@ -128,7 +128,7 @@ const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, chang
 
                 </div>
                 {
-                    profile && roles?.includes('ROLE_Admin') && (
+                    isAuthenticated && (
                         <ProviderPreview setSidebar={setSidebar} provider={takemeProviderData} />
                     )
                 }
