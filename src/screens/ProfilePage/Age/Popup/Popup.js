@@ -1,53 +1,44 @@
 import React, { useEffect, useState } from "react";
-import './Popup.css'
-import { Input } from '../../components/Components';
+import './Popup.css';
+import DateInput from '../../components/DateInput/DateInput';
 import Right from '../../../../assets/images/profile/Right.png';
 
-
 export default function AgePopup({ handleSave, dateOfBirth }) {
-    const [ value, setValue ] = useState()
-    const [ display, setDisplay ] = useState(dateOfBirth?.display)
+    const [date, setDate] = useState({ year: "", month: "", day: "" });
+    const [display, setDisplay] = useState(dateOfBirth?.display);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (dateOfBirth?.year && dateOfBirth?.month && dateOfBirth?.day) {
-            setValue(`${dateOfBirth.year}/${dateOfBirth.month}/${dateOfBirth.day}`)
-        } else {
-            setValue(null)
-        }    
-    }, [])
+            setDate({
+                year: dateOfBirth.year,
+                month: dateOfBirth.month.toString().padStart(2, '0'),
+                day: dateOfBirth.day.toString().padStart(2, '0')
+            });
+        }
+    }, [dateOfBirth]);
 
-    /// Update the date of birth for editing
-    const handleInputChange = (name) => {
-        let value = name.replace(/[^\d]/g, "");
-        if (value.length > 8) value = value.slice(0, 8);
-        if (value.length > 4) value = `${value.slice(0, 4)}/${value.slice(4)}`;
-        if (value.length > 7) value = `${value.slice(0, 7)}/${value.slice(7)}`;
-        setValue(value);
+    const handleChange = ({ year, month, day }) => {
+        setDate({ year, month, day });
     };
-    
-    return(
+
+    return (
         <div className="Input-Age__Container">
             <div className="Input__Age">
-                <Input
-                    type="text" 
-                    PlaceHolderTEXT="YYYY/MM/DD"
-                    value={value}
-                    onChange={(name) => handleInputChange(name)}
-                />
+                <DateInput value={`${date.year}/${date.month}/${date.day}`} handleChange={handleChange} />
             </div>
             <div className="UnderInput__Age">
                 <div className="UnderInputChecked__Age">
-                    <input 
-                        type="checkbox" 
-                        id="ageCheckbox" 
-                        name="ageCheckbox" 
-                        checked={display} 
+                    <input
+                        type="checkbox"
+                        id="ageCheckbox"
+                        name="ageCheckbox"
+                        checked={display}
                         onChange={() => setDisplay(!display)}
                     />
                     <label>اخفاء</label>
                 </div>
-                <img src={Right} alt="Right" onClick={()=> handleSave(value, display)} />
+                <img src={Right} alt="Right" onClick={() => handleSave(date, display)} />
             </div>
         </div>
-    )
+    );
 }

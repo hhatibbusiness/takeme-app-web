@@ -10,11 +10,27 @@
     aspect-ratio: 1/1;
 }
 
+.LocationLogo_Text{
+    font-family: 'DIN Next LT Arabic';
+    font-style: normal;
+    font-weight:200;
+    font-size: 7px;
+    line-height: 10px;
+    color: #666666;
+
+    width: 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;  
+}
+
 .Location__Container{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
     width: 100%;
     height: 100%;
     border-radius: 100%;

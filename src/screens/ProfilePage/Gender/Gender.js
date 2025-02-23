@@ -4,12 +4,21 @@ import Shimmer from '../shimmer/shimmer'
 import translation from '../../../locales/ar/translation.json'
 import MaleLogo from '../../../assets/images/profile/MaleLogo.png'
 import FemaleLogo from '../../../assets/images/profile/FemaleLogo.png'
+import othersGender from '../../../assets/images/profile/othersGender.png'
+import NoGender from '../../../assets/images/profile/NotSelected_Gender.png'
 import OrangeVLine from '../../../assets/images/profile/OrangeVLine.png'
 import useDoubleTap from "../../../utilty/useDoubleClick";
 
 export default function Gender({ Focused, GenderFocused, ProfileData, updateGender }) {
     const genderList = translation.genderList
-    const Logo = (ProfileData?.gender === 1 ) ?  MaleLogo : FemaleLogo
+    let Logo = NoGender;
+    if (ProfileData?.gender === 1) {
+        Logo = MaleLogo
+    } else if (ProfileData?.gender === 2) {
+        Logo = FemaleLogo
+    } else if (ProfileData?.gender === 3) {
+        Logo = othersGender
+    }
 
     const handleGender = (Gender) => {
         updateGender(ProfileData.id, Gender)

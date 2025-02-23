@@ -33,7 +33,7 @@
     left: 10%;
     top: 0;
     width: 45vw;
-    --element-height: 10vh;
+    --element-height: 9vh;
     height: var(--element-height);
     z-index: 100;
     animation: scaleUp 0.3s ease-in-out forwards;
@@ -45,7 +45,7 @@
     }
     to {
         transform: scale(1.3);
-        top: calc(100% + (0.3 * var(--element-height)));
+        top: calc(100% + (0.4 * var(--element-height)));
     }
 }
 

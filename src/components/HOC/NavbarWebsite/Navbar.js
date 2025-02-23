@@ -26,7 +26,9 @@ import whatsImage from "../../../assets/images/whatsapp.svg";
 import locationImage from "../../../assets/images/location.svg";
 import {changeCurrentProductTypeId} from "../../../store/actions/product.actions";
 import {changeStoreCurrentItemType, fetchStoreItemTypes, fetchStoreItems} from "../../../store/actions/provider.actions";
-import Install from "./Install/Install";
+import ProfileDetails from '../../../screens/ProfilePage/ProfileDetails'
+import Sidebar from '../../Sidebar/Sidebar';
+import Backdrop from '../../Backdrop/Backdrop';
 
 
 const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItemTypes, showMItemTypes, showSItemTypes, fetchingItemTypesStore, changeStoreCurrentItemType, curIdStore, more, page, fetchStoreItems, itemTypesStore, fetchStoreItemTypes, currentItemTypeId, showMCategories, showSCategories, curId, categoriesStore, loadingCategoriesStore, storeDetailsRef, personActive, loadingProvider, setPersonActive, personAva, takemeUserToken, eyeDis, currentUser, provider, searchActive, setSearchActive, backupFilters, setBackupFilters, topValue, setTopValue, setFixedNav, fixedNav, showSlider, setShowSlider, bodyContainerRef, showMidText, itemTypes, itemTypesPage, itemTypesMore, curItemTypeId, fetchItemTypes, changeCurItemTypeId, considerNav, fetchProductsMarket, fetchingItemTypes,  id, loadingCategories, categories, backBtn, showEye, searchShow, showIcons, assets, navShow, setNavShow, ui, filtersActive, setFiltersActive, navHeight, setNavHeight, switchMarketStore, searching, setSearching, sidebar, setSidebar}) => {
@@ -112,6 +114,8 @@ const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItem
                             ) : (
                                 <>
                                     <Burger setSidebar={setSidebar}/>
+                                    <Sidebar backBtn={backBtn} navHeight={navHeight} sidebar={sidebar} setSidebar={setSidebar} />
+                                    <Backdrop backBtn={backBtn} sidebar={sidebar} setSidebar={setSidebar} />
                                 </>
                             )
                         }
@@ -174,28 +178,9 @@ const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItem
             {
                 true && (
                     <div ref={storeDetailsRef} className={`ProviderScreen__profile--container ${personActive ? '' : 'BodyContainer__wrapper--hidden'}`}>
-                        {
-                            !loadingProvider ? (
-                                <ProviderProfile currentUser={currentUser} takemeUserToken={takemeUserToken} prov={true} socials={false} link={false} provider={provider} />
-                            ) : (
-                                <div className="StorePageShimmer__profile">
-                                    <div className="StorePageShimmer__profile--avatar"></div>
-                                    <div className="StorePageShimmer__profile--name"></div>
-                                    <div className="StorePageShimmer__profile--count"></div>
-                                    <div className="StorePageShimmer__profile--socials">
-                                        <div className="StorePageShimmer__profile--image">
-                                            <img src={phoneImage} alt=""/>
-                                        </div>
-                                        <div className="StorePageShimmer__profile--image">
-                                            <img src={whatsImage} alt=""/>
-                                        </div>
-                                        <div className="StorePageShimmer__profile--image">
-                                            <img src={locationImage} alt=""/>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        }
+                        <div style={{ width: "100vw", height: "23vh", minHeight: "150px", marginBottom: "1px", boxShadow: "0px 3px 3px -3px gray" }}>
+                            {/* <ProfileDetails /> */}
+                        </div>
                     </div>
                 )
             }

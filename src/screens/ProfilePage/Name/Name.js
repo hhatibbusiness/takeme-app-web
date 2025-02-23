@@ -3,7 +3,6 @@ import './Name.css';
 import Shimmer from "../shimmer/shimmer";
 import { Input } from '../components/Components'
 import Right from '../../../assets/images/profile/Right.png';
-import { createUserFeedbackEnvelope } from "@sentry/react";
 import useDoubleTap from "../../../utilty/useDoubleClick";
 
 

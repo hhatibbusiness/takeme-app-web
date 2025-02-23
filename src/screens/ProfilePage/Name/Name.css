@@ -10,17 +10,20 @@
     box-sizing: border-box;
     height: 100%;
     width: fit-content;
-    min-width: 20%;
+    min-width: 10%;
+    max-width: 60%;
+    overflow: hidden;
 }
 
 .Name__Container {
     font-family: 'DIN Next LT Arabic';
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 25px;
     text-align: right;
     color: #666666;
+    user-select: none;
 }
 
 @keyframes fadeInScale {
@@ -41,8 +44,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
-    height: 180%;
-    width: 60%;
+    height: 73px;
+    width: 65%;
     animation: fadeInScale 0.3s ease forwards;
     z-index: 100;
 }
