@@ -18,6 +18,11 @@
     position: relative;
 }
 
+.IconsBar__icon--container img {
+    width: 25px;
+    height: 25px;
+}
+
 .IconsBar__popup {
     position: absolute;
     bottom: 0;

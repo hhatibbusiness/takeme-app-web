@@ -4,10 +4,13 @@ import Icon from "./Icon/Icon";
 import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
 import {connect} from "react-redux";
+import logo from "../../../../assets/images/defaults/logo-default-image.svg";
+import Img from "../../../../screens/Home/Body/BodyContainer/ProductList/Products/Product/Img/Img";
+import profileDefaultImage from '../../../../assets/images/defaults/default-provider-image.png';
 
 const longPressDuration = 10;
 
-const IconsBar = ({ isAuthenticated, eyeOpen, currentParams, eyeDis, switchMarketStore, personActive, setPersonActive, pseronAva, separatorActive, searchActive, backupFilter, setBackupFilters, showEye, store, setFiltersActive, filtersActive, setEyeOpen, viewOpen, setViewOpen }) => {
+const IconsBar = ({ profile, isAuthenticated, eyeOpen, currentParams, eyeDis, switchMarketStore, personActive, setPersonActive, pseronAva, separatorActive, searchActive, backupFilter, setBackupFilters, showEye, store, setFiltersActive, filtersActive, setEyeOpen, viewOpen, setViewOpen }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [showPersonPopup, setShowPersonPopup] = useState(false);
     const [showGlassPopup, setShowGlassPopup] = useState(false);
@@ -17,6 +20,13 @@ const IconsBar = ({ isAuthenticated, eyeOpen, currentParams, eyeDis, switchMarke
     const {t} = useTranslation();
     const navigate = useNavigate();
     const timerRef = useRef(null);
+
+    const [error, setError] = useState(false);
+    const [hidden, setHidden] = useState(true);
+    const [loaded, setLoaded] = useState(false);
+    const [containerLoaded, setContainerLoaded] = useState(false);
+    const [imgLoaded, setImgLoaded] = useState(true);
+    const imgRefDub = useRef(null);
 
     const eyeClickHandler = e => {
         // if(eyeDis) {
@@ -88,7 +98,18 @@ const IconsBar = ({ isAuthenticated, eyeOpen, currentParams, eyeDis, switchMarke
                         navigate('/login');
                     }
                 }} className={'IconsBar__icon--container'}>
-                    <Icon icon={<i className="fa-solid fa-user"></i>} personActive={personActive} disabled={false} />
+                    {
+                        isAuthenticated ? (
+                            profile?.imageAttachment ? (
+                                <Img profile={true} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={(profile?.imageAttachment && profile?.imageAttachment) || profileDefaultImage}/>
+                            ) : (
+                                <Img profile={false} setError={setError} hidden={hidden} setHidden={setHidden} setLoaded={setLoaded} imgRefDub={imgRefDub} setContainerLoaded={setContainerLoaded} setImgLoaded={setImgLoaded} imgUrl={(profileDefaultImage) || profileDefaultImage}/>
+                            )
+
+                        ) : (
+                            <Icon icon={<i className="fa-solid fa-user"></i>} personActive={personActive} disabled={false} />
+                        )
+                    }
                     {/*<Icon icon={<i className="fa-solid fa-user"></i>} personActive={personActive} disabled={!pseronAva} iconClickHandler={personIconClickHandler} />*/}
                     {/*{*/}
                     {/*    showPersonPopup && (*/}
@@ -156,7 +177,8 @@ const IconsBar = ({ isAuthenticated, eyeOpen, currentParams, eyeDis, switchMarke
 
 const mapStateToProps = state => ({
     store: state.categories.store,
-    isAuthenticated: state.auth.isAuthenticated
-})
+    isAuthenticated: state.auth.isAuthenticated,
+    profile: state.auth.profile
+});
 
 export default connect(mapStateToProps) (IconsBar);
