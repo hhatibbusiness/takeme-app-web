@@ -76,7 +76,7 @@ const App = (props) => {
     const bodyContainerRef = useRef();
     const [y, setY] = useState(null);
     const [backupFilters, setBackupFilters] = useState(false);
-    const [eyeDis, setEyeDis] = useState(false);
+    const [eyeDis, setEyeDis] = useState(true);
     const [searchActive, setSearchActive] = useState(true);
     const [personAva, setPersonAva] = useState(false);
     const [personActive, setPersonActive] = useState(false);

@@ -3,9 +3,12 @@ import './Age.css';
 import { CalculateAge } from "./utility/utility";
 import Shimmer from "../shimmer/shimmer";
 import AgePopup from "./Popup/Popup";
+import useDoubleTap from "../../../utilty/useDoubleClick";
 
 export default function Age({ Focused, FocusHandle, ProfileData, updateDateOfBirth }) {
     const [dateOfBirth, setDateBirth] = useState({});
+
+    const doubleTapHandler = useDoubleTap(()=> FocusHandle(!Focused))
 
     // Save Data
     const handleSave = (dateOfBirth, display) => {
@@ -28,7 +31,7 @@ export default function Age({ Focused, FocusHandle, ProfileData, updateDateOfBir
         <>
             <div className={`AgeContainer ${Focused ? 'focused__Age' : 'focused__Age_closed'}`}>
                 {ProfileData.isLoading ? <Shimmer /> :
-                    <div className='Age__Container' onClick={() => FocusHandle(true)}>
+                    <div className='Age__Container' onClick={doubleTapHandler}>
                         {CalculateAge(dateOfBirth)}
                     </div>
                 }

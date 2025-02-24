@@ -20,10 +20,6 @@ import ProductsTypesLabel from "../../../screens/Provider/ProductsTypesLabel/Pro
 import ItemTypesShimmer from "../../ItemTypesShimmer/ItemTypesShimmer";
 import SliderComponent from "../../../screens/Home/Body/BodyContainer/ProductList/Slider/Slider";
 import {fetchCategoryProducts, fetchItemTypes, changeCurItemTypeId, fetchCategories, fetchProductsMarket} from "../../../store/actions/categories.action";
-import ProviderProfile from "../../../screens/Product/Provider/ProviderProfile/ProviderProfile";
-import phoneImage from "../../../assets/images/Phone.svg";
-import whatsImage from "../../../assets/images/whatsapp.svg";
-import locationImage from "../../../assets/images/location.svg";
 import {changeCurrentProductTypeId} from "../../../store/actions/product.actions";
 import {changeStoreCurrentItemType, fetchStoreItemTypes, fetchStoreItems} from "../../../store/actions/provider.actions";
 import ProfileDetails from '../../../screens/ProfilePage/ProfileDetails'
@@ -131,7 +127,7 @@ const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItem
                     {/*<div className="IconsBar__container" style={{boxShadow: `${!separatorActive ? '0 1px 1px rgba(0, 0, 0, 0.15)' : '0 1px 1px #07ab83'}`}}>*/}
                         <IconsBar currentParams={currentParams} switchMarketStore={switchMarketStore} personActive={personActive} setPersonActive={setPersonActive} pseronAva={personAva} separatorActive={separatorActive} searchActive={searchActive} eyeDis={eyeDis} backupFilter={backupFilters} setBackupFilters={setBackupFilters} showEye={showEye} filtersActive={filtersActive} setFiltersActive={setFiltersActive} eyeOpen={eyeOpen} setEyeOpen={setEyeOpen} viewOpen={viewOpen} setViewOpen={setViewOpen} />
                     </div>
-            }
+                }
             <div className="Navbar__view--contianer">
                 {
                     viewOpen && (
@@ -175,15 +171,11 @@ const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItem
                     )
                 }
             </div>
-            {
-                true && (
-                    <div ref={storeDetailsRef} className={`ProviderScreen__profile--container ${personActive ? '' : 'BodyContainer__wrapper--hidden'}`}>
-                        <div style={{ width: "100vw", height: "23vh", minHeight: "150px", marginBottom: "1px", boxShadow: "0px 3px 3px -3px gray" }}>
-                            {/* <ProfileDetails /> */}
-                        </div>
-                    </div>
-                )
-            }
+            <div ref={storeDetailsRef} className={`ProviderScreen__profile--container ${personActive ? '' : 'BodyContainer__wrapper--hidden'}`}>
+                <div style={{ width: "100vw", height: "23vh", minHeight: "150px", marginBottom: "1px", boxShadow: "0px 3px 3px -3px gray" }}>
+                    <ProfileDetails />
+                </div>
+            </div>
             {
                 <div ref={bodyContainerRef} className={`BodyContainer__wrapper ${(filtersActive) ? 'BodyContainer__wrapper--active' : 'BodyContainer__wrapper--hidden'}`} style={{top: `${navHeight}px`}}>
                     {/*{ true && <div ref={bodyContainerRef} className={`BodyContainer__wrapper ${isSticky ? 'sticky' : ''}`}>*/}

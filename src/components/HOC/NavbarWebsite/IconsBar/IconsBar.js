@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './IconsBar.css';
 import Icon from "./Icon/Icon";
 import {useTranslation} from "react-i18next";
@@ -12,7 +12,6 @@ const longPressDuration = 10;
 
 const IconsBar = ({ profile, isAuthenticated, eyeOpen, currentParams, eyeDis, switchMarketStore, personActive, setPersonActive, pseronAva, separatorActive, searchActive, backupFilter, setBackupFilters, showEye, store, setFiltersActive, filtersActive, setEyeOpen, viewOpen, setViewOpen }) => {
     const [showPopup, setShowPopup] = useState(false);
-    const [showPersonPopup, setShowPersonPopup] = useState(false);
     const [showGlassPopup, setShowGlassPopup] = useState(false);
     const [showEyePopup, setShowEyePopup] = useState(false);
     const [longPressed, setLongPressed] = useState(false);
@@ -28,6 +27,14 @@ const IconsBar = ({ profile, isAuthenticated, eyeOpen, currentParams, eyeDis, sw
     const [imgLoaded, setImgLoaded] = useState(true);
     const imgRefDub = useRef(null);
 
+    useEffect(() => {
+        console.log("ssssssssssss")
+        if (window.location.pathname !== '/profile') {
+            setPersonActive(false);
+        }
+    }, [window.location.pathname])
+
+
     const eyeClickHandler = e => {
         // if(eyeDis) {
         //     return setShowEyePopup(!showEyePopup);
@@ -40,9 +47,9 @@ const IconsBar = ({ profile, isAuthenticated, eyeOpen, currentParams, eyeDis, sw
     }
 
     const filterClickHandler = e => {
-        setPersonActive(false);
-        setFiltersActive(!filtersActive);
-        setBackupFilters(!backupFilter);
+        // setPersonActive(false);
+        // setFiltersActive(!filtersActive);
+        // setBackupFilters(!backupFilter);
     }
 
     const disabledIconClickHandler = e => {
@@ -50,21 +57,26 @@ const IconsBar = ({ profile, isAuthenticated, eyeOpen, currentParams, eyeDis, sw
     }
 
     const searchIconClickHandler = e => {
-        if(store || !searchActive) {
-            return setShowGlassPopup(true);
-        }
-        if(currentParams.providerId) {
-            return navigate(`/search/${currentParams.providerId}`);
-        }
-        navigate('/search');
+        // if(store || !searchActive) {
+        //     return setShowGlassPopup(true);
+        // }
+        // if(currentParams.providerId) {
+        //     return navigate(`/search/${currentParams.providerId}`);
+        // }
+        // navigate('/search');
     }
 
     const personIconClickHandler = e => {
-        if(pseronAva) {
-            setFiltersActive(false);
-            return setPersonActive(!personActive);
+        // if(pseronAva) {
+        //     setFiltersActive(false);
+        //     return setPersonActive(!personActive);
+        // }
+        if(isAuthenticated) {
+            navigate('/profile');
+            setPersonActive(prev=> !prev)
+        } else {
+            navigate('/login');
         }
-        setShowPersonPopup(true);
     }
 
     const eyeMouseDownFunc = e => {
@@ -91,13 +103,7 @@ const IconsBar = ({ profile, isAuthenticated, eyeOpen, currentParams, eyeDis, sw
     return (
         <div className={'IconsBar'}>
             <div className="IconsBar__outer--container">
-                <div onClick={e => {
-                    if(isAuthenticated) {
-                        navigate('/profile');
-                    } else {
-                        navigate('/login');
-                    }
-                }} className={'IconsBar__icon--container'}>
+                <div onClick={personIconClickHandler} className={'IconsBar__icon--container'}>
                     {
                         isAuthenticated ? (
                             profile?.imageAttachment ? (
@@ -110,23 +116,10 @@ const IconsBar = ({ profile, isAuthenticated, eyeOpen, currentParams, eyeDis, sw
                             <Icon icon={<i className="fa-solid fa-user"></i>} personActive={personActive} disabled={false} />
                         )
                     }
-                    {/*<Icon icon={<i className="fa-solid fa-user"></i>} personActive={personActive} disabled={!pseronAva} iconClickHandler={personIconClickHandler} />*/}
-                    {/*{*/}
-                    {/*    showPersonPopup && (*/}
-                    {/*        <>*/}
-                    {/*            <div onClick={e => setShowPersonPopup(false)} className="IconsBar__backdrop"></div>*/}
-                    {/*            <div className="IconsBar__popup IconsBar__popup--person">*/}
-                    {/*                <div className="IconsBar__popup--triangle"></div>*/}
-                    {/*                <p>{t('underbuilding')}</p>*/}
-                    {/*            </div>*/}
-                    {/*        </>*/}
-
-                    {/*    )*/}
-                    {/*}*/}
     
                 </div>
 
-                <Icon icon={<i className="fa-solid fa-filter"></i>} filtersActive={filtersActive} setFiltersActive={setFiltersActive} iconClickHandler={filterClickHandler} />
+                <Icon icon={<i className="fa-solid fa-filter"></i>} disabled={true} filtersActive={filtersActive} setFiltersActive={setFiltersActive} iconClickHandler={filterClickHandler} />
                 {
                     showEye &&
                     <div className="IconsBar__icon--container">
@@ -144,7 +137,7 @@ const IconsBar = ({ profile, isAuthenticated, eyeOpen, currentParams, eyeDis, sw
                     </div>
                 }
                 <div className="IconsBar__icon--container">
-                    <Icon icon={<i className="fa-solid fa-magnifying-glass"></i>} iconClickHandler={searchIconClickHandler} disabled={store || !searchActive} />
+                    <Icon icon={<i className="fa-solid fa-magnifying-glass"></i>} iconClickHandler={searchIconClickHandler} disabled={true /*store || !searchActive*/} />
                     {
                         showGlassPopup && <>
                             <div onClick={e => setShowGlassPopup(false)} className="IconsBar__backdrop"></div>

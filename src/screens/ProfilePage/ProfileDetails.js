@@ -21,10 +21,10 @@ function ProfileDetails({ ProfileData, fetchProfileData, updateGender, updateNam
 
     // init the Profile Data From API
     useEffect(() => {
-        const TOKEN = localStorage.getItem("TAKEME_TOKEN")
-        if (!TOKEN) navigate('/login')
+        // const TOKEN = localStorage.getItem("TAKEME_TOKEN")
+        // if (!TOKEN) navigate('/login')
 
-        console.log(navigationType)
+        // console.log(navigationType)
         fetchProfileData()
     }, []);
 
