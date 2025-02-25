@@ -11,10 +11,10 @@ import PopupInput from '../../../components/PopupInput/PopupInput';
 import { useSelectContext } from '../../../context/single.select.context';
 import { useNavbarContext } from '../../../context/navbar.context';
 import SelectPopup from '../../../components/SelectPopup/SelectPopup';
-import { changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguagesLocales } from '../../../store/actions/locales.actions';
+import { changeSelectedLanguage, editLocale, addLocale, searchLanguagesLocales } from '../../../store/actions/locales.actions';
 
 
-const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguagesLocales }) => {
+const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, editLocale, addLocale, searchLanguagesLocales }) => {
     const { select, openPopup, closePopup, changeProps } = useSelectContext();
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
@@ -141,46 +141,19 @@ const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, edi
     });
 
     useEffect(() => {
-        if (params.lanId) {
-            const data = {
-                lan: 'ar',
-                localeId: params.lanId
-            }
-            fetchLocaleById(data);
+        if (params.lanId || params.editId) {
+            const localeId = params.lanId || params.editId;
+            const locale = locales?.locales?.find(l => l.id === Number(localeId));
             
-        } else if (params.editId) {
-            const data = {
-                lan: 'ar',
-                localeId: params.editId
+            if (locale) {
+                locNameChangeHandler(locale.name || '');
+                codeChangeHandler(locale.code || '');
+                notesChangeHandler(locale.comments || '');
+                engNameChangeHandler(locale.englishName || '');
+                setValid(true);
             }
-            fetchLocaleById(data);
-
         }
-    }, [])
-
-    useEffect(() => {
-        if (params.lanId) {
-            // const locale = locales?.locales?.filter(l => l.id == params.lanId)[0];
-            
-            if (locales.locale) {
-                locNameChangeHandler(locales?.locale?.name || '');
-                codeChangeHandler(locales?.locale?.code || '');
-                notesChangeHandler(locales?.locale?.comments || '');
-                engNameChangeHandler(locales?.locale?.englishName || '')
-            }
-            setValid(true);
-        } else if (params.editId) {
-            // const locale = locales.locales.filter(l => l.id == params.editId)[0];
-            if (locales.locale) {
-                locNameChangeHandler(locales?.locale?.name || '');
-                codeChangeHandler(locales?.locale?.code || '');
-                notesChangeHandler(locales?.locale?.comments || '');
-                engNameChangeHandler(locales?.locale?.englishName || '')
-            }
-
-            setValid(true);
-        }
-    }, [locales.locale]);
+    }, [params.lanId, params.editId, locales.locales]);
 
 
     const locNameChangeHandler = value => {
@@ -416,4 +389,4 @@ const mapStateToProps = state => ({
     locales: state.locales
 });
 
-export default connect(mapStateToProps, { changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguagesLocales })(LocalesAdd);
+export default connect(mapStateToProps, { changeSelectedLanguage, editLocale, addLocale, searchLanguagesLocales })(LocalesAdd);

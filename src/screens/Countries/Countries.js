@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import {fetchCountries, editCountry, deleteCountry, searchCountries} from "../../store/actions/countries.actions";
 
 const Countries = ({ fetchCountries, editCountry, searchCountries, deleteCountry, setBackBtn, setAdmin, countries }) => {
-    const [paddingTop, setPaddingTop] = useState(0);
+    const [paddingTop, setPaddingTop] = useState(105);
 
     const parentRef = useRef(null);
 
@@ -26,8 +26,6 @@ const Countries = ({ fetchCountries, editCountry, searchCountries, deleteCountry
         if(navbarGetter) {
             setPaddingTop(navbarGetter.getBoundingClientRect().height);
         }
-
-        console.log(countries);
     });
 
     useEffect(() => {

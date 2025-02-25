@@ -6,19 +6,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import SaveButton from '../../../components/SaveButton/SaveButton';
 import CancelButton from '../../../components/CancelButton/CancelButton';
 import TextArea from '../../../components/TextArea/TextArea';
-import PopupInput from '../../../components/PopupInput/PopupInput';
-import { useSelectContext } from '../../../context/single.select.context';
 import { useNavbarContext } from '../../../context/navbar.context';
-import SelectPopup from '../../../components/SelectPopup/SelectPopup';
 import {connect} from "react-redux";
-import {fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale} from "../../../store/actions/countries.actions";
+import {editCountry, addCountry} from "../../../store/actions/countries.actions";
 
-const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale}) => {
-    const { select, openPopup } = useSelectContext();
+const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, editCountry, addCountry}) => {
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
-    const [open, setOpen] = useState(false);
-    const [selectSearchKey, setSelectSearchKey] = useState('');
 
     useEffect(() => {
         changeSearchActive(false);
@@ -37,7 +31,6 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
         if(navbarGetter) {
             setPaddingTop(navbarGetter.getBoundingClientRect().height+20);
         }
-        console.log(searchLocales)
     });
 
     const [conName, setConName] = useState({
@@ -74,26 +67,6 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
         touched: false,
         valid: false
     });
-
-    const [localeId, setLocaleId] = useState({
-        value: '',
-        rules: {
-            maxLength: {
-                value: 5,
-                valid: false,
-                message: 'اكبر عدد من الحروف 5 حرف'
-            },
-            required: {
-                value: true,
-                valid: false,
-                message: "هذا الحقل مطلوب"
-            }
-        },
-        touched: false,
-        valid: false
-
-    });
-
     const [notes, setNotes] = useState({
         value: '',
         rules: {
@@ -117,43 +90,18 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (params.lanId) {
-            const data = {
-                lan: 'ar_SA',
-                countryId: params.lanId
+        if (params.lanId || params.editId) {
+            const countryId = params.lanId || params.editId;
+            const country = countries?.countries?.find(c => c.id === Number(countryId));
+            
+            if (country) {
+                conNameChangeHandler(country.translations?.fields[0]?.value || '');
+                codeChangeHandler(country.countryCode || '');
+                notesChangeHandler(country.comments || '');
+                setValid(true);
             }
-            fetchCountryById(data);
-
-        } else if (params.editId) {
-            const data = {
-                lan: 'ar_SA',
-                countryId: params.editId
-            }
-            fetchCountryById(data);
-
         }
-    }, []);
-
-    useEffect(() => {
-        if (params.lanId) {
-            // const locale = locales?.locales?.filter(l => l.id == params.lanId)[0];
-            if (countries.country) {
-                conNameChangeHandler(countries?.country?.translations?.fields[0]?.value || '');
-                codeChangeHandler(countries?.country?.countryCode || '');
-                notesChangeHandler(countries?.country?.comments || '');
-            }
-            setValid(true);
-        } else if (params.editId) {
-            // const locale = locales.locales.filter(l => l.id == params.editId)[0];
-            if (countries.country) {
-                conNameChangeHandler(countries?.country?.translations?.fields[0]?.value || '');
-                codeChangeHandler(countries?.country?.countryCode || '');
-                notesChangeHandler(countries?.country?.comments || '');
-            }
-
-            setValid(true);
-        }
-    }, [countries.country]);
+    }, [params.lanId, params.editId, countries.countries]);
 
     const [valid, setValid] = useState(false);
 
@@ -238,10 +186,9 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
         let res;
 
         if (params.editId) {
-            console.log(conName.value);
             const data = {
                 id: params.editId,
-                localeId: 1,
+                localeId: locale?.id,
                 countryCode: code.value,
                 comments: notes.value,
                 translations: {
@@ -254,8 +201,6 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
                     ]
                 },
                 lan: 'ar_SA',
-                //locale: `${countries?.selectedLanguage?.code}_${code?.value}`,
-                //languageId: countries?.selectedLanguage?.id
             };
     
             res = await editCountry(data);
@@ -272,8 +217,6 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
                     } ]
                 },
                 lan: locale.locale,
-                //locale: `${countries?.selectedLanguage?.code}_${code?.value}`,
-                //languageId: countries?.selectedLanguage?.id
             };
     
             res = await addCountry(data);
@@ -299,73 +242,6 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
         setSubmitted(false);
     }
 
-    const inputClickHandler = () => {
-        const props = {
-            itemsFun: searchLocales,
-            page: countries.localesPage,
-            more: countries.localesMore,
-            items: countries.locales,
-            paginationData: {
-                lan: 'ar_SA',
-                page: countries.localesPage,
-                searchKey: countries.localesSearchKey
-            },
-            displayName: 'locale',
-            searchKey: countries.localesSearchKey,
-            dotsProps: id => ({
-                // urls: {
-                //     addUrl: `/locales/add/duplicate/${id}`,
-                //     editUrl: `/locales/edit/${id}`
-                // },
-                // deleteData: {
-                //     lan: 'ar',
-                //     localeId: id
-                // },
-                // deleteFun: deleteLocale,
-                // isItem: true,
-                // deleting: locales?.deleting
-            }),
-            isSearching: select.searching,
-            dots: false
-        }
-
-        // changeProps(props);
-        openPopup();
-    }
-
-    const selectPopupProps = {
-        itemsFun: searchLocales,
-        page: countries.localesPage,
-        more: countries.localesMore,
-        items: countries.locales,
-        paginationData: {
-            lan: 'ar_SA',
-            page: countries.localesPage,
-            searchKey: selectSearchKey
-        },
-        searchData: {
-            lan: 'ar_SA',
-            page: 0,
-            searchKey: selectSearchKey
-        },
-        setSearchKey: setSelectSearchKey,
-        displayName: 'locale',
-        searchKey: selectSearchKey,
-        dotsProps: id => ({
-        }),
-        isSearching: true,
-        searching: countries.searchingLocales,
-        dots: true,
-        window: false,
-        selectedItem: countries.selectedLocale,
-        itemClickFun,
-        single: true,
-        setOpen
-    }
-
-    function itemClickFun(locale) {
-        changeSelectedLocale(locale);
-    }
 
     return (
         <div id={"CountriesAdd"} className='LocalesAdd' style={{paddingTop: `${paddingTop + 20}px`}}>
@@ -394,20 +270,6 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
                     id={'Country__code'}
                     key={2}
                 />
-                <PopupInput
-                    data={{
-                        lan: 'ar_SA',
-                        page: 0,
-                        searchKey: ''
-                    }}
-                    searchItems={searchLocales}
-                    items={countries.locales}
-                    placeholder={'اختار اللهجة'}
-                    inputClickHandler={inputClickHandler}
-                    selectedItem={countries.selectedLocale}
-                    displayName="locale"
-                    setOpen={setOpen}
-                />
                 <TextArea
                     touched={notes.touched}
                     valid={notes.valid}
@@ -433,9 +295,6 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
                 </div>
 
             </div>
-            {
-                open && <SelectPopup {...selectPopupProps} />
-            }
         </div>
     )
 }
@@ -445,4 +304,4 @@ const mapStateToProps = state => ({
     countries: state.countries
 })
 
-export default connect(mapStateToProps, {fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale}) (CountriesAdd);
+export default connect(mapStateToProps, {editCountry, addCountry}) (CountriesAdd);

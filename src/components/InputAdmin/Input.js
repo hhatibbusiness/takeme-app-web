@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react';
 import './Input.css';
 import InputError from './InputError/InputError';
 
-const Input = ({id, placeholder, disabled, submitted, required, value, setValue, touched, rules, valid }) => {
+const Input = ({id, placeholder, disabled, submitted, required, value, setValue, touched, rules, valid, type}) => {
     const [focused, setFocused] = useState(false);
 
     return (
@@ -16,7 +16,7 @@ const Input = ({id, placeholder, disabled, submitted, required, value, setValue,
                     onBlur={e => {
                         setFocused(false);
                     }}
-                    id={id} disabled={disabled} value={value} required={required} onChange={e => setValue(e.target.value)} className={`Input ${submitted && !valid ? "Input__invalid" : ''}`} />
+                    id={id} disabled={disabled} value={value} required={required} onChange={e => setValue(e.target.value)} className={`Input ${submitted && !valid ? "Input__invalid" : ''}`} type={type || 'text'}/>
             </div>
             <InputError touched={touched} submitted={submitted} rules={rules} valid={valid} />
         </div>

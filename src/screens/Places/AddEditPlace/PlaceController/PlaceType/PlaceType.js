@@ -1,7 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
+import PopupInput from '../../../../../components/PopupInput/PopupInput';
+import { useTranslation } from 'react-i18next';
 import './PlaceType.css';
 
-const PlaceType = ({ options, value, onChange, width, height, margin, placeholder }) => {
+const PlaceType = ({ value, onChange, width, height, margin, placeholder }) => {
+    const { t } = useTranslation();
+    const placeTypes = t('placeTypes', { returnObjects: true });
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -9,8 +13,8 @@ const PlaceType = ({ options, value, onChange, width, height, margin, placeholde
         setIsOpen(!isOpen);
     };
 
-    const handleOptionClick = (option) => {
-        onChange(option);
+    const handleOptionClick = (placeType) => {
+        onChange(placeType.id);
         setIsOpen(false);
     };
 
@@ -33,19 +37,26 @@ const PlaceType = ({ options, value, onChange, width, height, margin, placeholde
             ref={dropdownRef}
             style={{ width: width, height: height, margin: margin }}
         >
-            <div className="placeTypeElementContainer__selected" onClick={handleToggle}>
-                {value || placeholder}
-            </div>
+            <PopupInput 
+                selectedItem={{value: placeTypes.find(type => type.id === value)?.name || ''}}
+                displayName={'value'}
+                placeholder={placeholder}
+                inputClickHandler={handleToggle}
+                setOpen={setIsOpen}
+            />
             {isOpen && (
                 <div className="placeTypeElementContainer__options">
-                    {options.map((option, index) => (
+                    {placeTypes.map((placeType) => (
+                        <>
                         <div
-                            key={index}
+                            key={placeType.id}
                             className="placeTypeElementContainer__option"
-                            onClick={() => handleOptionClick(option)}
+                            onClick={() => handleOptionClick(placeType)}
                         >
-                            {option}
+                            {placeType.name}
                         </div>
+                        <div className='Item__separator_PlaceType'></div>
+                        </>
                     ))}
                 </div>
             )}
