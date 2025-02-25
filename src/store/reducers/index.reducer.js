@@ -18,6 +18,7 @@ import countriesReducer from "./countries.reducer";
 import placesReducer from "./places.reducer";
 import localeReducer from "./locales.reducers";
 import profileReducer from './profile.reducer'
+import navbarReducer from "./navbar.reducer";
 
 
 const initialState = {
@@ -49,4 +50,5 @@ export default combineReducers({
     places: placesReducer,
     locales: localeReducer,
     profile: profileReducer,
+    navbar: navbarReducer
 });

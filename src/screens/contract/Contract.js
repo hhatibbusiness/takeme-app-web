@@ -9,19 +9,31 @@ import {KeepAlive} from "react-activation";
 import {changeNavbarAssets} from "../../store/actions/ui.actions";
 import ReactHtmlParser from "react-html-parser";
 import DOMPurify from "dompurify";
+import {changeMidTextShowState, changeBackBtnState} from "../../store/actions/navbar.actions";
 
-const Contract = ({fetchContractPage, setshowMidText, setBackBtn, setShowIcons, changeNavbarAssets, lan, fetchingContractPage, contractData}) => {
+const Contract = ({changeBackBtnState, fetchContractPage, changeMidTextShowState, setBackBtn, setShowIcons, changeNavbarAssets, lan, fetchingContractPage, contractData}) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
 
     useEffect(() => {
-        setBackBtn(true);
+        changeBackBtnState(true);
         setShowIcons(false);
-        setshowMidText(true);
+        const midData = {
+            state: true,
+            midText: t('condition'),
+        }
+        changeMidTextShowState(midData);
+
         return () => {
-            setBackBtn(false);
+            changeBackBtnState(false);
             setShowIcons(true);
-            setshowMidText(false);
+
+            const midData = {
+                state: false,
+                midText: null
+
+            }
+            changeMidTextShowState(midData);
         }
     }, []);
 
@@ -97,4 +109,4 @@ const mapStateToProps = state => ({
     fetchingContractPage: state.contract.fetchingContract
 })
 
-export default connect(mapStateToProps, {changeNavbarAssets, fetchContractPage}) (Contract);
+export default connect(mapStateToProps, {changeBackBtnState, changeMidTextShowState, changeNavbarAssets, fetchContractPage}) (Contract);

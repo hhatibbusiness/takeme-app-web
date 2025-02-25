@@ -12,9 +12,9 @@ import { useSelectContext } from '../../../context/single.select.context';
 import { useNavbarContext } from '../../../context/navbar.context';
 import SelectPopup from '../../../components/SelectPopup/SelectPopup';
 import { changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguagesLocales } from '../../../store/actions/locales.actions';
+import {changeBackBtnState} from "../../../store/actions/navbar.actions";
 
-
-const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguagesLocales }) => {
+const LocalesAdd = ({ changeBackBtnState, setBackBtn, setAdmin, locales, changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguagesLocales }) => {
     const { select, openPopup, closePopup, changeProps } = useSelectContext();
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
@@ -27,12 +27,12 @@ const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, edi
 
     useEffect(() => {
         changeSearchActive(false);
-        setBackBtn(true);
+        changeBackBtnState(true);
         setAdmin(true);
 
         return () => {
             changeSearchActive(true);
-            setBackBtn(false);
+            changeBackBtnState(false);
             setAdmin(false);
         }
     }, []);
@@ -416,4 +416,4 @@ const mapStateToProps = state => ({
     locales: state.locales
 });
 
-export default connect(mapStateToProps, { changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguagesLocales })(LocalesAdd);
+export default connect(mapStateToProps, { changeBackBtnState, changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguagesLocales })(LocalesAdd);

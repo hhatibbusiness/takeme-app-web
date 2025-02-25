@@ -11,8 +11,9 @@ import LoginPopup from "./LoginPopup/LoginPopup";
 import {sendForgetPasswordVerificationCode, sendCodePasswordToServer} from "../../store/actions/forget.password.actions";
 import {KeepAlive} from "react-activation";
 import {changeNavbarAssets} from "../../store/actions/ui.actions";
+import {changeBackBtnState} from "../../store/actions/navbar.actions";
 
-const Login = ({lan, login, setBackBtn, logging, setShowIcons, changeNavbarAssets, registerError, error, errorMessage}) => {
+const Login = ({changeBackBtnState, lan, login, setBackBtn, logging, setShowIcons, changeNavbarAssets, registerError, error, errorMessage}) => {
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [phoneActive, setPhoneActive] = useState(false);
@@ -28,10 +29,10 @@ const Login = ({lan, login, setBackBtn, logging, setShowIcons, changeNavbarAsset
     const {t} = useTranslation();
 
     useEffect(() => {
-        setBackBtn(true);
+        changeBackBtnState(true);
         setShowIcons(false);
         return () => {
-            setBackBtn(false)
+            changeBackBtnState(false)
             setShowIcons(true);
         }
     }, []);
@@ -198,4 +199,4 @@ const mapStateToProps = (state) => ({
     sendingCode: state.forget.sendingCode
 })
 
-export default connect(mapStateToProps, {changeNavbarAssets, login, registerError, sendForgetPasswordVerificationCode}) (React.memo(Login));
+export default connect(mapStateToProps, {changeBackBtnState, changeNavbarAssets, login, registerError, sendForgetPasswordVerificationCode}) (React.memo(Login));

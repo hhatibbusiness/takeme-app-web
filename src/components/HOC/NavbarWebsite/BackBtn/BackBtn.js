@@ -2,8 +2,9 @@ import React from 'react';
 import './BackBtn.scss';
 import history from '../../../../history/history';
 import backImage from '../../../../assets/images/defaults/back.png';
+import {connect} from "react-redux";
 
-const BackBtn = ({step, setStep}) => {
+const BackBtn = ({step, setStep, backBtn}) => {
     return (
         <div role={'navbar__back'} onClick={() => {
             if(step && step > 1) {
@@ -17,4 +18,8 @@ const BackBtn = ({step, setStep}) => {
     );
 };
 
-export default BackBtn;
+const mapStateToProps = state => ({
+    backBtn: state.navbar.backBtn,
+})
+
+export default connect(mapStateToProps) (BackBtn);
