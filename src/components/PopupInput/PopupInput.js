@@ -6,7 +6,7 @@ const PopupInput = ({ selectedItem, displayName, placeholder, inputClickHandler,
     return (
         <div onClick={e => setOpen(true)} className='PopupInput'>
             <div className='PopupInput__contianer'>
-                <Input id={'PopupInput__input'} disabled={true} placeholder={placeholder} value={selectedItem[displayName]} />
+                <Input id={'PopupInput__input'} placeholder={placeholder} value={selectedItem[displayName]} />
                 <div className='PopupInput__arrow'>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>

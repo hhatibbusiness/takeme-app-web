@@ -48,13 +48,13 @@ const navbarActions = {
         } else if (pathname.includes('/locales/edit')) {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل لهجة'})
         } else if (pathname == '/countries') {
-            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'البلاد'})
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'الدول'})
         } else if (pathname == '/countries/add') {
-            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'اضافة بلد'})
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'اضافة الدول'})
         } else if (pathname.includes("/countries/add/duplicate")) {
-            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'اضافة بلد'})
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'اضافة الدول'})
         } else if (pathname.includes("/countries/edit")) {
-            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل البلد'})
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل الدول'})
         } else if (pathname == '/places') {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'الاماكن'})
         } else if (pathname == '/places/add') {
