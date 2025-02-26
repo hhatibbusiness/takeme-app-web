@@ -25,7 +25,7 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
     const [placeDescription, setPlaceDescription] = useState('');
     const [placeType, setPlaceType] = useState('');
     const [placePostalCode, setPlacePostalCode] = useState('');
-    const [placeParentID, setPlaceParentID] = useState({});
+    const [placeParentID, setPlaceParentID] = useState(null);
     const [placeCountryID, setPlaceCountryID] = useState({});
     const [placeLocaleID, setPlaceLocaleID] = useState('');
 
@@ -35,7 +35,6 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
             const storedPlaces = places.places;
             const place = storedPlaces.find(item => item.id === parseInt(id));
             if (place) {
-                console.log("*****", place)
                 setPlaceName(place?.translations?.fields?.find(field => field.key === 'name')?.value);
                 setPlaceDescription(place.comments);
                 setPlaceType(place.placeType);
@@ -117,7 +116,7 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
                 if (isDONE) navigate(-1);
             } else {
                 const isDONE = await addPlace(data);
-                //if (isDONE) navigate(-1);
+                if (isDONE) navigate(-1);
             }
         }
     }
