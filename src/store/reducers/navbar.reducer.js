@@ -3,7 +3,6 @@ import {CHANGE_BACK_BTN_STATE, CHANGE_NAVBAR_ICONS} from "../actions/action.type
 
 const initialState = {
     showMidText: false,
-    personActive: false,
     filtersActive: false,
     sidebar: false,
     backBtn: false,
@@ -12,6 +11,7 @@ const initialState = {
     midText: null,
     icons: null,
     showIcons: false,
+    personActive: false,
 }
 
 export default (state = initialState, action) => {

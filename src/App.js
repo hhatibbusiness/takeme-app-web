@@ -42,6 +42,9 @@ import ProfilePage from './screens/ProfilePage/ProfilePage.js';
 import Places from './screens/Places/PlacesPage.js';
 import AddEditPlace from './screens/Places/AddEditPlace/AddEditPlace.js';
 import {changeNavbarIcons} from "./store/actions/navbar.actions";
+import Img from "./screens/Home/Body/BodyContainer/ProductList/Products/Product/Img/Img";
+import profileDefaultImage from "./assets/images/defaults/default-provider-image.png";
+import Icon from "./components/HOC/NavbarWebsite/IconsBar/Icon/Icon";
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
 const ProviderScreen = lazy(() => import(/* webpackChunkName: "ProviderScreen" */ "./screens/Provider/ProviderScreen"));
@@ -110,27 +113,6 @@ const App = (props) => {
         return () => {
             window.removeEventListener('beforeinstallprompt', handler);
         };
-    }, []);
-
-    useEffect(() => {
-        const navbarIconsData = {
-            showIcons: true,
-            icons: [
-                {
-                    icon: <i className="fa-solid fa-user"></i>,
-                    iconClickHandler: () => {
-                        if(props.isAuthenticated) {
-                            navigate('/profile');
-                        } else {
-                            navigate('/login');
-                        }
-                    }
-                },
-
-            ]
-        }
-
-        props.changeNavbarIcons(navbarIconsData);
     }, []);
 
     useEffect(() => {
@@ -268,7 +250,7 @@ const App = (props) => {
                             }
                             <Suspense fallback={logoStart.isFirstTime ? <Intro /> : <SpinnerComponent full={true} />}>
                                 <Routes history={history}>
-                                    <Route path={'/'} element={<Home currentParams={currentParams} setCurrentParams={setCurrentParams} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} navShow={navShow} considerNav={considerNav} setConsiderNav={setConsiderNav} bodyContainerRef={bodyContainerRef} setNavShow={setNavShow} navHeight={navHeight} setNavHeight={setNavHeight} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />} />
+                                    <Route path={'/'} element={<Home searchActive={searchActive} setSearchActive={setSearchActive} backupFilters={backupFilters} setBackupFilters={setBackupFilters} personActive={personActive} setPersonActive={setPersonActive} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} currentParams={currentParams} setCurrentParams={setCurrentParams} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} navShow={navShow} considerNav={considerNav} setConsiderNav={setConsiderNav} bodyContainerRef={bodyContainerRef} setNavShow={setNavShow} navHeight={navHeight} setNavHeight={setNavHeight} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />} />
                                     <Route path={'/provider/:providerId'} exact element={<Suspense fallback={<StorePageShimmer />}><ProviderScreen setProviderId={setProviderId} setShowMItemTypes={setShowMItemTypes} setShowSItemTypes={setShowSItemTypes} setShowMCategories={setShowMCategories} setShowSCategories={setShowSCategories} setShowItemTypes={setShowItemTypes} setFiltersActive={setFiltersActive} setShowSlider={setShowSlider} setPersonActive={setPersonActive} bodyContainerRef={bodyContainerRef} topValue={topValue} storeDetailsRef={storeDetailsRef} setTopValue={setTopValue} personActive={personActive} setPersonAva={setPersonAva} navHeight={navHeight} searchActive={searchActive} setSearchActive={setSearchActive} eyeDis={eyeDis} setEyeDis={setEyeDis} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} /></Suspense>} >
                                         <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                         <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
@@ -434,6 +416,7 @@ const mapStateToProps = state => ({
     locale: state.categories.selectedLocale,
     roles: state.auth.roles,
     isAuthenticated: state.auth.isAuthenticated,
+    profile: state.auth.profile,
 });
 
 export default connect(mapStateToProps, {changeNavbarIcons, fetchAssets, fetchLocales, getUserRoles, getUserProfile, fetchMarketStores, loadProvider, addAlert, changeBackBtn, createOrder, loadUser, changePlatform}) (React.memo(App));
