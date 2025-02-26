@@ -10,9 +10,9 @@ import PopupInput from '../../../components/PopupInput/PopupInput';
 import { useNavbarContext } from '../../../context/navbar.context';
 import SelectPopup from '../../../components/SelectPopup/SelectPopup';
 import {connect} from "react-redux";
-import {fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale} from "../../../store/actions/countries.actions";
+import {editCountry, addCountry, searchLocales, changeSelectedLocale} from "../../../store/actions/countries.actions";
 
-const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale}) => {
+const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, editCountry, addCountry, searchLocales, changeSelectedLocale}) => {
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
     const [open, setOpen] = useState(false);
@@ -114,43 +114,18 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (params.lanId) {
-            const data = {
-                lan: 'ar_SA',
-                countryId: params.lanId
+        if (params.lanId || params.editId) {
+            const countryId = params.lanId || params.editId;
+            const country = countries?.countries?.find(c => c.id === Number(countryId));
+            
+            if (country) {
+                conNameChangeHandler(country.translations?.fields[0]?.value || '');
+                codeChangeHandler(country.countryCode || '');
+                notesChangeHandler(country.comments || '');
+                setValid(true);
             }
-            fetchCountryById(data);
-
-        } else if (params.editId) {
-            const data = {
-                lan: 'ar_SA',
-                countryId: params.editId
-            }
-            fetchCountryById(data);
-
         }
-    }, []);
-
-    useEffect(() => {
-        if (params.lanId) {
-            // const locale = locales?.locales?.filter(l => l.id == params.lanId)[0];
-            if (countries.country) {
-                conNameChangeHandler(countries?.country?.translations?.fields[0]?.value || '');
-                codeChangeHandler(countries?.country?.countryCode || '');
-                notesChangeHandler(countries?.country?.comments || '');
-            }
-            setValid(true);
-        } else if (params.editId) {
-            // const locale = locales.locales.filter(l => l.id == params.editId)[0];
-            if (countries.country) {
-                conNameChangeHandler(countries?.country?.translations?.fields[0]?.value || '');
-                codeChangeHandler(countries?.country?.countryCode || '');
-                notesChangeHandler(countries?.country?.comments || '');
-            }
-
-            setValid(true);
-        }
-    }, [countries.country]);
+    }, [params.lanId, params.editId, countries.countries]);
 
     const [valid, setValid] = useState(false);
 
@@ -235,7 +210,6 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
         let res;
 
         if (params.editId) {
-            console.log(conName.value);
             const data = {
                 id: params.editId,
                 localeId: 1,
@@ -251,8 +225,6 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
                     ]
                 },
                 lan: 'ar_SA',
-                //locale: `${countries?.selectedLanguage?.code}_${code?.value}`,
-                //languageId: countries?.selectedLanguage?.id
             };
     
             res = await editCountry(data);
@@ -269,8 +241,6 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
                     } ]
                 },
                 lan: locale.locale,
-                //locale: `${countries?.selectedLanguage?.code}_${code?.value}`,
-                //languageId: countries?.selectedLanguage?.id
             };
     
             res = await addCountry(data);
@@ -408,4 +378,4 @@ const mapStateToProps = state => ({
     countries: state.countries
 })
 
-export default connect(mapStateToProps, {fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale}) (CountriesAdd);
+export default connect(mapStateToProps, {editCountry, addCountry, searchLocales, changeSelectedLocale}) (CountriesAdd);
