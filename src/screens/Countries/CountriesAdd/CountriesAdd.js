@@ -7,14 +7,12 @@ import SaveButton from '../../../components/SaveButton/SaveButton';
 import CancelButton from '../../../components/CancelButton/CancelButton';
 import TextArea from '../../../components/TextArea/TextArea';
 import PopupInput from '../../../components/PopupInput/PopupInput';
-import { useSelectContext } from '../../../context/single.select.context';
 import { useNavbarContext } from '../../../context/navbar.context';
 import SelectPopup from '../../../components/SelectPopup/SelectPopup';
 import {connect} from "react-redux";
 import {fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale} from "../../../store/actions/countries.actions";
 
 const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale}) => {
-    const { select, openPopup } = useSelectContext();
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
     const [open, setOpen] = useState(false);
@@ -37,7 +35,6 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
         if(navbarGetter) {
             setPaddingTop(navbarGetter.getBoundingClientRect().height+20);
         }
-        console.log(searchLocales)
     });
 
     const [conName, setConName] = useState({
@@ -299,39 +296,6 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
         setSubmitted(false);
     }
 
-    const inputClickHandler = () => {
-        const props = {
-            itemsFun: searchLocales,
-            page: countries.localesPage,
-            more: countries.localesMore,
-            items: countries.locales,
-            paginationData: {
-                lan: 'ar_SA',
-                page: countries.localesPage,
-                searchKey: countries.localesSearchKey
-            },
-            displayName: 'locale',
-            searchKey: countries.localesSearchKey,
-            dotsProps: id => ({
-                // urls: {
-                //     addUrl: `/locales/add/duplicate/${id}`,
-                //     editUrl: `/locales/edit/${id}`
-                // },
-                // deleteData: {
-                //     lan: 'ar',
-                //     localeId: id
-                // },
-                // deleteFun: deleteLocale,
-                // isItem: true,
-                // deleting: locales?.deleting
-            }),
-            isSearching: select.searching,
-            dots: false
-        }
-
-        // changeProps(props);
-        openPopup();
-    }
 
     const selectPopupProps = {
         itemsFun: searchLocales,
@@ -403,7 +367,6 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
                     searchItems={searchLocales}
                     items={countries.locales}
                     placeholder={'اختار اللهجة'}
-                    inputClickHandler={inputClickHandler}
                     selectedItem={countries.selectedLocale}
                     displayName="locale"
                     setOpen={setOpen}

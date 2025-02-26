@@ -25,8 +25,8 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
     const [placeDescription, setPlaceDescription] = useState('');
     const [placeType, setPlaceType] = useState('');
     const [placePostalCode, setPlacePostalCode] = useState('');
-    const [placeParentID, setPlaceParentID] = useState(null);
-    const [placeCountryID, setPlaceCountryID] = useState(null);
+    const [placeParentID, setPlaceParentID] = useState({});
+    const [placeCountryID, setPlaceCountryID] = useState({});
     const [placeLocaleID, setPlaceLocaleID] = useState('');
 
     /// Get the Place Data
@@ -35,12 +35,13 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
             const storedPlaces = places.places;
             const place = storedPlaces.find(item => item.id === parseInt(id));
             if (place) {
+                console.log("*****", place)
                 setPlaceName(place?.translations?.fields?.find(field => field.key === 'name')?.value);
                 setPlaceDescription(place.comments);
                 setPlaceType(place.placeType);
                 setPlacePostalCode(String(place.postalCode));
                 setPlaceParentID(place.parentPlaceId);
-                setPlaceCountryID(place?.country?.id);
+                setPlaceCountryID(place?.country);
             }
         }
         // eslint-disable-next-line
@@ -74,13 +75,13 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
         setPlacePostalCode(value);
     }
     const handlePlaceParentChange = (value) => {
-        setPlaceParentID(value.id);
+        setPlaceParentID(value);
     }
     const handleCountryChange = (value) => {
-        setPlaceCountryID(value.id);
+        setPlaceCountryID(value);
     }
     const handleLocaleChange = (value) => {
-        setPlaceLocaleID(value.id);
+        setPlaceLocaleID(value);
     }
 
 
@@ -91,16 +92,16 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
             const data = {
                 "lan": "ar_SA",
                 "id": null,	
-                "localeId": 1,
+                "localeId": placeLocaleID?.id || placeLocaleID || 1,
                 "placeType": placeType,
                 "postalCode": placePostalCode,
-                "parentPlaceId": placeParentID,
-                "countryId": placeCountryID,
+                "parentPlaceId": placeParentID?.id || placeParentID,
+                "countryId": placeCountryID.id,
                 "initSource": "admin", 
                 "initMethod": "manual",
                 "comments": placeDescription,
                 "translations": {
-                  "localeId": 1,
+                  "localeId": placeLocaleID?.id || placeLocaleID || 1,
                   "fields": [
                     {
                       "key": "name",
@@ -116,7 +117,7 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
                 if (isDONE) navigate(-1);
             } else {
                 const isDONE = await addPlace(data);
-                if (isDONE) navigate(-1);
+                //if (isDONE) navigate(-1);
             }
         }
     }
@@ -154,7 +155,7 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
                     SearchFunctionAPI={searchPlacesAPI} 
                     ListFunctionAPI={getPlaces} 
                     onSelectItem={handlePlaceParentChange}
-                    selectedItems={{id: placeParentID}}
+                    selectedItems={placeParentID}
                 />
 
                 {/** Countries Pop up  */}
@@ -164,7 +165,7 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
                     SearchFunctionAPI={searchCountriesAPI} 
                     ListFunctionAPI={getCountries} 
                     onSelectItem={handleCountryChange}
-                    selectedItems={{id: placeCountryID}}
+                    selectedItems={placeCountryID}
                 />
 
                 {/** Locales Pop up  */}
@@ -174,7 +175,7 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
                     SearchFunctionAPI={searchLocalesAPI} 
                     ListFunctionAPI={getLocales} 
                     onSelectItem={handleLocaleChange}
-                    selectedItems={{id: placeLocaleID}}
+                    selectedItems={placeLocaleID}
                 />
 
                 {/** Description Input */}

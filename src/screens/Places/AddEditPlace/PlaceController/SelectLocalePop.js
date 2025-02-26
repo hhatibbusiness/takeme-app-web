@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import SelectPopup from '../../../../components/SelectPopup/SelectPopup';
 import '../Place.style.css';
+import PopupInput from '../../../../components/PopupInput/PopupInput'
 
 const SinglePopupAPI = ({ placeHolderText, SearchFunctionAPI, ListFunctionAPI, displayName, onSelectItem, selectedItems={} }) => {
     const [items, setItems] = useState([]);
+    const [searchResults, setSearchResults] = useState([])
     const Listitems = useRef([]);
     const [page, setPage] = useState(0);
     const [more, setMore] = useState(false);
@@ -65,7 +67,7 @@ const SinglePopupAPI = ({ placeHolderText, SearchFunctionAPI, ListFunctionAPI, d
 
     return (
         <>
-            <button className='singlePopup__button' onClick={()=> setOpen(true)}>{ placeHolderText }</button>
+            <PopupInput setOpen={()=> setOpen(true)} placeholder={placeHolderText} selectedItem={selectedItems} displayName={displayName}/>
             {isOpen &&
                 <SelectPopup {...SingleProps}  />
             }

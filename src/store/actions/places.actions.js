@@ -32,7 +32,7 @@ export const addPlace = (data) => async dispatch => {
 export const editPlace = (data) => async dispatch => {
     dispatch({ type: actionTypes.START_ADDING_PLACE });
     const res = await FetchAPI(`${BaseURL}/places/update?mLocale=${data.lan}`, {method: 'PUT', body: data}, dispatch);
-    if (res) dispatch({ type: actionTypes.EDIT_PLACE, place: data });
+    if (res) dispatch({ type: actionTypes.EDIT_PLACE, place: res.output });
     dispatch({ type: actionTypes.END_ADDING_PLACE });
     return res;
 };

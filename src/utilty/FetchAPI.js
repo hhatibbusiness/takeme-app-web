@@ -11,9 +11,15 @@ async function FetchAPI(url, options = {}, dispatch) {
             body: options.body ? JSON.stringify(options.body) : null,
         });
 
-        return await response.json();
+        const data = await response.json();
+        
+        if (!data.status) {
+            throw new Error(data.message || 'حدث خطأ برجاء المحاولة مرة أخري');
+        }
+
+        return data;
     } catch (error) {
-        let alertMessage = error.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري';
+        let alertMessage = error.response?.data?.message || error.message || 'حدث خطأ برجاء المحاولة مرة أخري';
 
         if (!navigator.onLine) {
             alertMessage = 'لا يوجد اتصال بالإنترنت. برجاء التحقق من الشبكة والمحاولة مرة أخرى.';
