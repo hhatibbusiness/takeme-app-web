@@ -11,8 +11,7 @@ const SinglePopupAPI = ({ placeHolderText, SearchFunctionAPI, displayName, onSel
     const [isSearching, setSearching] = useState(false);
     const [isOpen, setOpen] = useState(false);
 
-    console.log("***********", isSearching)
-
+    
     useEffect(() => {
         setItems([]);
         setPage(0);

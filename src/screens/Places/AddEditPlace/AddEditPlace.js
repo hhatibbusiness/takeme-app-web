@@ -129,8 +129,7 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
 
                 {/**Place Type */}
                 <PlaceType
-                    options={['City', 'Village', 'Place']}
-                    value={placeType}
+                    value={Number(placeType) || ''}
                     onChange={handlePlaceTypeChange}
                     width="100%"
                     height="60px"
