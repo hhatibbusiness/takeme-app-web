@@ -14,6 +14,7 @@ const BodyContainerComponent = ({y, setY, topValue, setTopValue, bodyContainerRe
     const mainRef = useRef();
 
     const handleWindowScroll = useCallback( e => {
+        console.log(topValue);
         if(Math.floor(y) > Math.floor(window.scrollY)) {
             setY(window.scrollY);
             if(topValue + (y - window.scrollY) > 0) {
@@ -37,6 +38,7 @@ const BodyContainerComponent = ({y, setY, topValue, setTopValue, bodyContainerRe
     useEffect(() => {
         const container = bodyContainerRef.current;
         if(container) {
+            console.log('Starting to listen to the scroll event!')
             setY(window.scrollY);
             window.addEventListener('scroll', handleWindowScroll);
         }

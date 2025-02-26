@@ -62,26 +62,27 @@ const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItem
 
     return (
         <div ref={navRef} className={`NavbarWebsite`} style={{top: `${topValue}px`}}>
-            <NavbarTop
-                personActive={personActive}
-                filtersActive={filtersActive}
-                setSidebar={setSidebar}
-                currentParams={currentParams}
-                data={data}
-                searchShow={searchShow}
-                setSearching={setSearching}
-                setSeparatorActive={setSeparatorActive}
-                setEyeOpen={setEyeOpen}
-                setViewOpen={setViewOpen}
-                viewOpen={viewOpen}
-            />
-            {
-                showIcons &&
-                    <div className="IconsBar__container">
-                    {/*<div className="IconsBar__container" style={{boxShadow: `${!separatorActive ? '0 1px 1px rgba(0, 0, 0, 0.15)' : '0 1px 1px #07ab83'}`}}>*/}
-                        <IconsBar currentParams={currentParams} switchMarketStore={switchMarketStore} personActive={personActive} setPersonActive={setPersonActive} pseronAva={personAva} separatorActive={separatorActive} searchActive={searchActive} eyeDis={eyeDis} backupFilter={backupFilters} setBackupFilters={setBackupFilters} showEye={showEye} filtersActive={filtersActive} setFiltersActive={setFiltersActive} eyeOpen={eyeOpen} setEyeOpen={setEyeOpen} viewOpen={viewOpen} setViewOpen={setViewOpen} />
-                    </div>
-            }
+            <div ref={bodyContainerRef}>
+                <NavbarTop
+                    personActive={personActive}
+                    filtersActive={filtersActive}
+                    setSidebar={setSidebar}
+                    currentParams={currentParams}
+                    data={data}
+                    searchShow={searchShow}
+                    setSearching={setSearching}
+                    setSeparatorActive={setSeparatorActive}
+                    setEyeOpen={setEyeOpen}
+                    setViewOpen={setViewOpen}
+                    viewOpen={viewOpen}
+                />
+                {
+                    showIcons &&
+                        <div className="IconsBar__container">
+                            <IconsBar currentParams={currentParams} switchMarketStore={switchMarketStore} personActive={personActive} setPersonActive={setPersonActive} pseronAva={personAva} separatorActive={separatorActive} searchActive={searchActive} eyeDis={eyeDis} backupFilter={backupFilters} setBackupFilters={setBackupFilters} showEye={showEye} filtersActive={filtersActive} setFiltersActive={setFiltersActive} eyeOpen={eyeOpen} setEyeOpen={setEyeOpen} viewOpen={viewOpen} setViewOpen={setViewOpen} />
+                        </div>
+                }
+            </div>
                 {/*<div className="Navbar__view--contianer">*/}
                 {/*    {*/}
                 {/*        viewOpen && (*/}
