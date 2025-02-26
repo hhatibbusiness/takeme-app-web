@@ -3,7 +3,7 @@ import Input from '../../../../components/InputAdmin/Input';
 import { formValidator } from '../../../../utilty/formValidator'; 
 
 
-export default function NameInput ({ defaultValue, submitted, setValid, onValueChange, placeholderText, maxLength=20, Required=true }) {
+export default function NameInput ({ defaultValue, submitted, setValid, onValueChange, placeholderText, maxLength=20, Required=true, type }) {
     const [Name, setName] = useState({
         value: '',
         rules: {
@@ -64,7 +64,8 @@ export default function NameInput ({ defaultValue, submitted, setValid, onValueC
             required={Name.rules.required} 
             value={Name.value} 
             setValue={value => NameChangeHandler(value)} 
-            placeholder={placeholderText} 
+            placeholder={placeholderText}
+            type={type || 'text'}
         />
     );
 }

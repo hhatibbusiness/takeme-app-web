@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import PopupInput from '../../../../../components/PopupInput/PopupInput';
 import './PlaceType.css';
 
 const PlaceType = ({ options, value, onChange, width, height, margin, placeholder }) => {
@@ -33,9 +34,13 @@ const PlaceType = ({ options, value, onChange, width, height, margin, placeholde
             ref={dropdownRef}
             style={{ width: width, height: height, margin: margin }}
         >
-            <div className="placeTypeElementContainer__selected" onClick={handleToggle}>
-                {value || placeholder}
-            </div>
+            <PopupInput 
+                selectedItem={{value: value}}
+                displayName={'value'}
+                placeholder={placeholder}
+                inputClickHandler={handleToggle}
+                setOpen={setIsOpen}
+            />
             {isOpen && (
                 <div className="placeTypeElementContainer__options">
                     {options.map((option, index) => (

@@ -144,7 +144,8 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
                     defaultValue={placePostalCode} 
                     submitted={submitted} 
                     setValid={setNameValid} 
-                    onValueChange={onPostalCodeChange} 
+                    onValueChange={onPostalCodeChange}
+                    type={'number'}
                 />
 
                 {/** Places Pop up  */}
