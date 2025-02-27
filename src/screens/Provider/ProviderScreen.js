@@ -101,7 +101,6 @@ const ProviderScreen = ({fetchProviderData, selectedLocale, setProviderId, setSh
     // }, [handleWindowScroll, bodyContainerRef.current, providerContainerRefDub?.current]);
 
     useEffect(() => {
-        setBackBtn(true);
         setEyeDis(true);
         setSearchActive(true);
         setPersonAva(true);
@@ -115,7 +114,6 @@ const ProviderScreen = ({fetchProviderData, selectedLocale, setProviderId, setSh
         setShowMItemTypes(false);
         return () => {
             setEyeDis(false);
-            setBackBtn(false);
             // setSearchActive(false);
             setPersonAva(false);
             setPersonActive(false);

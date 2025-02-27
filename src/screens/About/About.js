@@ -10,20 +10,30 @@ import {KeepAlive} from "react-activation";
 import {changeNavbarAssets} from "../../store/actions/ui.actions";
 import ReactHtmlParser from 'react-html-parser';
 import DOMPurify from 'dompurify';
+import {changeMidTextShowState, changeBackBtnState} from "../../store/actions/navbar.actions";
 
-const About = ({fetchAboutPage, setshowMidText, setShowIcons, setBackBtn, changeNavbarAssets, fetchingAboutPage, aboutData, lan}) => {
+const About = ({changeBackBtnState, fetchAboutPage, changeMidTextShowState, setShowIcons, setBackBtn, changeNavbarAssets, fetchingAboutPage, aboutData, lan}) => {
 
     const {t} = useTranslation();
     const navigate = useNavigate();
 
     useEffect(() => {
-        setBackBtn(true);
+        changeBackBtnState(true);
         setShowIcons(false);
-        setshowMidText(true);
+        const midData = {
+            state: true,
+            midText: t('who we are')
+        }
+        changeMidTextShowState(midData);
         return () => {
-            setBackBtn(false);
+            changeBackBtnState(false);
             setShowIcons(true);
-            setshowMidText(false);
+            const midData = {
+                state: false,
+                midText: null
+
+            }
+            changeMidTextShowState(midData);
         }
     }, []);
 
@@ -134,4 +144,4 @@ const mapStateToProps = state => ({
     lan: state.categories.lan
 })
 
-export default connect(mapStateToProps, {fetchAboutPage, changeNavbarAssets}) (About);
+export default connect(mapStateToProps, {changeBackBtnState, changeMidTextShowState, fetchAboutPage, changeNavbarAssets}) (About);

@@ -12,8 +12,9 @@ import { useNavbarContext } from '../../../context/navbar.context';
 import SelectPopup from '../../../components/SelectPopup/SelectPopup';
 import {connect} from "react-redux";
 import {fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale} from "../../../store/actions/countries.actions";
+import {changeBackBtnState} from "../../../store/actions/navbar.actions";
 
-const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale}) => {
+const CountriesAdd = ({changeBackBtnState, setAdmin, setBackBtn, locale, countries, fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale}) => {
     const { select, openPopup } = useSelectContext();
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
@@ -22,11 +23,11 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, fetchCountryById
 
     useEffect(() => {
         changeSearchActive(false);
-        setBackBtn(true);
+        changeBackBtnState(true);
         setAdmin(true);
         return () => {
             changeSearchActive(true);
-            setBackBtn(false);
+            changeBackBtnState(false);
             setAdmin(false);
         }
     }, []);
@@ -445,4 +446,4 @@ const mapStateToProps = state => ({
     countries: state.countries
 })
 
-export default connect(mapStateToProps, {fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale}) (CountriesAdd);
+export default connect(mapStateToProps, {changeBackBtnState, fetchCountryById, editCountry, addCountry, searchLocales, changeSelectedLocale}) (CountriesAdd);
