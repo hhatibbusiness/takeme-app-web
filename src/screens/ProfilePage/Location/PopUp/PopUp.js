@@ -39,7 +39,8 @@ export default function PopUpLocation ({ setFocused, ProfileData, handleSave, co
                 <Input 
                     PlaceHolderTEXT={'رقم البيت'}   
                     value={locationData?.buildingNumber || ""} 
-                    onChange={(v)=> isNumber(v) && setLocationData(prev => ({...prev, buildingNumber: v}))} 
+                    onChange={(v)=> isNumber(v) && setLocationData(prev => ({...prev, buildingNumber: v}))}
+                    type="number"
                     height={'10%'}
                 />
                 
@@ -47,12 +48,14 @@ export default function PopUpLocation ({ setFocused, ProfileData, handleSave, co
                     <Input PlaceHolderTEXT={" رقم الطابق"} 
                             value={locationData?.floorNumber || ""}    
                             onChange={(v)=> isNumber(v) && setLocationData(prev => ({...prev, floorNumber: v}))} 
-                            style={{border: "none", borderRadius: "0px" }} 
+                            style={{border: "none", borderRadius: "0px" }}
+                            type="number"
                     />
                     <Input PlaceHolderTEXT={" رقم الغرفه"} 
                             value={locationData?.roomNumber || ""} 
                             onChange={(v)=> isNumber(v) && setLocationData(prev => ({...prev, roomNumber: v}))}
                             style={{border: "none", borderRadius: "0px" ,borderRight: "1px solid #E5E5E5"}}
+                            type="number"
                     />
                 </div>
                 
@@ -60,6 +63,7 @@ export default function PopUpLocation ({ setFocused, ProfileData, handleSave, co
                         value={locationData?.postalCode || ""}   
                         onChange={(v)=> isNumber(v) && setLocationData(prev => ({...prev, postalCode: v}))} 
                         height={'10%'}
+                        type="number"
                 />
                 <TextArea PlaceHolderTEXT={"ملاحظات"} 
                             value={locationData?.comments || ""}

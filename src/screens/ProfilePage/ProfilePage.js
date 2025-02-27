@@ -19,15 +19,14 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
     const { Focused, FocusedActions} = useFocusReducer();
     const [ openImageManager, setOpenImageManager ] = useState(false)
     const navigationType = useNavigationType();
-    console.log("PROFILE REDUX", ProfileData)
 
     // init the Profile Data From API
     useEffect(() => {
         const TOKEN = localStorage.getItem("TAKEME_TOKEN")
         if (!TOKEN) navigate('/login')
 
-        console.log(navigationType)
-        fetchProfileData()
+        if (navigationType === "POP" || !ProfileData?.id)
+            fetchProfileData()
     }, []);
 
     // Remove the Overlay Layer
@@ -49,7 +48,7 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
             if (!ProfileData.gender) FocusedActions.setGenderFocus(true)
             else if (!ProfileData.translations) FocusedActions.setNameFocus(true)
             else if (!ProfileData.dateOfBirth) FocusedActions.setAgeFocus(true)
-            else if (!ProfileData.location) FocusedActions.setLocationFocus(true)
+            //else if (!ProfileData.location) FocusedActions.setLocationFocus(true)
         }
     },[ProfileData.isLoading, Focused])
 
@@ -68,7 +67,7 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
                     <div className='secondRow__Data'>
                         <Gender Focused={Focused.Gender} GenderFocused={FocusedActions.setGenderFocus} ProfileData={ProfileData} updateGender={updateGender} />
                         <Name Focused={Focused.Name} FocusHandle={FocusedActions.setNameFocus} ProfileData={ProfileData} updateName={updateName} />
-                        <img src={DOT} alt='Dot' style={{ width: '5%', margin: '0 5px' }} />
+                        <img src={DOT} alt='Dot' style={{ width: '2%', margin: '0 5px' }} />
                         <Age Focused={Focused.Age} FocusHandle={FocusedActions.setAgeFocus} ProfileData={ProfileData} updateDateOfBirth={updateDateOfBirth} />
                     </div>
                     <div className='thirdRow__Data'>
