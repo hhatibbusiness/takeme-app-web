@@ -12,21 +12,68 @@ import Welcome from '../../assets/images/profile/Welcome.png'
 import { connect } from 'react-redux';
 import { fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation } from '../../store/actions/profile.action'
 //import { ImageManagerWrapped } from '../../common/ImageManager'
+import {changeNavbarIcons} from "../../store/actions/navbar.actions";
 
 
-function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation }) {
+function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, changeNavbarIcons }) {
     const navigate = useNavigate()
     const { Focused, FocusedActions} = useFocusReducer();
     const [ openImageManager, setOpenImageManager ] = useState(false)
     const navigationType = useNavigationType();
 
+    // NavBar Init
+    useEffect(() => {
+        const navbarIconsData = {
+            showIcons: true,
+            icons: [
+                {
+                    icon: (
+                        <i className="fa-solid fa-user"></i>
+                    ),
+                    iconClickHandler: () => {
+                        console.log("CLIKED BUTTON")
+                    },
+                },
+                {
+                    icon: <i className="fa-solid fa-filter"></i>,
+                    iconClickHandler: () => {
+                        console.log("CLIKED FILTER")
+                    },
+                    disabled: true
+                },
+                {
+                    icon: <i className="fa-solid fa-eye"></i>,
+                    iconClickHandler: () => {
+                        console.log("CLIKED EYE")
+                    },
+                    disabled: true
+                },
+                {
+                    icon: <i className="fa-solid fa-magnifying-glass"></i>,
+                    iconClickHandler: () => {
+                        console.log("CLIKED ****")
+                    },
+                    disabled: true
+                },
+                {
+                    icon: <i className="fa-solid fa-cart-shopping"></i>,
+                    disabled: true,
+                }
+            ]
+        }
+
+        changeNavbarIcons(navbarIconsData);
+
+        return () => {
+            changeNavbarIcons({});
+        }
+    }, []);
+
+
     // init the Profile Data From API
     useEffect(() => {
-        const TOKEN = localStorage.getItem("TAKEME_TOKEN")
-        if (!TOKEN) navigate('/login')
-
-        if (navigationType === "POP" || !ProfileData?.id)
-            fetchProfileData()
+        //if (navigationType === "POP" || !ProfileData?.id)
+        fetchProfileData()
     }, []);
 
     // Remove the Overlay Layer
@@ -67,7 +114,7 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
                     <div className='secondRow__Data'>
                         <Gender Focused={Focused.Gender} GenderFocused={FocusedActions.setGenderFocus} ProfileData={ProfileData} updateGender={updateGender} />
                         <Name Focused={Focused.Name} FocusHandle={FocusedActions.setNameFocus} ProfileData={ProfileData} updateName={updateName} />
-                        <img src={DOT} alt='Dot' style={{ width: '2%', margin: '0 5px' }} />
+                        <img src={DOT} alt='Dot' style={{ width: '7px', marginTop: '10px' }} />
                         <Age Focused={Focused.Age} FocusHandle={FocusedActions.setAgeFocus} ProfileData={ProfileData} updateDateOfBirth={updateDateOfBirth} />
                     </div>
                     <div className='thirdRow__Data'>
@@ -102,4 +149,4 @@ const mapStateToProps = state => ({
     ProfileData: state.profile
 })
 
-export default connect(mapStateToProps, {fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation}) (ProfilePage)
+export default connect(mapStateToProps, {fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, changeNavbarIcons}) (ProfilePage)
