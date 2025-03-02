@@ -6,6 +6,8 @@ import addImage from '../../../../assets/defaults/Add.png';
 import { Link, useLocation } from 'react-router-dom';
 import DotsDropDown from '../../../DotsDropDown/DotsDropDown';
 import useDebounce from '../../../../utilty/useDebounce';
+import SearchInput from '../../../../screens/ProfilePage/components/SearchInput/SearchInput';
+
 
 const SubBar = ({searchFun, hasSort, isSearching, urls, baseData, changeSort, fetchingSearchResults, closeSearch, openSearch, searchTerm, setSearchTerm, sortType}) => {
     const [open, setOpen] = useState(false);
@@ -25,6 +27,7 @@ const SubBar = ({searchFun, hasSort, isSearching, urls, baseData, changeSort, fe
     }, [debouncedSearchTerm, isSearching]);
 
     return (
+        <>
         <div className='SubBar'>
             <div className='SubBar__right'>
                 {
@@ -66,8 +69,19 @@ const SubBar = ({searchFun, hasSort, isSearching, urls, baseData, changeSort, fe
                 {
                     open && <div onClick={e => setOpen(false)} className='DotsDropDown__backdrop'></div>
                 }
+                <button style={{width : "50px", height: "30px"}} />
             </div>
         </div>
+        <div style={{position: "fixed", top: "100px"}}>
+            <SearchInput 
+                PlaceHolderTEXT="اسم بلدك"
+                defualtValue={"test 1"} 
+                selectFunc={ (item)=>{ console.log(item) } }
+                countryId={1}
+                height="30%" 
+            />
+        </div>
+        </>
     )
 }
 
