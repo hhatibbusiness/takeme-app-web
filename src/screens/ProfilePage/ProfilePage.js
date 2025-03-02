@@ -20,6 +20,7 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
     const { Focused, FocusedActions} = useFocusReducer();
     const [ openImageManager, setOpenImageManager ] = useState(false)
     const navigationType = useNavigationType();
+    const [profileActive, setProfileActive] = useState(true)
 
     // NavBar Init
     useEffect(() => {
@@ -31,8 +32,9 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
                         <i className="fa-solid fa-user"></i>
                     ),
                     iconClickHandler: () => {
-                        console.log("CLIKED BUTTON")
+                        setProfileActive(prev => !prev);
                     },
+                    active: profileActive
                 },
                 {
                     icon: <i className="fa-solid fa-filter"></i>,
@@ -67,13 +69,13 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
         return () => {
             changeNavbarIcons({});
         }
-    }, []);
+    }, [profileActive]);
 
 
     // init the Profile Data From API
     useEffect(() => {
-        //if (navigationType === "POP" || !ProfileData?.id)
-        fetchProfileData()
+        if (navigationType === "POP" || !ProfileData?.id)
+            fetchProfileData()
     }, []);
 
     // Remove the Overlay Layer
@@ -105,7 +107,7 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
             <div className="ProfilePage__container" style={{ position: 'absolute', paddingTop: `${paddingTop}px`, left: 0, top: 0}}>
 
                 {/** MainProfileImage */}
-                <div dir='rtl' className='ProfileData'>
+                <div dir='rtl' className={`ProfileData ${profileActive ? '' : 'hidden'}`}>
                     <div className='firstRow__profileImage'>
                         <ProfileImage ProfileData={ProfileData} setOpenImageManager={setOpenImageManager} />
                     </div>
