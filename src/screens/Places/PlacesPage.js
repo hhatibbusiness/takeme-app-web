@@ -48,6 +48,7 @@ const PlacesPage = ({ fetchPlaces, searchPlaces, deletePlace, setBackBtn, setAdm
         paginationData: {
             lan: 'ar_SA',
             page: places.searchResultsPage,
+            sortType: places.sortType,
             searchKey: places.searchKey
         },
         displayName: 'translations.fields.value',
@@ -78,6 +79,7 @@ const PlacesPage = ({ fetchPlaces, searchPlaces, deletePlace, setBackBtn, setAdm
         paginationData: {
             lan: 'ar_SA',
             page: places.page,
+            sortType: places.sortType,
             searchKey: places.searchKey
         },
         displayName: 'translations.fields.value',

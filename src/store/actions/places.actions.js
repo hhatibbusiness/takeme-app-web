@@ -2,21 +2,21 @@ import FetchAPI from "../../utilty/FetchAPI";
 import * as actionTypes from "./action.types";
 import {BaseURL} from "../../assets/constants/Base";
 
-export const changeSortType = (data) => async dispatch => {
+export const changePlacesSortType = (data) => async dispatch => {
     dispatch({ type: actionTypes.CHANGE_SORT_PLACES, sortType: data.sortType });
     const fetchingData = {
-        lan: 'ar',
+        lan: 'ar_SA',
         page: 0,
         sortType: data.sortType,
         searchKey: data.searchKey || ''
     };
-    fetchPlaces(dispatch, fetchingData);
-    searchPlaces(dispatch, fetchingData);
+    dispatch(fetchPlaces(fetchingData));
+    dispatch(searchPlaces(fetchingData));
 };
 
 export const fetchPlaces = (data) => async dispatch => {
     if (data.page == 0) dispatch({ type: actionTypes.START_FETCHING_PLACES });
-    const res = await FetchAPI(`${BaseURL}/places/list?mLocale=${data.lan}&page=${data.page}&ascending=${true}`, {}, dispatch );
+    const res = await FetchAPI(`${BaseURL}/places/list?mLocale=${data.lan}&page=${data.page}&sortType=${data.sortType || 'NEWEST'}`, {}, dispatch);
     if (res) dispatch({ type: actionTypes.FETCH_PLACES, places: res.output });
     dispatch({ type: actionTypes.END_FETCHING_PLACES });
 };
@@ -55,7 +55,7 @@ export const deletePlace = (data) => async dispatch => {
 
 export const searchPlaces = (data) => async dispatch => {
     if (data.page == 0) dispatch({ type: actionTypes.START_SEARCHING_PLACES });
-    const res = await FetchAPI(`${BaseURL}/places/search?mLocale=${data.lan}&searchKey=${data.searchKey}&page=${data.page}`, {
+    const res = await FetchAPI(`${BaseURL}/places/search?mLocale=${data.lan}&searchKey=${data.searchKey}&page=${data.page}&sortType=${data.sortType || 'NEWEST'}`, {
         headers: { 'accept': '*/*', 'Content-Type': 'application/json' }
     }, dispatch);
     if (res) {
