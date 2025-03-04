@@ -8,7 +8,8 @@ import BackBtn from "../BackBtn/BackBtn";
 import Burger from "../Burger/Burger";
 import {useLocation, useNavigate} from "react-router-dom";
 import {connect} from "react-redux";
-import {changeMidTextShowState} from "../../../../store/actions/navbar.actions";
+import Sidebar from "../../../Sidebar/Sidebar";
+import Backdrop from "../../../Backdrop/Backdrop";
 
 const NavbarTop = ({
    showMidText, // DONE IN THE NAVBAR REDUX STATE
@@ -23,7 +24,9 @@ const NavbarTop = ({
    setSeparatorActive,
    setEyeOpen,
    viewOpen,
-   setViewOpen
+   setViewOpen,
+   sidebar,
+   navHeight
 }) => {
     const [error, setError] = useState(false);
     const [hidden, setHidden] = useState(true);
@@ -89,6 +92,8 @@ const NavbarTop = ({
                         ) : (
                             <>
                                 <Burger setSidebar={setSidebar}/>
+                                <Sidebar backBtn={backBtn} navHeight={navHeight} sidebar={sidebar} setSidebar={setSidebar} />
+                                <Backdrop backBtn={backBtn} sidebar={sidebar} setSidebar={setSidebar} />
                             </>
                         )
                     }

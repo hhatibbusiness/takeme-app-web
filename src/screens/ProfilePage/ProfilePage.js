@@ -33,6 +33,7 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
                     ),
                     iconClickHandler: () => {
                         setProfileActive(prev => !prev);
+                        clearFoucse()
                     },
                     active: profileActive
                 },
