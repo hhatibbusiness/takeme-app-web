@@ -8,7 +8,7 @@ import Name from './Name/Name'
 import DOT from '../../assets/images/profile/Dot.png'
 import Age from './Age/Age'
 import Location from './Location/Location';
-import Welcome from '../../assets/images/profile/Welcome.png'
+import Welcome from '../../assets/images/profile/welcome.gif'
 import { connect } from 'react-redux';
 import { fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation } from '../../store/actions/profile.action'
 //import { ImageManagerWrapped } from '../../common/ImageManager'
@@ -33,6 +33,7 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
                     ),
                     iconClickHandler: () => {
                         setProfileActive(prev => !prev);
+                        clearFoucse()
                     },
                     active: profileActive
                 },

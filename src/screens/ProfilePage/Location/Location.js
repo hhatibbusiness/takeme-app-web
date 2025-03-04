@@ -41,7 +41,7 @@ export default function Location({ Focused, setFocused, ProfileData, UpdateLocat
                     <FirstPopup handleSave={handleSave} ProfileData={ProfileData} countryData={countryData} />
                 } */}
             </div>
-            {/* {ProfileData?.location && Focused &&  <PopUpLocation setFocused={setFocused} ProfileData={ProfileData} countryData={countryData} handleSave={handleSave}/> } */}
+            {ProfileData?.location && Focused &&  <PopUpLocation setFocused={setFocused} ProfileData={ProfileData} countryData={countryData} handleSave={handleSave}/> }
         </>
     )
 }
