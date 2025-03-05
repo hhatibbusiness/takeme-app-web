@@ -117,7 +117,7 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
                     <div className='secondRow__Data'>
                         <Gender Focused={Focused.Gender} GenderFocused={FocusedActions.setGenderFocus} ProfileData={ProfileData} updateGender={updateGender} />
                         <Name Focused={Focused.Name} FocusHandle={FocusedActions.setNameFocus} ProfileData={ProfileData} updateName={updateName} />
-                        <img src={DOT} alt='Dot' style={{ width: '7px', marginTop: '10px' }} />
+                        <img src={DOT} alt='Dot' style={{ width: '10px', marginTop: '10px' }} />
                         <Age Focused={Focused.Age} FocusHandle={FocusedActions.setAgeFocus} ProfileData={ProfileData} updateDateOfBirth={updateDateOfBirth} />
                     </div>
                     <div className='thirdRow__Data'>

@@ -6,7 +6,7 @@
     width: 100vw;
     background-color: #FFFFFF;
     border-radius: 15px;
-    z-index: 100;
+    z-index: 10000;
 }
 
 .overlaySearch{
@@ -17,7 +17,7 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(8px);
-    z-index: 200;  
+    z-index: 1000;  
 }
 
 

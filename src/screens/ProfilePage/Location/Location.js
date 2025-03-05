@@ -15,7 +15,7 @@ export default function Location({ Focused, setFocused, ProfileData, UpdateLocat
         UpdateLocation(ProfileData.id, props)
         setFocused(false)
     }
-
+    console.log("------", ProfileData)
     useEffect(() => {
         const fetchCountry = async () => {
             let data = await countryList();
@@ -41,7 +41,7 @@ export default function Location({ Focused, setFocused, ProfileData, UpdateLocat
                     <FirstPopup handleSave={handleSave} ProfileData={ProfileData} countryData={countryData} />
                 } */}
             </div>
-            {ProfileData?.location && Focused &&  <PopUpLocation setFocused={setFocused} ProfileData={ProfileData} countryData={countryData} handleSave={handleSave}/> }
+            {Focused &&  <PopUpLocation setFocused={setFocused} ProfileData={ProfileData} countryData={countryData} handleSave={handleSave}/> }
         </>
     )
 }
