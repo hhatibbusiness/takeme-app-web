@@ -6,9 +6,9 @@ import LanguagesShimmer from '../../components/ItemsShimmerAdmin/ItemsShimmer.js
 import ItemsList from '../../components/ItemsListAdmin/ItemsList.js';
 import {connect} from "react-redux";
 import {fetchLanguages, searchLanguages, deleteLanguage} from "../../store/actions/languages.actions";
+import {changeBackBtnState} from "../../store/actions/navbar.actions";
 
-
-function Languages({setBackBtn, admin, setAdmin, searchLanguages, deleteLanguage, languages, fetchLanguages}) {
+function Languages({changeBackBtnState, setBackBtn, admin, setAdmin, searchLanguages, deleteLanguage, languages, fetchLanguages}) {
     const [paddingTop, setPaddingTop] = useState(0);
     const parentRef = useRef(null);
 
@@ -88,10 +88,10 @@ function Languages({setBackBtn, admin, setAdmin, searchLanguages, deleteLanguage
     }
 
     useEffect(() => {
-        setBackBtn(true);
+        changeBackBtnState(true);
         setAdmin(true);
         return () => {
-            setBackBtn(false);
+            changeBackBtnState(false);
             setAdmin(false);
         }
     }, []);
@@ -131,4 +131,4 @@ const mapStateToProps = (state) => ({
     languages: state.languages
 })
 
-export default connect(mapStateToProps, {searchLanguages, deleteLanguage, fetchLanguages}) (Languages);
+export default connect(mapStateToProps, {changeBackBtnState, searchLanguages, deleteLanguage, fetchLanguages}) (Languages);

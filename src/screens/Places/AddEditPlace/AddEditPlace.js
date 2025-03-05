@@ -11,9 +11,9 @@ import CancelButton from '../../../components/CancelButton/CancelButton';
 import { searchPlacesAPI, getPlaces, getCountries, searchCountriesAPI } from '../model/managePlaces.js';
 import PlaceType from './PlaceController/PlaceType/PlaceType.js'
 import { editPlace, addPlace } from "../../../store/actions/places.actions.js";
+import {changeBackBtnState} from "../../../store/actions/navbar.actions";
 
-
-function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, addPlace } ) {
+function AddEditPlace( { changeBackBtnState, mode, setBackBtn, setAdmin, locale, places, editPlace, addPlace } ) {
     const navigate = useNavigate()
     const { id } = useParams();
     const { changeSearchActive } = useNavbarContext();
@@ -50,11 +50,11 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
     useEffect(() => {
         window.scrollTo(0, 0);
         changeSearchActive(false);
-        setBackBtn(true);
+        changeBackBtnState(true);
         setAdmin(true);
         return () => {
             changeSearchActive(true);
-            setBackBtn(false);
+            changeBackBtnState(false);
             setAdmin(false);
         }
         // eslint-disable-next-line
@@ -180,4 +180,4 @@ const mapStateToProps = state => ({
     places: state.places
 })
 
-export default connect(mapStateToProps, {editPlace,addPlace})(AddEditPlace);
+export default connect(mapStateToProps, {changeBackBtnState, editPlace,addPlace})(AddEditPlace);

@@ -5,13 +5,77 @@ import './Home.scss';
 import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {changeHomePosition, changeNavbarAssets} from "../../store/actions/ui.actions";
 import FallBack from "../../components/FallBack/FallBack";
+import profileDefaultImage from "../../assets/images/defaults/default-provider-image.png";
+import {changeNavbarIcons} from "../../store/actions/navbar.actions";
 
 const Body = lazy(() => import('./Body/Body'));
 
-const Home = ({lan, match, store, setY, backBtn, selectedLocale, fetchLocales, currentParams, setCurrentParams, y, fixedNav, setFixedNav, topValue, setTopValue, setNavHeight, bodyContainerRef, considerNav, setConsiderNav, navHeight, navShow, setNavShow, setFiltersActive, filtersActive, currentProduct, coverLoaded, setCoverLoaded, setCurrentProduct, yPosition, setSidebar, searching, setSearching, sidebar, loadingCategoryProducts, changeNavbarAssets, changeHomePosition, fetchCategories, filter, categories}) => {
+const Home = ({lan, searchActive, setSearchActive, setBackupFilters, backupFilters, personActive, setPersonActive, profile, changeNavbarIcons, isAuthenticated, match, store, setY, backBtn, selectedLocale, fetchLocales, currentParams, setCurrentParams, y, fixedNav, setFixedNav, topValue, setTopValue, setNavHeight, bodyContainerRef, considerNav, setConsiderNav, navHeight, navShow, setNavShow, setFiltersActive, filtersActive, currentProduct, coverLoaded, setCoverLoaded, setCurrentProduct, yPosition, setSidebar, searching, setSearching, sidebar, loadingCategoryProducts, changeNavbarAssets, changeHomePosition, fetchCategories, filter, categories}) => {
     const navigate = useNavigate();
 
     const homeRef = useRef();
+
+    useEffect(() => {
+        const navbarIconsData = {
+            showIcons: true,
+            icons: [
+                {
+                    icon: isAuthenticated ? (
+                        profile?.imageAttachment ? (
+                            <img src={profile?.imageAttachment || profileDefaultImage} />
+                        ) : (
+                            <img src={profileDefaultImage} />
+                        )
+                    ) : (
+                        <i className="fa-solid fa-user"></i>
+                    ),
+                    iconClickHandler: () => {
+                        console.log(isAuthenticated);
+                        if(isAuthenticated) {
+                            navigate('/profile');
+                        } else {
+                            navigate('/login');
+                        }
+                    },
+                },
+                {
+                    icon: <i className="fa-solid fa-filter"></i>,
+                    iconClickHandler: () => {
+                        console.log(filtersActive)
+                        setPersonActive(false);
+                        setFiltersActive(!filtersActive);
+                        setBackupFilters(!backupFilters);
+                    },
+                    active: filtersActive
+                },
+                {
+                    icon: <i className="fa-solid fa-eye"></i>,
+
+                },
+                {
+                    icon: <i className="fa-solid fa-magnifying-glass"></i>,
+                    iconClickHandler: () => {
+                        if(currentParams.providerId) {
+                            return navigate(`/search/${currentParams.providerId}`);
+                        }
+                        navigate('/search');
+
+                    }
+                },
+                {
+                    icon: <i className="fa-solid fa-cart-shopping"></i>,
+                    disabled: true,
+
+                }
+            ]
+        }
+
+        changeNavbarIcons(navbarIconsData);
+
+        return () => {
+            changeNavbarIcons({});
+        }
+    }, [isAuthenticated, filtersActive]);
 
     useEffect(() => {
         if(categories.length > 0) return;
@@ -88,7 +152,9 @@ const mapStateToProps = state => ({
     yPosition: state.ui.yPosition,
     loadingCategoryProducts: state.categories.loadingCategoryProducts,
     selectedLocale: state.categories.selectedLocale,
-    store: state.categories.store
+    store: state.categories.store,
+    isAuthenticated: state.auth.isAuthenticated,
+    profile: state.auth.profile,
 });
 
-export default connect(mapStateToProps, {changeNavbarAssets, fetchLocales, fetchCategories, changeHomePosition}) (React.memo(Home));
+export default connect(mapStateToProps, {changeNavbarIcons, changeNavbarAssets, fetchLocales, fetchCategories, changeHomePosition}) (React.memo(Home));

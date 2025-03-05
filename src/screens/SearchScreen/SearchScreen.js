@@ -13,8 +13,10 @@ import {changeNavbarAssets} from "../../store/actions/ui.actions";
 import DropDownListItem from "../../components/DropDownList/DropDownListItem/DropDownListItem";
 import {fetchProviderCategories} from "../../store/actions/provider.actions";
 import SearchShimmer from "../../components/SearchShimmer/SearchShimmer";
+import {changeBackBtnState} from "../../store/actions/navbar.actions";
 
 const SearchScreen = ({
+      changeBackBtnState,
     setShowItemTypes,
     backupFilters,
     setBackupFilters,
@@ -80,7 +82,7 @@ const SearchScreen = ({
     useEffect(() => {
         setBackupFilters(filtersActive);
         setShowEye(false);
-        setBackBtn(true);
+        changeBackBtnState(true);
         setSearchShow(true);
         setIconsShow(false);
         setShowSlider(false);
@@ -88,7 +90,7 @@ const SearchScreen = ({
         setShowItemTypes(false);
         return () => {
             setFiltersActive(backupFilters);
-            setBackBtn(false);
+            changeBackBtnState(false);
             setShowEye(true);
             setSearchShow(false);
             setIconsShow(true);
@@ -284,4 +286,4 @@ const mapStateToProps = state => ({
     catId: state.provider.curId
 });
 
-export default connect(mapStateToProps, {fetchProviderCategories, changeNavbarAssets, fetchSearchResults, closeSearchGallery, openSearchGallery, changeSearchCategoryId, resetAllSearchData, closeGallery}) (React.memo(SearchScreen));
+export default connect(mapStateToProps, {changeBackBtnState, fetchProviderCategories, changeNavbarAssets, fetchSearchResults, closeSearchGallery, openSearchGallery, changeSearchCategoryId, resetAllSearchData, closeGallery}) (React.memo(SearchScreen));

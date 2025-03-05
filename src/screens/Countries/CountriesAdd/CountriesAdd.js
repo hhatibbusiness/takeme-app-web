@@ -9,18 +9,19 @@ import TextArea from '../../../components/TextArea/TextArea';
 import { useNavbarContext } from '../../../context/navbar.context';
 import {connect} from "react-redux";
 import {editCountry, addCountry} from "../../../store/actions/countries.actions";
+import {changeBackBtnState} from "../../../store/actions/navbar.actions";
 
-const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, editCountry, addCountry}) => {
+const CountriesAdd = ({changeBackBtnState, setAdmin, locale, countries, editCountry, addCountry}) => {
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
 
     useEffect(() => {
         changeSearchActive(false);
-        setBackBtn(true);
+        changeBackBtnState(true);
         setAdmin(true);
         return () => {
             changeSearchActive(true);
-            setBackBtn(false);
+            changeBackBtnState(false);
             setAdmin(false);
         }
     }, []);
@@ -304,4 +305,4 @@ const mapStateToProps = state => ({
     countries: state.countries
 })
 
-export default connect(mapStateToProps, {editCountry, addCountry}) (CountriesAdd);
+export default connect(mapStateToProps, {changeBackBtnState, editCountry, addCountry}) (CountriesAdd);

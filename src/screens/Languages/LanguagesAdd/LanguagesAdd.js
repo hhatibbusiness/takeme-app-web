@@ -10,8 +10,9 @@ import { formValidator } from '../../../utilty/formValidator';
 import {useNavbarContext} from "../../../context/navbar.context";
 import {connect} from "react-redux";
 import {addLanguage, editLanguage} from "../../../store/actions/languages.actions";
+import {changeBackBtnState} from "../../../store/actions/navbar.actions";
 
-const LanguagesAdd = ({addLanguage, setBackBtn, setAdmin, languages, editLanguage}) => {
+const LanguagesAdd = ({changeBackBtnState, addLanguage, setBackBtn, setAdmin, languages, editLanguage}) => {
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
 
@@ -34,11 +35,11 @@ const LanguagesAdd = ({addLanguage, setBackBtn, setAdmin, languages, editLanguag
     });
 
     useEffect(() => {
-        setBackBtn(true);
+        changeBackBtnState(true);
         setAdmin(true);
         changeSearchActive(false);
         return () => {
-            setBackBtn(false);
+            changeBackBtnState(false);
             setAdmin(false);
             changeSearchActive(true);
         }
@@ -413,4 +414,4 @@ const mapStateToProps = state => ({
     languages: state.languages
 })
 
-export default connect(mapStateToProps, {addLanguage, editLanguage}) (LanguagesAdd);
+export default connect(mapStateToProps, {changeBackBtnState, addLanguage, editLanguage}) (LanguagesAdd);
