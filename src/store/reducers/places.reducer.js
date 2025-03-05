@@ -52,13 +52,24 @@ export default (state = initialState, action) => {
                 places: [action.place, ...state.places]
             }
         case actionTypes.EDIT_PLACE:
-            const updatedPlaces = state.places.map(place => 
-                place.id === action.place.id ? { ...place, ...action.place } : place
-            );
-            return {
-                ...state,
-                places: updatedPlaces
+            if (state.sortType === 'NEWEST') {
+                const placesCopy = state.places.filter(p => p.id !== action.place.id);
+                return {
+                    ...state,
+                    places: [action.place, ...placesCopy]
+                }
+            } else {
+                const placeIndex = state.places.findIndex(p => p.id === action.place.id);
+                if (placeIndex !== -1) {
+                    const placesCopy = [...state.places];
+                    placesCopy[placeIndex] = action.place;
+                    return {
+                        ...state,
+                        places: placesCopy
+                    }
+                }
             }
+            return state;
         case actionTypes.START_DELETING_PLACE:
             return {
                 ...state,

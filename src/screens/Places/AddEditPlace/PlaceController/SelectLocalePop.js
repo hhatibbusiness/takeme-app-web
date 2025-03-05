@@ -1,41 +1,46 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import SelectPopup from '../../../../components/SelectPopup/SelectPopup';
 import '../Place.style.css';
+import PopupInput from '../../../../components/PopupInput/PopupInput'
 
-const SinglePopupAPI = ({ placeHolderText, SearchFunctionAPI, ListFunctionAPI, displayName, onSelectItem, selectedItems={} }) => {
+const SinglePopupAPI = ({ placeHolderText, SearchFunctionAPI, displayName, onSelectItem, selectedItems={} }) => {
     const [items, setItems] = useState([]);
-    const Listitems = useRef([]);
     const [page, setPage] = useState(0);
     const [more, setMore] = useState(false);
     const [searchText, setSearchText] = useState('');
-    const [searching, setSearching] = useState(false);
+    const [isSearching, setSearching] = useState(false);
     const [isOpen, setOpen] = useState(false);
 
-    useEffect(()=> {
+    
+    useEffect(() => {
         setItems([]);
+        setPage(0);
+        setSearchText('')
     }, [isOpen]);
 
-    /// Search and List Functions if the user make and search text make SearchPlacesFun and if not make a list items.
-    const ListSearchFun = async (dataProps) => {
-        if (searchText) {
-            setSearching(true);
-            setMore(false);
-            const res = await SearchFunctionAPI({ searchkey: searchText, page: 0 });
+    const fetchItems = async (dataProps) => {
+        if (page === 0) setSearching(true);
+        try {
+            const res = await SearchFunctionAPI({ 
+                searchkey: searchText, 
+                page: page 
+            });
+            
             if (res.status) {
                 const data = res.output;
-                setItems(data);
-                setSearching(false);
+                if (page === 0) {
+                    setItems(data);
+                } else {
+                    setItems(prevItems => [...prevItems, ...data]);
+                }
+                setMore(data.length >= 10);
+                setPage(prev => prev + 1);
             }
-        } else {
-            setMore(true);
-            const data = await ListFunctionAPI({ page: page });
-            if (data.status) {
-                Listitems.current = Listitems.current.concat(data.output);
-                setItems(Listitems.current);
-                setPage(prev=> prev+1);
-                setMore(data.output.length >= 10);
-            }
+        } catch (error) {
+            console.error('Error fetching items:', error);
+            setMore(false);
         }
+        setSearching(false);
     };
 
     /// Item Click Function take the item Selected from the List.
@@ -43,29 +48,33 @@ const SinglePopupAPI = ({ placeHolderText, SearchFunctionAPI, ListFunctionAPI, d
         onSelectItem(item);
     };
 
+    const handleSearchChange = (value) => {
+        setSearching(true)
+        setSearchText(value);
+        setItems([]);
+        setPage(0);
+    };
+
     const SingleProps = {
-        itemsFun: ListSearchFun,
+        itemsFun: fetchItems,
         page: page,
         more: more,
         items: items,
-        setSearchKey: setSearchText,
+        setSearchKey: handleSearchChange,
         searchKey: searchText,
-        paginationData: {},
-        searchData: {},
         displayName: displayName,
-        isSearching: searching,
-        searching: searching,
-
+        isSearching: true,
+        searching: isSearching,
         window: false,
         selectedItem: selectedItems,
-        itemClickFun,
+        itemClickFun: onSelectItem,
         single: true,
         setOpen: setOpen,
     };
 
     return (
         <>
-            <button className='singlePopup__button' onClick={()=> setOpen(true)}>{ placeHolderText }</button>
+            <PopupInput setOpen={()=> setOpen(true)} placeholder={placeHolderText} selectedItem={selectedItems} displayName={displayName}/>
             {isOpen &&
                 <SelectPopup {...SingleProps}  />
             }

@@ -11,14 +11,14 @@ import { useLocation } from 'react-router-dom';
 import {connect} from "react-redux";
 import {searchLanguages, closeSearch, openSearch, deleteLanguage, changeLanguagesSort} from "../../../store/actions/languages.actions";
 import {searchCountries, fetchCountries, closeSearchCountries, openSearchCountries } from "../../../store/actions/countries.actions";
-import {searchPlaces, fetchPlaces, closeSearchPlaces, openSearchPlaces} from '../../../store/actions/places.actions';
+import {searchPlaces, fetchPlaces, closeSearchPlaces, openSearchPlaces, changePlacesSortType} from '../../../store/actions/places.actions';
 import {searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort } from '../../../store/actions/locales.actions';
 
 
 const Navbar = ({
         openSearchCountries, countries, searchCountries, closeSearchCountries, 
         languages, searchLanguages, closeSearch, openSearch, changeLanguagesSort,
-        openSearchPlaces, places, searchPlaces, closeSearchPlaces,
+        openSearchPlaces, places, searchPlaces, closeSearchPlaces, changePlacesSortType,
         locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort,
     }) => {
     
@@ -90,7 +90,7 @@ const Navbar = ({
                 urls:  {
                     addUrl: '/countries/add'
                 },
-                changeSort: null, 
+                changeSort: null,
                 baseData: (e) => {
                     return {
                         lan: 'ar',
@@ -109,19 +109,21 @@ const Navbar = ({
                 openSearch: openSearchPlaces,
                 searchTerm,
                 setSearchTerm,
-                sortType: null,
+                sortType: places.sortType,
                 urls:  {
                     addUrl: '/places/add'
                 },
-                changeSort: null, 
+                changeSort: changePlacesSortType, 
                 baseData: (e) => {
                     return {
-                        lan: 'ar',
+                        lan: 'ar_SA',
                         searchKey: e?.target?.value || '',
+                        sortType: places.sortType,
                         page: 0
                     }
                 },
-                hasSort: false
+                hasSort: true,
+                hasInit: true
             }
         }
     }
@@ -152,6 +154,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
         openSearchCountries, closeSearchCountries, fetchCountries, searchCountries, 
         closeSearch, openSearch, deleteLanguage, changeLanguagesSort, searchLanguages,
-        searchPlaces, closeSearchPlaces, openSearchPlaces, fetchPlaces,
+        searchPlaces, closeSearchPlaces, openSearchPlaces, fetchPlaces, changePlacesSortType,
         searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort,
     }) (Navbar);

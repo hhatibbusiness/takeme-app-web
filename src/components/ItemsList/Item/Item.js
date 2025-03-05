@@ -4,6 +4,8 @@ import Dots from '../../Dots/Dots';
 import { getHighlightedText } from '../../../utilty/getHighlightText';
 import selectedImage from '../../../assets/defaults/checked.svg';
 import unSelectedImage from '../../../assets/defaults/unselected.svg';
+import getValueNestedObject from '../../../utilty/getValueNestedObject'
+
 
 const Item = ({
     item,
@@ -23,23 +25,7 @@ const Item = ({
     const dotsPropsRegistered = dotsProps(item.id);
     const [selected, setSelected] = useState(false);
 
-    function getValueFromNestedObject(object, keyPath) {
-        return keyPath.split('.').reduce((current, key) => {
-            // If current value is an array, loop through it
-            if (Array.isArray(current)) {
-                for (let item of current) {
-                    const value = item?.[key];
-                    if (value !== undefined) {
-                        return value;
-                    }
-                }
-                return undefined;
-            }
-            return current?.[key];
-        }, object);
-    }
-
-    const itemValue = getValueFromNestedObject(item, displayName);
+    const itemValue = getValueNestedObject(item, displayName);
 
     return (
         <div data-id={item.id} onClick={(e) => {
