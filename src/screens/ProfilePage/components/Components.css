@@ -11,6 +11,7 @@
     background-color: #FFFFFF;
     border: 1px solid #E5E5E5;
     border-radius: 10px;
+
     font-family: 'DIN Next LT Arabic';
     font-style: normal;
     font-weight: 400;
@@ -20,7 +21,7 @@
     color: #dfdfdf;
 }
 .DropDown__Container img{
-    height: 40%;
+    height: 30%;
     width: auto;
 }
 

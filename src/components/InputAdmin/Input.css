@@ -11,7 +11,7 @@
 
 .Input__label--focused {
     right: 0 !important;
-    top: -30px !important;
+    top: -25px !important;
     transform: scale(0.8) !important;
 }
 

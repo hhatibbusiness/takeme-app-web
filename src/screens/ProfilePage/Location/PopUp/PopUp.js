@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import './PopUp.css'
 import exist from '../../../../assets/images/profile/exist.png'
 import Right from '../../../../assets/images/profile/Right.png'
-import { DropDown, Input, TextArea } from "../../components/Components";
+import { DropDown, Input as FormInput, TextArea } from "../../components/Components";
+import Input from "../../../../components/InputAdmin/Input";
 import SearchInput from "../../components/SearchInput/SearchInput";
 import { SearchPlaces } from "./../../models/manageCountry";
 
@@ -19,39 +20,47 @@ export default function PopUpLocation ({ setFocused, ProfileData, handleSave, co
             <img src={exist} className="existButton__Location"  alt="EXIST" onClick={()=> setFocused(false)}/>
             <img src={Right} className="RightButton__Location"  alt="RIGHT" onClick={()=> handleSave(locationData)}/>
             <div className="InputsContainer__Location_Popup">
-                <div style={{ width: '100%', height: '10%', margin: '10px 0'}}>
+                <div style={{ height: '60px' }}>
                     <DropDown PlaceHolderTEXT={countryData?.name} />
                 </div>
                 <SearchInput PlaceHolderTEXT = "اسم البلد"
                             defualtValue={locationData?.placesResponseDto?.translations?.fields.find(item => item.key === 'name')?.value} 
                             searchFun={SearchPlaces}
                             selectFunc={(v)=> setLocationData(prev => ({...prev, placesResponseDto: v}))}
-                            height={'10%'}
+                            height={'60px'}
                             countryId={countryData?.id}
                             shadow={true}
                 />
                 <Input
-                    PlaceHolderTEXT={'اسم الشارع'}  
+                    id="street-name"
+                    placeholder={'اسم الشارع'}  
                     value={locationData?.address || ""}
-                    onChange={(v)=> setLocationData(prev => ({...prev, address: v}))}
-                    height={'10%'} 
+                    setValue={(v)=> setLocationData(prev => ({...prev, address: v}))}
+                    touched={true}
+                    valid={true}
+                    submitted={false}
+                    required={false}
                 />
                 <Input 
-                    PlaceHolderTEXT={'رقم البيت'}   
+                    id="building-number"
+                    placeholder={'رقم البيت'}   
                     value={locationData?.buildingNumber || ""} 
-                    onChange={(v)=> isNumber(v) && setLocationData(prev => ({...prev, buildingNumber: v}))}
+                    setValue={(v)=> isNumber(v) && setLocationData(prev => ({...prev, buildingNumber: v}))}
+                    touched={true}
+                    valid={true}
+                    submitted={false}
+                    required={false}
                     type="number"
-                    height={'10%'}
                 />
                 
                 <div className="RowAdd_InputData">
-                    <Input PlaceHolderTEXT={" رقم الطابق"} 
+                    <FormInput PlaceHolderTEXT={" رقم الطابق"} 
                             value={locationData?.floorNumber || ""}    
                             onChange={(v)=> isNumber(v) && setLocationData(prev => ({...prev, floorNumber: v}))} 
                             style={{border: "none", borderRadius: "0px" }}
                             type="number"
                     />
-                    <Input PlaceHolderTEXT={" رقم الغرفه"} 
+                    <FormInput PlaceHolderTEXT={" رقم الغرفه"} 
                             value={locationData?.roomNumber || ""} 
                             onChange={(v)=> isNumber(v) && setLocationData(prev => ({...prev, roomNumber: v}))}
                             style={{border: "none", borderRadius: "0px" ,borderRight: "1px solid #E5E5E5"}}
@@ -59,11 +68,16 @@ export default function PopUpLocation ({ setFocused, ProfileData, handleSave, co
                     />
                 </div>
                 
-                <Input PlaceHolderTEXT={"الرقم البريدي"} 
-                        value={locationData?.postalCode || ""}   
-                        onChange={(v)=> isNumber(v) && setLocationData(prev => ({...prev, postalCode: v}))} 
-                        height={'10%'}
-                        type="number"
+                <Input 
+                    id="postal-code"
+                    placeholder={"الرقم البريدي"} 
+                    value={locationData?.postalCode || ""}   
+                    setValue={(v)=> isNumber(v) && setLocationData(prev => ({...prev, postalCode: v}))} 
+                    touched={true}
+                    valid={true}
+                    submitted={false}
+                    required={false}
+                    type="number"
                 />
                 <TextArea PlaceHolderTEXT={"ملاحظات"} 
                             value={locationData?.comments || ""}
