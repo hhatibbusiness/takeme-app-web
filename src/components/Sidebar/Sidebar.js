@@ -5,7 +5,6 @@ import {Link, useNavigate} from "react-router-dom";
 import {changeLan, changeFilter, changeCurrentSelectedLocale} from "../../store/actions/categories.action";
 import i18next from "i18next";
 import {useTranslation} from 'react-i18next';
-import {logout} from "../../store/actions/login.action";
 import history from "../../history/history";
 import {getAnalytics, logEvent} from "firebase/analytics";
 import enter from '../../assets/images/enter.png';
@@ -29,8 +28,9 @@ import {logUserOut} from "../../store/actions/auth.actions";
 
 import WarningAlarm from '../WarningAlarm/WarningAlarmPop'
 import { DeleteProfile } from '../../screens/ProfilePage/models/manageProfile'
+import FetchAPI from '../../utilty/FetchAPI'
 
-const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, changeCurrentSelectedLocale, store, user, locales, selectedLocale, takemeProviderData, sidebar, isAuthenticated, logout, changeFilter, filter, lan, changeLan, categories}) => {
+const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, changeCurrentSelectedLocale, store, user, locales, selectedLocale, takemeProviderData, sidebar, isAuthenticated, changeFilter, filter, lan, changeLan, categories}) => {
     const [langShow, setLanShow] = useState(false);
     const [filterShow, setFilterShow] = useState(false);
     const [socialShow, setSocialShow] = useState(false);
@@ -51,32 +51,6 @@ const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, chang
         setCurrFilter(filter);
     }, [filter]);
 
-    const filterChangeHandler = e => {
-        const filter = e.target.closest('input');
-        if (!filter) return;
-        filter.checked = true;
-        i18next.changeLanguage(lan);
-    }
-
-    const detectWhatsapp = (phone, text) => {
-        var f = Date.now(),
-        j = setTimeout(function() {
-        if (Date.now() - f > 1250)
-            return;
-        alert('WA not installed')
-        }, 1e3);
-    };
-
-    const lanChangeHandler = e => {
-        const lanFormElement = e.target.closest('.Sidebar__sublinks--element');
-        if(!lanFormElement) return alert('There\'s not language');
-        const input = lanFormElement.querySelector('input');
-        if(!input) return;
-        if(input.value == 'en' || input.value == 'he') return;
-        const id = categories[0]?.id;
-        changeLan(input.value, id);
-        i18next.changeLanguage(input.value);
-    }
 
     const filterHandleChange = async e => {
         const filterElement = e.target.closest('.Sidebar__sublinks--element');
@@ -348,12 +322,13 @@ const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, chang
             <WarningAlarm
                 CloseFun={()=> setOpenWarning(false)}
                 SaveFun={async () => {
-                    await DeleteProfile({mLocale: 'ar_SA', userId: profile.id});
-                    logUserOut();
-                    setSidebar(false);
-                    setOpenWarning(false)
-                    navigate('/');
-                    window.location.reload();
+                    const res = await DeleteProfile({mLocale: 'ar_SA', userId: profile?.userId});
+                    if (res && !res.error) {
+                        logUserOut();
+                        setSidebar(false);
+                        setOpenWarning(false)
+                        navigate('/');
+                    }
                 }}
                 typeSrc={'alarm'}
                 message={"هل تريد حذف البروفابل الخاص بيك \n\n سوف تقوم بمسح جميع البيانات الخاصه بك"}
@@ -379,7 +354,7 @@ const mapStateToProps = state => ({
     locales: state.categories.locales,
     selectedLocale: state.categories.selectedLocale,
     roles: state.auth.roles,
-    profile: state.auth.profile
+    profile: state.profile
 });
 
 export default connect(mapStateToProps, {
@@ -387,5 +362,4 @@ export default connect(mapStateToProps, {
     logUserOut,
     changeCurrentSelectedLocale,
     changeFilter,
-    logout
 })(Sidebar);

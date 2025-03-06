@@ -63,7 +63,7 @@ export default (state = initialState, action) => {
         case ACTION_TYPES.END_FETCH_PROFILE:
             return { ...state, isLoading: false };
         case ACTION_TYPES.FETCH_PROFILE:
-            return { ...state, ...action.payload, gender: 1, dateOfBirth: { day: "01", month: "01", year: "2000", display: null }};
+            return { ...state, ...action.payload };
         
         /// Update Gender
         case ACTION_TYPES.START_UPDATE_GENDER:
@@ -117,6 +117,8 @@ export default (state = initialState, action) => {
                 ...state,
                 location: { ...state.location, ...action.payload }
             };
+        case ACTION_TYPES.LOG_PROFILE_OUT:
+            return initialState;
         default:
             return state;
     }

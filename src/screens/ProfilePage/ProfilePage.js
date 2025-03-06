@@ -15,7 +15,7 @@ import { ImageManagerWrapped } from '../../common/ImageManager';
 import {changeNavbarIcons} from "../../store/actions/navbar.actions";
 
 
-function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage, changeNavbarIcons }) {
+function ProfilePage({ paddingTop, isAuthenticated, ProfileData, fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage, changeNavbarIcons }) {
     const navigate = useNavigate()
     const { Focused, FocusedActions} = useFocusReducer();
     const [ openImageManager, setOpenImageManager ] = useState(false)
@@ -75,6 +75,8 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
 
     // init the Profile Data From API
     useEffect(() => {
+        if (!isAuthenticated) navigate('/login')
+
         if (navigationType === "POP" || !ProfileData?.id)
             fetchProfileData()
     }, []);
@@ -149,7 +151,8 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
 }
 
 const mapStateToProps = state => ({
-    ProfileData: state.profile
+    ProfileData: state.profile,
+    isAuthenticated : state.auth.isAuthenticated
 })
 
 export default connect(mapStateToProps, {fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage, changeNavbarIcons}) (ProfilePage)

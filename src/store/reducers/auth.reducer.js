@@ -40,14 +40,8 @@ export default (state=initialState, action) => {
                 profile: action.personalProfile
             }
         case actionTypes.LOG_PROFILE_OUT:
-            localStorage.removeItem('TAKEME_TOKEN');
-            return {
-                ...state,
-                token: null,
-                isAuthenticated: false,
-                roles: null,
-                profile: null
-            }
+            return initialState;
+            
         case actionTypes.GET_USER_PROFILE:
             return {
                 ...state,

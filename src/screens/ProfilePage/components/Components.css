@@ -44,12 +44,14 @@
     border: none;
     background: none;
     margin: 0 5px;
+
     font-family: 'DIN Next LT Arabic';
     font-style: normal;
     font-weight: 400;
     font-size: 15px;
     line-height: 22px;
     text-align: right;
+    color: #E5E5E5;
 }
 .Input__Location input::placeholder {
     font-family: 'DIN Next LT Arabic';
