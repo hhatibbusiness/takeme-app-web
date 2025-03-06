@@ -10,12 +10,12 @@ import Age from './Age/Age'
 import Location from './Location/Location';
 import Welcome from '../../assets/images/profile/welcome.gif'
 import { connect } from 'react-redux';
-import { fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation } from '../../store/actions/profile.action'
-//import { ImageManagerWrapped } from '../../common/ImageManager'
+import { fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage } from '../../store/actions/profile.action'
+import { ImageManagerWrapped } from '../../common/ImageManager';
 import {changeNavbarIcons} from "../../store/actions/navbar.actions";
 
 
-function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, changeNavbarIcons }) {
+function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage, changeNavbarIcons }) {
     const navigate = useNavigate()
     const { Focused, FocusedActions} = useFocusReducer();
     const [ openImageManager, setOpenImageManager ] = useState(false)
@@ -87,10 +87,10 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
     }
 
     // Handle Update Image 
-    // const handleSaveImages = async (props)=> {
-    //     const data = props[0]
-    //     ProfileActions.updateProfileImage({id: null, path: data?.imageUrl, title: data?.id, comment: data?.id, type:"image"})
-    // }
+    const handleSaveImages = async (props)=> {
+        const data = props[0]
+        updateProfileImage(ProfileData?.id, {id: null, path: data?.imageUrl, title: data?.id, comment: data?.id, type:"image"})
+    }
 
     // Force senario
     useEffect(() => {
@@ -132,7 +132,7 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
                     اهلا بك بعالم تيكمي للسعادة, هنا منصتك للحصول على رغباتك وحاجياتك بسرعة و سهولة.
                     </div>
                 </div>
-                {/*openImageManager &&
+                {openImageManager &&
                     <div className='ImageManagerShow'>
                         <ImageManagerWrapped
                             DefFileDir= {'/resources/images/profile'}
@@ -142,7 +142,7 @@ function ProfilePage({ paddingTop, ProfileData, fetchProfileData, updateGender, 
                             handleSaveImages={handleSaveImages}
                         />
                     </div>
-                */}
+                }
             </div>
         </>
     );
@@ -152,4 +152,4 @@ const mapStateToProps = state => ({
     ProfileData: state.profile
 })
 
-export default connect(mapStateToProps, {fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, changeNavbarIcons}) (ProfilePage)
+export default connect(mapStateToProps, {fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage, changeNavbarIcons}) (ProfilePage)

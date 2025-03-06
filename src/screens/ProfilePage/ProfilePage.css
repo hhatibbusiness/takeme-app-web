@@ -85,7 +85,7 @@
   font-family: 'DIN Next LT Arabic';
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 30px;
   text-align: center;
 
@@ -115,10 +115,11 @@
     bottom: 0;
     right: 0;
     width: 100vw;
-    height: 98vh;
+    height: 90vh;
     background-color: #FFFFFF;
     overflow-y: scroll;
     border-radius: 10px 10px 0 0;
+    box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
     animation: slideManagerUp 0.3s ease-out;
     z-index: 10000;
 }

@@ -2,18 +2,20 @@ import React, { useState, useEffect } from "react";
 import './PopUp.css'
 import exist from '../../../../assets/images/profile/exist.png'
 import Right from '../../../../assets/images/profile/Right.png'
-import { DropDown, Input as FormInput, TextArea } from "../../components/Components";
+import { DropDown, Input as FormInput } from "../../components/Components";
 import Input from "../../../../components/InputAdmin/Input";
+import TextArea from "../../../../components/TextArea/TextArea";
 import SearchInput from "../../components/SearchInput/SearchInput";
 import { SearchPlaces } from "./../../models/manageCountry";
 
 
 export default function PopUpLocation ({ setFocused, ProfileData, handleSave, countryData }) {
     const [locationData, setLocationData] = useState(ProfileData?.location || {});
-    const addressValid = locationData?.address?.length <= 40 || !locationData?.address;
-    const buildingNumber = locationData?.buildingNumber?.length <= 10 || !locationData?.buildingNumber;
-    const postalCode = locationData?.postalCode?.length <= 10 || !locationData?.postalCode;
-
+    const addressValid   = locationData?.address?.length <= 40 || !locationData?.address;
+    const buildingNumber = String(locationData?.buildingNumber || '').length <= 10 || !locationData?.buildingNumber;
+    const postalCode     = String(locationData?.postalCode || '').length <= 10 || !locationData?.postalCode;
+    const commentsValid  = String(locationData?.comments || '')?.length <= 100 || !locationData?.comments;
+    
     const createRules = (len, val) => ({
         maxLength: {
             value: len,
@@ -21,10 +23,6 @@ export default function PopUpLocation ({ setFocused, ProfileData, handleSave, co
             message: `اكبر عدد من الحروف ${len} حرف`
         }
     });
-
-    const isNumber = (value)=>{
-        return (value?.trim() == '' || Number(value))
-    }
 
     const handleSaveClick = (data) => {
         if (!addressValid || !buildingNumber || !postalCode) return
@@ -64,7 +62,7 @@ export default function PopUpLocation ({ setFocused, ProfileData, handleSave, co
                     id="building-number"
                     placeholder={'رقم البيت'}   
                     value={locationData?.buildingNumber || ""} 
-                    setValue={(v)=> isNumber(v) && setLocationData(prev => ({...prev, buildingNumber: v}))}
+                    setValue={(v)=> setLocationData(prev => ({...prev, buildingNumber: v}))}
                     touched={true}
                     valid={buildingNumber}
                     submitted={true}
@@ -74,17 +72,19 @@ export default function PopUpLocation ({ setFocused, ProfileData, handleSave, co
                 />
                 
                 <div className="RowAdd_InputData">
-                    <FormInput PlaceHolderTEXT={" رقم الطابق"} 
-                            value={locationData?.floorNumber || ""}    
-                            onChange={(v)=> isNumber(v) && setLocationData(prev => ({...prev, floorNumber: v}))} 
-                            style={{border: "none", borderRadius: "0px" }}
-                            type="number"
+                    <FormInput 
+                        PlaceHolderTEXT={" رقم الطابق"} 
+                        value={locationData?.floorNumber || ""}    
+                        onChange={(v)=> setLocationData(prev => ({...prev, floorNumber: v}))} 
+                        style={{border: "none", borderRadius: "0px" }}
+                        type="number"
                     />
-                    <FormInput PlaceHolderTEXT={" رقم الغرفه"} 
-                            value={locationData?.roomNumber || ""} 
-                            onChange={(v)=> isNumber(v) && setLocationData(prev => ({...prev, roomNumber: v}))}
-                            style={{border: "none", borderRadius: "0px" ,borderRight: "1px solid #E5E5E5"}}
-                            type="number"
+                    <FormInput 
+                        PlaceHolderTEXT={" رقم الغرفه"} 
+                        value={locationData?.roomNumber || ""} 
+                        onChange={(v)=> setLocationData(prev => ({...prev, roomNumber: v}))}
+                        style={{border: "none", borderRadius: "0px" ,borderRight: "1px solid #E5E5E5"}}
+                        type="number"
                     />
                 </div>
                 
@@ -92,7 +92,7 @@ export default function PopUpLocation ({ setFocused, ProfileData, handleSave, co
                     id="postal-code"
                     placeholder={"الرقم البريدي"} 
                     value={locationData?.postalCode || ""}   
-                    setValue={(v)=> isNumber(v) && setLocationData(prev => ({...prev, postalCode: v}))} 
+                    setValue={(v)=> setLocationData(prev => ({...prev, postalCode: v}))} 
                     touched={true}
                     valid={postalCode}
                     submitted={true}
@@ -100,9 +100,16 @@ export default function PopUpLocation ({ setFocused, ProfileData, handleSave, co
                     type="number"
                     rules={createRules(10, postalCode)}
                 />
-                <TextArea PlaceHolderTEXT={"ملاحظات"} 
-                            value={locationData?.comments || ""}
-                            onChange={(v)=> setLocationData(prev => ({...prev, comments: v}))}
+                <TextArea 
+                    id= 'Comments Area'
+                    placeholder={"ملاحظات"} 
+                    value={locationData?.comments || ""}
+                    setValue={(v)=> setLocationData(prev => ({...prev, comments: v}))}
+                    touched={true}
+                    valid={commentsValid}
+                    submitted={true}
+                    required={false}
+                    rules={createRules(100, commentsValid)}
                 />
             </div>
         </div>

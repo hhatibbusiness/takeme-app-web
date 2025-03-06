@@ -15,7 +15,7 @@ export default function Location({ Focused, setFocused, ProfileData, UpdateLocat
         UpdateLocation(ProfileData.id, props)
         setFocused(false)
     }
-    console.log("------", ProfileData)
+
     useEffect(() => {
         const fetchCountry = async () => {
             let data = await countryList();
