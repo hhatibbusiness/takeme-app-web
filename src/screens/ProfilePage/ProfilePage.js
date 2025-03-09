@@ -13,6 +13,8 @@ import { connect } from 'react-redux';
 import { fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage } from '../../store/actions/profile.action'
 import { ImageManagerWrapped } from '../../common/ImageManager';
 import {changeNavbarIcons} from "../../store/actions/navbar.actions";
+import InfoActive from '../../assets/images/InfoActive.png'
+import InfoDisable from '../../assets/images/InfoDisable.png'
 
 
 function ProfilePage({ paddingTop, isAuthenticated, ProfileData, fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage, changeNavbarIcons }) {
@@ -29,7 +31,7 @@ function ProfilePage({ paddingTop, isAuthenticated, ProfileData, fetchProfileDat
             icons: [
                 {
                     icon: (
-                        <i className="fa-solid fa-user"></i>
+                        <img src={profileActive? InfoActive : InfoDisable} />
                     ),
                     iconClickHandler: () => {
                         setProfileActive(prev => !prev);

@@ -16,6 +16,8 @@ export default function PopUpLocation ({ setFocused, ProfileData, handleSave, co
     const postalCode     = String(locationData?.postalCode || '').length <= 10 || !locationData?.postalCode;
     const commentsValid  = String(locationData?.comments || '')?.length <= 100 || !locationData?.comments;
     
+    const isNull = (val) => val === "null" ? "" : val;
+
     const createRules = (len, val) => ({
         maxLength: {
             value: len,
@@ -50,7 +52,7 @@ export default function PopUpLocation ({ setFocused, ProfileData, handleSave, co
                 <Input
                     id="street-name"
                     placeholder={'اسم الشارع'}  
-                    value={locationData?.address || ""}
+                    value={isNull(locationData?.address) || ""}
                     setValue={(v)=> setLocationData(prev => ({...prev, address: v}))}
                     touched={true}
                     valid={addressValid}
@@ -103,7 +105,7 @@ export default function PopUpLocation ({ setFocused, ProfileData, handleSave, co
                 <TextArea 
                     id= 'Comments Area'
                     placeholder={"ملاحظات"} 
-                    value={locationData?.comments || ""}
+                    value={isNull(locationData?.comments) || ""}
                     setValue={(v)=> setLocationData(prev => ({...prev, comments: v}))}
                     touched={true}
                     valid={commentsValid}

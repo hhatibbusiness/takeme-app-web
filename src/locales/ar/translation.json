@@ -97,5 +97,5 @@
   "all": "الكل",
   "forparteners": "فقط للشركاء حاليا",
   "enterProfile": "البروفايل الشخصي",
-  "genderList": [{"id": 1, "name" :"ذكر"}, {"id": 2, "name" :"أنثي"}, {"id": 3, "name" :"اخري"}]
+"genderList": [{"id": 1, "name": "ذكر"}, {"id": 2, "name": "أنثى"}, {"id": 3, "name": "اخر"}]
 }

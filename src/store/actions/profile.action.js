@@ -1,5 +1,7 @@
 import * as ACTION_TYPES from './action.types';
 import { GetProfileData, UpdateGenderAPI, UpdateNameAPI, UpdateBirthDateAPI, UpdateProfileImage, UpdateLocationAPI } from '../../screens/ProfilePage/models/manageProfile'
+import FetchAPI from '../../utilty/FetchAPI';
+import { BaseURL, AUTH_TOKEN } from '../../assets/constants/Base';
 
 
 
@@ -64,4 +66,27 @@ export const UpdateLocation = (id, props) => async dispatch => {
     dispatch({ type: ACTION_TYPES.UPDATE_LOCATION, payload: props });
     await UpdateLocationAPI({ mLocale: 'ar_SA', localeId: 1, userId: id, bodyData: data })
     dispatch({ type: ACTION_TYPES.END_UPDATE_LOCATION })
+}
+
+
+export const DeleteProfileData = (userId) => async dispatch => {
+    dispatch({ type: ACTION_TYPES.START_DELETE_PROFILE });
+    
+    const response = await FetchAPI(
+        `${BaseURL}/users/delete?mLocale=ar_SA&userId=${userId}`,
+        {
+            method: 'DELETE',
+            headers: {
+                'Authorization': AUTH_TOKEN
+            }
+        },
+        dispatch
+    );
+
+    if (response?.status) {
+        dispatch({ type: ACTION_TYPES.LOG_USER_OUT });
+    }
+    
+    dispatch({ type: ACTION_TYPES.END_DELETE_PROFILE });
+    return response;
 }

@@ -27,10 +27,10 @@ import Install from "../HOC/NavbarWebsite/Install/Install";
 import {logUserOut} from "../../store/actions/auth.actions";
 
 import WarningAlarm from '../WarningAlarm/WarningAlarmPop'
-import { DeleteProfile } from '../../screens/ProfilePage/models/manageProfile'
-import FetchAPI from '../../utilty/FetchAPI'
+import { DeleteProfileData } from '../../store/actions/profile.action' 
 
-const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, changeCurrentSelectedLocale, store, user, locales, selectedLocale, takemeProviderData, sidebar, isAuthenticated, changeFilter, filter, lan, changeLan, categories}) => {
+
+const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, changeCurrentSelectedLocale, store, user, locales, selectedLocale, takemeProviderData, sidebar, isAuthenticated, changeFilter, filter, lan, changeLan, categories, DeleteProfileData}) => {
     const [langShow, setLanShow] = useState(false);
     const [filterShow, setFilterShow] = useState(false);
     const [socialShow, setSocialShow] = useState(false);
@@ -321,8 +321,9 @@ const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, chang
         {isAuthenticated && openWarning &&
             <WarningAlarm
                 CloseFun={()=> setOpenWarning(false)}
-                SaveFun={async () => {
-                    const res = await DeleteProfile({mLocale: 'ar_SA', userId: profile?.userId});
+                SaveFun={() => {
+                    const res = DeleteProfileData(profile?.userId)
+                    console.log("**********", res)
                     if (res && !res.error) {
                         logUserOut();
                         setSidebar(false);
@@ -362,4 +363,5 @@ export default connect(mapStateToProps, {
     logUserOut,
     changeCurrentSelectedLocale,
     changeFilter,
+    DeleteProfileData
 })(Sidebar);
