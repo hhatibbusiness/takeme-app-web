@@ -63,6 +63,8 @@ const navbarActions = {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تكرار مكان'})
         } else if (pathname.includes("/places/edit")) {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل مكان'})
+        } else if (pathname == '/backup') {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'Backup'})
         }
     },
     changeSearchActive: (dispatch, searchActive) => {

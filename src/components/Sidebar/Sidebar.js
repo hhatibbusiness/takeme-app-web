@@ -20,6 +20,7 @@ import aboutImg from '../../assets/images/about.png';
 import outImg from '../../assets/images/out.png';
 import deleteImg from '../../assets/images/delete.png';
 import PlacesLocation from '../../assets/images/PlacesLocation.png'
+import backuplogo from '../../assets/images/Backuplogo.png'
 
 import Img from "../../screens/Home/Body/BodyContainer/ProductList/Products/Product/Img/Img";
 import logo from "../../assets/images/defaults/logo-default-image.svg";
@@ -261,6 +262,13 @@ const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, chang
                                         <img src={PlacesLocation}/>
                                         {/*<i className="fa-regular fa-copyright"></i>*/}
                                         <p className={'overflow-hidden text-overflow-ellipsis whitespace-nowrap rtl'}>إدارة الأماكن</p>
+                                    </div>
+                                </Link>
+                                <Link id={'Sidebar__conditions'} to={'/backup'}
+                                      className="Sidebar__link">
+                                    <div className="Sidebar__link--main">
+                                        <img src={backuplogo}/>
+                                        <p className={'overflow-hidden text-overflow-ellipsis whitespace-nowrap rtl'}>Backup</p>
                                     </div>
                                 </Link>
                             </>

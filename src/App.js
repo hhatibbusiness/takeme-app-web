@@ -45,6 +45,7 @@ import {changeNavbarIcons} from "./store/actions/navbar.actions";
 import Img from "./screens/Home/Body/BodyContainer/ProductList/Products/Product/Img/Img";
 import profileDefaultImage from "./assets/images/defaults/default-provider-image.png";
 import Icon from "./components/HOC/NavbarWebsite/IconsBar/Icon/Icon";
+import Backup from './screens/Backup/Backup.js';
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
 const ProviderScreen = lazy(() => import(/* webpackChunkName: "ProviderScreen" */ "./screens/Provider/ProviderScreen"));
@@ -385,7 +386,10 @@ const App = (props) => {
                                                     exact
                                                     element={<AddEditPlace mode={'duplicate'} admin={admin} setAdmin={setAdmin} />}
                                                 />
-
+                                                <Route
+                                                    path='/backup'
+                                                    exact element={<Backup setAdmin={setAdmin} />}
+                                                />
                                             </>
                                         )
                                     }
