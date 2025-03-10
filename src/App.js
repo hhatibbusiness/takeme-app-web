@@ -41,6 +41,11 @@ import {fetchLocales} from "./store/actions/categories.action";
 import ProfilePage from './screens/ProfilePage/ProfilePage.js';
 import Places from './screens/Places/PlacesPage.js';
 import AddEditPlace from './screens/Places/AddEditPlace/AddEditPlace.js';
+import {changeNavbarIcons} from "./store/actions/navbar.actions";
+import Img from "./screens/Home/Body/BodyContainer/ProductList/Products/Product/Img/Img";
+import profileDefaultImage from "./assets/images/defaults/default-provider-image.png";
+import Icon from "./components/HOC/NavbarWebsite/IconsBar/Icon/Icon";
+import Backup from './screens/Backup/Backup.js';
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
 const ProviderScreen = lazy(() => import(/* webpackChunkName: "ProviderScreen" */ "./screens/Provider/ProviderScreen"));
@@ -66,9 +71,8 @@ const App = (props) => {
     const [navShow, setNavShow] = useState(false);
     const [showIcons, setShowIcons] = useState(true);
     const [showEye, setShowEye] = useState(true);
-    const [backBtn, setBackBtn] = useState(false);
     const [searchShow, setSearchShow] = useState(false);
-    const [showMidText, setShowMidText] = useState(false);
+    const [showMidText,] = useState(false);
     const [considerNav, setConsiderNav] = useState(true);
     const [showSlider, setShowSlider] = useState(true);
     const [fixedNav, setFixedNav] = useState(false);
@@ -111,15 +115,6 @@ const App = (props) => {
             window.removeEventListener('beforeinstallprompt', handler);
         };
     }, []);
-
-    // useEffect(() => {
-    //     const alert = {
-    //         msg: 'lfjdlkasjfdlkja',
-    //         alertType: 'success'
-    //     }
-    //
-    //     props.addAlert(alert);
-    // }, []);
 
     useEffect(() => {
         let timeOut;
@@ -246,7 +241,7 @@ const App = (props) => {
                                 admin ? (
                                     <NavbarAdmin />
                                 ) : (
-                                    <Navbar currentParams={currentParams} providerId={providerId} setProviderId={setProviderId} showMItemTypes={showMItemTypes} showSItemTypes={showSItemTypes} showMCategories={showMCategories} showSCategories={showSCategories} showItemTypes={showItemTypes} setShowItemTypes={setShowItemTypes} storeDetailsRef={storeDetailsRef} personActive={personActive} setPersonActive={setPersonActive} personAva={personAva} searchActive={searchActive} setSearchActive={setSearchActive} eyeDis={eyeDis} setEyeDis={setEyeDis} backupFilters={backupFilters} setBackupFilters={setBackupFilters} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} showSlider={showSlider} setShowSlider={setShowSlider} bodyContainerRef={bodyContainerRef} considerNav={considerNav} showMidText={showMidText} backBtn={backBtn} searchShow={searchShow} showIcons={showIcons} showEye={showEye} navShow={navShow} setNavShow={setNavShow} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} navHeight={navHeight} setNavHeight={setNavHeight} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />
+                                    <Navbar currentParams={currentParams} providerId={providerId} setProviderId={setProviderId} showMItemTypes={showMItemTypes} showSItemTypes={showSItemTypes} showMCategories={showMCategories} showSCategories={showSCategories} showItemTypes={showItemTypes} setShowItemTypes={setShowItemTypes} storeDetailsRef={storeDetailsRef} personActive={personActive} setPersonActive={setPersonActive} personAva={personAva} searchActive={searchActive} setSearchActive={setSearchActive} eyeDis={eyeDis} setEyeDis={setEyeDis} backupFilters={backupFilters} setBackupFilters={setBackupFilters} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} showSlider={showSlider} setShowSlider={setShowSlider} bodyContainerRef={bodyContainerRef} considerNav={considerNav} showMidText={showMidText} searchShow={searchShow} showIcons={showIcons} showEye={showEye} navShow={navShow} setNavShow={setNavShow} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} navHeight={navHeight} setNavHeight={setNavHeight} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />
                                 )
                             }
                             {
@@ -256,17 +251,17 @@ const App = (props) => {
                             }
                             <Suspense fallback={logoStart.isFirstTime ? <Intro /> : <SpinnerComponent full={true} />}>
                                 <Routes history={history}>
-                                    <Route path={'/'} element={<Home currentParams={currentParams} backBtn={backBtn} setCurrentParams={setCurrentParams} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} navShow={navShow} considerNav={considerNav} setConsiderNav={setConsiderNav} bodyContainerRef={bodyContainerRef} setNavShow={setNavShow} navHeight={navHeight} setNavHeight={setNavHeight} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />} />
-                                    <Route path={'/provider/:providerId'} exact element={<Suspense fallback={<StorePageShimmer />}><ProviderScreen setProviderId={setProviderId} setShowMItemTypes={setShowMItemTypes} setShowSItemTypes={setShowSItemTypes} setShowMCategories={setShowMCategories} setShowSCategories={setShowSCategories} setShowItemTypes={setShowItemTypes} setFiltersActive={setFiltersActive} setShowSlider={setShowSlider} setPersonActive={setPersonActive} bodyContainerRef={bodyContainerRef} topValue={topValue} storeDetailsRef={storeDetailsRef} setTopValue={setTopValue} personActive={personActive} setPersonAva={setPersonAva} navHeight={navHeight} searchActive={searchActive} setSearchActive={setSearchActive} eyeDis={eyeDis} setEyeDis={setEyeDis} setshowMidText={setShowMidText} setBackBtn={setBackBtn} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} /></Suspense>} >
+                                    <Route path={'/'} element={<Home searchActive={searchActive} setSearchActive={setSearchActive} backupFilters={backupFilters} setBackupFilters={setBackupFilters} personActive={personActive} setPersonActive={setPersonActive} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} currentParams={currentParams} setCurrentParams={setCurrentParams} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} fixedNav={fixedNav} setFixedNav={setFixedNav} navShow={navShow} considerNav={considerNav} setConsiderNav={setConsiderNav} bodyContainerRef={bodyContainerRef} setNavShow={setNavShow} navHeight={navHeight} setNavHeight={setNavHeight} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} searching={searching} setSearching={setSearching} sidebar={sidebar} setSidebar={setSidebar} />} />
+                                    <Route path={'/provider/:providerId'} exact element={<Suspense fallback={<StorePageShimmer />}><ProviderScreen setProviderId={setProviderId} setShowMItemTypes={setShowMItemTypes} setShowSItemTypes={setShowSItemTypes} setShowMCategories={setShowMCategories} setShowSCategories={setShowSCategories} setShowItemTypes={setShowItemTypes} setFiltersActive={setFiltersActive} setShowSlider={setShowSlider} setPersonActive={setPersonActive} bodyContainerRef={bodyContainerRef} topValue={topValue} storeDetailsRef={storeDetailsRef} setTopValue={setTopValue} personActive={personActive} setPersonAva={setPersonAva} navHeight={navHeight} searchActive={searchActive} setSearchActive={setSearchActive} eyeDis={eyeDis} setEyeDis={setEyeDis} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} /></Suspense>} >
                                         <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                         <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} />
                                     </Route>
-                                    <Route path={'/search'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><SearchScreen setShowItemTypes={setShowItemTypes} backupFilters={backupFilters} setBackupFilters={setBackupFilters} bodyContainerRef={bodyContainerRef} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} topValue={topValue} setTopValue={setTopValue} y={y} setY={setY} showSlider={showSlider} setShowSlider={setShowSlider} setshowMidText={setShowMidText} setIconsShow={setShowIcons} setSearchShow={setSearchShow} setBackBtn={setBackBtn} navHeight={navHeight} setShowEye={setShowEye} gallery={gallery} setGallery={setGallery} searching={searching} setSearching={setSearching} /></Suspense>} >
+                                    <Route path={'/search'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><SearchScreen setShowItemTypes={setShowItemTypes} backupFilters={backupFilters} setBackupFilters={setBackupFilters} bodyContainerRef={bodyContainerRef} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} topValue={topValue} setTopValue={setTopValue} y={y} setY={setY} showSlider={showSlider} setShowSlider={setShowSlider} setIconsShow={setShowIcons} setSearchShow={setSearchShow} navHeight={navHeight} setShowEye={setShowEye} gallery={gallery} setGallery={setGallery} searching={searching} setSearching={setSearching} /></Suspense>} >
                                         <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} >
                                             <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                         </Route>
                                     </Route>
-                                    <Route path={'/search/:storeId'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><SearchScreen setShowItemTypes={setShowItemTypes} backupFilters={backupFilters} setBackupFilters={setBackupFilters} bodyContainerRef={bodyContainerRef} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} topValue={topValue} setTopValue={setTopValue} y={y} setY={setY} showSlider={showSlider} setShowSlider={setShowSlider} setshowMidText={setShowMidText} setIconsShow={setShowIcons} setSearchShow={setSearchShow} setBackBtn={setBackBtn} navHeight={navHeight} setShowEye={setShowEye} gallery={gallery} setGallery={setGallery} searching={searching} setSearching={setSearching} /></Suspense>} >
+                                    <Route path={'/search/:storeId'} exact element={<Suspense fallback={<SpinnerComponent full={true} />}><SearchScreen setShowItemTypes={setShowItemTypes} backupFilters={backupFilters} setBackupFilters={setBackupFilters} bodyContainerRef={bodyContainerRef} filtersActive={filtersAcitve} setFiltersActive={setFiltersActive} topValue={topValue} setTopValue={setTopValue} y={y} setY={setY} showSlider={showSlider} setShowSlider={setShowSlider} setIconsShow={setShowIcons} setSearchShow={setSearchShow}  navHeight={navHeight} setShowEye={setShowEye} gallery={gallery} setGallery={setGallery} searching={searching} setSearching={setSearching} /></Suspense>} >
                                         <Route path={`popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} >
                                             <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                         </Route>
@@ -274,9 +269,9 @@ const App = (props) => {
                                     <Route path={`main/popup/:id`} element={<ProductPopup gallery={gallery} setGallery={setGallery} />} >
                                         <Route path={'gallery'} element={<Suspense fallback={<SpinnerComponent />}><Gallery gallery={gallery} product={props.galleryProduct} closeGallery={props.closeGallery} setGallery={setGallery} /></Suspense>} />
                                     </Route>
-                                    <Route path='/confirm/email/register/:email/:password' exact element={<ConfirmEmail bodyContainerRef={bodyContainerRef} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} navHeight={navHeight} confirmHandler={confirmEmailAndRegister} paddingTop={navHeight} setBackBtn={setBackBtn} showIcons={showIcons} setShowIcons={setShowIcons} />} />
-                                    <Route path='/confirm/email/change/password/:email' exact element={<ConfirmEmail bodyContainerRef={bodyContainerRef} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} navHeight={navHeight} confirmHandler={confirmEmailAndChangePassword} paddingTop={navHeight} setBackBtn={setBackBtn} showIcons={showIcons} setShowIcons={setShowIcons} />} />
-                                    <Route path={'/login'} exact element={<Authentication bodyContainerRef={bodyContainerRef} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} navHeight={navHeight}  setBackBtn={setBackBtn} paddingTop={navHeight} showIcons={showIcons} setShowIcons={setShowIcons} />} />
+                                    <Route path='/confirm/email/register/:email/:password' exact element={<ConfirmEmail bodyContainerRef={bodyContainerRef} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} navHeight={navHeight} confirmHandler={confirmEmailAndRegister} paddingTop={navHeight} showIcons={showIcons} setShowIcons={setShowIcons} />} />
+                                    <Route path='/confirm/email/change/password/:email' exact element={<ConfirmEmail bodyContainerRef={bodyContainerRef} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} navHeight={navHeight} confirmHandler={confirmEmailAndChangePassword} paddingTop={navHeight} showIcons={showIcons} setShowIcons={setShowIcons} />} />
+                                    <Route path={'/login'} exact element={<Authentication bodyContainerRef={bodyContainerRef} y={y} setY={setY} topValue={topValue} setTopValue={setTopValue} navHeight={navHeight} paddingTop={navHeight} showIcons={showIcons} setShowIcons={setShowIcons} />} />
                                     <Route
                                         path={`product/popup/:id`}
                                         element={<ProductPopup gallery={gallery} setGallery={setGallery} />}
@@ -293,17 +288,17 @@ const App = (props) => {
                                     <Route
                                         path={'/about'}
                                         exact
-                                        element={<About setBackBtn={setBackBtn} setShowIcons={setShowIcons} setshowMidText={setShowMidText} />}
+                                        element={<About setShowIcons={setShowIcons} />}
                                     />
                                     <Route
                                         path={'/contract'}
                                         exact
-                                        element={<Contract setShowIcons={setShowIcons} setBackBtn={setBackBtn} setshowMidText={setShowMidText} />}
+                                        element={<Contract setShowIcons={setShowIcons} />}
                                     />
                                     <Route
                                         path={'/forget/:email'}
                                         exact
-                                        element={<Forget setBackBtn={setBackBtn} />} setshowMidText={setShowMidText}
+                                        element={<Forget />}
                                     />
                                     <Route
                                         path='/profile'
@@ -314,84 +309,87 @@ const App = (props) => {
                                             <>
                                                 <Route
                                                     path='/languages'
-                                                    element={<Languages setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<Languages paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/languages/add'
                                                     exact
-                                                    element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<LanguagesAdd paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/languages/add/duplicate/:lanId'
                                                     exact
-                                                    element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<LanguagesAdd paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/languages/edit/:editId'
                                                     exact
-                                                    element={<LanguagesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<LanguagesAdd paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/locales'
                                                     exact
-                                                    element={<Locales setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<Locales paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path="/locales/add"
                                                     exact
-                                                    element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<LocalesAdd paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/locales/add/duplicate/:lanId'
                                                     exact
-                                                    element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<LocalesAdd paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/locales/edit/:editId'
                                                     exact
-                                                    element={<LocalesAdd setBackBtn={setBackBtn} paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<LocalesAdd paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/countries'
                                                     exact
-                                                    element={<Countries setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<Countries admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/countries/add'
                                                     exact
-                                                    element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<CountriesAdd admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/countries/add/duplicate/:lanId'
                                                     exact
-                                                    element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<CountriesAdd admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/countries/edit/:editId'
                                                     exact
-                                                    element={<CountriesAdd setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<CountriesAdd admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/places'
                                                     exact
-                                                    element={<Places setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<Places admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/places/add'
                                                     exact
-                                                    element={<AddEditPlace setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<AddEditPlace admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/places/edit/:id'
                                                     exact
-                                                    element={<AddEditPlace mode={'edit'} setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<AddEditPlace mode={'edit'} admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/places/duplicate/:id'
                                                     exact
-                                                    element={<AddEditPlace mode={'duplicate'} setBackBtn={setBackBtn} admin={admin} setAdmin={setAdmin} />}
+                                                    element={<AddEditPlace mode={'duplicate'} admin={admin} setAdmin={setAdmin} />}
                                                 />
-
+                                                <Route
+                                                    path='/backup'
+                                                    exact element={<Backup setAdmin={setAdmin} />}
+                                                />
                                             </>
                                         )
                                     }
@@ -420,7 +418,9 @@ const mapStateToProps = state => ({
     assets: state.assets,
     alert: state.alert,
     locale: state.categories.selectedLocale,
-    roles: state.auth.roles
+    roles: state.auth.roles,
+    isAuthenticated: state.auth.isAuthenticated,
+    profile: state.auth.profile,
 });
 
-export default connect(mapStateToProps, {fetchAssets, fetchLocales, getUserRoles, getUserProfile, fetchMarketStores, loadProvider, addAlert, changeBackBtn, createOrder, loadUser, changePlatform}) (React.memo(App));
+export default connect(mapStateToProps, {changeNavbarIcons, fetchAssets, fetchLocales, getUserRoles, getUserProfile, fetchMarketStores, loadProvider, addAlert, changeBackBtn, createOrder, loadUser, changePlatform}) (React.memo(App));

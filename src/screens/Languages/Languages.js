@@ -7,9 +7,8 @@ import ItemsList from '../../components/ItemsListAdmin/ItemsList.js';
 import {connect} from "react-redux";
 import {fetchLanguages, searchLanguages, deleteLanguage} from "../../store/actions/languages.actions";
 
-
-function Languages({setBackBtn, admin, setAdmin, searchLanguages, deleteLanguage, languages, fetchLanguages}) {
-    const [paddingTop, setPaddingTop] = useState(0);
+function Languages({setAdmin, searchLanguages, deleteLanguage, languages, fetchLanguages}) {
+    const [paddingTop, setPaddingTop] = useState(105);
     const parentRef = useRef(null);
 
     useEffect(() => {
@@ -88,10 +87,8 @@ function Languages({setBackBtn, admin, setAdmin, searchLanguages, deleteLanguage
     }
 
     useEffect(() => {
-        setBackBtn(true);
         setAdmin(true);
         return () => {
-            setBackBtn(false);
             setAdmin(false);
         }
     }, []);

@@ -14,7 +14,7 @@ import SelectPopup from '../../../components/SelectPopup/SelectPopup';
 import { changeSelectedLanguage, editLocale, addLocale, searchLanguagesLocales } from '../../../store/actions/locales.actions';
 
 
-const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, editLocale, addLocale, searchLanguagesLocales }) => {
+const LocalesAdd = ({ setAdmin, locales, changeSelectedLanguage, editLocale, addLocale, searchLanguagesLocales }) => {
     const { select, openPopup, closePopup, changeProps } = useSelectContext();
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
@@ -27,12 +27,9 @@ const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, edi
 
     useEffect(() => {
         changeSearchActive(false);
-        setBackBtn(true);
         setAdmin(true);
-
         return () => {
             changeSearchActive(true);
-            setBackBtn(false);
             setAdmin(false);
         }
     }, []);

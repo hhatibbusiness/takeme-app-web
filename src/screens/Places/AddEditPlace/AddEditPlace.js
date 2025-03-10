@@ -11,10 +11,9 @@ import CancelButton from '../../../components/CancelButton/CancelButton';
 import { searchPlacesAPI, getPlaces, getCountries, searchCountriesAPI } from '../model/managePlaces.js';
 import PlaceType from './PlaceController/PlaceType/PlaceType.js'
 import { editPlace, addPlace } from "../../../store/actions/places.actions.js";
-import { set } from "lodash";
 
 
-function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, addPlace } ) {
+function AddEditPlace( { mode, setAdmin, locale, places, editPlace, addPlace } ) {
     const navigate = useNavigate()
     const { id } = useParams();
     const { changeSearchActive } = useNavbarContext();
@@ -56,11 +55,9 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
     useEffect(() => {
         window.scrollTo(0, 0);
         changeSearchActive(false);
-        setBackBtn(true);
         setAdmin(true);
         return () => {
             changeSearchActive(true);
-            setBackBtn(false);
             setAdmin(false);
         }
         // eslint-disable-next-line

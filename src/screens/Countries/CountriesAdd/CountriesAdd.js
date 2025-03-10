@@ -10,17 +10,15 @@ import { useNavbarContext } from '../../../context/navbar.context';
 import {connect} from "react-redux";
 import {editCountry, addCountry} from "../../../store/actions/countries.actions";
 
-const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, editCountry, addCountry}) => {
+const CountriesAdd = ({setAdmin, locale, countries, editCountry, addCountry}) => {
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
 
     useEffect(() => {
         changeSearchActive(false);
-        setBackBtn(true);
         setAdmin(true);
         return () => {
             changeSearchActive(true);
-            setBackBtn(false);
             setAdmin(false);
         }
     }, []);

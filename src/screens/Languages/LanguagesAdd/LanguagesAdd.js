@@ -11,7 +11,7 @@ import {useNavbarContext} from "../../../context/navbar.context";
 import {connect} from "react-redux";
 import {addLanguage, editLanguage} from "../../../store/actions/languages.actions";
 
-const LanguagesAdd = ({addLanguage, setBackBtn, setAdmin, languages, editLanguage}) => {
+const LanguagesAdd = ({addLanguage, setAdmin, languages, editLanguage}) => {
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
 
@@ -34,11 +34,9 @@ const LanguagesAdd = ({addLanguage, setBackBtn, setAdmin, languages, editLanguag
     });
 
     useEffect(() => {
-        setBackBtn(true);
         setAdmin(true);
         changeSearchActive(false);
         return () => {
-            setBackBtn(false);
             setAdmin(false);
             changeSearchActive(true);
         }

@@ -17,6 +17,7 @@ import {BASE_URL} from "../../utls/assets";
 import axios from "axios";
 import ResetPassword from "../../components/ResetPassword/ResetPassword";
 import Overlay from "../../components/Overlay/Overlay";
+import {changeBackBtnState} from "../../store/actions/navbar.actions";
 
 const Authentication = ({
     paddingTop,
@@ -31,7 +32,8 @@ const Authentication = ({
     topValue,
     setTopValue,
     navHeight,
-    bodyContainerRef
+    bodyContainerRef,
+    changeBackBtnState
 }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -48,11 +50,11 @@ const Authentication = ({
 
     useEffect(() => {
         setShowIcons(false);
-        setBackBtn(true);
+        changeBackBtnState(true);
 
         return () => {
             setShowIcons(true);
-            setBackBtn(false);
+            changeBackBtnState(false);
         }
     }, []);
 
@@ -353,4 +355,4 @@ const mapStateToProps = state => ({
     locale: state.categories.selectedLocale
 });
 
-export default connect(mapStateToProps, {removeAlert, authenticateUser, addAlert})(Authentication);
+export default connect(mapStateToProps, {changeBackBtnState, removeAlert, authenticateUser, addAlert})(Authentication);

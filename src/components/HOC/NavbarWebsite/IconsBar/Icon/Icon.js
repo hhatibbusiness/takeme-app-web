@@ -1,10 +1,10 @@
 import React from 'react';
 import './Icon.css';
 
-const Icon = ({icon, disabled, mouseDownFunc, mouseUp, eyeOpen, store, personActive, setEyeOpen, filtersActive, setFiltersActive, iconClickHandler , viewOpen}) => {
+const Icon = ({iconData}) => {
     return (
-        <div onMouseDown={mouseDownFunc} onTouchStart={mouseDownFunc} onTouchEnd={mouseUp} onMouseUp={mouseUp} className={`Icon ${disabled ? 'Icon_disabled' : ''} ${((viewOpen && store)  || filtersActive || personActive) ? 'Icon__active': ''}`} onClick={iconClickHandler}>
-            {icon}
+        <div className={`Icon ${iconData.disabled ? 'Icon_disabled' : ''} ${iconData.active ? 'Icon__active': ''}`} onClick={iconData.iconClickHandler}>
+            {iconData.icon}
         </div>
     );
 };

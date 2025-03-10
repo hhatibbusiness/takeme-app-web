@@ -6,16 +6,14 @@ import './Locales.css';
 import { fetchLocales, searchLocales, deleteLocale } from '../../store/actions/locales.actions';
 import KeepAlive from 'react-activation';
 
-const Locales = ({ setBackBtn, setAdmin, locales, fetchLocales, searchLocales, deleteLocale }) => {
+const Locales = ({ setAdmin, locales, fetchLocales, searchLocales, deleteLocale }) => {
     const [paddingTop, setPaddingTop] = useState(105);
     const parentRef = useRef(null);
     
     useEffect(() => {
         setAdmin(true);
-        setBackBtn(true);
         return () => {
             setAdmin(false);
-            setBackBtn(false);
         }
     }, []);
 

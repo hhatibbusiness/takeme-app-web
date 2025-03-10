@@ -8,8 +8,9 @@ import {addAlert, removeAlert} from "../../../store/actions/alert.actions";
 import axios from "axios";
 import {BASE_URL} from "../../../utls/assets";
 import Overlay from "../../../components/Overlay/Overlay";
+import {changeBackBtnState} from "../../../store/actions/navbar.actions";
 
-const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, navHeight, bodyContainerRef, locale, addAlert, setBackBtn, setShowIcons, confirmHandler }) => {
+const ConfirmEmail = ({ changeBackBtnState, paddingTop, removeAlert, y, setY, topValue,setTopValue, navHeight, bodyContainerRef, locale, addAlert, setBackBtn, setShowIcons, confirmHandler }) => {
     const [counter, setCounter] = useState(0);
     const [counterDate, setCounterDate] = useState(() => {
         // Retrieve stored date and parse correctly
@@ -94,11 +95,11 @@ const ConfirmEmail = ({ paddingTop, removeAlert, y, setY, topValue,setTopValue, 
     const sixthRef = useRef();
 
     useEffect(() => {
-        setBackBtn(true);
+        changeBackBtnState(true);
         setShowIcons(false);
 
         return () => {
-            setBackBtn(false);
+            changeBackBtnState(false);
             setShowIcons(true);
         }
     }, []);
@@ -343,4 +344,4 @@ const mapStateToProps = state => ({
     locale: state.categories.selectedLocale
 })
 
-export default connect(mapStateToProps, {addAlert, removeAlert}) (ConfirmEmail);
+export default connect(mapStateToProps, {changeBackBtnState, addAlert, removeAlert}) (ConfirmEmail);

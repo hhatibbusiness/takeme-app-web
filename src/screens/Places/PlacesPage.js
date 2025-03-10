@@ -6,17 +6,15 @@ import {connect} from "react-redux";
 import {fetchPlaces, deletePlace, searchPlaces} from "../../store/actions/places.actions";
 import KeepAlive from 'react-activation';
 
-const PlacesPage = ({ fetchPlaces, searchPlaces, deletePlace, setBackBtn, setAdmin, places }) => {
+const PlacesPage = ({ fetchPlaces, searchPlaces, deletePlace, setAdmin, places }) => {
     const [paddingTop, setPaddingTop] = useState(105);
     const parentRef = useRef(null);
 
 
     useEffect(() => {
         setAdmin(true);
-        setBackBtn(true);
         return () => {
             setAdmin(false);
-            setBackBtn(false);
         }
     }, []);
 

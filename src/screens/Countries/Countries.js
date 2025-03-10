@@ -6,17 +6,15 @@ import './Countries.css';
 import {connect} from "react-redux";
 import {fetchCountries, editCountry, deleteCountry, searchCountries} from "../../store/actions/countries.actions";
 
-const Countries = ({ fetchCountries, editCountry, searchCountries, deleteCountry, setBackBtn, setAdmin, countries }) => {
+const Countries = ({ fetchCountries, editCountry, searchCountries, deleteCountry, setAdmin, countries }) => {
     const [paddingTop, setPaddingTop] = useState(105);
 
     const parentRef = useRef(null);
 
     useEffect(() => {
         setAdmin(true);
-        setBackBtn(true);
         return () => {
             setAdmin(false);
-            setBackBtn(false);
         }
     }, []);
 
