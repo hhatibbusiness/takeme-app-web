@@ -13,8 +13,8 @@ const initialState = {
     description: null,
     location: {
         id: 0,
-        locationName: null,
-        address: null,
+        locationName: '',
+        address: '',
         postalCode: null,
         latitude: 0,
         longitude: 0,
@@ -22,7 +22,7 @@ const initialState = {
         floorNumber: null,
         roomNumber: null,
         placeId: null,
-        comments: null,
+        comments: '',
         navigationList: [
             {
                 id: 0,
@@ -52,6 +52,7 @@ const initialState = {
     isUpdateName: false,
     isUpdateDateOfBirth: false,
     isUpdateImage: false,
+    isDeleting: false,
 };
 
 
@@ -117,6 +118,14 @@ export default (state = initialState, action) => {
                 ...state,
                 location: { ...state.location, ...action.payload }
             };
+        // Delete Profile
+        case ACTION_TYPES.START_DELETE_PROFILE:
+            return { ...state, isDeleting: true };
+        case ACTION_TYPES.END_DELETE_PROFILE:
+            return { ...state, isDeleting: false };
+            
+        case ACTION_TYPES.LOG_PROFILE_OUT:
+            return initialState;
         default:
             return state;
     }

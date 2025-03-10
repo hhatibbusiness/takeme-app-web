@@ -75,6 +75,8 @@ const Navbar = ({data, store, currentParams, providerId, fetchingItems, showItem
                     setEyeOpen={setEyeOpen}
                     setViewOpen={setViewOpen}
                     viewOpen={viewOpen}
+                    navHeight={navHeight}
+                    sidebar={sidebar}
                 />
                 {
                     showIcons &&
