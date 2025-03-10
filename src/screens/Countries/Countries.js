@@ -5,19 +5,16 @@ import ItemsList from '../../components/ItemsList/ItemsList';
 import './Countries.css';
 import {connect} from "react-redux";
 import {fetchCountries, editCountry, deleteCountry, searchCountries} from "../../store/actions/countries.actions";
-import {changeBackBtnState} from "../../store/actions/navbar.actions";
 
-const Countries = ({ changeBackBtnState, fetchCountries, editCountry, searchCountries, deleteCountry, setBackBtn, setAdmin, countries }) => {
-    const [paddingTop, setPaddingTop] = useState(0);
+const Countries = ({ fetchCountries, editCountry, searchCountries, deleteCountry, setAdmin, countries }) => {
+    const [paddingTop, setPaddingTop] = useState(105);
 
     const parentRef = useRef(null);
 
     useEffect(() => {
         setAdmin(true);
-        changeBackBtnState(true);
         return () => {
             setAdmin(false);
-            changeBackBtnState(false);
         }
     }, []);
 
@@ -27,8 +24,6 @@ const Countries = ({ changeBackBtnState, fetchCountries, editCountry, searchCoun
         if(navbarGetter) {
             setPaddingTop(navbarGetter.getBoundingClientRect().height);
         }
-
-        console.log(countries);
     });
 
     useEffect(() => {
@@ -128,4 +123,4 @@ const mapStateToProps = state => ({
     countries: state.countries
 })
 
-export default connect(mapStateToProps, {changeBackBtnState, searchCountries, fetchCountries, editCountry, deleteCountry}) (Countries);
+export default connect(mapStateToProps, {searchCountries, fetchCountries, editCountry, deleteCountry}) (Countries);

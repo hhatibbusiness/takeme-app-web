@@ -13,13 +13,15 @@ export function DropDown({ PlaceHolderTEXT, width='100%', height='100%' }){
 }
 
 
-export function Input({ PlaceHolderTEXT, value, onChange, type="text", width, height, style={} }){
+export function Input({ PlaceHolderTEXT, value, onChange, type="text", width, height, style={}, maxLength }) {
     return(
         <div className="Input__Location" style={{width: width||'100%', height: height||'100%', ...style}}>
             <input type={type}
                     placeholder={PlaceHolderTEXT}
                     value={value}
-                    onChange={(e)=> onChange(e.target.value)} />
+                    onChange={(e)=> onChange(e.target.value)}
+                    maxLength={maxLength}
+            />
         </div>
     )
 }

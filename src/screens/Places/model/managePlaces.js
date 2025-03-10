@@ -31,7 +31,7 @@ export async function getPlaces({mLocale='ar_SA', page, isAscending=true, itemCo
 // Search Places API with Search Key
 export async function searchPlacesAPI({ searchkey, page }) {
     try {
-        const url = `${BaseURL}/places/search?mLocale=ar_SA&page=${page}&itemCount=20&searchKey=${searchkey}`;
+        const url = `${BaseURL}/places/search?mLocale=ar_SA&page=${page}&itemCount=10&searchKey=${searchkey}`;
         const res = await axios.get(url);
         return res.data;
     } catch (error) {

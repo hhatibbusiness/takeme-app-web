@@ -7,16 +7,14 @@ import { fetchLocales, searchLocales, deleteLocale } from '../../store/actions/l
 import KeepAlive from 'react-activation';
 import {changeBackBtnState} from "../../store/actions/navbar.actions";
 
-const Locales = ({ changeBackBtnState, setBackBtn, setAdmin, locales, fetchLocales, searchLocales, deleteLocale }) => {
+const Locales = ({ setAdmin, locales, fetchLocales, searchLocales, deleteLocale }) => {
     const [paddingTop, setPaddingTop] = useState(105);
     const parentRef = useRef(null);
     
     useEffect(() => {
         setAdmin(true);
-        changeBackBtnState(true);
         return () => {
             setAdmin(false);
-            changeBackBtnState(false);
         }
     }, []);
 

@@ -4,10 +4,11 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    min-height: 60px;
+    min-height: 40px;
     background-color: #FFFFFF;
     border: 1px solid #E5E5E5;
     border-radius: 10px;
+    margin: 5px 0;
     padding: 0 10px;
     box-sizing: border-box;
     z-index: 10000;
@@ -26,7 +27,7 @@
 }
 
 .SearchInput__Location img {
-    height: 40%;
+    height: 50%;
     width: auto;
     z-index: 100000;
 }
@@ -37,13 +38,14 @@
     height: 100%;
     border: none;
     background: none;
-    margin: 0 10px;
+    margin: 0 5px;
     font-family: 'DIN Next LT Arabic';
     font-style: normal;
     font-weight: 400;
     font-size: 15px;
     line-height: 22px;
     text-align: right;
+    color: #dfdfdf;
     z-index: 10000000;
 }
 
@@ -64,7 +66,6 @@
     z-index: 1000000;        
 }
 
-
 .ResultSearch__SeachInput {
     position: absolute;
     display: flex;
@@ -84,9 +85,26 @@
     z-index: 100;
     animation: slideDown 0.3s ease-in-out;
 }
-@keyframes slideDown {
+
+.overlaySearchInput {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
 }
 
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 .SearchResultsItem__Location{
     width: 100%;
@@ -100,7 +118,13 @@
     line-height: 25px;
     text-align: right;
     color: #dfdfdf;
+    cursor: pointer;
 }
+
+.SearchResultsItem__Location:hover {
+    background-color: #f5f5f5;
+}
+
 .SearchResultsNoItem__Location{
     width: 100%;
     padding: 10px;

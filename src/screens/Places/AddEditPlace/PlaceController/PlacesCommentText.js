@@ -37,9 +37,7 @@ export default function DesireDescriptionText ({ defaultValue, submitted, setVal
     }
 
     useEffect(()=>{
-        if (defaultValue) {
-            desireDescriptionChangeHandler(defaultValue);
-        }
+        desireDescriptionChangeHandler(defaultValue);
     }, [defaultValue])
 
     useEffect(() => {

@@ -11,10 +11,10 @@ import PopupInput from '../../../components/PopupInput/PopupInput';
 import { useSelectContext } from '../../../context/single.select.context';
 import { useNavbarContext } from '../../../context/navbar.context';
 import SelectPopup from '../../../components/SelectPopup/SelectPopup';
-import { changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguagesLocales } from '../../../store/actions/locales.actions';
-import {changeBackBtnState} from "../../../store/actions/navbar.actions";
+import { changeSelectedLanguage, editLocale, addLocale, searchLanguagesLocales } from '../../../store/actions/locales.actions';
 
-const LocalesAdd = ({ changeBackBtnState, setBackBtn, setAdmin, locales, changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguagesLocales }) => {
+
+const LocalesAdd = ({ setAdmin, locales, changeSelectedLanguage, editLocale, addLocale, searchLanguagesLocales }) => {
     const { select, openPopup, closePopup, changeProps } = useSelectContext();
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
@@ -27,12 +27,9 @@ const LocalesAdd = ({ changeBackBtnState, setBackBtn, setAdmin, locales, changeS
 
     useEffect(() => {
         changeSearchActive(false);
-        changeBackBtnState(true);
         setAdmin(true);
-
         return () => {
             changeSearchActive(true);
-            changeBackBtnState(false);
             setAdmin(false);
         }
     }, []);
@@ -81,25 +78,6 @@ const LocalesAdd = ({ changeBackBtnState, setBackBtn, setAdmin, locales, changeS
         valid: false
     });
 
-    const [languageId, setLanguageId] = useState({
-        value: '',
-        rules: {
-            maxLength: {
-                value: 5,
-                valid: false,
-                message: 'اكبر عدد من الحروف 5 حرف'
-            },
-            required: {
-                value: true,
-                valid: false,
-                message: "هذا الحقل مطلوب"
-            },
-        },
-        touched: false,
-        valid: false
-
-    })
-
     const [notes, setNotes] = useState({
         value: '',
         rules: {
@@ -110,8 +88,8 @@ const LocalesAdd = ({ changeBackBtnState, setBackBtn, setAdmin, locales, changeS
 
             },
             required: {
-                value: false,
-                valid: true,
+                value: true,
+                valid: false,
                 message: "هذا الحقل مطلوب"
 
             },
@@ -141,46 +119,19 @@ const LocalesAdd = ({ changeBackBtnState, setBackBtn, setAdmin, locales, changeS
     });
 
     useEffect(() => {
-        if (params.lanId) {
-            const data = {
-                lan: 'ar',
-                localeId: params.lanId
-            }
-            fetchLocaleById(data);
+        if (params.lanId || params.editId) {
+            const localeId = params.lanId || params.editId;
+            const locale = locales?.locales?.find(l => l.id === Number(localeId));
             
-        } else if (params.editId) {
-            const data = {
-                lan: 'ar',
-                localeId: params.editId
+            if (locale) {
+                locNameChangeHandler(locale.name || '');
+                codeChangeHandler(locale.code || '');
+                notesChangeHandler(locale.comments || '');
+                engNameChangeHandler(locale.englishName || '');
+                setValid(true);
             }
-            fetchLocaleById(data);
-
         }
-    }, [])
-
-    useEffect(() => {
-        if (params.lanId) {
-            // const locale = locales?.locales?.filter(l => l.id == params.lanId)[0];
-            
-            if (locales.locale) {
-                locNameChangeHandler(locales?.locale?.name || '');
-                codeChangeHandler(locales?.locale?.code || '');
-                notesChangeHandler(locales?.locale?.comments || '');
-                engNameChangeHandler(locales?.locale?.englishName || '')
-            }
-            setValid(true);
-        } else if (params.editId) {
-            // const locale = locales.locales.filter(l => l.id == params.editId)[0];
-            if (locales.locale) {
-                locNameChangeHandler(locales?.locale?.name || '');
-                codeChangeHandler(locales?.locale?.code || '');
-                notesChangeHandler(locales?.locale?.comments || '');
-                engNameChangeHandler(locales?.locale?.englishName || '')
-            }
-
-            setValid(true);
-        }
-    }, [locales.locale]);
+    }, [params.lanId, params.editId, locales.locales]);
 
 
     const locNameChangeHandler = value => {
@@ -204,7 +155,7 @@ const LocalesAdd = ({ changeBackBtnState, setBackBtn, setAdmin, locales, changeS
             }
         });
 
-        setValid(inputIsValid && code.valid);
+        setValid(inputIsValid && code.valid && notes.valid && engName.valid);
     }
 
     const codeChangeHandler = value => {
@@ -228,7 +179,7 @@ const LocalesAdd = ({ changeBackBtnState, setBackBtn, setAdmin, locales, changeS
             }
         });
 
-        setValid(inputIsValid && locName.valid && notes.valid);
+        setValid(inputIsValid && locName.valid && notes.valid && engName.valid);
     }
 
     const engNameChangeHandler = value => {
@@ -278,7 +229,7 @@ const LocalesAdd = ({ changeBackBtnState, setBackBtn, setAdmin, locales, changeS
             }
         });
 
-        setValid(inputIsValid && locName.valid && code.valid);
+        setValid(inputIsValid && locName.valid && code.valid && engName.valid);
     }
 
     const addLocaleHandler = async () => {
@@ -383,14 +334,6 @@ const LocalesAdd = ({ changeBackBtnState, setBackBtn, setAdmin, locales, changeS
                 <Input touched={engName.touched} valid={engName.valid} rules={engName.rules} submitted={submitted} required={engName.rules.required} value={engName.value} setValue={value => engNameChangeHandler(value)} placeholder={'اسم اللهجة بالانجليزية'} />
                 <Input touched={code.touched} valid={code.valid} rules={code.rules} submitted={submitted} required={code.rules.required} value={code.value} setValue={value => codeChangeHandler(value)} placeholder={'كود اللهجة'} />
                 <PopupInput
-                    data={{
-                        lan: 'ar',
-                        sortType: locales.sortType,
-                        page: 0,
-                        searchKey: ''
-                    }}
-                    searchItems={searchLanguagesLocales}
-                    items={locales.languages}
                     placeholder={'اختار اللغة'}
                     inputClickHandler={inputClickHandler}
                     selectedItem={locales.selectedLanguage}
@@ -416,4 +359,4 @@ const mapStateToProps = state => ({
     locales: state.locales
 });
 
-export default connect(mapStateToProps, { changeBackBtnState, changeSelectedLanguage, editLocale, addLocale, fetchLocaleById, searchLanguagesLocales })(LocalesAdd);
+export default connect(mapStateToProps, { changeSelectedLanguage, editLocale, addLocale, searchLanguagesLocales })(LocalesAdd);

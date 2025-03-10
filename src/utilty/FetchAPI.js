@@ -18,13 +18,13 @@ async function FetchAPI(url, options = {}, dispatch, showSuccessAlert = false) {
         if (showSuccessAlert && dispatch) {
             dispatch(addAlert({
                 alertType: 'success',
-                msg: 'تمت العملية بنجاح'
+                msg: data?.data?.message || data?.message || 'تمت العملية بنجاح'
             }));
         }
         
         return data;
     } catch (error) {
-        let alertMessage = error.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري';
+        let alertMessage = error.response?.data?.message || error.message || 'حدث خطأ برجاء المحاولة مرة أخري';
 
         if (!navigator.onLine) {
             alertMessage = 'لا يوجد اتصال بالإنترنت. برجاء التحقق من الشبكة والمحاولة مرة أخرى.';

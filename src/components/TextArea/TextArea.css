@@ -43,9 +43,8 @@
 }
 
 .TextArea__invalid {
-    border: 2px solid red;
-    background-color: #ffe6e6; /* Light red background */
-  
+    border: 1px solid #FC2121;
+    /*background-color: #ffe6e6; /* Light red background */
 }
 
 .TextArea__resize--handler {

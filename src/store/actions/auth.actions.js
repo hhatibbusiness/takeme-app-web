@@ -115,6 +115,13 @@ export const getUserProfile = data => async dispatch => {
 }
 
 export const logUserOut = () => dispatch => {
+    localStorage.clear();
+
+    // Clean up axios headers
+    import('../../utls/remove.axios.headers').then(module => {
+        module.default();
+    });
+
     dispatch({
         type: LOG_PROFILE_OUT
     });

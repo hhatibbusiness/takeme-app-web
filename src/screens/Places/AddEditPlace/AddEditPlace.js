@@ -8,26 +8,28 @@ import DesireDescriptionText from './PlaceController/PlacesCommentText'
 import SinglePopupAPI from './PlaceController/SelectLocalePop.js'
 import SaveButton from '../../../components/SaveButton/SaveButton';
 import CancelButton from '../../../components/CancelButton/CancelButton';
-import { searchPlacesAPI, getPlaces, getCountries, searchCountriesAPI, getLocales, searchLocalesAPI } from '../model/managePlaces.js';
+import { searchPlacesAPI, getPlaces, getCountries, searchCountriesAPI } from '../model/managePlaces.js';
 import PlaceType from './PlaceController/PlaceType/PlaceType.js'
 import { editPlace, addPlace } from "../../../store/actions/places.actions.js";
-import {changeBackBtnState} from "../../../store/actions/navbar.actions";
 
-function AddEditPlace( { changeBackBtnState, mode, setBackBtn, setAdmin, locale, places, editPlace, addPlace } ) {
+
+function AddEditPlace( { mode, setAdmin, locale, places, editPlace, addPlace } ) {
     const navigate = useNavigate()
     const { id } = useParams();
     const { changeSearchActive } = useNavbarContext();
     const [submitted, setSubmitted] = useState(false);
     const [namevalid, setNameValid] = useState(false);
+    const [postalCodeValid, setPostalCodeValid] = useState(false);
     const [descriptionValid, setDescriptionValid] = useState(false);
+    const [placeTypeValid, setPlaceTypeValid] = useState(false);
+    const [countryValid, setCountryValid] = useState(false);
     
     const [placeName, setPlaceName] = useState('');
     const [placeDescription, setPlaceDescription] = useState('');
     const [placeType, setPlaceType] = useState('');
     const [placePostalCode, setPlacePostalCode] = useState('');
-    const [placeParentID, setPlaceParentID] = useState(null);
-    const [placeCountryID, setPlaceCountryID] = useState(null);
-    const [placeLocaleID, setPlaceLocaleID] = useState('');
+    const [placeParent, setPlaceParent] = useState({});
+    const [placeCountry, setPlaceCountry] = useState({});
 
     /// Get the Place Data
     useEffect(() => {
@@ -37,10 +39,12 @@ function AddEditPlace( { changeBackBtnState, mode, setBackBtn, setAdmin, locale,
             if (place) {
                 setPlaceName(place?.translations?.fields?.find(field => field.key === 'name')?.value);
                 setPlaceDescription(place.comments);
-                setPlaceType(place.placeType);
+                setPlaceType(place?.placeType);
                 setPlacePostalCode(String(place.postalCode));
-                setPlaceParentID(place.parentPlaceId);
-                setPlaceCountryID(place?.country?.id);
+                setPlaceParent(place?.placesResponseDto);
+                setPlaceCountry(place?.country);
+                if (place?.country) setCountryValid(true);
+                if (place?.placeType) setPlaceTypeValid(true);
             }
         }
         // eslint-disable-next-line
@@ -51,11 +55,9 @@ function AddEditPlace( { changeBackBtnState, mode, setBackBtn, setAdmin, locale,
     useEffect(() => {
         window.scrollTo(0, 0);
         changeSearchActive(false);
-        changeBackBtnState(true);
         setAdmin(true);
         return () => {
             changeSearchActive(true);
-            changeBackBtnState(false);
             setAdmin(false);
         }
         // eslint-disable-next-line
@@ -63,6 +65,7 @@ function AddEditPlace( { changeBackBtnState, mode, setBackBtn, setAdmin, locale,
 
     const handlePlaceTypeChange = (value) => {
         setPlaceType(value);
+        setPlaceTypeValid(true);
     };
     const onNameChange = (value) => {
         setPlaceName(value);
@@ -74,33 +77,30 @@ function AddEditPlace( { changeBackBtnState, mode, setBackBtn, setAdmin, locale,
         setPlacePostalCode(value);
     }
     const handlePlaceParentChange = (value) => {
-        setPlaceParentID(value.id);
+        setPlaceParent(value);
     }
     const handleCountryChange = (value) => {
-        setPlaceCountryID(value.id);
+        setPlaceCountry(value);
+        setCountryValid(true);
     }
-    const handleLocaleChange = (value) => {
-        setPlaceLocaleID(value.id);
-    }
-
 
     /// Handle the Save Button Click
     const handleSave = async() => {
         setSubmitted(true);
-        if (namevalid && descriptionValid) {
+        if (namevalid && descriptionValid && postalCodeValid && placeTypeValid && countryValid) {
             const data = {
                 "lan": "ar_SA",
                 "id": null,	
-                "localeId": 1,
+                "localeId": locale?.id || 1,
                 "placeType": placeType,
                 "postalCode": placePostalCode,
-                "parentPlaceId": placeParentID,
-                "countryId": placeCountryID,
+                "parentPlaceId": placeParent?.id,
+                "countryId": placeCountry.id,
                 "initSource": "admin", 
                 "initMethod": "manual",
                 "comments": placeDescription,
                 "translations": {
-                  "localeId": 1,
+                  "localeId": locale?.id || 1,
                   "fields": [
                     {
                       "key": "name",
@@ -129,13 +129,15 @@ function AddEditPlace( { changeBackBtnState, mode, setBackBtn, setAdmin, locale,
 
                 {/**Place Type */}
                 <PlaceType
-                    options={['City', 'Village', 'Place']}
-                    value={placeType}
+                    value={Number(placeType) || ''}
                     onChange={handlePlaceTypeChange}
                     width="100%"
                     height="60px"
                     margin="10px auto"
                     placeholder="نوع المكان"
+                    submitted={submitted}
+                    valid={placeTypeValid}
+                    setValid={setPlaceTypeValid}
                 />
 
                 {/* PostCode */}
@@ -143,8 +145,10 @@ function AddEditPlace( { changeBackBtnState, mode, setBackBtn, setAdmin, locale,
                     placeholderText={'الرمز البريدي'} 
                     defaultValue={placePostalCode} 
                     submitted={submitted} 
-                    setValid={setNameValid} 
-                    onValueChange={onPostalCodeChange} 
+                    setValid={setPostalCodeValid} 
+                    onValueChange={onPostalCodeChange}
+                    maxLength={8}
+                    type={'number'}
                 />
 
                 {/** Places Pop up  */}
@@ -154,7 +158,7 @@ function AddEditPlace( { changeBackBtnState, mode, setBackBtn, setAdmin, locale,
                     SearchFunctionAPI={searchPlacesAPI} 
                     ListFunctionAPI={getPlaces} 
                     onSelectItem={handlePlaceParentChange}
-                    selectedItems={{id: placeParentID}}
+                    selectedItems={placeParent}
                 />
 
                 {/** Countries Pop up  */}
@@ -164,21 +168,18 @@ function AddEditPlace( { changeBackBtnState, mode, setBackBtn, setAdmin, locale,
                     SearchFunctionAPI={searchCountriesAPI} 
                     ListFunctionAPI={getCountries} 
                     onSelectItem={handleCountryChange}
-                    selectedItems={{id: placeCountryID}}
-                />
-
-                {/** Locales Pop up  */}
-                <SinglePopupAPI 
-                    placeHolderText={'اختر اللهجه'} 
-                    displayName='name' 
-                    SearchFunctionAPI={searchLocalesAPI} 
-                    ListFunctionAPI={getLocales} 
-                    onSelectItem={handleLocaleChange}
-                    selectedItems={{id: placeLocaleID}}
+                    selectedItems={placeCountry}
+                    sumitted={submitted}
+                    valid={countryValid}
                 />
 
                 {/** Description Input */}
-                <DesireDescriptionText defaultValue={placeDescription} submitted={submitted} setValid={setDescriptionValid} onValueChange={onDescriptionChange}/>
+                <DesireDescriptionText 
+                    defaultValue={placeDescription} 
+                    submitted={submitted} 
+                    setValid={setDescriptionValid}
+                    onValueChange={onDescriptionChange}
+                />
 
                 {/* Save Or Cancel */}
                 <div className='PlacesAdd__btns--container'>
@@ -195,4 +196,4 @@ const mapStateToProps = state => ({
     places: state.places
 })
 
-export default connect(mapStateToProps, {changeBackBtnState, editPlace,addPlace})(AddEditPlace);
+export default connect(mapStateToProps, {editPlace,addPlace})(AddEditPlace);

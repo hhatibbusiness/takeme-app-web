@@ -7,17 +7,15 @@ import {fetchPlaces, deletePlace, searchPlaces} from "../../store/actions/places
 import KeepAlive from 'react-activation';
 import {changeBackBtnState} from "../../store/actions/navbar.actions";
 
-const PlacesPage = ({ changeBackBtnState, fetchPlaces, searchPlaces, deletePlace, setBackBtn, setAdmin, places }) => {
+const PlacesPage = ({ fetchPlaces, searchPlaces, deletePlace, setAdmin, places }) => {
     const [paddingTop, setPaddingTop] = useState(105);
     const parentRef = useRef(null);
 
 
     useEffect(() => {
         setAdmin(true);
-        changeBackBtnState(true);
         return () => {
             setAdmin(false);
-            changeBackBtnState(false);
         }
     }, []);
 
@@ -49,6 +47,7 @@ const PlacesPage = ({ changeBackBtnState, fetchPlaces, searchPlaces, deletePlace
         paginationData: {
             lan: 'ar_SA',
             page: places.searchResultsPage,
+            sortType: places.sortType,
             searchKey: places.searchKey
         },
         displayName: 'translations.fields.value',
@@ -61,7 +60,7 @@ const PlacesPage = ({ changeBackBtnState, fetchPlaces, searchPlaces, deletePlace
             },
             deleteData: {
                 lan: 'ar_SA',
-                placesId: id
+                placeId: id
             },
             deleteFun: deletePlace,
             isItem: true,
@@ -79,6 +78,7 @@ const PlacesPage = ({ changeBackBtnState, fetchPlaces, searchPlaces, deletePlace
         paginationData: {
             lan: 'ar_SA',
             page: places.page,
+            sortType: places.sortType,
             searchKey: places.searchKey
         },
         displayName: 'translations.fields.value',
@@ -128,4 +128,4 @@ const mapStateToProps = state => ({
     places: state.places
 })
 
-export default connect(mapStateToProps, {changeBackBtnState, searchPlaces, fetchPlaces, deletePlace}) (PlacesPage);
+export default connect(mapStateToProps, {searchPlaces, fetchPlaces, deletePlace}) (PlacesPage);

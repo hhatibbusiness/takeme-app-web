@@ -19,21 +19,22 @@
     height: 100%;
     box-sizing: border-box;
     background-color: #FFFFFF;
+
     font-family: 'DIN Next LT Arabic';
     font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 20px;
+    font-size: 16px;
+    line-height: 15px;
     text-align: right;
     color: #666666;
+    user-select: none;
 }
 
 .PopupContainer{
     position: absolute;
     left: 10%;
     top: 0;
-    width: 45vw;
-    --element-height: 10vh;
+    width: 50vw;
+    --element-height: 75px;
     height: var(--element-height);
     z-index: 100;
     animation: scaleUp 0.3s ease-in-out forwards;
@@ -44,15 +45,15 @@
         top: 100%;
     }
     to {
-        transform: scale(1.3);
-        top: calc(100% + (0.3 * var(--element-height)));
+        transform: scale(1.2);
+        top: calc(100% + (0.2 * var(--element-height)));
     }
 }
 
 .focused__Age {
     position: relative;
     z-index: 100;
-    transform: scale(1.3);
+    transform: scale(1.2);
     transition: all 0.3s ease-in-out;
 }
 .focused__Age_closed {

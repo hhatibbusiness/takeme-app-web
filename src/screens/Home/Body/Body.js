@@ -15,8 +15,6 @@ const Body = ({ coverLoaded, backBtn, setNavHeight, considerNav, setConsiderNav,
             <div className={'Body'}>
             {/*<div className={'Body'} style={{paddingTop: `${navHeight}px`}}>*/}
                 <CategoryError>
-                    <Sidebar backBtn={backBtn} navHeight={navHeight} sidebar={sidebar} setSidebar={setSidebar} />
-                    <Backdrop backBtn={backBtn} sidebar={sidebar} setSidebar={setSidebar} />
                     <BodyContainerComponent y={y} setY={setY} fixedNav={fixedNav} setFixedNav={setFixedNav} topValue={topValue} setTopValue={setTopValue} considerNav={considerNav}j bodyContainerRef={bodyContainerRef} setConsiderNav={setConsiderNav} setNavHeight={setNavHeight} navShow={navShow} setNavShow={setNavShow} filtersActive={filtersActive} setFiltersActive={setFiltersActive} navHeight={navHeight} coverLoaded={coverLoaded} setCoverLoaded={setCoverLoaded} currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} />
                 </CategoryError>
                 {/*{*/}
