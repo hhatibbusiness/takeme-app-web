@@ -5,6 +5,7 @@ import './PlacesPage.style.css';
 import {connect} from "react-redux";
 import {fetchPlaces, deletePlace, searchPlaces} from "../../store/actions/places.actions";
 import KeepAlive from 'react-activation';
+import {changeBackBtnState} from "../../store/actions/navbar.actions";
 
 const PlacesPage = ({ fetchPlaces, searchPlaces, deletePlace, setAdmin, places }) => {
     const [paddingTop, setPaddingTop] = useState(105);
@@ -59,7 +60,7 @@ const PlacesPage = ({ fetchPlaces, searchPlaces, deletePlace, setAdmin, places }
             },
             deleteData: {
                 lan: 'ar_SA',
-                placesId: id
+                placeId: id
             },
             deleteFun: deletePlace,
             isItem: true,

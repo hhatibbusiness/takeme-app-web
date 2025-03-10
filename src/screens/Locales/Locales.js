@@ -5,6 +5,7 @@ import ItemsList from '../../components/ItemsList/ItemsList';
 import './Locales.css';
 import { fetchLocales, searchLocales, deleteLocale } from '../../store/actions/locales.actions';
 import KeepAlive from 'react-activation';
+import {changeBackBtnState} from "../../store/actions/navbar.actions";
 
 const Locales = ({ setAdmin, locales, fetchLocales, searchLocales, deleteLocale }) => {
     const [paddingTop, setPaddingTop] = useState(105);
@@ -114,4 +115,4 @@ const mapStateToProps = state => ({
     locales: state.locales
 });
 
-export default connect(mapStateToProps, { fetchLocales, searchLocales, deleteLocale })(Locales);
+export default connect(mapStateToProps, { changeBackBtnState, fetchLocales, searchLocales, deleteLocale })(Locales);
