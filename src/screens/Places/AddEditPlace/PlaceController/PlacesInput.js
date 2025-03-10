@@ -3,69 +3,69 @@ import Input from '../../../../components/InputAdmin/Input';
 import { formValidator } from '../../../../utilty/formValidator'; 
 
 
-export default function NameInput ({ defaultValue, submitted, setValid, onValueChange, placeholderText, maxLength=20, Required=true, type }) {
-    const [Name, setName] = useState({
+export default function NameInput ({ defaultValue, submitted, setValid, onValueChange, placeholderText, maxLength=20, type }) {
+    const [conName, setConName] = useState({
         value: '',
         rules: {
             maxLength: {
                 value: maxLength,
                 valid: false,
-                message: 'اكبر عدد من الحروف 20 حرف'
+                message: `اكبر عدد من الحروف ${maxLength} حرف`
             },
             required: {
-                value: Required,
+                value: true,
                 valid: false,
                 message: "هذا الحقل مطلوب"
-            },
+            }
         },
         touched: false,
         valid: false
     });
 
-    const NameChangeHandler = value => {
-        const inputIsValid = formValidator(Name.rules, value);
-        setName({
-            ...Name,
+    const conNameChangeHandler = value => {
+        const inputIsValid = formValidator(conName.rules, value, setConName, conName);
+        setConName({
+            ...conName,
             touched: true,
             valid: inputIsValid,
             value: value,
             rules: {
-                ...Name.rules,
+                ...conName.rules,
                 required: {
-                    ...Name.rules.required,
-                    valid: value !== ''
+                    ...conName.rules.required,
+                    valid: value != ''
                 },
                 maxLength: {
-                    ...Name.rules.maxLength,
-                    valid: value.length <= Name.rules.maxLength.value
+                    ...conName.rules.maxLength,
+                    valid: value.length <= conName.rules.maxLength.value
                 }
             }
         });
+
         setValid(inputIsValid);
         onValueChange(value);
     }
 
     useEffect(() => {
-        if (defaultValue) {
-            NameChangeHandler(defaultValue);
-        }
+        setConName({
+            ...conName,
+            value: defaultValue
+        });
+        conNameChangeHandler(defaultValue);
     }, [defaultValue]);
 
-    useEffect(() => {
-        setValid(Name.valid);
-    }, [Name.valid, setValid]);
-
     return (
-        <Input 
-            touched={Name.touched} 
-            valid={Name.valid} 
-            rules={Name.rules} 
-            submitted={submitted} 
-            required={Name.rules.required} 
-            value={Name.value} 
-            setValue={value => NameChangeHandler(value)} 
+        <Input
+            touched={conName.touched}
+            valid={conName.valid}
+            rules={conName.rules}
+            submitted={submitted}
+            required={conName.rules.required}
+            value={conName.value}
+            setValue={value => conNameChangeHandler(value)}
             placeholder={placeholderText}
-            type={type || 'text'}
+            key={1}
+            type={type || 'text'} 
         />
     );
 }

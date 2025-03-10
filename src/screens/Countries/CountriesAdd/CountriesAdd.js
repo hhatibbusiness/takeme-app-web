@@ -76,8 +76,8 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, editCountry, add
                 message: 'اكبر عدد من الحروف 250 حرف'
             },
             required: {
-                value: false,
-                valid: true,
+                value: true,
+                valid: false,
                 message: "هذا الحقل مطلوب"
 
             }
@@ -128,7 +128,7 @@ const CountriesAdd = ({setAdmin, setBackBtn, locale, countries, editCountry, add
             }
         });
 
-        setValid(inputIsValid && code.valid);
+        setValid(inputIsValid && code.valid && notes.valid);
     }
 
     const codeChangeHandler = value => {

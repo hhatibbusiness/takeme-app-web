@@ -3,21 +3,19 @@ import PopupInput from '../../../../../components/PopupInput/PopupInput';
 import { useTranslation } from 'react-i18next';
 import './PlaceType.css';
 
-const PlaceType = ({ value, onChange, width, height, margin, placeholder }) => {
+const PlaceType = ({ value, onChange, width, height, margin, placeholder, submitted, valid }) => {
     const { t } = useTranslation();
     const placeTypes = t('placeTypes', { returnObjects: true });
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
-    const handleToggle = () => {
-        setIsOpen(!isOpen);
-    };
 
     const handleOptionClick = (placeType) => {
         onChange(placeType.id);
         setIsOpen(false);
     };
 
+    // if user press anywhere it is closed
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -41,8 +39,10 @@ const PlaceType = ({ value, onChange, width, height, margin, placeholder }) => {
                 selectedItem={{value: placeTypes.find(type => type.id === value)?.name || ''}}
                 displayName={'value'}
                 placeholder={placeholder}
-                inputClickHandler={handleToggle}
+                inputClickHandler={() => setIsOpen(!isOpen)}
                 setOpen={setIsOpen}
+                submitted={submitted}
+                valid={valid}
             />
             {isOpen && (
                 <div className="placeTypeElementContainer__options">

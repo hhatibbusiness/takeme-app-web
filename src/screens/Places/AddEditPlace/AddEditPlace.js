@@ -11,6 +11,7 @@ import CancelButton from '../../../components/CancelButton/CancelButton';
 import { searchPlacesAPI, getPlaces, getCountries, searchCountriesAPI } from '../model/managePlaces.js';
 import PlaceType from './PlaceController/PlaceType/PlaceType.js'
 import { editPlace, addPlace } from "../../../store/actions/places.actions.js";
+import { set } from "lodash";
 
 
 function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, addPlace } ) {
@@ -19,7 +20,10 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
     const { changeSearchActive } = useNavbarContext();
     const [submitted, setSubmitted] = useState(false);
     const [namevalid, setNameValid] = useState(false);
+    const [postalCodeValid, setPostalCodeValid] = useState(false);
     const [descriptionValid, setDescriptionValid] = useState(false);
+    const [placeTypeValid, setPlaceTypeValid] = useState(false);
+    const [countryValid, setCountryValid] = useState(false);
     
     const [placeName, setPlaceName] = useState('');
     const [placeDescription, setPlaceDescription] = useState('');
@@ -36,10 +40,12 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
             if (place) {
                 setPlaceName(place?.translations?.fields?.find(field => field.key === 'name')?.value);
                 setPlaceDescription(place.comments);
-                setPlaceType(place.placeType);
+                setPlaceType(place?.placeType);
                 setPlacePostalCode(String(place.postalCode));
                 setPlaceParent(place?.placesResponseDto);
                 setPlaceCountry(place?.country);
+                if (place?.country) setCountryValid(true);
+                if (place?.placeType) setPlaceTypeValid(true);
             }
         }
         // eslint-disable-next-line
@@ -62,6 +68,7 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
 
     const handlePlaceTypeChange = (value) => {
         setPlaceType(value);
+        setPlaceTypeValid(true);
     };
     const onNameChange = (value) => {
         setPlaceName(value);
@@ -77,12 +84,13 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
     }
     const handleCountryChange = (value) => {
         setPlaceCountry(value);
+        setCountryValid(true);
     }
 
     /// Handle the Save Button Click
     const handleSave = async() => {
         setSubmitted(true);
-        if (namevalid && descriptionValid) {
+        if (namevalid && descriptionValid && postalCodeValid && placeTypeValid && countryValid) {
             const data = {
                 "lan": "ar_SA",
                 "id": null,	
@@ -130,6 +138,9 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
                     height="60px"
                     margin="10px auto"
                     placeholder="نوع المكان"
+                    submitted={submitted}
+                    valid={placeTypeValid}
+                    setValid={setPlaceTypeValid}
                 />
 
                 {/* PostCode */}
@@ -137,8 +148,9 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
                     placeholderText={'الرمز البريدي'} 
                     defaultValue={placePostalCode} 
                     submitted={submitted} 
-                    setValid={setNameValid} 
+                    setValid={setPostalCodeValid} 
                     onValueChange={onPostalCodeChange}
+                    maxLength={8}
                     type={'number'}
                 />
 
@@ -160,10 +172,17 @@ function AddEditPlace( { mode, setBackBtn, setAdmin, locale, places, editPlace, 
                     ListFunctionAPI={getCountries} 
                     onSelectItem={handleCountryChange}
                     selectedItems={placeCountry}
+                    sumitted={submitted}
+                    valid={countryValid}
                 />
 
                 {/** Description Input */}
-                <DesireDescriptionText defaultValue={placeDescription} submitted={submitted} setValid={setDescriptionValid} onValueChange={onDescriptionChange}/>
+                <DesireDescriptionText 
+                    defaultValue={placeDescription} 
+                    submitted={submitted} 
+                    setValid={setDescriptionValid}
+                    onValueChange={onDescriptionChange}
+                />
 
                 {/* Save Or Cancel */}
                 <div className='PlacesAdd__btns--container'>

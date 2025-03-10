@@ -3,7 +3,7 @@ import SelectPopup from '../../../../components/SelectPopup/SelectPopup';
 import '../Place.style.css';
 import PopupInput from '../../../../components/PopupInput/PopupInput'
 
-const SinglePopupAPI = ({ placeHolderText, SearchFunctionAPI, displayName, onSelectItem, selectedItems={} }) => {
+const SinglePopupAPI = ({ placeHolderText, SearchFunctionAPI, displayName, onSelectItem, selectedItems={}, sumitted, valid }) => {
     const [items, setItems] = useState([]);
     const [page, setPage] = useState(0);
     const [more, setMore] = useState(false);
@@ -74,7 +74,7 @@ const SinglePopupAPI = ({ placeHolderText, SearchFunctionAPI, displayName, onSel
 
     return (
         <>
-            <PopupInput setOpen={()=> setOpen(true)} placeholder={placeHolderText} selectedItem={selectedItems} displayName={displayName}/>
+            <PopupInput setOpen={()=> setOpen(true)} placeholder={placeHolderText} selectedItem={selectedItems} displayName={displayName} submitted={sumitted} valid={valid} />
             {isOpen &&
                 <SelectPopup {...SingleProps}  />
             }

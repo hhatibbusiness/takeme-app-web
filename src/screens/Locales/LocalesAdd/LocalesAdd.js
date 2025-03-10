@@ -81,25 +81,6 @@ const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, edi
         valid: false
     });
 
-    const [languageId, setLanguageId] = useState({
-        value: '',
-        rules: {
-            maxLength: {
-                value: 5,
-                valid: false,
-                message: 'اكبر عدد من الحروف 5 حرف'
-            },
-            required: {
-                value: true,
-                valid: false,
-                message: "هذا الحقل مطلوب"
-            },
-        },
-        touched: false,
-        valid: false
-
-    })
-
     const [notes, setNotes] = useState({
         value: '',
         rules: {
@@ -110,8 +91,8 @@ const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, edi
 
             },
             required: {
-                value: false,
-                valid: true,
+                value: true,
+                valid: false,
                 message: "هذا الحقل مطلوب"
 
             },
@@ -177,7 +158,7 @@ const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, edi
             }
         });
 
-        setValid(inputIsValid && code.valid);
+        setValid(inputIsValid && code.valid && notes.valid && engName.valid);
     }
 
     const codeChangeHandler = value => {
@@ -201,7 +182,7 @@ const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, edi
             }
         });
 
-        setValid(inputIsValid && locName.valid && notes.valid);
+        setValid(inputIsValid && locName.valid && notes.valid && engName.valid);
     }
 
     const engNameChangeHandler = value => {
@@ -251,7 +232,7 @@ const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, edi
             }
         });
 
-        setValid(inputIsValid && locName.valid && code.valid);
+        setValid(inputIsValid && locName.valid && code.valid && engName.valid);
     }
 
     const addLocaleHandler = async () => {
@@ -356,14 +337,6 @@ const LocalesAdd = ({ setBackBtn, setAdmin, locales, changeSelectedLanguage, edi
                 <Input touched={engName.touched} valid={engName.valid} rules={engName.rules} submitted={submitted} required={engName.rules.required} value={engName.value} setValue={value => engNameChangeHandler(value)} placeholder={'اسم اللهجة بالانجليزية'} />
                 <Input touched={code.touched} valid={code.valid} rules={code.rules} submitted={submitted} required={code.rules.required} value={code.value} setValue={value => codeChangeHandler(value)} placeholder={'كود اللهجة'} />
                 <PopupInput
-                    data={{
-                        lan: 'ar',
-                        sortType: locales.sortType,
-                        page: 0,
-                        searchKey: ''
-                    }}
-                    searchItems={searchLanguagesLocales}
-                    items={locales.languages}
                     placeholder={'اختار اللغة'}
                     inputClickHandler={inputClickHandler}
                     selectedItem={locales.selectedLanguage}
