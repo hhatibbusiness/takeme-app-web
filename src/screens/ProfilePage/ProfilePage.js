@@ -11,7 +11,7 @@ import Location from './Location/Location';
 import Welcome from '../../assets/images/profile/welcome.gif'
 import { connect } from 'react-redux';
 import { fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage } from '../../store/actions/profile.action'
-import { ImageManagerWrapped } from '../../common/ImageManager';
+//import { ImageManagerWrapped } from '../../common/ImageManager';
 import {changeNavbarIcons} from "../../store/actions/navbar.actions";
 import InfoActive from '../../assets/images/InfoActive.png'
 import InfoDisable from '../../assets/images/InfoDisable.png'
@@ -136,7 +136,7 @@ function ProfilePage({ paddingTop, isAuthenticated, ProfileData, fetchProfileDat
                     اهلا بك بعالم تيكمي للسعادة, هنا منصتك للحصول على رغباتك وحاجياتك بسرعة و سهولة.
                     </div>
                 </div>
-                {openImageManager &&
+                {/*openImageManager &&
                     <div className='ImageManagerShow'>
                         <ImageManagerWrapped
                             DefFileDir= {'/resources/images/profile'}
@@ -146,7 +146,7 @@ function ProfilePage({ paddingTop, isAuthenticated, ProfileData, fetchProfileDat
                             handleSaveImages={handleSaveImages}
                         />
                     </div>
-                }
+                */}
             </div>
         </>
     );
