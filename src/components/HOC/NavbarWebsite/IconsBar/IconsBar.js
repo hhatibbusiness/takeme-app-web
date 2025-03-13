@@ -4,11 +4,6 @@ import Icon from "./Icon/Icon";
 import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
 import {connect} from "react-redux";
-import logo from "../../../../assets/images/defaults/logo-default-image.svg";
-import Img from "../../../../screens/Home/Body/BodyContainer/ProductList/Products/Product/Img/Img";
-import profileDefaultImage from '../../../../assets/images/defaults/default-provider-image.png';
-
-const longPressDuration = 10;
 
 const IconsBar = ({ icons, currentParams, eyeDis, switchMarketStore, personActive, setPersonActive, pseronAva, separatorActive, searchActive, backupFilter, setBackupFilters, store, setFiltersActive, filtersActive, setViewOpen }) => {
     const [showPopup, setShowPopup] = useState(false);

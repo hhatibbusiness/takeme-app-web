@@ -13,13 +13,14 @@ import {searchLanguages, closeSearch, openSearch, deleteLanguage, changeLanguage
 import {searchCountries, fetchCountries, closeSearchCountries, openSearchCountries } from "../../../store/actions/countries.actions";
 import {searchPlaces, fetchPlaces, closeSearchPlaces, openSearchPlaces, changePlacesSortType} from '../../../store/actions/places.actions';
 import {searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort } from '../../../store/actions/locales.actions';
-
+import {fetchRoles, changeRolesSortType} from "../../../store/actions/roles.actions";
 
 const Navbar = ({
         openSearchCountries, countries, searchCountries, closeSearchCountries, 
         languages, searchLanguages, closeSearch, openSearch, changeLanguagesSort,
         openSearchPlaces, places, searchPlaces, closeSearchPlaces, changePlacesSortType,
         locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort,
+        fetchRoles, roles, changeRolesSortType
     }) => {
     
     const { details } = useDetailsContext();
@@ -125,6 +126,31 @@ const Navbar = ({
                 hasSort: true,
                 hasInit: true
             }
+        } else if (location.pathname.includes('roles')) {
+            return {
+                searchFun: searchPlaces,
+                isSearching: places.search,
+                fetchingSearchResults: places.searching,
+                closeSearch: closeSearchPlaces,
+                openSearch: openSearchPlaces,
+                searchTerm,
+                setSearchTerm,
+                sortType: roles.sortType,
+                urls:  {
+                    addUrl: '/roles/add'
+                },
+                changeSort: changeRolesSortType,
+                baseData: (e) => {
+                    return {
+                        lan: 'ar_SA',
+                        searchKey: e?.target?.value || '',
+                        sortType: roles.sortType,
+                        page: 0
+                    }
+                },
+                hasSort: true,
+                hasInit: true
+            }
         }
     }
 
@@ -149,11 +175,12 @@ const mapStateToProps = state => ({
     countries: state.countries,
     places: state.places,
     locales: state.locales,
+    roles: state.roles
 })
 
 export default connect(mapStateToProps, {
-        openSearchCountries, closeSearchCountries, fetchCountries, searchCountries, 
-        closeSearch, openSearch, deleteLanguage, changeLanguagesSort, searchLanguages,
-        searchPlaces, closeSearchPlaces, openSearchPlaces, fetchPlaces, changePlacesSortType,
-        searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort,
-    }) (Navbar);
+    openSearchCountries, closeSearchCountries, fetchCountries, searchCountries,
+    closeSearch, openSearch, deleteLanguage, changeLanguagesSort, searchLanguages,
+    searchPlaces, closeSearchPlaces, openSearchPlaces, fetchPlaces, changePlacesSortType,
+    searchLocales, changeRolesSortType, closeLocalesSearch, openLocalesSearch, changeLocalesSort,fetchRoles
+}) (Navbar);

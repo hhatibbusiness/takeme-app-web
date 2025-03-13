@@ -46,6 +46,9 @@ import Img from "./screens/Home/Body/BodyContainer/ProductList/Products/Product/
 import profileDefaultImage from "./assets/images/defaults/default-provider-image.png";
 import Icon from "./components/HOC/NavbarWebsite/IconsBar/Icon/Icon";
 import Backup from './screens/Backup/Backup.js';
+import Roles from "./screens/Roles/Roles";
+import {fetchRoles} from "./store/actions/roles.actions";
+import RolesAdd from "./screens/Roles/RolesAdd/RolesAdd";
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
 const ProviderScreen = lazy(() => import(/* webpackChunkName: "ProviderScreen" */ "./screens/Provider/ProviderScreen"));
@@ -367,6 +370,26 @@ const App = (props) => {
                                                     element={<CountriesAdd admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
+                                                    path='/roles'
+                                                    exact
+                                                    element={<Roles admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/roles/add'
+                                                    exact
+                                                    element={<RolesAdd admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/roles/add/duplicate/:roleId'
+                                                    exact
+                                                    element={<RolesAdd admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/roles/edit/:roleId'
+                                                    exact
+                                                    element={<RolesAdd admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
                                                     path='/places'
                                                     exact
                                                     element={<Places admin={admin} setAdmin={setAdmin} />}
@@ -423,4 +446,4 @@ const mapStateToProps = state => ({
     profile: state.auth.profile,
 });
 
-export default connect(mapStateToProps, {changeNavbarIcons, fetchAssets, fetchLocales, getUserRoles, getUserProfile, fetchMarketStores, loadProvider, addAlert, changeBackBtn, createOrder, loadUser, changePlatform}) (React.memo(App));
+export default connect(mapStateToProps, {fetchRoles, changeNavbarIcons, fetchAssets, fetchLocales, getUserRoles, getUserProfile, fetchMarketStores, loadProvider, addAlert, changeBackBtn, createOrder, loadUser, changePlatform}) (React.memo(App));
