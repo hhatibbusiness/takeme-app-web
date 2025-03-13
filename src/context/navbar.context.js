@@ -64,7 +64,13 @@ const navbarActions = {
         } else if (pathname.includes("/places/edit")) {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل مكان'})
         } else if (pathname == '/backup') {
-            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'Backup'})
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'Backup'});
+        } else if(pathname == '/roles') {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'Roles'});
+        } else if(pathname == '/roles/add') {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'اضافة Role'});
+        } else if(pathname.includes("/roles/edit")) {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'Roles اضافة'});
         }
     },
     changeSearchActive: (dispatch, searchActive) => {
