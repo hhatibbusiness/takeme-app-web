@@ -43,7 +43,9 @@ const Roles = ({setAdmin, admin, deleteRole, fetchRoles, locale, roles}) => {
         paginationData: {
             lan: 'ar_SA',
             page: roles.page,
-            searchKey: roles.searchKey
+            searchKey: roles.searchKey,
+            locale: locale.locale,
+            sortType: roles.sortType,
         },
         displayName: 'roleName',
         searchKey: roles.searchKey,

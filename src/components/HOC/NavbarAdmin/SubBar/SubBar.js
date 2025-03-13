@@ -12,7 +12,7 @@ import SearchInput from '../../../SearchInput/SearchInput';
 import { searchCountries } from '../../../../store/actions/countries.actions';
 import { InitPlaces } from '../../../../store/actions/places.actions';
 
-const SubBar = ({searchFun, hasSort, hasInit, isSearching, urls, baseData, changeSort, fetchingSearchResults, closeSearch, openSearch, searchTerm, setSearchTerm, sortType, countries, searchCountries, InitPlaces}) => {
+const SubBar = ({searchFun, hasSearch, hasSort, hasInit, isSearching, urls, baseData, changeSort, fetchingSearchResults, closeSearch, openSearch, searchTerm, setSearchTerm, sortType, countries, searchCountries, InitPlaces}) => {
     const [open, setOpen] = useState(false);
     const location = useLocation();
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -36,20 +36,23 @@ const SubBar = ({searchFun, hasSort, hasInit, isSearching, urls, baseData, chang
         <div className='SubBar'>
             <div className='SubBar__right'>
                 {
-                    isSearching ? (
-                        <div className='SubBar__box'>
-                            <input onChange={searchTermChangeHandler} value={searchTerm} placeholder='شو اللغة البدك ياه..' />
-                            <span onClick={e => {
-                                closeSearch()
-                            }} className='SubBar__box--close'><i class="fa-solid fa-xmark"></i></span>
-                        </div>
-                    ): (
-                        <div id={'SubBar__search--icon'} onClick={e => {
-                            openSearch();
-                            setOpenInit(false)
-                        }} className='SubBar__right--search'>
-                            <img className='SubBar__icon' src={searchImage} />
-                        </div>
+                    hasSearch && (
+                        isSearching ? (
+                            <div className='SubBar__box'>
+                                <input onChange={searchTermChangeHandler} value={searchTerm} placeholder='شو اللغة البدك ياه..' />
+                                <span onClick={e => {
+                                    closeSearch()
+                                }} className='SubBar__box--close'><i class="fa-solid fa-xmark"></i></span>
+                            </div>
+                        ): (
+                            <div id={'SubBar__search--icon'} onClick={e => {
+                                openSearch();
+                                setOpenInit(false)
+                            }} className='SubBar__right--search'>
+                                <img className='SubBar__icon' src={searchImage} />
+                            </div>
+                        )
+
                     )
                 }
             </div>

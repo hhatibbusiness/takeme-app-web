@@ -36,6 +36,7 @@ const Navbar = ({
                 fetchingSearchResults: languages.searching,
                 closeSearch: closeSearch, 
                 openSearch: openSearch,
+                hasSearch: true,
                 searchTerm,
                 setSearchTerm,
                 sortType: languages.sortType,
@@ -60,6 +61,7 @@ const Navbar = ({
                 fetchingSearchResults: locales.searching,
                 closeSearch: closeLocalesSearch, 
                 openSearch: openLocalesSearch,
+                hasSearch: true,
                 searchTerm,
                 setSearchTerm,
                 sortType: locales.sortType,
@@ -85,6 +87,7 @@ const Navbar = ({
                 fetchingSearchResults: countries.searching,
                 closeSearch: closeSearchCountries, 
                 openSearch: openSearchCountries,
+                hasSearch: true,
                 searchTerm,
                 setSearchTerm,
                 sortType: null,
@@ -108,6 +111,7 @@ const Navbar = ({
                 fetchingSearchResults: places.searching,
                 closeSearch: closeSearchPlaces, 
                 openSearch: openSearchPlaces,
+                hasSearch: true,
                 searchTerm,
                 setSearchTerm,
                 sortType: places.sortType,
@@ -133,6 +137,7 @@ const Navbar = ({
                 fetchingSearchResults: places.searching,
                 closeSearch: closeSearchPlaces,
                 openSearch: openSearchPlaces,
+                hasSearch: false,
                 searchTerm,
                 setSearchTerm,
                 sortType: roles.sortType,
@@ -149,7 +154,7 @@ const Navbar = ({
                     }
                 },
                 hasSort: true,
-                hasInit: true
+                hasInit: false
             }
         }
     }

@@ -10,9 +10,11 @@ import { formValidator } from '../../../utilty/formValidator';
 import {useNavbarContext} from "../../../context/navbar.context";
 import {connect} from "react-redux";
 import {addLanguage, editLanguage} from "../../../store/actions/languages.actions";
-import {addRole} from "../../../store/actions/roles.actions";
+import {addRole, updateRole} from "../../../store/actions/roles.actions";
+import axios from "axios";
+import {BASE_URL} from "../../../utls/assets";
 
-const LanguagesAdd = ({addRole, setAdmin, roles, editLanguage, locale}) => {
+const LanguagesAdd = ({addRole, updateRole, setAdmin, roles, editLanguage, locale}) => {
     const { changeSearchActive } = useNavbarContext();
     const [paddingTop, setPaddingTop] = useState(0);
 
@@ -41,6 +43,21 @@ const LanguagesAdd = ({addRole, setAdmin, roles, editLanguage, locale}) => {
             setAdmin(false);
             changeSearchActive(true);
         }
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            let res;
+            if(params.roleId) {
+                res = await axios.get(`${BASE_URL}endpoints/roles/get?mLocale=${locale?.locale}&roleId=${params.roleId}`);
+
+            } else {
+                res = await axios.get(`${BASE_URL}endpoints/roles/get?mLocale=${locale?.locale}&roleId=${params.editId}`);
+
+            }
+            roleNameChangeHandler(res?.data?.output?.roleName);
+            notesChangeHandler(res?.data?.output?.roleDescription);
+        })();
     }, []);
 
     const [notes, setNotes] = useState({
@@ -77,7 +94,7 @@ const LanguagesAdd = ({addRole, setAdmin, roles, editLanguage, locale}) => {
     });
 
     useEffect(() => {
-        if (params.lanId) {
+        if (params.roleId) {
             const role = roles?.roles?.filter(l => l.id == params.lanId)[0];
 
             if (role) {
@@ -87,7 +104,7 @@ const LanguagesAdd = ({addRole, setAdmin, roles, editLanguage, locale}) => {
 
             setValid(true);
         } else if (params.editId) {
-            const role = roles.languages.filter(l => l.id == params.editId)[0];
+            const role = roles.roles.filter(l => l.id == params.editId)[0];
             if (role) {
                 roleNameChangeHandler(role?.name);
                 notesChangeHandler(role?.comments);
@@ -158,12 +175,15 @@ const LanguagesAdd = ({addRole, setAdmin, roles, editLanguage, locale}) => {
         if (params.editId) {
             const data = {
                 id: params.editId,
-                name: roleName.value,
-                comments: notes.value,
-                lan: 'ar_SA'
+                roleName: roleName.value,
+                roleDescription: notes.value,
+                locale: locale.locale
             };
 
-            res = await editLanguage(data);
+            res = await updateRole(data);
+            if(res.status == 200) {
+                navigate('/roles');
+            }
         } else {
             const data = {
                 roleName: roleName.value,
@@ -245,4 +265,4 @@ const mapStateToProps = state => ({
     locale: state.categories.selectedLocale
 })
 
-export default connect(mapStateToProps, {addRole, editLanguage}) (LanguagesAdd);
+export default connect(mapStateToProps, {updateRole, addRole, editLanguage}) (LanguagesAdd);

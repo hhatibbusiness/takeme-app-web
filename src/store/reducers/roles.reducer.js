@@ -31,13 +31,17 @@ export default (state = initialState, action) => {
         case actionTypes.FETCH_ROLES:
             return {
                 ...state,
-                roles: action.roles,
-                more: action.roles.length >= 10
+                roles: [...state.roles, ...action.roles],
+                more: action.roles.length >= 10,
+                page: state.page + 1
             }
         case actionTypes.CHANGE_SORT_ROLES:
             return {
                 ...state,
                 sortType: action.sortType,
+                page: 0,
+                more: true,
+                roles: []
             }
         case actionTypes.START_DELETING_ROLE:
             return {
@@ -69,6 +73,30 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 roles: [action.role, ...state.roles]
+            }
+        case actionTypes.START_UPDATING_ROLE:
+            return {
+                ...state,
+                adding: true
+            }
+        case actionTypes.END_UPDATING_ROLE:
+
+            return {
+                ...state,
+                adding: false
+            }
+        case actionTypes.UPDATE_ROLE:
+            const rolesCopy = state.roles.filter(r => r.id != action.roleId);
+            if(state.sortType == 'NEWEST'){
+                return {
+                    ...state,
+                    roles: [action.role, rolesCopy]
+                }
+            }else {
+                return {
+                    ...state,
+                    roles: [...state.roles, action.role],
+                }
             }
         default:
             return state;

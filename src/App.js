@@ -385,7 +385,7 @@ const App = (props) => {
                                                     element={<RolesAdd admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
-                                                    path='/roles/edit/:roleId'
+                                                    path='/roles/edit/:editId'
                                                     exact
                                                     element={<RolesAdd admin={admin} setAdmin={setAdmin} />}
                                                 />

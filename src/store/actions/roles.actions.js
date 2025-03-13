@@ -3,10 +3,10 @@ import {BASE_URL} from "../../utls/assets";
 import {
     ADD_ROLE,
     CHANGE_SORT_ROLES, DELETE_ROLE, END_ADDING_ROLE, END_DELETING_ROLE,
-    END_FETCHING_ROLES,
+    END_FETCHING_ROLES, END_UPDATING_ROLE,
     FETCH_ROLES, START_ADDING_ROLE, START_DELETING_ROLE,
     START_FETCHING_ROLES,
-    START_SEARCHING_FOR_ROLE
+    START_SEARCHING_FOR_ROLE, START_UPDATING_ROLE, UPDATE_ROLE
 } from "./action.types";
 
 export const fetchRoles = data => async dispatch => {
@@ -74,3 +74,14 @@ export const addRole = data => async dispatch => {
     }
 }
 
+export const updateRole = data => async dispatch => {
+    try {
+        dispatch({type: START_UPDATING_ROLE});
+        const res = await axios.put(`${BASE_URL}endpoints/roles/update?mLocale=${data.locale}`, data);
+        dispatch({type: UPDATE_ROLE, role: res.data.output});
+        dispatch({type: END_UPDATING_ROLE});
+        return res;
+    } catch (e) {
+        console.error(e.message);
+    }
+}
