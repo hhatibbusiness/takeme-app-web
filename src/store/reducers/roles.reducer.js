@@ -70,9 +70,11 @@ export default (state = initialState, action) => {
                 adding: false
             }
         case actionTypes.ADD_ROLE:
-            return {
-                ...state,
-                roles: [action.role, ...state.roles]
+            if(state.roles.length > 0) {
+                return {
+                    ...state,
+                    roles: [action.role, ...state.roles]
+                }
             }
         case actionTypes.START_UPDATING_ROLE:
             return {
@@ -86,17 +88,19 @@ export default (state = initialState, action) => {
                 adding: false
             }
         case actionTypes.UPDATE_ROLE:
-            const rolesCopy = state.roles.filter(r => r.id != action.role.id);
-            console.log(action.role.id);
-            if(state.sortType == 'NEWEST'){
-                return {
-                    ...state,
-                    roles: [action.role, ...rolesCopy]
-                }
-            }else {
-                return {
-                    ...state,
-                    roles: [...state.roles, action.role],
+            if(state.roles.length > 0) {
+                const rolesCopy = state.roles.filter(r => r.id != action.role.id);
+                console.log(action.role.id);
+                if(state.sortType == 'NEWEST'){
+                    return {
+                        ...state,
+                        roles: [action.role, ...rolesCopy],
+                    }
+                }else {
+                    return {
+                        ...state,
+                        roles: [...state.roles, action.role],
+                    }
                 }
             }
         default:

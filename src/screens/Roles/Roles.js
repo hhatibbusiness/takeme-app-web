@@ -75,7 +75,7 @@ const Roles = ({setAdmin, admin, deleteRole, fetchRoles, locale, roles}) => {
                 roles.fetchingRoles ? (
                     <RolesShimmer />
                 ) : (
-                    <ItemsList {...itemsListPropsMain} window={true} />
+                    <ItemsList {...itemsListPropsMain} window={false} />
                 )
             }
         </div>

@@ -2,12 +2,13 @@ import axios from "axios";
 import {BASE_URL} from "../../utls/assets";
 import {
     ADD_ROLE,
-    CHANGE_SORT_ROLES, DELETE_ROLE, END_ADDING_ROLE, END_DELETING_ROLE,
+    CHANGE_SORT_ROLES, DELETE_ROLE, END_ADDING_ROLE, END_CHANGING_PASSWORD, END_DELETING_ROLE,
     END_FETCHING_ROLES, END_UPDATING_ROLE,
     FETCH_ROLES, START_ADDING_ROLE, START_DELETING_ROLE,
     START_FETCHING_ROLES,
     START_SEARCHING_FOR_ROLE, START_UPDATING_ROLE, UPDATE_ROLE
 } from "./action.types";
+import {addAlert} from "./alert.actions";
 
 export const fetchRoles = data => async dispatch => {
     try {
@@ -18,6 +19,12 @@ export const fetchRoles = data => async dispatch => {
         dispatch({type: END_FETCHING_ROLES});
     } catch(e) {
         console.error(e.message);
+        dispatch(addAlert({
+            alertType: 'danger',
+            msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
+        }))
+        dispatch({type: END_FETCHING_ROLES});
+
     }
 }
 
@@ -27,6 +34,11 @@ export const searchForRole = data => async dispatch => {
         const res = await axios.get()
     } catch (e) {
         console.log(e.message);
+        dispatch(addAlert({
+            alertType: 'danger',
+            msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
+        }))
+
     }
 }
 
@@ -43,6 +55,12 @@ export const changeRolesSortType = data => async dispatch => {
         dispatch(fetchRoles(fetchingData));
     } catch (e) {
         console.error(e.message);
+        dispatch(addAlert({
+            alertType: 'danger',
+            msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
+        }))
+
+
     }
 }
 
@@ -58,6 +76,12 @@ export const deleteRole = data => async dispatch => {
         dispatch({type: END_DELETING_ROLE});
     } catch (e) {
         console.error(e.message);
+        dispatch(addAlert({
+            alertType: 'danger',
+            msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
+        }))
+        dispatch({type: END_DELETING_ROLE});
+
     }
 }
 
@@ -71,6 +95,12 @@ export const addRole = data => async dispatch => {
         return res;
     } catch (e) {
         console.error(e.message);
+        dispatch(addAlert({
+            alertType: 'danger',
+            msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
+        }))
+        dispatch({type: END_ADDING_ROLE});
+
     }
 }
 
@@ -82,6 +112,12 @@ export const updateRole = data => async dispatch => {
         dispatch({type: END_UPDATING_ROLE});
         return res;
     } catch (e) {
-        console.error(e.message);
+        console.error(e);
+        dispatch(addAlert({
+            alertType: 'danger',
+            msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
+        }))
+        dispatch({type: END_UPDATING_ROLE});
+
     }
 }

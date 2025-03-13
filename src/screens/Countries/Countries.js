@@ -105,13 +105,13 @@ const Countries = ({ fetchCountries, editCountry, searchCountries, deleteCountry
                     countries.searching ? (
                         <CountriesShimmer />
                     ) : (
-                        <ItemsList window={true} {...itemsListPropsSearch} />
+                        <ItemsList window={false} {...itemsListPropsSearch} />
                     )
                 ) : (
                     countries.fetchingCountries ? (
                         <CountriesShimmer />
                     ) : (
-                        <ItemsList window={true}  {...itemsListPropsMain} />
+                        <ItemsList window={false}  {...itemsListPropsMain} />
                     )
                 )
             }

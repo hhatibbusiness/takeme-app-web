@@ -68,12 +68,7 @@ const LanguagesAdd = ({addRole, updateRole, setAdmin, roles, editLanguage, local
                 message: 'اكبر عدد من الحروف 250 حرف'
 
             },
-            required: {
-                value: true,
-                valid: false,
-                message: "هذا الحقل مطلوب"
 
-            },
         },
         touched: false,
         valid: false
@@ -134,7 +129,7 @@ const LanguagesAdd = ({addRole, updateRole, setAdmin, roles, editLanguage, local
             }
         });
 
-        setValid(inputIsValid && notes.valid);
+        setValid(inputIsValid);
     }
 
     const notesChangeHandler = value => {
@@ -158,12 +153,11 @@ const LanguagesAdd = ({addRole, updateRole, setAdmin, roles, editLanguage, local
                 }
             }
         });
-
-        setValid(inputIsValid && roleName.valid);
     }
 
     const addLanuageHanlder = async () => {
 
+        console.log(valid);
 
         setSubmitted(true);
 
@@ -172,6 +166,7 @@ const LanguagesAdd = ({addRole, updateRole, setAdmin, roles, editLanguage, local
         let res;
 
         if (params.editId) {
+            console.log(roleName);
             const data = {
                 id: params.editId,
                 roleName: roleName.value,
@@ -180,7 +175,7 @@ const LanguagesAdd = ({addRole, updateRole, setAdmin, roles, editLanguage, local
             };
 
             res = await updateRole(data);
-            if(res.status == 200) {
+            if(res?.status == 200) {
                 navigate('/roles');
             }
         } else {
@@ -201,7 +196,6 @@ const LanguagesAdd = ({addRole, updateRole, setAdmin, roles, editLanguage, local
             // }
 
             res = await addRole(data);
-
         }
 
         if (res?.status == 200 && !params.lanId && !params.editId) {
