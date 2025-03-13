@@ -1,0 +1,26 @@
+.RolesAdd {
+    direction: rtl;
+    background-color: white;
+    width: 100vw;
+    height: 100vh;
+}
+
+.RolesAdd__container {
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.RolesAdd__btns--container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 50px;
+}
+
+.RolesAdd__error--list {
+    list-style: none;
+    font-size: 12px;
+    color: #FC2121;
+    padding: 0 !important;
+}

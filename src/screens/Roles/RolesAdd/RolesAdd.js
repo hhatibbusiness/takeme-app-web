@@ -4,7 +4,6 @@ import Input from '../../../components/InputAdmin/Input';
 import TextArea from '../../../components/TextArea/TextArea';
 import SaveButton from '../../../components/SaveButton/SaveButton';
 import CancelButton from '../../../components/CancelButton/CancelButton';
-import { useLanguagesContext } from '../../../context/languages.context';
 import { useNavigate, useParams } from 'react-router-dom';
 import { formValidator } from '../../../utilty/formValidator';
 import {useNavbarContext} from "../../../context/navbar.context";
@@ -51,7 +50,7 @@ const LanguagesAdd = ({addRole, updateRole, setAdmin, roles, editLanguage, local
             if(params.roleId) {
                 res = await axios.get(`${BASE_URL}endpoints/roles/get?mLocale=${locale?.locale}&roleId=${params.roleId}`);
 
-            } else {
+            } else if(params.editId) {
                 res = await axios.get(`${BASE_URL}endpoints/roles/get?mLocale=${locale?.locale}&roleId=${params.editId}`);
 
             }
@@ -222,10 +221,10 @@ const LanguagesAdd = ({addRole, updateRole, setAdmin, roles, editLanguage, local
     }
 
     return (
-        <div id={'LanguagesAdd'} className='LanguagesAdd' style={{paddingTop: `${paddingTop + 20}px`}}>
-            <div className='LanguagesAdd__container'>
+        <div id={'RolesAdd'} className='RolesAdd' style={{paddingTop: `${paddingTop + 20}px`}}>
+            <div className='RolesAdd__container'>
                 <Input
-                    id={'languageName'}
+                    id={'roleName'}
                     touched={roleName.touched}
                     valid={roleName.valid}
                     rules={roleName.rules}
@@ -237,7 +236,7 @@ const LanguagesAdd = ({addRole, updateRole, setAdmin, roles, editLanguage, local
                     key={1}
                 />
                 <TextArea
-                    id={'languageNotes'}
+                    id={'roleNotes'}
                     touched={notes.touched}
                     valid={notes.valid}
                     rules={notes.rules}
@@ -245,11 +244,11 @@ const LanguagesAdd = ({addRole, updateRole, setAdmin, roles, editLanguage, local
                     setValue={value => notesChangeHandler(value)}
                     placeholder={'ملاحظات'}
                 />
-                <div className='LanguagesAdd__btns--container'>
+                <div className='RolesAdd__btns--container'>
                     <SaveButton
                         saving={params.editId ? roles.editing : roles.adding}
                         saveClickHanlder={addLanuageHanlder}
-                        id={"LanguagesAdd__save"}
+                        id={"RolesAdd__save"}
                     />
                     <CancelButton handleCancelClick={e => {
                         navigate(-1);

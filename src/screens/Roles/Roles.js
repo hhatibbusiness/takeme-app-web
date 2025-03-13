@@ -32,7 +32,9 @@ const Roles = ({setAdmin, admin, deleteRole, fetchRoles, locale, roles}) => {
             sortType: 'ASCENDING',
         }
 
-        fetchRoles(data);
+        if(roles?.roles?.length <= 0) {
+            fetchRoles(data);
+        }
     }, []);
 
     const itemsListPropsMain = {

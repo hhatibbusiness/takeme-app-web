@@ -86,11 +86,12 @@ export default (state = initialState, action) => {
                 adding: false
             }
         case actionTypes.UPDATE_ROLE:
-            const rolesCopy = state.roles.filter(r => r.id != action.roleId);
+            const rolesCopy = state.roles.filter(r => r.id != action.role.id);
+            console.log(action.role.id);
             if(state.sortType == 'NEWEST'){
                 return {
                     ...state,
-                    roles: [action.role, rolesCopy]
+                    roles: [action.role, ...rolesCopy]
                 }
             }else {
                 return {
