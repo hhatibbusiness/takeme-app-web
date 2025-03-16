@@ -9,37 +9,40 @@ import {
     START_SEARCHING_FOR_ROLE, START_UPDATING_ROLE, UPDATE_ROLE
 } from "./action.types";
 import {addAlert} from "./alert.actions";
+import FetchAPI from "../../utilty/FetchAPI";
 
 export const fetchRoles = data => async dispatch => {
-    try {
-        if(data.page == 0) dispatch({type: START_FETCHING_ROLES});
-        const res = await axios.get(`${BASE_URL}endpoints/roles/list?mLocale=${data.locale}&sortType=${data.sortType}&page=${data.page}`);
-        console.log(res);
-        dispatch({type: FETCH_ROLES, roles: res.data.output});
-        dispatch({type: END_FETCHING_ROLES});
-    } catch(e) {
-        console.error(e.message);
-        dispatch(addAlert({
-            alertType: 'danger',
-            msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
-        }))
-        dispatch({type: END_FETCHING_ROLES});
+    // try {
+    //     if(data.page == 0) dispatch({type: START_FETCHING_ROLES});
+    //     const res = await axios.get(`${BASE_URL}endpoints/roles/list?mLocale=${data.locale}&sortType=${data.sortType}&page=${data.page}`);
+    //     console.log(res);
+    //     dispatch({type: FETCH_ROLES, roles: res.data.output});
+    //     dispatch({type: END_FETCHING_ROLES});
+    // } catch(e) {
+    //     console.error(e.message);
+    //     dispatch(addAlert({
+    //         alertType: 'danger',
+    //         msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
+    //     }))
+    //     dispatch({type: END_FETCHING_ROLES});
+    //
+    // }
 
+    if(data.page == 0) dispatch({type: START_FETCHING_ROLES});
+
+    const url = `${BASE_URL}endpoints/roles/list?mLocale=${data.locale}&sortType=${data.sortType}&page=${data.page}`;
+    const options = {
+        method: "GET",
     }
-}
+    const res = await FetchAPI(url, options, dispatch);
 
-export const searchForRole = data => async dispatch => {
-    try {
-        if(data.page == 0) dispatch({type: START_SEARCHING_FOR_ROLE});
-        const res = await axios.get()
-    } catch (e) {
-        console.log(e.message);
-        dispatch(addAlert({
-            alertType: 'danger',
-            msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
-        }))
+    console.log(res);
 
+    if(res.status == true) {
+        dispatch({type: FETCH_ROLES, roles: res.output});
     }
+    dispatch({type: END_FETCHING_ROLES});
+
 }
 
 export const changeRolesSortType = data => async dispatch => {
@@ -65,59 +68,54 @@ export const changeRolesSortType = data => async dispatch => {
 }
 
 export const deleteRole = data => async dispatch => {
-    try {
-        dispatch({type: START_DELETING_ROLE});
-        const res = await axios.delete(`${BASE_URL}endpoints/roles/delete?mLocale=${data.locale}&roleId=${data.roleId}`);
-
-        if(res.status === 200) {
-            dispatch({type: DELETE_ROLE, roleId: data.roleId});
-        }
-
-        dispatch({type: END_DELETING_ROLE});
-    } catch (e) {
-        console.error(e.message);
-        dispatch(addAlert({
-            alertType: 'danger',
-            msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
-        }))
-        dispatch({type: END_DELETING_ROLE});
-
+    dispatch({type: START_DELETING_ROLE});
+    const url = `${BASE_URL}endpoints/roles/delete?mLocale=${data.locale}&roleId=${data.roleId}`;
+    const options = {
+        method: "DELETE",
     }
+
+    const res  = await FetchAPI(url, options, dispatch);
+
+    console.log(res);
+
+    if(res.status == true) {
+        dispatch({type: DELETE_ROLE, roleId: data.roleId});
+    }
+    dispatch({type: END_DELETING_ROLE});
 }
 
 export const addRole = data => async dispatch => {
-    try {
-        dispatch({type: START_ADDING_ROLE});
-        const res = await axios.post(`${BASE_URL}endpoints/roles/add?mLocale=${data.locale}`, data);
-        console.log(res)
-        dispatch({type: ADD_ROLE, role: res.data.output});
-        dispatch({type: END_ADDING_ROLE});
-        return res;
-    } catch (e) {
-        console.error(e.message);
-        dispatch(addAlert({
-            alertType: 'danger',
-            msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
-        }))
-        dispatch({type: END_ADDING_ROLE});
-
+    dispatch({type: START_ADDING_ROLE});
+    const url = `${BASE_URL}endpoints/roles/add?mLocale=${data.locale}`;
+    const options = {
+        method: "POST",
+        body: data
     }
+    const res = await FetchAPI(url, options, dispatch);
+
+    if(res.status == true) {
+        dispatch({type: ADD_ROLE, role: res.output});
+        res.status = 200;
+        return res;
+    }
+
+    dispatch({type: END_ADDING_ROLE});
+
 }
 
 export const updateRole = data => async dispatch => {
-    try {
-        dispatch({type: START_UPDATING_ROLE});
-        const res = await axios.put(`${BASE_URL}endpoints/roles/update?mLocale=${data.locale}`, data);
-        dispatch({type: UPDATE_ROLE, role: res.data.output});
-        dispatch({type: END_UPDATING_ROLE});
-        return res;
-    } catch (e) {
-        console.error(e);
-        dispatch(addAlert({
-            alertType: 'danger',
-            msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
-        }))
-        dispatch({type: END_UPDATING_ROLE});
-
+    dispatch({type: START_UPDATING_ROLE});
+    const url = `${BASE_URL}endpoints/roles/update?mLocale=${data.locale}`;
+    const options = {
+        method: "PUT",
+        body: data
     }
+
+    const res = await FetchAPI(url, options, dispatch);
+    if(res.status == true) {
+        dispatch({type: UPDATE_ROLE, role: res.output});
+        res.status = 200;
+        return res;
+    }
+    dispatch({type: END_UPDATING_ROLE});
 }
