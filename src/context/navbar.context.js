@@ -71,6 +71,10 @@ const navbarActions = {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'اضافة Role'});
         } else if(pathname.includes("/roles/edit")) {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل Role'});
+        } else if(pathname == '/profiles') {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'الصفحات الشخصية'});
+        } else if(pathname == '/profiles/add') {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'اضافة صفحة شخصية'});
         }
     },
     changeSearchActive: (dispatch, searchActive) => {

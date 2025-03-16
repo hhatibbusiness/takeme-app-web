@@ -12,22 +12,6 @@ import {addAlert} from "./alert.actions";
 import FetchAPI from "../../utilty/FetchAPI";
 
 export const fetchRoles = data => async dispatch => {
-    // try {
-    //     if(data.page == 0) dispatch({type: START_FETCHING_ROLES});
-    //     const res = await axios.get(`${BASE_URL}endpoints/roles/list?mLocale=${data.locale}&sortType=${data.sortType}&page=${data.page}`);
-    //     console.log(res);
-    //     dispatch({type: FETCH_ROLES, roles: res.data.output});
-    //     dispatch({type: END_FETCHING_ROLES});
-    // } catch(e) {
-    //     console.error(e.message);
-    //     dispatch(addAlert({
-    //         alertType: 'danger',
-    //         msg: e.response?.data?.message || 'حدث خطأ برجاء المحاولة مرة أخري'
-    //     }))
-    //     dispatch({type: END_FETCHING_ROLES});
-    //
-    // }
-
     if(data.page == 0) dispatch({type: START_FETCHING_ROLES});
 
     const url = `${BASE_URL}endpoints/roles/list?mLocale=${data.locale}&sortType=${data.sortType}&page=${data.page}`;

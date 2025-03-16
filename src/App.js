@@ -49,6 +49,8 @@ import Backup from './screens/Backup/Backup.js';
 import Roles from "./screens/Roles/Roles";
 import {fetchRoles} from "./store/actions/roles.actions";
 import RolesAdd from "./screens/Roles/RolesAdd/RolesAdd";
+import PersonalProfiles from "./screens/PersonalProfiles/PersonalProfiles";
+import PersonalProfilesAdd from "./screens/PersonalProfiles/PersonalProfilesAdd/PersonalProfilesAdd";
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
 const ProviderScreen = lazy(() => import(/* webpackChunkName: "ProviderScreen" */ "./screens/Provider/ProviderScreen"));
@@ -412,6 +414,21 @@ const App = (props) => {
                                                 <Route
                                                     path='/backup'
                                                     exact element={<Backup setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path={'/profiles'}
+                                                    exact
+                                                    element={<PersonalProfiles admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path={'/profiles/add'}
+                                                    exact
+                                                    element={<PersonalProfilesAdd admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path={'/profiles/duplicate/:id'}
+                                                    exact
+                                                    element={<PersonalProfilesAdd admin={admin} setAdmin={setAdmin} />}
                                                 />
                                             </>
                                         )
