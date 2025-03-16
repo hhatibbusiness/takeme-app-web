@@ -20,6 +20,7 @@ import localeReducer from "./locales.reducers";
 import profileReducer from './profile.reducer'
 import navbarReducer from "./navbar.reducer";
 import rolesReducer from "./roles.reducer";
+import businessPlansReducer from "./businessPlans.reducer";
 
 
 const initialState = {
@@ -52,5 +53,6 @@ export default combineReducers({
     locales: localeReducer,
     profile: profileReducer,
     navbar: navbarReducer,
-    roles: rolesReducer
+    roles: rolesReducer,
+    businessPlans: businessPlansReducer
 });

@@ -71,6 +71,14 @@ const navbarActions = {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'اضافة Role'});
         } else if(pathname.includes("/roles/edit")) {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل Role'});
+        } else if (pathname === '/business-plans') {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'خطط الأعمال'});
+        } else if (pathname === '/business-plans/add') {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'إضافة خطة أعمال'});
+        } else if (pathname.includes('/business-plans/add/duplicate')) {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'نسخ خطة أعمال'});
+        } else if (pathname.includes('/business-plans/edit')) {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل خطة أعمال'});
         }
     },
     changeSearchActive: (dispatch, searchActive) => {

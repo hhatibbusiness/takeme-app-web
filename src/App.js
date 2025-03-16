@@ -49,6 +49,8 @@ import Backup from './screens/Backup/Backup.js';
 import Roles from "./screens/Roles/Roles";
 import {fetchRoles} from "./store/actions/roles.actions";
 import RolesAdd from "./screens/Roles/RolesAdd/RolesAdd";
+import BusinessPlans from "./screens/BusinessPlans/BusinessPlans";
+import BusinessPlansAdd from "./screens/BusinessPlans/BusinessPlansAdd/BusinessPlansAdd";
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
 const ProviderScreen = lazy(() => import(/* webpackChunkName: "ProviderScreen" */ "./screens/Provider/ProviderScreen"));
@@ -412,6 +414,26 @@ const App = (props) => {
                                                 <Route
                                                     path='/backup'
                                                     exact element={<Backup setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/business-plans'
+                                                    exact
+                                                    element={<BusinessPlans admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/business-plans/add'
+                                                    exact
+                                                    element={<BusinessPlansAdd admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/business-plans/add/duplicate/:planId'
+                                                    exact
+                                                    element={<BusinessPlansAdd admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/business-plans/edit/:editId'
+                                                    exact
+                                                    element={<BusinessPlansAdd admin={admin} setAdmin={setAdmin} />}
                                                 />
                                             </>
                                         )
