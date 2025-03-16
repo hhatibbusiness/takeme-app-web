@@ -70,7 +70,7 @@ const navbarActions = {
         } else if(pathname == '/roles/add') {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'اضافة Role'});
         } else if(pathname.includes("/roles/edit")) {
-            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'Roles اضافة'});
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل Role'});
         }
     },
     changeSearchActive: (dispatch, searchActive) => {

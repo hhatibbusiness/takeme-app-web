@@ -32,7 +32,9 @@ const Roles = ({setAdmin, admin, deleteRole, fetchRoles, locale, roles}) => {
             sortType: 'ASCENDING',
         }
 
-        fetchRoles(data);
+        if(roles?.roles?.length <= 0) {
+            fetchRoles(data);
+        }
     }, []);
 
     const itemsListPropsMain = {
@@ -73,7 +75,7 @@ const Roles = ({setAdmin, admin, deleteRole, fetchRoles, locale, roles}) => {
                 roles.fetchingRoles ? (
                     <RolesShimmer />
                 ) : (
-                    <ItemsList {...itemsListPropsMain} window={true} />
+                    <ItemsList {...itemsListPropsMain} window={false} />
                 )
             }
         </div>
