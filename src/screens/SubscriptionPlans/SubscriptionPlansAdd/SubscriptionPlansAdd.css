@@ -1,0 +1,19 @@
+.SubscriptionPlansAdd {
+    direction: rtl;
+    padding: 20px;
+    background: white;
+    width: 100vw;
+    height: 100vh;
+}
+
+.SubscriptionPlansAdd__container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.SubscriptionPlansAdd__btns--container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 50px;
+}

@@ -14,15 +14,13 @@ import {searchCountries, fetchCountries, closeSearchCountries, openSearchCountri
 import {searchPlaces, fetchPlaces, closeSearchPlaces, openSearchPlaces, changePlacesSortType} from '../../../store/actions/places.actions';
 import {searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort } from '../../../store/actions/locales.actions';
 import {fetchRoles, changeRolesSortType} from "../../../store/actions/roles.actions";
-import {searchBusinessPlans, fetchBusinessPlans, closeSearchBusinessPlans, openSearchBusinessPlans} from "../../../store/actions/businessPlans.actions";
 
 const Navbar = ({
         openSearchCountries, countries, searchCountries, closeSearchCountries, 
         languages, searchLanguages, closeSearch, openSearch, changeLanguagesSort,
         openSearchPlaces, places, searchPlaces, closeSearchPlaces, changePlacesSortType,
         locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort,
-        fetchRoles, roles, changeRolesSortType,
-        businessPlans, searchBusinessPlans, closeSearchBusinessPlans, openSearchBusinessPlans
+        roles, changeRolesSortType
     }) => {
     
     const { details } = useDetailsContext();
@@ -132,30 +130,15 @@ const Navbar = ({
                 hasSort: true,
                 hasInit: true
             }
-        } else if (location.pathname.includes('business-plans')) {
+        } else if (location.pathname.includes('subscription-plans')) {
             return {
-                searchFun: searchBusinessPlans,
-                isSearching: businessPlans.search,
-                fetchingSearchResults: businessPlans.searching,
-                closeSearch: closeSearchBusinessPlans, 
-                openSearch: openSearchBusinessPlans,
-                hasSearch: true,
-                searchTerm,
-                setSearchTerm,
-                sortType: null,
+                hasSearch: false,
                 urls: {
-                    addUrl: '/business-plans/add'
-                },
-                changeSort: null,
-                baseData: (e) => {
-                    return {
-                        lan: 'ar_SA',
-                        searchKey: e?.target?.value || '',
-                        page: 0
-                    }
+                    addUrl: '/subscription-plans/add'
                 },
                 hasSort: false,
-                hasInit: false
+                hasInit: false,
+                hasSearch: false,
             }
         } else if (location.pathname.includes('roles')) {
             return {
@@ -208,7 +191,7 @@ const mapStateToProps = state => ({
     places: state.places,
     locales: state.locales,
     roles: state.roles,
-    businessPlans: state.businessPlans
+    subscriptionPlans: state.subscriptionPlans
 })
 
 export default connect(mapStateToProps, {
@@ -216,5 +199,4 @@ export default connect(mapStateToProps, {
     closeSearch, openSearch, deleteLanguage, changeLanguagesSort, searchLanguages,
     searchPlaces, closeSearchPlaces, openSearchPlaces, fetchPlaces, changePlacesSortType,
     searchLocales, changeRolesSortType, closeLocalesSearch, openLocalesSearch, changeLocalesSort, fetchRoles,
-    searchBusinessPlans, closeSearchBusinessPlans, openSearchBusinessPlans
 }) (Navbar);
