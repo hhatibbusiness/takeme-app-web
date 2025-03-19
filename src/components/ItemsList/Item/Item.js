@@ -4,7 +4,8 @@ import Dots from '../../Dots/Dots';
 import { getHighlightedText } from '../../../utilty/getHighlightText';
 import selectedImage from '../../../assets/defaults/checked.svg';
 import unSelectedImage from '../../../assets/defaults/unselected.svg';
-import getValueNestedObject from '../../../utilty/getValueNestedObject'
+import getValueNestedObject from '../../../utilty/getValueNestedObject';
+import _ from 'lodash';
 
 
 const Item = ({
@@ -21,11 +22,10 @@ const Item = ({
     dotsProps,
     isSearching
 }) => {
-
     const dotsPropsRegistered = dotsProps(item.id);
     const [selected, setSelected] = useState(false);
 
-    const itemValue = getValueNestedObject(item, displayName);
+    const itemValue = _.get(item, displayName);
 
     return (
         <div data-id={item.id} onClick={(e) => {
