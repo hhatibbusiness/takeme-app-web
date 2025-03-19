@@ -14,14 +14,15 @@ import {searchCountries, fetchCountries, closeSearchCountries, openSearchCountri
 import {searchPlaces, fetchPlaces, closeSearchPlaces, openSearchPlaces, changePlacesSortType} from '../../../store/actions/places.actions';
 import {searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort } from '../../../store/actions/locales.actions';
 import {fetchRoles, changeRolesSortType} from "../../../store/actions/roles.actions";
-import {fetchPersonalProfiles} from "../../../store/actions/personalProfiles.actions";
+import {fetchPersonalProfiles, searchPersonalProfiles, closeSearchPersonalProfiles, openSearchPersonalProfiles, changeSortType} from "../../../store/actions/personalProfiles.actions";
 
 const Navbar = ({
         openSearchCountries, countries, searchCountries, closeSearchCountries, 
         languages, searchLanguages, closeSearch, openSearch, changeLanguagesSort,
         openSearchPlaces, places, searchPlaces, closeSearchPlaces, changePlacesSortType,
         locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort,
-        fetchRoles, roles, changeRolesSortType,fetchPersonalProfiles,profiles
+        fetchRoles, roles, changeRolesSortType,fetchPersonalProfiles,profiles, searchPersonalProfiles,
+        closeSearchPersonalProfiles, openSearchPersonalProfiles, locale, changeSortType
     }) => {
     
     const { details } = useDetailsContext();
@@ -159,25 +160,26 @@ const Navbar = ({
             }
         } else if (location.pathname.includes('profiles')) {
             return {
-                searchFun: searchPlaces,
-                isSearching: places.search,
-                fetchingSearchResults: places.searching,
-                closeSearch: closeSearchPlaces,
-                openSearch: openSearchPlaces,
+                searchFun: searchPersonalProfiles,
+                isSearching: profiles.search,
+                fetchingSearchResults: profiles.searching,
+                closeSearch: closeSearchPersonalProfiles,
+                openSearch: openSearchPersonalProfiles,
                 hasSearch: true,
                 searchTerm,
                 setSearchTerm,
-                sortType: roles.sortType,
-                urls:  {
+                sortType: profiles.sortType,
+                urls: {
                     addUrl: '/profiles/add'
                 },
-                changeSort: changeRolesSortType,
+                changeSort: changeSortType,
                 baseData: (e) => {
                     return {
-                        lan: 'ar_SA',
+                        locale: 'ar_SA',
                         searchKey: e?.target?.value || '',
                         sortType: profiles.sortType,
-                        page: 0
+                        page: 0,
+                        localeId: locale.id
                     }
                 },
                 hasSort: true,
@@ -208,7 +210,8 @@ const mapStateToProps = state => ({
     places: state.places,
     locales: state.locales,
     roles: state.roles,
-    profiles: state.profiles
+    profiles: state.profiles,
+    locale: state.categories.selectedLocale
 });
 
 export default connect(mapStateToProps, {
@@ -216,5 +219,6 @@ export default connect(mapStateToProps, {
     closeSearch, openSearch, deleteLanguage, changeLanguagesSort, searchLanguages,
     searchPlaces, closeSearchPlaces, openSearchPlaces, fetchPlaces, changePlacesSortType,
     searchLocales, changeRolesSortType, closeLocalesSearch, openLocalesSearch, changeLocalesSort,fetchRoles,
-    fetchPersonalProfiles
+    fetchPersonalProfiles, searchPersonalProfiles, closeSearchPersonalProfiles, openSearchPersonalProfiles,
+    changeSortType
 }) (Navbar);

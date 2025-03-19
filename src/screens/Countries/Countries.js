@@ -78,7 +78,7 @@ const Countries = ({ fetchCountries, editCountry, searchCountries, deleteCountry
             page: countries.page,
             searchKey: countries.searchKey
         },
-        displayName: 'translations.fields.value',
+        displayName: 'translations.fields[0].value',
         searchKey: countries.searchKey,
         dots: true,
         dotsProps: id =>  ({

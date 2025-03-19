@@ -1,10 +1,14 @@
 import {
-    END_FETCHING_PERSONAL_PROFILES,
-    FETCH_PERSONAL_PROFILES,
-    START_FETCHING_PERSONAL_PROFILES
+    CHANGE_PERSONAL_SORTTYPE,
+    DELETE_PERSONAL_PROFILE, END_DELETING_PERSONAL_PROFILE,
+    END_FETCHING_PERSONAL_PROFILES, END_SEARCHING_PROFILES,
+    FETCH_PERSONAL_PROFILES, SEARCH_PROFILES, START_CHANGING_SORTTYPE, START_DELETING_PERSONAL_PROFILE,
+    START_FETCHING_PERSONAL_PROFILES, START_SEARCHING_PROFILES
 } from "./action.types";
 import {BASE_URL} from "../../utls/assets";
 import FetchAPI from "../../utilty/FetchAPI";
+import {BaseURL} from "../../assets/constants/Base";
+import * as actionTypes from "./action.types";
 
 export const fetchPersonalProfiles = data => async dispatch => {
     dispatch({type: START_FETCHING_PERSONAL_PROFILES});
@@ -13,100 +17,82 @@ export const fetchPersonalProfiles = data => async dispatch => {
         method: 'GET',
     }
 
-    const profiles = [
-        {
-            "id":1,//the user id
-            "name":"Ahmed Gomaa",//from the translations of base profile
-            "displayName":"احمد جمعه",//from the translations of base profile
-            "verifiedStatus":1,
-            "profileStatus": 1,
-            "adminModeEnabled":false,
-            "roles":[1,2],
-            "authentications":[
-                {//this is body of UserAuthenticationResponseDto
-                    "id":1,
-                    "authType": "facebook",
-                    "authValue": "x@gmail.com",
-                    "loginRetries": 0,
-                    "isLocked":false,
-                    "lockoutUntil": "..."
-                }
-            ]
-        },
-        {
-            "id":1,//the user id
-            "name":"Ahmed Gomaa",//from the translations of base profile
-            "displayName":"احمد جمعه",//from the translations of base profile
-            "verifiedStatus":1,
-            "profileStatus": 1,
-            "adminModeEnabled":false,
-            "roles":[1,2],
-            "authentications":[
-                {//this is body of UserAuthenticationResponseDto
-                    "id":1,
-                    "authType": "facebook",
-                    "authValue": "x@gmail.com",
-                    "loginRetries": 0,
-                    "isLocked":false,
-                    "lockoutUntil": "..."
-                }
-            ]
-        },
-        {
-            "id":1,//the user id
-            "name":"Ahmed Gomaa",//from the translations of base profile
-            "displayName":"احمد جمعه",//from the translations of base profile
-            "verifiedStatus":1,
-            "profileStatus": 1,
-            "adminModeEnabled":false,
-            "roles":[1,2],
-            "authentications":[
-                {//this is body of UserAuthenticationResponseDto
-                    "id":1,
-                    "authType": "facebook",
-                    "authValue": "x@gmail.com",
-                    "loginRetries": 0,
-                    "isLocked":false,
-                    "lockoutUntil": "..."
-                }
-            ]
-        },
-        {
-            "id":1,//the user id
-            "name":"Ahmed Gomaa",//from the translations of base profile
-            "displayName":"احمد جمعه",//from the translations of base profile
-            "verifiedStatus":1,
-            "profileStatus": 1,
-            "adminModeEnabled":false,
-            "roles":[1,2],
-            "authentications":[
-                {//this is body of UserAuthenticationResponseDto
-                    "id":1,
-                    "authType": "facebook",
-                    "authValue": "x@gmail.com",
-                    "loginRetries": 0,
-                    "isLocked":false,
-                    "lockoutUntil": "..."
-                }
-            ]
-        },
+    const res = await FetchAPI(url, options, dispatch);
 
-    ]
+    if(res.status == true) {
+        dispatch({
+            type: FETCH_PERSONAL_PROFILES,
+            profiles: res.output
+        });
+
+        dispatch({type: END_FETCHING_PERSONAL_PROFILES});
+
+        return res;
+    }
+
+    dispatch({type: END_FETCHING_PERSONAL_PROFILES});
+}
+
+export const searchPersonalProfiles = data => async dispatch => {
+    if(data.page == 0) dispatch({type: START_SEARCHING_PROFILES});
+    const url = `${BaseURL}/users/search?mLocale=${data.locale}&searchText=${data.searchKey}&page=${data.page}&localeId=${data.localeId}&sortType=${data.sortType}`;
+    const options = {
+        method: 'GET'
+    }
 
     const res = await FetchAPI(url, options, dispatch);
 
+    if(res.status == true) {
+        dispatch({
+            type: SEARCH_PROFILES,
+            searchResults: res.output,
+            searchKey: data.searchKey
+        });
+    }
+
+    dispatch({type: END_SEARCHING_PROFILES});
+}
+
+export const openSearchPersonalProfiles = () => {
+    return { type: actionTypes.OPEN_SEARCH_PROFILES };
+};
+
+export const closeSearchPersonalProfiles = () => {
+    return { type: actionTypes.CLOSE_SEARCH_PROFILES };
+};
+
+export const deletePersonalProfiles = data => async dispatch => {
+    dispatch({type: START_DELETING_PERSONAL_PROFILE});
+    const url = `${BASE_URL}endpoints/users/delete?mLocale=${data.locale}&userId=${data.userId}`;
+    const options = {
+        method: 'DELETE'
+    }
+
+    const res = await FetchAPI(url, options, dispatch);
+
+    if(res.status == true) {
+        dispatch({
+            type: DELETE_PERSONAL_PROFILE,
+            userId: data.userId
+        });
+    }
+    dispatch({type: END_DELETING_PERSONAL_PROFILE});
+}
+
+export const changeSortType = data => async dispatch => {
+    const fetchingData = {
+        locale: 'ar_SA',
+        page: 0,
+        sortType: data.sortType,
+        searchKey: data.searchKey || '',
+        localeId: 1
+    };
+
     dispatch({
-        type: FETCH_PERSONAL_PROFILES,
-        profiles
+        type: CHANGE_PERSONAL_SORTTYPE,
+        sortType: data.sortType
     });
 
-    // if(res.status == true) {
-    //     dispatch({
-    //         type: FETCH_PERSONAL_PROFILES,
-    //         profiles: res.output
-    //     });
-    //     return res;
-    // }
-
-    dispatch({type: END_FETCHING_PERSONAL_PROFILES});
+    dispatch(fetchPersonalProfiles(fetchingData));
+    dispatch(searchPersonalProfiles(fetchingData));
 }

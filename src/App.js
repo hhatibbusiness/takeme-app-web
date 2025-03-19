@@ -420,16 +420,6 @@ const App = (props) => {
                                                     exact
                                                     element={<PersonalProfiles admin={admin} setAdmin={setAdmin} />}
                                                 />
-                                                <Route
-                                                    path={'/profiles/add'}
-                                                    exact
-                                                    element={<PersonalProfilesAdd admin={admin} setAdmin={setAdmin} />}
-                                                />
-                                                <Route
-                                                    path={'/profiles/duplicate/:id'}
-                                                    exact
-                                                    element={<PersonalProfilesAdd admin={admin} setAdmin={setAdmin} />}
-                                                />
                                             </>
                                         )
                                     }

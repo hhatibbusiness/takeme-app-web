@@ -1,11 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './PersonalProfiles.css';
-import {fetchPersonalProfiles} from "../../store/actions/personalProfiles.actions";
+import {fetchPersonalProfiles, deletePersonalProfiles} from "../../store/actions/personalProfiles.actions";
 import {connect} from "react-redux";
 import ProfilesShimmer from '../../components/ItemsShimmer/ItemsShimmer';
 import ItemsList from "../../components/ItemsList/ItemsList";
 
-const PersonalProfiles = ({profiles, fetchPersonalProfiles, setAdmin, admin, locale}) => {
+const PersonalProfiles = ({profiles, fetchPersonalProfiles, deletePersonalProfiles, setAdmin, admin, locale}) => {
     const [paddingTop, setPaddingTop] = useState(105);
 
     const parentRef = useRef(null);
@@ -35,10 +35,6 @@ const PersonalProfiles = ({profiles, fetchPersonalProfiles, setAdmin, admin, loc
         fetchPersonalProfiles(data);
     }, []);
 
-    useEffect(() => {
-        console.log(profiles)
-    })
-
     const itemsListPropsMain = {
         itemsFun: fetchPersonalProfiles || (() => {}),
         page: profiles.page || 0,
@@ -51,7 +47,7 @@ const PersonalProfiles = ({profiles, fetchPersonalProfiles, setAdmin, admin, loc
             locale: locale.locale,
             sortType: profiles.sortType,
         },
-        displayName: 'displayName',
+        displayName: 'translationsResponseDto.fields[1].value',
         searchKey: profiles.searchKey,
         dots: true,
         dotsProps: id =>  ({
@@ -61,9 +57,9 @@ const PersonalProfiles = ({profiles, fetchPersonalProfiles, setAdmin, admin, loc
             },
             deleteData: {
                 locale: locale.locale,
-                roleId: id
+                userId: id
             },
-            deleteFun: () => {},
+            deleteFun: deletePersonalProfiles,
             isItem: true,
             deleting: profiles?.deleting
         }),
@@ -89,4 +85,4 @@ const mapStateToProps = state => ({
     profiles: state.profiles
 });
 
-export default connect(mapStateToProps, {fetchPersonalProfiles}) (PersonalProfiles);
+export default connect(mapStateToProps, {fetchPersonalProfiles, deletePersonalProfiles}) (PersonalProfiles);
