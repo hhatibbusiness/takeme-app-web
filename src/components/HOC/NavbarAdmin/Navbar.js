@@ -20,7 +20,7 @@ const Navbar = ({
         languages, searchLanguages, closeSearch, openSearch, changeLanguagesSort,
         openSearchPlaces, places, searchPlaces, closeSearchPlaces, changePlacesSortType,
         locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort,
-        fetchRoles, roles, changeRolesSortType
+        roles, changeRolesSortType
     }) => {
     
     const { details } = useDetailsContext();
@@ -130,6 +130,16 @@ const Navbar = ({
                 hasSort: true,
                 hasInit: true
             }
+        } else if (location.pathname.includes('subscription-plans')) {
+            return {
+                hasSearch: false,
+                urls: {
+                    addUrl: '/subscription-plans/add'
+                },
+                hasSort: false,
+                hasInit: false,
+                hasSearch: false,
+            }
         } else if (location.pathname.includes('roles')) {
             return {
                 searchFun: searchPlaces,
@@ -180,12 +190,13 @@ const mapStateToProps = state => ({
     countries: state.countries,
     places: state.places,
     locales: state.locales,
-    roles: state.roles
+    roles: state.roles,
+    subscriptionPlans: state.subscriptionPlans
 })
 
 export default connect(mapStateToProps, {
     openSearchCountries, closeSearchCountries, fetchCountries, searchCountries,
     closeSearch, openSearch, deleteLanguage, changeLanguagesSort, searchLanguages,
     searchPlaces, closeSearchPlaces, openSearchPlaces, fetchPlaces, changePlacesSortType,
-    searchLocales, changeRolesSortType, closeLocalesSearch, openLocalesSearch, changeLocalesSort,fetchRoles
+    searchLocales, changeRolesSortType, closeLocalesSearch, openLocalesSearch, changeLocalesSort, fetchRoles,
 }) (Navbar);
