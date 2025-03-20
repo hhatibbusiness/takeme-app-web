@@ -183,7 +183,8 @@ const Navbar = ({
                     }
                 },
                 hasSort: true,
-                hasInit: false
+                hasInit: false,
+                noAdd: true,
             }
         }
     }

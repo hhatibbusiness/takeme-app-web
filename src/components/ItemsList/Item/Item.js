@@ -6,6 +6,7 @@ import selectedImage from '../../../assets/defaults/checked.svg';
 import unSelectedImage from '../../../assets/defaults/unselected.svg';
 import getValueNestedObject from '../../../utilty/getValueNestedObject';
 import _ from 'lodash';
+import {useNavigate, useNavigation} from "react-router-dom";
 
 
 const Item = ({
@@ -20,12 +21,15 @@ const Item = ({
     displayName,
     searchKey,
     dotsProps,
-    isSearching
+    isSearching,
+    clickable,
+    link
 }) => {
     const dotsPropsRegistered = dotsProps(item.id);
     const [selected, setSelected] = useState(false);
 
     const itemValue = _.get(item, displayName);
+    const navigate = useNavigate();
 
     return (
         <div data-id={item.id} onClick={(e) => {
@@ -39,6 +43,8 @@ const Item = ({
                     setSelected(!selected);
                     multiSelectFun(item);
                 }
+            } else if(clickable) {
+                navigate(link(item.id));
             }
         }} className={`Item`}>
             <div className='Item__container'>

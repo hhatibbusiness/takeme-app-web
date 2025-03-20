@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigationType, useNavigate } from 'react-router-dom';
+import {useNavigationType, useNavigate, useParams} from 'react-router-dom';
 import './ProfilePage.css';
 import useFocusReducer from './Controllers/FocusedController'
 import ProfileImage from './ProfileImage/ImageImage';
@@ -23,6 +23,13 @@ function ProfilePage({ paddingTop, isAuthenticated, ProfileData, fetchProfileDat
     const [ openImageManager, setOpenImageManager ] = useState(false)
     const navigationType = useNavigationType();
     const [profileActive, setProfileActive] = useState(true)
+    const [allowed, setAllowed] = useState(false);
+
+    const params = useParams();
+
+    useEffect(() => {
+        
+    }, [params.user_id, ProfileData]);
 
     // NavBar Init
     useEffect(() => {

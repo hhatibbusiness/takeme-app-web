@@ -61,10 +61,16 @@ const PersonalProfiles = ({profiles, fetchPersonalProfiles, deletePersonalProfil
             },
             deleteFun: deletePersonalProfiles,
             isItem: true,
-            deleting: profiles?.deleting
+            deleting: profiles?.deleting,
+            noUpdate: true,
+            noDuplicate: true
         }),
         isSearching: profiles.search,
-        parentScroller: parentRef.current
+        parentScroller: parentRef.current,
+        clickable: true,
+        link: (id) => {
+            return `/profile/${id}`
+        }
     }
 
     return (

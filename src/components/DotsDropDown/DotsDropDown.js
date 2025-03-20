@@ -3,7 +3,7 @@ import './DotsDropDown.css';
 import { useNavigate } from 'react-router-dom';
 import SpinnerSmall from '../SpinnerSmall/SpinnerSmall';
 
-const DotsDropDown = ({ urls, deleteData, changeSort, isItem, sortType, setOpen, deleteFun, deleting, sort, searchKey }) => {
+const DotsDropDown = ({ urls, noUpdate, noDuplicate, deleteData, changeSort, isItem, sortType, setOpen, deleteFun, deleting, sort, searchKey }) => {
     const navigate = useNavigate();
 
     return (
@@ -12,24 +12,37 @@ const DotsDropDown = ({ urls, deleteData, changeSort, isItem, sortType, setOpen,
                 {
                     isItem && (
                         <>
-                            <div id={'DotsDropDown__update'} onClick={e => {
-                                navigate(urls.editUrl);
-                                setOpen(false)
-                            }} className='DotsDropDown__element'>
-                                <span>تعديل</span>
-                            </div>
-                            <div className='DotsDropDown__separator'></div>
+                            {
+                                !noUpdate && (
+                                    <>
+                                        <div id={'DotsDropDown__update'} onClick={e => {
+                                            navigate(urls.editUrl);
+                                            setOpen(false)
+                                        }} className='DotsDropDown__element'>
+                                            <span>تعديل</span>
+                                        </div>
+                                        <div className='DotsDropDown__separator'></div>
+                                    </>
+                                )
+                            }
                             {/* <div className='DotsDropDown__element'>
                                 <span>نقل</span>
                             </div>
                             <div className='DotsDropDown__separator'></div> */}
-                            <div id={'DotsDropDown__duplicate'} onClick={e => {
-                                navigate(urls.addUrl);
-                                setOpen(false);
-                            }} className='DotsDropDown__element'>
-                                <span>تكرار</span>
-                            </div>
-                            <div className='DotsDropDown__separator'></div>
+                            {
+                                !noDuplicate && (
+                                    <>
+                                        <div id={'DotsDropDown__duplicate'} onClick={e => {
+                                            navigate(urls.addUrl);
+                                            setOpen(false);
+                                        }} className='DotsDropDown__element'>
+                                            <span>تكرار</span>
+                                        </div>
+                                        <div className='DotsDropDown__separator'></div>
+                                    </>
+                                )
+                            }
+
                             <div id={'DotsDropDown__delete'} onClick={async e => {
                                 await deleteFun(deleteData);
                                 setOpen(false);

@@ -22,7 +22,9 @@ const ItemsList = ({
     more,
     sortType,
     itemsFun,
-    dotsProps
+    dotsProps,
+    clickable,
+    link
 }) => {
     const [moreLoading, setMoreLoading] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -69,6 +71,8 @@ const ItemsList = ({
                             item={item}
                             displayName={displayName}
                             multiSelectFun={multiSelectFun}
+                            clickable={clickable}
+                            link={link}
                         />
                     })
                 }
