@@ -9,7 +9,7 @@ import NoGender from '../../../assets/images/profile/NotSelected_Gender.png'
 import OrangeVLine from '../../../assets/images/profile/OrangeVLine.png'
 import useDoubleTap from "../../../utilty/useDoubleClick";
 
-export default function Gender({ Focused, GenderFocused, ProfileData, updateGender }) {
+export default function Gender({ Focused, allow, visited, GenderFocused, ProfileData, updateGender }) {
     const genderList = translation.genderList
     let Logo = NoGender;
     if (ProfileData?.gender === 1) {
@@ -21,8 +21,8 @@ export default function Gender({ Focused, GenderFocused, ProfileData, updateGend
     }
 
     const handleGender = (Gender) => {
-        updateGender(ProfileData.id, Gender)
-        GenderFocused(false)
+        updateGender(ProfileData.id, Gender, visited);
+        GenderFocused(false);
     }
 
     const doubleTapHandler = useDoubleTap(()=> GenderFocused(!Focused));
@@ -32,7 +32,7 @@ export default function Gender({ Focused, GenderFocused, ProfileData, updateGend
             {ProfileData.isLoading ? <Shimmer /> :
                 <>
                 <div className="GenderLogo">           
-                    <img src={Logo} alt='Logo' onClick={doubleTapHandler} />
+                    <img src={Logo} alt='Logo' onClick={ () =>  allow && doubleTapHandler()} />
                 </div>
                 {Focused && (
                     <div className="Gender__dropDown">

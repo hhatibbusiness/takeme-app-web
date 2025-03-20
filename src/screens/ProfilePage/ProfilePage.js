@@ -10,26 +10,71 @@ import Age from './Age/Age'
 import Location from './Location/Location';
 import Welcome from '../../assets/images/profile/welcome.gif'
 import { connect } from 'react-redux';
-import { fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage } from '../../store/actions/profile.action'
-//import { ImageManagerWrapped } from '../../common/ImageManager';
+import { fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage, fetchVisitedProfileData } from '../../store/actions/profile.action'
 import {changeNavbarIcons} from "../../store/actions/navbar.actions";
 import InfoActive from '../../assets/images/InfoActive.png'
 import InfoDisable from '../../assets/images/InfoDisable.png'
+//import { ImageManagerWrapped } from '../../common/ImageManager';
 
-
-function ProfilePage({ paddingTop, isAuthenticated, ProfileData, fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage, changeNavbarIcons }) {
+function ProfilePage({ paddingTop, locale, fetchVisitedProfileData, roles, visitedProfile, isAuthenticated, ProfileData, fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage, changeNavbarIcons }) {
     const navigate = useNavigate()
     const { Focused, FocusedActions} = useFocusReducer();
     const [ openImageManager, setOpenImageManager ] = useState(false)
     const navigationType = useNavigationType();
     const [profileActive, setProfileActive] = useState(true)
     const [allowed, setAllowed] = useState(false);
+    const [profileData, setProfileData] = useState({});
+    const [visited, setVisited] = useState(false);
 
     const params = useParams();
 
     useEffect(() => {
-        
-    }, [params.user_id, ProfileData]);
+        (async () => {
+            if(ProfileData.id) {
+                if(params.user_id) {
+                    if(ProfileData.id == params.user_id) {
+                        setVisited(false);
+                        setProfileData(ProfileData);
+                    } else {
+                        setVisited(true);
+                        const data = {
+                            locale: locale.locale,
+                            user_id: params.user_id,
+                            localeId: params.localeId,
+                        }
+                        await fetchVisitedProfileData(data);
+                        setProfileData(visitedProfile);
+                    }
+                } else {
+                    setVisited(false);
+                    setProfileData(ProfileData);
+                }
+            }
+        })();
+    }, [ProfileData, params.user_id]);
+
+    useEffect(() => {
+        if(ProfileData.id) {
+            if(params.user_id && ( roles?.includes('ROLE_Admin') || params.user_id == ProfileData.id )) {
+                setAllowed(true);
+            }else if(!params.user_id) {
+                return setAllowed(true);
+            }
+        } else {
+            setAllowed(false);
+        }
+    }, [params.user_id, profileData]);
+
+    useEffect(() => {
+        if(ProfileData.id && (params.user_id == ProfileData.id)) {
+            const data = {
+                locale: locale.locale,
+                user_id: params.user_id,
+                localeId: params.localeId,
+            }
+            fetchVisitedProfileData(data);
+        }
+    }, []);
 
     // NavBar Init
     useEffect(() => {
@@ -105,13 +150,13 @@ function ProfilePage({ paddingTop, isAuthenticated, ProfileData, fetchProfileDat
 
     // Force senario
     useEffect(() => {
-        if (!ProfileData.isLoading) {
+        if (!ProfileData.isLoading && allowed) {
             if (!ProfileData.gender) FocusedActions.setGenderFocus(true)
             else if (!ProfileData.translations) FocusedActions.setNameFocus(true)
             else if (!ProfileData.dateOfBirth) FocusedActions.setAgeFocus(true)
             //else if (!ProfileData.location) FocusedActions.setLocationFocus(true)
         }
-    },[ProfileData.isLoading, Focused])
+    },[ProfileData.isLoading, Focused, params.user_id])
 
     return (
         <>
@@ -126,7 +171,7 @@ function ProfilePage({ paddingTop, isAuthenticated, ProfileData, fetchProfileDat
 
                     {/** Set Gender, Name and Age */}
                     <div className='secondRow__Data'>
-                        <Gender Focused={Focused.Gender} GenderFocused={FocusedActions.setGenderFocus} ProfileData={ProfileData} updateGender={updateGender} />
+                        <Gender allow={allowed} Focused={Focused.Gender} GenderFocused={FocusedActions.setGenderFocus} ProfileData={profileData} updateGender={updateGender} visited={visited} />
                         <Name Focused={Focused.Name} FocusHandle={FocusedActions.setNameFocus} ProfileData={ProfileData} updateName={updateName} />
                         <img src={DOT} alt='Dot' style={{ width: '8px', marginTop: '9px' }} />
                         <Age Focused={Focused.Age} FocusHandle={FocusedActions.setAgeFocus} ProfileData={ProfileData} updateDateOfBirth={updateDateOfBirth} />
@@ -161,7 +206,10 @@ function ProfilePage({ paddingTop, isAuthenticated, ProfileData, fetchProfileDat
 
 const mapStateToProps = state => ({
     ProfileData: state.profile,
-    isAuthenticated : state.auth.isAuthenticated
+    isAuthenticated : state.auth.isAuthenticated,
+    roles: state.auth.roles,
+    visitedProfile: state.profile.visitedProfile,
+    locale: state.categories.selectedLocale
 })
 
-export default connect(mapStateToProps, {fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage, changeNavbarIcons}) (ProfilePage)
+export default connect(mapStateToProps, {fetchVisitedProfileData, fetchProfileData, updateGender, updateName, updateDateOfBirth, UpdateLocation, updateProfileImage, changeNavbarIcons}) (ProfilePage)

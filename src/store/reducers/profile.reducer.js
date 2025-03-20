@@ -53,8 +53,8 @@ const initialState = {
     isUpdateDateOfBirth: false,
     isUpdateImage: false,
     isDeleting: false,
+    visitedProfile: {}
 };
-
 
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -72,6 +72,15 @@ export default (state = initialState, action) => {
         case ACTION_TYPES.END_UPDATE_GENDER:
             return {...state, isUpdateGender: false}
         case ACTION_TYPES.UPDATE_GENDER:
+            if(action.visited) {
+                return {
+                    ...state,
+                    visitedProfile: {
+                        ...state.visitedProfile,
+                        gender: action.payload
+                    }
+                }
+            }
             return { ...state, gender: action.payload };
         
         /// Update Name
@@ -126,6 +135,21 @@ export default (state = initialState, action) => {
             
         case ACTION_TYPES.LOG_PROFILE_OUT:
             return initialState;
+        case ACTION_TYPES.START_FETCHING_VISITED_PROFILE:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case ACTION_TYPES.END_FETCHING_VISITED_PROFILE:
+            return {
+                ...state,
+                isLoading: false
+            }
+        case ACTION_TYPES.FETCH_VISITED_PROFILE:
+            return {
+                ...state,
+                visitedProfile: action.profile
+            }
         default:
             return state;
     }

@@ -2,6 +2,7 @@ import * as ACTION_TYPES from './action.types';
 import { GetProfileData, UpdateGenderAPI, UpdateNameAPI, UpdateBirthDateAPI, UpdateProfileImage, UpdateLocationAPI } from '../../screens/ProfilePage/models/manageProfile'
 import FetchAPI from '../../utilty/FetchAPI';
 import { BaseURL, AUTH_TOKEN } from '../../assets/constants/Base';
+import {END_FETCHING_VISITED_PROFILE, FETCH_VISITED_PROFILE, START_FETCHING_VISITED_PROFILE} from "./action.types";
 
 
 
@@ -18,10 +19,10 @@ export const fetchProfileData = () => async dispatch => {
 };
 
 // Update Gender Function
-export const updateGender = (id, gender) => async dispatch => {
+export const updateGender = (data) => async dispatch => {
     dispatch({ type: ACTION_TYPES.START_UPDATE_GENDER})
-    dispatch({ type: ACTION_TYPES.UPDATE_GENDER, payload: gender });
-    await UpdateGenderAPI({ mLocale: 'ar_SA', userId: id, gender: gender })
+    dispatch({ type: ACTION_TYPES.UPDATE_GENDER, payload: data.gender, visited: data.visited });
+    await UpdateGenderAPI({ mLocale: 'ar_SA', userId: data.id, gender: data.gender })
     dispatch({ type: ACTION_TYPES.END_UPDATE_GENDER })
 }
 
@@ -89,4 +90,21 @@ export const DeleteProfileData = (userId) => async dispatch => {
     
     dispatch({ type: ACTION_TYPES.END_DELETE_PROFILE });
     return response;
+}
+
+export const fetchVisitedProfileData = data => async dispatch => {
+    dispatch({type: START_FETCHING_VISITED_PROFILE});
+
+    const url = `${BaseURL}/users/personal/profile/${data.user_id}?mLocale=${data.locale}&localeId=${data.localeId}`;
+    const options = {
+        method: 'GET'
+    }
+
+    const res = await FetchAPI(url, options, dispatch);
+
+    if(res.status === true) {
+        dispatch({ type: FETCH_VISITED_PROFILE, profile: res.output });
+    }
+
+    dispatch({type: END_FETCHING_VISITED_PROFILE});
 }
