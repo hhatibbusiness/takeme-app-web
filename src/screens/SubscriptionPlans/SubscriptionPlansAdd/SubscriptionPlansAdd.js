@@ -311,7 +311,7 @@ const SubscriptionPlansAdd = ({setAdmin, subscriptionPlans, editSubscriptionPlan
             lan: 'ar_SA',
             name: name.value,
             storesNumberLimit: Number(storesNumberLimit.value),
-            storeSizeLimitInMB: Number(storeSizeLimitInMB.value),
+            storeSizeLimit: Number(storeSizeLimitInMB.value),
             storeItemsNumberLimit: Number(storeItemsNumberLimit.value),
             storeItemImagesNumberLimit: Number(storeItemImagesNumberLimit.value),
             storeStoriesNumberLimit: Number(storeStoriesNumberLimit.value)
@@ -327,7 +327,7 @@ const SubscriptionPlansAdd = ({setAdmin, subscriptionPlans, editSubscriptionPlan
             res = await addSubscriptionPlan(data);
         }
 
-        if (res?.status === 200) {
+        if (res?.status) {
             navigate('/subscription-plans');
         }
         setSubmitted(false);
