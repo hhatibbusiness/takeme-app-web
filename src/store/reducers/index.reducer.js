@@ -21,6 +21,7 @@ import profileReducer from './profile.reducer'
 import navbarReducer from "./navbar.reducer";
 import rolesReducer from "./roles.reducer";
 import subscriptionPlansReducer from "./subscriptionPlans.reducer";
+import businessReducer from "./business.reducer";
 
 
 const initialState = {
@@ -54,5 +55,6 @@ export default combineReducers({
     profile: profileReducer,
     navbar: navbarReducer,
     roles: rolesReducer,
-    subscriptionPlans: subscriptionPlansReducer
+    subscriptionPlans: subscriptionPlansReducer,
+    business: businessReducer
 });

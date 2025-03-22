@@ -1,0 +1,19 @@
+.BusinessAdd {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #FFFFFF;
+    padding: 20px;
+    direction: rtl;
+}
+
+.BusinessAdd__container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.BusinessAdd__btns--container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 50px;
+}

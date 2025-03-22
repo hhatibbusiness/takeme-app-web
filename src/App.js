@@ -42,15 +42,14 @@ import ProfilePage from './screens/ProfilePage/ProfilePage.js';
 import Places from './screens/Places/PlacesPage.js';
 import AddEditPlace from './screens/Places/AddEditPlace/AddEditPlace.js';
 import {changeNavbarIcons} from "./store/actions/navbar.actions";
-import Img from "./screens/Home/Body/BodyContainer/ProductList/Products/Product/Img/Img";
-import profileDefaultImage from "./assets/images/defaults/default-provider-image.png";
-import Icon from "./components/HOC/NavbarWebsite/IconsBar/Icon/Icon";
 import Backup from './screens/Backup/Backup.js';
 import Roles from "./screens/Roles/Roles";
 import {fetchRoles} from "./store/actions/roles.actions";
 import RolesAdd from "./screens/Roles/RolesAdd/RolesAdd";
 import SubscriptionPlans from "./screens/SubscriptionPlans/SubscriptionPlans";
 import SubscriptionPlansAdd from "./screens/SubscriptionPlans/SubscriptionPlansAdd/SubscriptionPlansAdd";
+import Business from "./screens/Business/Business";
+import BusinessAdd from "./screens/Business/BusinessAdd/BusinessAdd";
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
 const ProviderScreen = lazy(() => import(/* webpackChunkName: "ProviderScreen" */ "./screens/Provider/ProviderScreen"));
@@ -434,6 +433,26 @@ const App = (props) => {
                                                     path='/subscription-plans/edit/:editId'
                                                     exact
                                                     element={<SubscriptionPlansAdd admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/business'
+                                                    exact
+                                                    element={<Business admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/business/add'
+                                                    exact
+                                                    element={<BusinessAdd admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/business/add/duplicate/:businessId'
+                                                    exact
+                                                    element={<BusinessAdd admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/business/edit/:editId'
+                                                    exact
+                                                    element={<BusinessAdd admin={admin} setAdmin={setAdmin} />}
                                                 />
                                             </>
                                         )
