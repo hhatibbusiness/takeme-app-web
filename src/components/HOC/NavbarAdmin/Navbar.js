@@ -11,16 +11,18 @@ import { useLocation } from 'react-router-dom';
 import {connect} from "react-redux";
 import {searchLanguages, closeSearch, openSearch, deleteLanguage, changeLanguagesSort} from "../../../store/actions/languages.actions";
 import {searchCountries, fetchCountries, closeSearchCountries, openSearchCountries } from "../../../store/actions/countries.actions";
-import {searchPlaces, fetchPlaces, closeSearchPlaces, openSearchPlaces, changePlacesSortType} from '../../../store/actions/places.actions';
+import {searchPlaces, closeSearchPlaces, openSearchPlaces, changePlacesSortType} from '../../../store/actions/places.actions';
 import {searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort } from '../../../store/actions/locales.actions';
 import {fetchRoles, changeRolesSortType} from "../../../store/actions/roles.actions";
+import { searchBusiness, openSearchBusiness, closeSearchBusiness, changeSortTypeBusiness } from '../../../store/actions/business.actions';
 
 const Navbar = ({
         openSearchCountries, countries, searchCountries, closeSearchCountries, 
         languages, searchLanguages, closeSearch, openSearch, changeLanguagesSort,
         openSearchPlaces, places, searchPlaces, closeSearchPlaces, changePlacesSortType,
         locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort,
-        roles, changeRolesSortType
+        roles, changeRolesSortType,
+        business, searchBusinessProfiles, openSearchBusinessProfiles, closeSearchBusinessProfiles, changeSortTypeBusiness
     }) => {
     
     const { details } = useDetailsContext();
@@ -138,7 +140,7 @@ const Navbar = ({
                 },
                 hasSort: false,
                 hasInit: false,
-                hasSearch: false,
+                nothasSearch: true,
             }
         } else if (location.pathname.includes('roles')) {
             return {
@@ -166,6 +168,32 @@ const Navbar = ({
                 hasSort: true,
                 hasInit: false
             }
+        } else if (location.pathname.includes('business')) {
+            return {
+                searchFun: searchBusiness,
+                isSearching: business.search,
+                fetchingSearchResults: business.searching,
+                closeSearch: closeSearchBusiness,
+                openSearch: openSearchBusiness,
+                hasSearch: false,
+                searchTerm,
+                setSearchTerm,
+                sortType: business.sortType,
+                urls:  {
+                    addUrl: '/business/add'
+                },
+                changeSort: changeSortTypeBusiness,
+                baseData: (e) => {
+                    return {
+                        lan: 'ar_SA',
+                        searchKey: e?.target?.value || '',
+                        sortType: roles.sortType,
+                        page: 0
+                    }
+                },
+                hasSort: true,
+                hasInit: false,
+            }
         }
     }
 
@@ -191,12 +219,14 @@ const mapStateToProps = state => ({
     places: state.places,
     locales: state.locales,
     roles: state.roles,
-    subscriptionPlans: state.subscriptionPlans
+    subscriptionPlans: state.subscriptionPlans,
+    business: state.business
 })
 
 export default connect(mapStateToProps, {
     openSearchCountries, closeSearchCountries, fetchCountries, searchCountries,
     closeSearch, openSearch, deleteLanguage, changeLanguagesSort, searchLanguages,
-    searchPlaces, closeSearchPlaces, openSearchPlaces, fetchPlaces, changePlacesSortType,
+    searchPlaces, closeSearchPlaces, openSearchPlaces, changePlacesSortType,
     searchLocales, changeRolesSortType, closeLocalesSearch, openLocalesSearch, changeLocalesSort, fetchRoles,
+    searchBusiness, openSearchBusiness, closeSearchBusiness, changeSortTypeBusiness
 }) (Navbar);

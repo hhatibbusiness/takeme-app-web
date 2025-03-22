@@ -78,8 +78,18 @@ const navbarActions = {
         } else if (pathname.includes('/subscription-plans/add/duplicate')) {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تكرار خطة الاشتراك'});
         } else if (pathname.includes('/subscription-plans/edit')) {
-            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل خطة الاشتراك'});
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل خطة اشتراك'});
+        } else if (pathname === '/business') {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'الأعمال'});
+        } else if (pathname === '/business/add') {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'إضافة عمل'});
+        } else if (pathname.includes('/business/add/duplicate')) {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تكرار عمل'});
+        } else if (pathname.includes('/business/edit')) {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل عمل'});
         }
+
+        
     },
     changeSearchActive: (dispatch, searchActive) => {
         dispatch({type: actionTypes.CHANGE_SEARCHACTIVE_VALUE, searchActive})
