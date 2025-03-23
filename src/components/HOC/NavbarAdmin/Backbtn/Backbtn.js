@@ -6,7 +6,9 @@ const Backbtn = ({backURL}) => {
     const navigate = useNavigate();
     return (
         <div onClick={e => {
-            navigate(backURL);
+            //This icon should direct you to the main page, don't change this before you ask hussein.
+            navigate('/');
+            // navigate(backURL);
         }} className='Backbtn'>
             <img src={backBtn} />
         </div>

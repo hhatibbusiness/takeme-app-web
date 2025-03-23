@@ -3,13 +3,13 @@
   top: 0;
   left: 0;
   width: 90%;
-  height: 100%;
+  height: 100vh;
   transform: translateX(-100%);
   transition: transform 0.3s;
-  //z-index: 5000;
   direction: rtl;
 
   .Sidebar__container {
+    overflow-y: auto;
     width: 100%;
     height: 100%;
     position: relative;
