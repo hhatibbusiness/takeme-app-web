@@ -74,11 +74,11 @@ const navbarActions = {
         } else if (pathname === '/subscription-plans') {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'خطط الاشتراك'});
         } else if (pathname === '/subscription-plans/add') {
-            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'إضافة خطة اشتراك'});
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'إضافة خطة الاشتراك'});
         } else if (pathname.includes('/subscription-plans/add/duplicate')) {
-            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تكرار خطة اشتراك'});
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تكرار خطة الاشتراك'});
         } else if (pathname.includes('/subscription-plans/edit')) {
-            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل خطة اشتراك'});
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل خطة الاشتراك'});
         }
     },
     changeSearchActive: (dispatch, searchActive) => {

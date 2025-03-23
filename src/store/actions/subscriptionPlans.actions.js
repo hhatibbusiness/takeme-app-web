@@ -7,7 +7,7 @@ export const fetchSubscriptionPlans = (data) => async dispatch => {
     if (data.page == 0) dispatch({ type: actionTypes.START_FETCHING_SUBSCRIPTION_PLANS });
     
     const response = await FetchAPI(
-        `${BaseURL}/business/plans/list?mLocale=${data.lan}&page=${data.page}&sortType=NEWEST`,
+        `${BaseURL}/subscription/plans/list?mLocale=${data.lan}&page=${data.page}&sortType=NEWEST`,
         { method: 'GET' },
         dispatch
     );
@@ -22,18 +22,10 @@ export const addSubscriptionPlan = (data) => async dispatch => {
     dispatch({ type: actionTypes.START_ADDING_SUBSCRIPTION_PLAN });
     
     const response = await FetchAPI(
-        `${BaseURL}/business/plans/add?mLocale=${data.lan}`,
+        `${BaseURL}/subscription/plans/add?mLocale=${data.lan}`,
         {
             method: 'POST',
-            body: {
-                id: 0,
-                name: data.name,
-                storesNumberLimit: data.storesNumberLimit,
-                storeSizeLimit: data.storeSizeLimitInMB,
-                storeItemsNumberLimit: data.storeItemsNumberLimit,
-                storeItemImagesNumberLimit: data.storeItemImagesNumberLimit,
-                storeStoriesNumberLimit: data.storeStoriesNumberLimit
-            }
+            body: data
         },
         dispatch,
     );
@@ -41,7 +33,7 @@ export const addSubscriptionPlan = (data) => async dispatch => {
     if (response) {
         dispatch({ type: actionTypes.ADD_SUBSCRIPTION_PLAN, plan: response.output });
         dispatch({ type: actionTypes.END_ADDING_SUBSCRIPTION_PLAN });
-        return { status: 200, data: response };
+        return response;
     }
     
     dispatch({ type: actionTypes.END_ADDING_SUBSCRIPTION_PLAN });
@@ -52,18 +44,10 @@ export const editSubscriptionPlan = (data) => async dispatch => {
     dispatch({ type: actionTypes.START_EDITING_SUBSCRIPTION_PLAN });
     
     const response = await FetchAPI(
-        `${BaseURL}/business/plans/update?mLocale=${data.lan}`,
+        `${BaseURL}/subscription/plans/update?mLocale=${data.lan}`,
         {
             method: 'PUT',
-            body: {
-                id: data.id,
-                name: data.name,
-                storesNumberLimit: data.storesNumberLimit,
-                storeSizeLimit: data.storeSizeLimitInMB,
-                storeItemsNumberLimit: data.storeItemsNumberLimit,
-                storeItemImagesNumberLimit: data.storeItemImagesNumberLimit,
-                storeStoriesNumberLimit: data.storeStoriesNumberLimit
-            }
+            body: data
         },
         dispatch,
     );
@@ -71,7 +55,7 @@ export const editSubscriptionPlan = (data) => async dispatch => {
     if (response) {
         dispatch({ type: actionTypes.EDIT_SUBSCRIPTION_PLAN, plan: response.output });
         dispatch({ type: actionTypes.END_EDITING_SUBSCRIPTION_PLAN });
-        return { status: 200, data: response };
+        return response;
     }
 
     dispatch({ type: actionTypes.END_EDITING_SUBSCRIPTION_PLAN });
@@ -82,7 +66,7 @@ export const deleteSubscriptionPlan = (data) => async dispatch => {
     dispatch({ type: actionTypes.START_DELETING_SUBSCRIPTION_PLAN });
     
     const response = await FetchAPI(
-        `${BaseURL}/business/plans/delete?mLocale=${data.lan}&businessPlansId=${data.id}`,
+        `${BaseURL}/subscription/plans/delete?mLocale=${data.lan}&businessPlansId=${data.id}`,
         { method: 'DELETE' },
         dispatch,
     );
