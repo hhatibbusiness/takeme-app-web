@@ -10,6 +10,7 @@ const initialState = {
         type: "image",
         comments: "",
     },
+    authentications: [],
     description: null,
     location: {
         id: 0,

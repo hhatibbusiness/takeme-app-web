@@ -1,11 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './PersonalProfiles.css';
-import {fetchPersonalProfiles, deletePersonalProfiles} from "../../store/actions/personalProfiles.actions";
+import {fetchPersonalProfiles, deletePersonalProfiles, searchPersonalProfiles} from "../../store/actions/personalProfiles.actions";
 import {connect} from "react-redux";
 import ProfilesShimmer from '../../components/ItemsShimmer/ItemsShimmer';
 import ItemsList from "../../components/ItemsList/ItemsList";
 
-const PersonalProfiles = ({profiles, fetchPersonalProfiles, deletePersonalProfiles, setAdmin, admin, locale}) => {
+const PersonalProfiles = ({profiles, searchPersonalProfiles, fetchPersonalProfiles, deletePersonalProfiles, setAdmin, admin, locale}) => {
     const [paddingTop, setPaddingTop] = useState(105);
 
     const parentRef = useRef(null);
@@ -65,6 +65,8 @@ const PersonalProfiles = ({profiles, fetchPersonalProfiles, deletePersonalProfil
             noUpdate: true,
             noDuplicate: true
         }),
+        hasSubName: true,
+        subName: 'authentications[0].authValue',
         isSearching: profiles.search,
         parentScroller: parentRef.current,
         clickable: true,
@@ -73,13 +75,63 @@ const PersonalProfiles = ({profiles, fetchPersonalProfiles, deletePersonalProfil
         }
     }
 
+    const itemsListPropsSearch = {
+        itemsFun: searchPersonalProfiles || (() => {}),
+        page: profiles.searchResultsPage || 0,
+        more: profiles.moreSearchResults,
+        items: profiles.searchResults || [],
+        paginationData: {
+            lan: locale.locale,
+            page: profiles.searchResultsPage,
+            searchKey: profiles.searchKey,
+            locale: locale.locale,
+            sortType: profiles.sortType,
+        },
+        displayName: 'translationsResponseDto.fields[1].value',
+        searchKey: profiles.searchKey,
+        dots: true,
+        dotsProps: id =>  ({
+            urls: {
+                addUrl: `/profiles/add/duplicate/${id}`,
+                editUrl: `/profiles/edit/${id}`,
+            },
+            deleteData: {
+                locale: locale.locale,
+                userId: id
+            },
+            deleteFun: deletePersonalProfiles,
+            isItem: true,
+            deleting: profiles?.deleting,
+            noUpdate: true,
+            noDuplicate: true
+        }),
+        hasSubName: true,
+        subName: 'authentications[0].authValue',
+        isSearching: profiles.search,
+        parentScroller: parentRef.current,
+        clickable: true,
+        link: (id) => {
+            return `/profile/${id}`
+        }
+    }
+
+
+
     return (
         <div id={'PersonalProfiles'} className={'PersonalProfiles'} style={{paddingTop: `${paddingTop}px`}}>
             {
-                profiles.fetching ? (
-                    <ProfilesShimmer />
+                profiles.search ? (
+                    profiles.searching ? (
+                        <ProfilesShimmer />
+                    ) : (
+                        <ItemsList window={false} {...itemsListPropsSearch} />
+                    )
                 ) : (
-                    <ItemsList {...itemsListPropsMain} window={false} />
+                    profiles.fetching ? (
+                        <ProfilesShimmer />
+                    ) : (
+                        <ItemsList {...itemsListPropsMain} window={false} />
+                    )
                 )
             }
         </div>
@@ -91,4 +143,4 @@ const mapStateToProps = state => ({
     profiles: state.profiles
 });
 
-export default connect(mapStateToProps, {fetchPersonalProfiles, deletePersonalProfiles}) (PersonalProfiles);
+export default connect(mapStateToProps, {searchPersonalProfiles, fetchPersonalProfiles, deletePersonalProfiles}) (PersonalProfiles);

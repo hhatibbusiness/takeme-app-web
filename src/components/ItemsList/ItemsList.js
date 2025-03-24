@@ -24,7 +24,9 @@ const ItemsList = ({
     itemsFun,
     dotsProps,
     clickable,
-    link
+    link,
+    hasSubName,
+    subName
 }) => {
     const [moreLoading, setMoreLoading] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -73,6 +75,8 @@ const ItemsList = ({
                             multiSelectFun={multiSelectFun}
                             clickable={clickable}
                             link={link}
+                            hasSubName={hasSubName}
+                            subName={subName}
                         />
                     })
                 }

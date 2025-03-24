@@ -46,7 +46,8 @@ export const searchPersonalProfiles = data => async dispatch => {
         dispatch({
             type: SEARCH_PROFILES,
             searchResults: res.output,
-            searchKey: data.searchKey
+            searchKey: data.searchKey,
+            page: data.page
         });
     }
 

@@ -22,7 +22,12 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    direction: rtl;
 
+}
+
+.Item__details .Item__name {
+    direction: ltr;
 }
 
 .Item__select--box {
@@ -49,5 +54,5 @@
 }
 
 .Item__selected {
-    color: #07AB83;
+    color: black;
 }
