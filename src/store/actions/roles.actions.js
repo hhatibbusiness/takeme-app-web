@@ -112,7 +112,7 @@ export const updateRole = data => async dispatch => {
     }
 
     const res = await FetchAPI(url, options, dispatch);
-    if(res.status == true) {
+    if(res?.status == true) {
         dispatch({type: UPDATE_ROLE, role: res.output});
         res.status = 200;
         return res;
