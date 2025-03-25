@@ -7,7 +7,11 @@ const Dots = ({ item, deleteFun, urls, isItem, deleting, deleteData, noUpdate, n
 
     return (
         <div className='Dots'>
-            <div id={'Dots__dots'} onClick={e => setOpen(true)} className='Dots__container'>
+            <div id={'Dots__dots'} onClick={e => {
+                e.stopPropagation();
+                e.preventDefault();
+                setOpen(true)
+            }} className='Dots__container'>
                 <div></div>
                 <div></div>
                 <div></div>
