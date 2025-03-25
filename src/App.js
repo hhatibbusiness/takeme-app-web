@@ -49,6 +49,8 @@ import Backup from './screens/Backup/Backup.js';
 import Roles from "./screens/Roles/Roles";
 import {fetchRoles} from "./store/actions/roles.actions";
 import RolesAdd from "./screens/Roles/RolesAdd/RolesAdd";
+import SubscriptionPlans from "./screens/SubscriptionPlans/SubscriptionPlans";
+import SubscriptionPlansAdd from "./screens/SubscriptionPlans/SubscriptionPlansAdd/SubscriptionPlansAdd";
 import PersonalProfiles from "./screens/PersonalProfiles/PersonalProfiles";
 import PersonalProfilesAdd from "./screens/PersonalProfiles/PersonalProfilesAdd/PersonalProfilesAdd";
 
@@ -309,10 +311,6 @@ const App = (props) => {
                                         path='/profile'
                                         exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                     />
-                                    <Route
-                                        path='/profile/:user_id'
-                                        exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
-                                    />
                                     {
                                         props.roles?.includes('ROLE_Admin') && (
                                             <>
@@ -424,6 +422,22 @@ const App = (props) => {
                                                     exact
                                                     element={<PersonalProfiles admin={admin} setAdmin={setAdmin} />}
                                                 />
+                                                <Route
+                                                    path='/subscription-plans/add'
+                                                    exact
+                                                    element={<SubscriptionPlansAdd admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/subscription-plans/add/duplicate/:planId'
+                                                    exact
+                                                    element={<SubscriptionPlansAdd admin={admin} setAdmin={setAdmin} />}
+                                                />
+                                                <Route
+                                                    path='/subscription-plans/edit/:editId'
+                                                    exact
+                                                    element={<SubscriptionPlansAdd admin={admin} setAdmin={setAdmin} />}
+                                                />
+
                                             </>
                                         )
                                     }

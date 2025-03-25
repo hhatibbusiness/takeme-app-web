@@ -22,7 +22,7 @@ const Navbar = ({
         openSearchPlaces, places, searchPlaces, closeSearchPlaces, changePlacesSortType,
         locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort,
         fetchRoles, roles, changeRolesSortType,fetchPersonalProfiles,profiles, searchPersonalProfiles,
-        closeSearchPersonalProfiles, openSearchPersonalProfiles, locale, changeSortType
+                    closeSearchPersonalProfiles, openSearchPersonalProfiles, locale, changeSortType
     }) => {
     
     const { details } = useDetailsContext();
@@ -158,7 +158,16 @@ const Navbar = ({
                 hasSort: true,
                 hasInit: false
             }
-        } else if (location.pathname.includes('profiles')) {
+        }else if (location.pathname.includes('subscription-plans')) {
+            return {
+                hasSearch: false,
+                urls: {
+                    addUrl: '/subscription-plans/add'
+                },
+                hasSort: false,
+                hasInit: false,
+            }
+        }else if (location.pathname.includes('profiles')) {
             return {
                 searchFun: searchPersonalProfiles,
                 isSearching: profiles.search,
@@ -211,9 +220,12 @@ const mapStateToProps = state => ({
     places: state.places,
     locales: state.locales,
     roles: state.roles,
+    subscriptionPlans: state.subscriptionPlans,
     profiles: state.profiles,
     locale: state.categories.selectedLocale
-});
+
+
+})
 
 export default connect(mapStateToProps, {
     openSearchCountries, closeSearchCountries, fetchCountries, searchCountries,
@@ -221,5 +233,5 @@ export default connect(mapStateToProps, {
     searchPlaces, closeSearchPlaces, openSearchPlaces, fetchPlaces, changePlacesSortType,
     searchLocales, changeRolesSortType, closeLocalesSearch, openLocalesSearch, changeLocalesSort,fetchRoles,
     fetchPersonalProfiles, searchPersonalProfiles, closeSearchPersonalProfiles, openSearchPersonalProfiles,
-    changeSortType
+    changeSortType,
 }) (Navbar);
