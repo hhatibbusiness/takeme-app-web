@@ -34,9 +34,7 @@ function ProfilePage({ paddingTop, locale, fetchVisitedProfileData, roles, visit
             if(ProfileData.id) {
                 console.log(ProfileData.id);
                 if(params.user_id) {
-                    console.log("step1")
                     if(ProfileData.id == params.user_id) {
-                        console.log("step2");
                         setVisited(false);
                     } else {
                         if(visitedLoading) return;
@@ -49,10 +47,8 @@ function ProfilePage({ paddingTop, locale, fetchVisitedProfileData, roles, visit
                         setVisitedLoading(true);
                         await fetchVisitedProfileData(data);
                         setVisitedLoading(false);
-                        console.log("step3");
                     }
                 } else {
-                    console.log("step4");
                     setVisited(false);
                 }
             }
@@ -62,10 +58,8 @@ function ProfilePage({ paddingTop, locale, fetchVisitedProfileData, roles, visit
     useEffect(() => {
         if(ProfileData.id ) {
             if(visited) {
-                console.log('Is Visited!')
                 setProfileData(visitedProfile);
             } else {
-                console.log('Not Visited!')
                 setProfileData(ProfileData);
             }
         }
@@ -73,29 +67,15 @@ function ProfilePage({ paddingTop, locale, fetchVisitedProfileData, roles, visit
 
     useEffect(() => {
         if(ProfileData.id) {
-            console.log("step5")
             if(params.user_id && ( roles?.includes('ROLE_Admin') || params.user_id == ProfileData.id )) {
-                console.log("step6")
                 setAllowed(true);
             }else if(!params.user_id) {
-                console.log("step7")
                 return setAllowed(true);
             }
         } else {
             setAllowed(false);
         }
     }, [params.user_id, profileData]);
-
-    // useEffect(() => {
-    //     if(ProfileData.id && (params.user_id == ProfileData.id)) {
-    //         const data = {
-    //             locale: locale.locale,
-    //             user_id: params.user_id,
-    //             localeId: params.localeId,
-    //         }
-    //         fetchVisitedProfileData(data);
-    //     }
-    // }, []);
 
     // NavBar Init
     useEffect(() => {
