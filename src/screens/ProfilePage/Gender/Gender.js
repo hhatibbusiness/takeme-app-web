@@ -21,6 +21,7 @@ export default function Gender({ Focused, allow, visited, GenderFocused, Profile
     }
 
     const handleGender = (Gender) => {
+        console.log(ProfileData.id, Gender, visited);
         updateGender(ProfileData.id, Gender, visited);
         GenderFocused(false);
     }

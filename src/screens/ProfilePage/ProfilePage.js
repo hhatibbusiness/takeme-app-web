@@ -25,39 +25,60 @@ function ProfilePage({ paddingTop, locale, fetchVisitedProfileData, roles, visit
     const [allowed, setAllowed] = useState(false);
     const [profileData, setProfileData] = useState({});
     const [visited, setVisited] = useState(false);
+    const [visitedLoading, setVisitedLoading] = useState(false);
 
     const params = useParams();
 
     useEffect(() => {
         (async () => {
             if(ProfileData.id) {
+                console.log(ProfileData.id);
                 if(params.user_id) {
+                    console.log("step1")
                     if(ProfileData.id == params.user_id) {
+                        console.log("step2");
                         setVisited(false);
-                        setProfileData(ProfileData);
                     } else {
+                        if(visitedLoading) return;
                         setVisited(true);
                         const data = {
                             locale: locale.locale,
                             user_id: params.user_id,
                             localeId: params.localeId,
                         }
+                        setVisitedLoading(true);
                         await fetchVisitedProfileData(data);
-                        setProfileData(visitedProfile);
+                        setVisitedLoading(false);
+                        console.log("step3");
                     }
                 } else {
+                    console.log("step4");
                     setVisited(false);
-                    setProfileData(ProfileData);
                 }
             }
         })();
-    }, [ProfileData, params.user_id]);
+    }, [ProfileData.id, params.user_id]);
+
+    useEffect(() => {
+        if(ProfileData.id ) {
+            if(visited) {
+                console.log('Is Visited!')
+                setProfileData(visitedProfile);
+            } else {
+                console.log('Not Visited!')
+                setProfileData(ProfileData);
+            }
+        }
+    }, [visited, ProfileData.isLoading, ProfileData.isLoadingVisited, visitedProfile]);
 
     useEffect(() => {
         if(ProfileData.id) {
+            console.log("step5")
             if(params.user_id && ( roles?.includes('ROLE_Admin') || params.user_id == ProfileData.id )) {
+                console.log("step6")
                 setAllowed(true);
             }else if(!params.user_id) {
+                console.log("step7")
                 return setAllowed(true);
             }
         } else {
@@ -65,16 +86,16 @@ function ProfilePage({ paddingTop, locale, fetchVisitedProfileData, roles, visit
         }
     }, [params.user_id, profileData]);
 
-    useEffect(() => {
-        if(ProfileData.id && (params.user_id == ProfileData.id)) {
-            const data = {
-                locale: locale.locale,
-                user_id: params.user_id,
-                localeId: params.localeId,
-            }
-            fetchVisitedProfileData(data);
-        }
-    }, []);
+    // useEffect(() => {
+    //     if(ProfileData.id && (params.user_id == ProfileData.id)) {
+    //         const data = {
+    //             locale: locale.locale,
+    //             user_id: params.user_id,
+    //             localeId: params.localeId,
+    //         }
+    //         fetchVisitedProfileData(data);
+    //     }
+    // }, []);
 
     // NavBar Init
     useEffect(() => {
@@ -150,13 +171,14 @@ function ProfilePage({ paddingTop, locale, fetchVisitedProfileData, roles, visit
 
     // Force senario
     useEffect(() => {
+        console.log('lfjdalkfjlaskjfd', allowed);
         if (!ProfileData.isLoading && allowed) {
-            if (!ProfileData.gender) FocusedActions.setGenderFocus(true)
-            else if (!ProfileData.translations) FocusedActions.setNameFocus(true)
-            else if (!ProfileData.dateOfBirth) FocusedActions.setAgeFocus(true)
+            if (!profileData.gender) FocusedActions.setGenderFocus(true)
+            else if (!profileData.translations) FocusedActions.setNameFocus(true)
+            else if (!profileData.dateOfBirth) FocusedActions.setAgeFocus(true)
             //else if (!ProfileData.location) FocusedActions.setLocationFocus(true)
         }
-    },[ProfileData.isLoading, Focused, params.user_id])
+    },[ProfileData.isLoading, Focused, params.user_id, allowed, ProfileData.isLoadingVisited, visited]);
 
     return (
         <>
@@ -172,9 +194,9 @@ function ProfilePage({ paddingTop, locale, fetchVisitedProfileData, roles, visit
                     {/** Set Gender, Name and Age */}
                     <div className='secondRow__Data'>
                         <Gender allow={allowed} Focused={Focused.Gender} GenderFocused={FocusedActions.setGenderFocus} ProfileData={profileData} updateGender={updateGender} visited={visited} />
-                        <Name Focused={Focused.Name} FocusHandle={FocusedActions.setNameFocus} ProfileData={ProfileData} updateName={updateName} />
+                        <Name Focused={Focused.Name} FocusHandle={FocusedActions.setNameFocus} ProfileData={profileData} updateName={updateName} visited={visited} />
                         <img src={DOT} alt='Dot' style={{ width: '8px', marginTop: '9px' }} />
-                        <Age Focused={Focused.Age} FocusHandle={FocusedActions.setAgeFocus} ProfileData={ProfileData} updateDateOfBirth={updateDateOfBirth} />
+                        <Age Focused={Focused.Age} FocusHandle={FocusedActions.setAgeFocus} ProfileData={profileData} updateDateOfBirth={updateDateOfBirth} visited={visited} />
                     </div>
                     <div className='thirdRow__Data'>
                         <button className='Contact__button'>تواصل</button>

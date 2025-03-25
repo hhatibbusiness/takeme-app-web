@@ -54,7 +54,8 @@ const initialState = {
     isUpdateDateOfBirth: false,
     isUpdateImage: false,
     isDeleting: false,
-    visitedProfile: {}
+    visitedProfile: null,
+    isLoadingVisited: true
 };
 
 export default (state = initialState, action) => {
@@ -90,6 +91,18 @@ export default (state = initialState, action) => {
         case ACTION_TYPES.END_UPDATE_NAME:
             return {...state, isUpdateName: false}
         case ACTION_TYPES.UPDATE_NAME:
+            if(action.visited) {
+                return {
+                    ...state,
+                    visitedProfile: {
+                        ...state.visitedProfile,
+                        translations: {
+                            ...state.translations,
+                            fields: [{"key": "name", "value": action.payload}, {"key": "display_name", "value": action.payload}]
+                        },
+                    }
+                };
+            }
             return {
                 ...state,
                 translations: {
@@ -97,13 +110,22 @@ export default (state = initialState, action) => {
                     fields: [{"key": "name", "value": action.payload}, {"key": "display_name", "value": action.payload}]
                 },
             };
-        
+
         /// Update DateOFBirth
         case ACTION_TYPES.START_UPDATE_DATE_OF_BIRTH:
             return { ...state, isUpdateDateOfBirth: true}
         case ACTION_TYPES.END_UPDATE_DATE_OF_BIRTH:
             return {...state, isUpdateDateOfBirth: false}
         case ACTION_TYPES.UPDATE_DATE_OF_BIRTH:
+            if(action.visited) {
+                return {
+                    ...state,
+                    visitedProfile: {
+                        ...state.visitedProfile,
+                        dateOfBirth: action.payload
+                    }
+                }
+            }
             return { ...state, dateOfBirth: action.payload };
 
         /// Update Profile Image
@@ -139,12 +161,12 @@ export default (state = initialState, action) => {
         case ACTION_TYPES.START_FETCHING_VISITED_PROFILE:
             return {
                 ...state,
-                isLoading: true
+                isLoadingVisited: true
             }
         case ACTION_TYPES.END_FETCHING_VISITED_PROFILE:
             return {
                 ...state,
-                isLoading: false
+                isLoadingVisited: false
             }
         case ACTION_TYPES.FETCH_VISITED_PROFILE:
             return {
