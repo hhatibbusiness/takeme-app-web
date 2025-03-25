@@ -51,6 +51,8 @@ import {fetchRoles} from "./store/actions/roles.actions";
 import RolesAdd from "./screens/Roles/RolesAdd/RolesAdd";
 import SubscriptionPlans from "./screens/SubscriptionPlans/SubscriptionPlans";
 import SubscriptionPlansAdd from "./screens/SubscriptionPlans/SubscriptionPlansAdd/SubscriptionPlansAdd";
+import PersonalProfiles from "./screens/PersonalProfiles/PersonalProfiles";
+import PersonalProfilesAdd from "./screens/PersonalProfiles/PersonalProfilesAdd/PersonalProfilesAdd";
 
 const Gallery = lazy(() => import(/* webpackChunkName: "Gallery" */ './screens/Product/Provider/ProviderProducts/ProviderProduct/Gallery/Gallery'));
 const ProviderScreen = lazy(() => import(/* webpackChunkName: "ProviderScreen" */ "./screens/Provider/ProviderScreen"));
@@ -416,9 +418,9 @@ const App = (props) => {
                                                     exact element={<Backup setAdmin={setAdmin} />}
                                                 />
                                                 <Route
-                                                    path='/subscription-plans'
+                                                    path={'/profiles'}
                                                     exact
-                                                    element={<SubscriptionPlans admin={admin} setAdmin={setAdmin} />}
+                                                    element={<PersonalProfiles admin={admin} setAdmin={setAdmin} />}
                                                 />
                                                 <Route
                                                     path='/subscription-plans/add'
@@ -435,6 +437,7 @@ const App = (props) => {
                                                     exact
                                                     element={<SubscriptionPlansAdd admin={admin} setAdmin={setAdmin} />}
                                                 />
+
                                             </>
                                         )
                                     }

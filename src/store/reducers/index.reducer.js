@@ -20,6 +20,7 @@ import localeReducer from "./locales.reducers";
 import profileReducer from './profile.reducer'
 import navbarReducer from "./navbar.reducer";
 import rolesReducer from "./roles.reducer";
+import personalProfilesReducer from "./PersonalProfiles.reducer";
 import subscriptionPlansReducer from "./subscriptionPlans.reducer";
 
 
@@ -54,5 +55,8 @@ export default combineReducers({
     profile: profileReducer,
     navbar: navbarReducer,
     roles: rolesReducer,
-    subscriptionPlans: subscriptionPlansReducer
+    subscriptionPlans: subscriptionPlansReducer,
+    profiles: personalProfilesReducer
+
+
 });

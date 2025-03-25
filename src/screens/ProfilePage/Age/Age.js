@@ -4,7 +4,7 @@ import { CalculateAge } from "./utility/utility";
 import Shimmer from "../shimmer/shimmer";
 import AgePopup from "./Popup/Popup";
 
-export default function Age({ Focused, FocusHandle, ProfileData, updateDateOfBirth }) {
+export default function Age({ visited, Focused, FocusHandle, ProfileData, updateDateOfBirth }) {
     const [dateOfBirth, setDateBirth] = useState({});
 
     // Save Data
@@ -13,7 +13,7 @@ export default function Age({ Focused, FocusHandle, ProfileData, updateDateOfBir
             const data = { ...dateOfBirth, display };
             if (Number(data.month) <= 12 && Number(data.month) >= 1 && Number(data.day) <= 31 && Number(data.day) >= 1) {
                 setDateBirth(data);
-                updateDateOfBirth(ProfileData.id, data);
+                updateDateOfBirth(ProfileData.id, data, visited);
                 FocusHandle(false);
             }
         }

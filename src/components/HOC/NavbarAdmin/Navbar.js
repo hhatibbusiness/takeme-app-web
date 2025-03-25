@@ -14,13 +14,15 @@ import {searchCountries, fetchCountries, closeSearchCountries, openSearchCountri
 import {searchPlaces, fetchPlaces, closeSearchPlaces, openSearchPlaces, changePlacesSortType} from '../../../store/actions/places.actions';
 import {searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort } from '../../../store/actions/locales.actions';
 import {fetchRoles, changeRolesSortType} from "../../../store/actions/roles.actions";
+import {fetchPersonalProfiles, searchPersonalProfiles, closeSearchPersonalProfiles, openSearchPersonalProfiles, changeSortType} from "../../../store/actions/personalProfiles.actions";
 
 const Navbar = ({
         openSearchCountries, countries, searchCountries, closeSearchCountries, 
         languages, searchLanguages, closeSearch, openSearch, changeLanguagesSort,
         openSearchPlaces, places, searchPlaces, closeSearchPlaces, changePlacesSortType,
         locales, searchLocales, closeLocalesSearch, openLocalesSearch, changeLocalesSort,
-        roles, changeRolesSortType
+        fetchRoles, roles, changeRolesSortType,fetchPersonalProfiles,profiles, searchPersonalProfiles,
+                    closeSearchPersonalProfiles, openSearchPersonalProfiles, locale, changeSortType
     }) => {
     
     const { details } = useDetailsContext();
@@ -130,16 +132,6 @@ const Navbar = ({
                 hasSort: true,
                 hasInit: true
             }
-        } else if (location.pathname.includes('subscription-plans')) {
-            return {
-                hasSearch: false,
-                urls: {
-                    addUrl: '/subscription-plans/add'
-                },
-                hasSort: false,
-                hasInit: false,
-                hasSearch: false,
-            }
         } else if (location.pathname.includes('roles')) {
             return {
                 searchFun: searchPlaces,
@@ -166,6 +158,43 @@ const Navbar = ({
                 hasSort: true,
                 hasInit: false
             }
+        }else if (location.pathname.includes('subscription-plans')) {
+            return {
+                hasSearch: false,
+                urls: {
+                    addUrl: '/subscription-plans/add'
+                },
+                hasSort: false,
+                hasInit: false,
+            }
+        }else if (location.pathname.includes('profiles')) {
+            return {
+                searchFun: searchPersonalProfiles,
+                isSearching: profiles.search,
+                fetchingSearchResults: profiles.searching,
+                closeSearch: closeSearchPersonalProfiles,
+                openSearch: openSearchPersonalProfiles,
+                hasSearch: true,
+                searchTerm,
+                setSearchTerm,
+                sortType: profiles.sortType,
+                urls: {
+                    addUrl: '/profiles/add'
+                },
+                changeSort: changeSortType,
+                baseData: (e) => {
+                    return {
+                        locale: 'ar_SA',
+                        searchKey: e?.target?.value || '',
+                        sortType: profiles.sortType,
+                        page: 0,
+                        localeId: locale.id
+                    }
+                },
+                hasSort: true,
+                hasInit: false,
+                noAdd: true,
+            }
         }
     }
 
@@ -191,12 +220,18 @@ const mapStateToProps = state => ({
     places: state.places,
     locales: state.locales,
     roles: state.roles,
-    subscriptionPlans: state.subscriptionPlans
+    subscriptionPlans: state.subscriptionPlans,
+    profiles: state.profiles,
+    locale: state.categories.selectedLocale
+
+
 })
 
 export default connect(mapStateToProps, {
     openSearchCountries, closeSearchCountries, fetchCountries, searchCountries,
     closeSearch, openSearch, deleteLanguage, changeLanguagesSort, searchLanguages,
     searchPlaces, closeSearchPlaces, openSearchPlaces, fetchPlaces, changePlacesSortType,
-    searchLocales, changeRolesSortType, closeLocalesSearch, openLocalesSearch, changeLocalesSort, fetchRoles,
+    searchLocales, changeRolesSortType, closeLocalesSearch, openLocalesSearch, changeLocalesSort,fetchRoles,
+    fetchPersonalProfiles, searchPersonalProfiles, closeSearchPersonalProfiles, openSearchPersonalProfiles,
+    changeSortType,
 }) (Navbar);

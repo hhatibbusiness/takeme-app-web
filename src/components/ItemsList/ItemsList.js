@@ -22,7 +22,11 @@ const ItemsList = ({
     more,
     sortType,
     itemsFun,
-    dotsProps
+    dotsProps,
+    clickable,
+    link,
+    hasSubName,
+    subName
 }) => {
     const [moreLoading, setMoreLoading] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -38,13 +42,6 @@ const ItemsList = ({
                 page={page}
                 loadMore={async () => {
                     if (items.length == 0 && page == 0) return;
-                    // if (!moreLoading) return;
-                    // if (!more) return;
-                    // setLoading(true);
-                    // if (loading) return;
-                    //
-                    // await itemsFun(paginationData);
-                    // setLoading(false);
                     if (!moreLoading || loading || !more) return;
 
                     setLoading(true);
@@ -76,6 +73,10 @@ const ItemsList = ({
                             item={item}
                             displayName={displayName}
                             multiSelectFun={multiSelectFun}
+                            clickable={clickable}
+                            link={link}
+                            hasSubName={hasSubName}
+                            subName={subName}
                         />
                     })
                 }

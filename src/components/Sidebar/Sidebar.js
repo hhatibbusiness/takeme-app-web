@@ -21,6 +21,7 @@ import deleteImg from '../../assets/images/delete.png';
 import PlacesLocation from '../../assets/images/PlacesLocation.png'
 import backuplogo from '../../assets/images/Backuplogo.png'
 import rolesImage from '../../assets/images/roles.png';
+import profilesImage from '../../assets/images/profilesidebar.png';
 import TagSubscriptions from '../../assets/images/TagSubscription.png'
 
 import Img from "../../screens/Home/Body/BodyContainer/ProductList/Products/Product/Img/Img";
@@ -247,6 +248,12 @@ const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, chang
                                         <p className={'overflow-hidden text-overflow-ellipsis whitespace-nowrap rtl'}>إدارة Roles</p>
                                     </div>
                                 </Link>
+                                <Link id={'Sidebar__conditions'} to={'/profiles'} className="Sidebar__link">
+                                    <div className="Sidebar__link--main">
+                                        <img src={profilesImage} />
+                                        <p className={'overflow-hidden text-overflow-ellipsis whitespace-nowrap rtl'}>ادارة الصفحات الشخصية</p>
+                                    </div>
+                                </Link>
                                 <Link id={'Sidebar__conditions'} to={'/subscription-plans'}
                                       className="Sidebar__link">
                                     <div className="Sidebar__link--main">
@@ -254,6 +261,7 @@ const Sidebar = ({assets, backBtn, logUserOut, profile, roles, setSidebar, chang
                                         <p className={'overflow-hidden text-overflow-ellipsis whitespace-nowrap rtl'}>إدارة خطط الاشتراك</p>
                                     </div>
                                 </Link>
+
                                 <Link id={'Sidebar__conditions'} to={'/backup'}
                                       className="Sidebar__link">
                                     <div className="Sidebar__link--main">

@@ -4,7 +4,8 @@ import Dots from '../../Dots/Dots';
 import { getHighlightedText } from '../../../utilty/getHighlightText';
 import selectedImage from '../../../assets/defaults/checked.svg';
 import unSelectedImage from '../../../assets/defaults/unselected.svg';
-import getValueNestedObject from '../../../utilty/getValueNestedObject'
+import _ from 'lodash';
+import {useNavigate} from "react-router-dom";
 
 
 const Item = ({
@@ -19,13 +20,17 @@ const Item = ({
     displayName,
     searchKey,
     dotsProps,
-    isSearching
+    isSearching,
+    clickable,
+    link,
+    hasSubName,
+    subName,
 }) => {
-
     const dotsPropsRegistered = dotsProps(item.id);
     const [selected, setSelected] = useState(false);
 
-    const itemValue = getValueNestedObject(item, displayName);
+    const itemValue = `${hasSubName ? `(${_.get(item, subName)})` : ''} ${_.get(item, displayName)} `;
+    const navigate = useNavigate();
 
     return (
         <div data-id={item.id} onClick={(e) => {
@@ -39,6 +44,8 @@ const Item = ({
                     setSelected(!selected);
                     multiSelectFun(item);
                 }
+            } else if(clickable) {
+                navigate(link(item.id));
             }
         }} className={`Item`}>
             <div className='Item__container'>
@@ -60,7 +67,7 @@ const Item = ({
                     )
                 }
                 <div className='Item__details'>
-                    <div className={`'Item__name'  ${(selectedItem?.id == item?.id && select && single ) || (select && !single && selected) ? 'Item__selected' : ''}`}>
+                    <div className={`Item__name  ${(selectedItem?.id == item?.id && select && single ) || (select && !single && selected) ? 'Item__selected' : ''}`}>
                         {
                             isSearching ? (
                                 getHighlightedText(itemValue || '', searchKey)

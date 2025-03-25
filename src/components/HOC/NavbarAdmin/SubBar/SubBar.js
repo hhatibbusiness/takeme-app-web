@@ -12,7 +12,7 @@ import SearchInput from '../../../SearchInput/SearchInput';
 import { searchCountries } from '../../../../store/actions/countries.actions';
 import { InitPlaces } from '../../../../store/actions/places.actions';
 
-const SubBar = ({searchFun, hasSearch, hasSort, hasInit, isSearching, urls, baseData, changeSort, fetchingSearchResults, closeSearch, openSearch, searchTerm, setSearchTerm, sortType, countries, searchCountries, InitPlaces}) => {
+const SubBar = ({searchFun, noUpdate, noDuplicate, noAdd, hasSearch, hasSort, hasInit, isSearching, urls, baseData, changeSort, fetchingSearchResults, closeSearch, openSearch, searchTerm, setSearchTerm, sortType, countries, searchCountries, InitPlaces}) => {
     const [open, setOpen] = useState(false);
     const location = useLocation();
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -75,11 +75,10 @@ const SubBar = ({searchFun, hasSearch, hasSort, hasInit, isSearching, urls, base
                     )
                 }
                 {
-                    !isSearching && (
+                    !isSearching && !noAdd && (
                         <Link id={'SubBar__left--add'} to={urls?.addUrl} className='SubBar__left--add'>
                             <img className='SubBar__icon' src={addImage} />
                         </Link>
-
                     )
                 }
                 {

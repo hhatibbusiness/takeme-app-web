@@ -71,7 +71,7 @@ const navbarActions = {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'اضافة Role'});
         } else if(pathname.includes("/roles/edit")) {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل Role'});
-        } else if (pathname === '/subscription-plans') {
+        }else if (pathname === '/subscription-plans') {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'خطط الاشتراك'});
         } else if (pathname === '/subscription-plans/add') {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'إضافة خطة الاشتراك'});
@@ -79,6 +79,10 @@ const navbarActions = {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تكرار خطة الاشتراك'});
         } else if (pathname.includes('/subscription-plans/edit')) {
             return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'تعديل خطة الاشتراك'});
+        }else if(pathname == '/profiles') {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'الصفحات الشخصية'});
+        } else if(pathname == '/profiles/add') {
+            return dispatch({type: actionTypes.CHANGE_NAVBAR_TEXT, MidText: 'اضافة صفحة شخصية'});
         }
     },
     changeSearchActive: (dispatch, searchActive) => {
