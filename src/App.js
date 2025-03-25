@@ -311,6 +311,10 @@ const App = (props) => {
                                         path='/profile'
                                         exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
                                     />
+                                    <Route
+                                        path='/profile/:user_id'
+                                        exact element={<ProfilePage paddingTop={navHeight} admin={admin} setAdmin={setAdmin} />}
+                                    />
                                     {
                                         props.roles?.includes('ROLE_Admin') && (
                                             <>
